@@ -10,14 +10,16 @@ https://e-learning.educom.nu/cases/verrukkulluk/intro
 
 
 ## Install
-* Create a new User in MySQL that has the following permissions: `Data.*`, `Structure.*`, `Administration.SHOW_DATABASES`, `Administration.LOCK_TABLES`.
+* Create a new User called `verrukkulluk_user` in MySQL that has the following permissions: `Data.*`, `Structure.*`, `Administration.SHOW_DATABASES`, `Administration.LOCK_TABLES`.
+  ![image](https://github.com/Educom-Trainees/educom-verrukkulluk/assets/41477180/52070f17-c21e-4060-855e-898fb35e1297)
+
 * Create an environment variable with the name `VERRUKKULLUK_CONNECTION_STRING`  
-  set it to the value `Server=localhost;Database=verrukkulluk;Uid={mysql_user_name};Pwd={mysql_user_password}`
+  set it to the value `Server=localhost;Database=verrukkulluk;Uid=verrukkulluk_user;Pwd={the_given_password}`
   > Here is how to create it on [Windows](https://phoenixnap.com/kb/windows-set-environment-variable)  
   > Here is how to create it on [a Mac](https://phoenixnap.com/kb/set-environment-variable-mac)  
   > Here is how to create it on [Linux](https://phoenixnap.com/kb/linux-set-environment-variable)  
 * Clone the repository
-* run the following commands (when not using visual studio):
+* Run the following commands (when not using visual studio):
   ```bash
   dotnet install
   ```
@@ -27,4 +29,4 @@ https://e-learning.educom.nu/cases/verrukkulluk/intro
   ```
 
 ## Run de applicatie
-Run de applicatie vanuit Visual Studio of met het commandline commando `dotnet run`
+* Run de applicatie vanuit Visual Studio of met het commandline commando `dotnet run`
