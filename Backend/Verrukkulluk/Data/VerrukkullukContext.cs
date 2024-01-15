@@ -4,9 +4,9 @@ using Verrukkulluk.Models;
 
 namespace Verrukkulluk.Data
 {
-    public class VerrukkullukContext(DbContextOptions<VerrukkullukContext> options) : 
-        IdentityDbContext<User, Role, int>(options)
+    public class VerrukkullukContext :
+        IdentityDbContext<User, Role, int>
     {
-
+        public VerrukkullukContext(DbContextOptions<VerrukkullukContext> options) : base(options) { }
     }
 }
