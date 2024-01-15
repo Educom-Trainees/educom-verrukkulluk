@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Net.NetworkInformation;
 using Verrukkulluk.Data;
 using Verrukkulluk.Models;
 
