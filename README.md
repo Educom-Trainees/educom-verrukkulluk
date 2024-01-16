@@ -21,7 +21,7 @@ https://e-learning.educom.nu/cases/verrukkulluk/intro
 * Clone the repository
 * Run the following commands (when not using visual studio):
   ```bash
-  dotnet install
+  dotnet build
   ```
 * Update the database from the terminal/Developer Powershell:
   ```bash
