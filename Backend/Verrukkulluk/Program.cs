@@ -11,7 +11,9 @@ namespace Verrukkulluk
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = "Server=localhost;Database=verrukkulluk;User ID=verrukkulluk_user';Password=verrukkulluk_user';Pooling=true;";
+            var connectionString = Environment.GetEnvironmentVariable("VERRUKKULLUK_CONNECTION_STRING")
+                                    ?? builder.Configuration.GetConnectionString("verrukkulluk") 
+                                    ?? throw new InvalidOperationException("Environment variable for the connection string 'VERRUKKULLUK_CONNECTION_STRING' not found.");
             builder.Services.AddDbContext<VerrukkullukContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
