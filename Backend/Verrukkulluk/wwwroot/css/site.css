@@ -25,6 +25,20 @@ body {
   margin-bottom: 60px;
 }
 
+#carousel .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+#carousel .carousel-item img {
+    object-fit: cover;
+    object-position: center;
+    height: 40vh;
+    overflow: hidden;
+}
+
 .events {
     background-color: var(--lighter-green);
 }
