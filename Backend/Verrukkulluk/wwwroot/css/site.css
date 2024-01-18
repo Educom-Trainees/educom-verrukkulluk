@@ -8,6 +8,10 @@ html {
   }
 }
 
+@font-face {
+    font-family: 'pretty_lilyregular';
+    src: local(''), url('pretty_lily-webfont.woff') format('woff');
+}
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -25,16 +29,56 @@ body {
     background-color: var(--lighter-green);
 }
 
-card-login.h1, .login.h2, .login.h3, .login.h4 {
+h1, h2, h3, h4 {
     font-family: var(--heading);
 }
 
-card-login {
+p {
+    font-familya: var(--regular);
+}
+
+.white {
+    color: var(--white);
+}
+
+.card-login {
     background-color: var(--lighter-red);
 }
 
 .card-events {
     background-color: var(--lighter-green);
+}
+
+.btn-primary {
+    color: var(--white);
+    background-color: var(--lighter-red);
+    border-color: var(--lighter-red);
+}
+
+.btn-primary:hover {
+    color: var(--lighter-red);
+    background-color: var(--white);
+    border-color: var(--lighter-red);
+}
+
+.btn-secondary {
+    color: var(--white);
+    background-color: var(--lighter-orange);
+    border-color: var(--lighter-orange);
+}
+
+.black {
+    color: var(--black);
+}
+
+.btn-secondary:hover {
+    color: var(--lighter-orange);
+    background-color: var(--white);
+    border-color: var(--lighter-orange);
+}
+
+.lighter-green {
+    color: var(--lighter-green)
 }
 
 :root {
