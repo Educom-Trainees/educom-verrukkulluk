@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk.Data;
 using Verrukkulluk.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Verrukkulluk
 {
@@ -11,9 +12,7 @@ namespace Verrukkulluk
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = Environment.GetEnvironmentVariable("VERRUKKULLUK_CONNECTION_STRING")
-                                    ?? builder.Configuration.GetConnectionString("verrukkulluk") 
-                                    ?? throw new InvalidOperationException("Environment variable for the connection string 'VERRUKKULLUK_CONNECTION_STRING' not found.");
+            var connectionString = Environment.GetEnvironmentVariable("VERRUKKULLUK_CONNECTION_STRING") ?? throw new InvalidOperationException("Connection string 'VerrukkullukContextConnection' not found.");
             builder.Services.AddDbContext<VerrukkullukContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
