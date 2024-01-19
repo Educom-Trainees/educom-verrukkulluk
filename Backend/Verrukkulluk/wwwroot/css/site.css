@@ -68,10 +68,12 @@ p {
 }
 
 .card-login {
-    background-color: var(--lighter-red);
+    height: 20rem;
+    background-color: var(--darker-red);
 }
 
 .card-events {
+    height: 44rem;
     background-color: var(--lighter-green);
 }
 
