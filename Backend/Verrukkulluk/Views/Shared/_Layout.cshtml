@@ -104,15 +104,28 @@
 
     </header>
 
-    <div class="container">
+    <div class="container" style="padding-bottom:120px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Verrukkulluk - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container" style="height:200px; background-color:var(--darker-orange); position:relative;">
+            <div class="d-inline-block">
+                <img src="../images/verrukkulluk-logo.png" style="height:100px; width: 240px">
+            </div>
+            <div class="d-inline-block">
+                <h1 style="color: white;">Contact(van dit stukje ga ik huilen)</h1>
+                <div style="color: white;">
+                    <p>
+                        Verrukkulluk.nl<br style:"display: block; margin: 0px, 0;">
+                        Poststraat 2b<br style:"display: block; margin: 0px, 0;">
+                        Sittard<br style:"display: block; margin: 0px, 0;">
+                        info@verrukkulluk.nl
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

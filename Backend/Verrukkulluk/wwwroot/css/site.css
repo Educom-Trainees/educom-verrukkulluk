@@ -55,6 +55,11 @@ body {
     top: -3px;
 }
 
+.button-text-adjust {
+    position: relative;
+    top: -3px;
+}
+
 .events {
     background-color: var(--lighter-green);
 }
@@ -96,9 +101,8 @@ p {
 
 .btn-primary {
     padding: 0px 30px;
-    margin: 0px;
     border-radius: 25px;
-    line-height: 5; 
+    line-height: -3; 
     color: var(--white);
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
