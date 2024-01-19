@@ -28,6 +28,10 @@ body {
   margin-bottom: 60px;
 }
 
+#carousel {
+    position: relative;
+}
+
 #carousel .carousel-indicators button {
     width: 10px;
     height: 10px;
@@ -129,6 +133,15 @@ p {
 
 .bi-star {
     color: var(--lighter-orange);
+}
+
+.search-bar {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 40%;
+    max-width: 400px;
+    z-index: 1000;
 }
 
 :root {
