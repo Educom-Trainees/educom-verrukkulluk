@@ -4,10 +4,9 @@
     ViewData["Title"] = "Registreren";
 }
 
-<h1>@ViewData["Title"]</h1>
-
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mx-auto">
+        <h1>@ViewData["Title"]</h1>
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h2>Maak hier een nieuw account</h2>
             <hr />
@@ -38,7 +37,7 @@
                 <label asp-for="Input.ConfirmPassword">Herhaal wachtwoord</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registreren</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary"><h2>Registreren</h2></button>
         </form>
     </div>
 </div>
