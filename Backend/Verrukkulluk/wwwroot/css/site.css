@@ -2,10 +2,18 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   html {
     font-size: 16px;
   }
+    .search-bar {
+        position: static;
+        margin-top: 1rem;
+    }
+    #toggleButton {
+        position: static;
+        margin-top: 2.1rem;
+    }
 }
 
 @font-face {
@@ -68,15 +76,15 @@ h1, h2, h3, h4 {
     font-family: var(--heading);
 }
 
-.overlay {
+.verrukkulluk-logo {
     position: absolute;
     top: 2%;
     left: 2%;
 }
 
-.overlay img {
-    max-width: 50%;
-    max-height: 50%;
+.verrukkulluk-logo img {
+    max-width: 40%;
+    max-height: auto;
 }
 
 p {
@@ -169,7 +177,7 @@ p {
 
 .search-bar {
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     right: 6rem;
     width: 40%;
     max-width: 400px;
@@ -181,7 +189,7 @@ p {
     border: none;
     font-size: 45px;
     position: absolute;
-    top: 1.5rem;
+    top: -4rem;
     right: 1rem;
 }
 
