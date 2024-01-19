@@ -147,6 +147,10 @@ p {
     color: var(--lighter-green);
 }
 
+.lighter-orange {
+    color: var(--lighter-orange);
+}
+
 .bi-search {
     color: var(--lighter-red);
 }
@@ -162,10 +166,19 @@ p {
 .search-bar {
     position: absolute;
     top: 4rem;
-    right: 2rem;
+    right: 6rem;
     width: 40%;
     max-width: 400px;
     z-index: 1000;
+}
+
+#toggleButton {
+    background-color: transparent;
+    border: none;
+    font-size: 45px;
+    position: absolute;
+    top: 1.5rem;
+    right: 1rem;
 }
 
 :root {
