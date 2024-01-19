@@ -72,18 +72,18 @@ p {
 }
 
 .card-login {
-    height: 20rem;
-    background-color: var(--darker-red);
+    background-color: var(--lighter-red);
 }
 
 .card-events {
-    height: 44rem;
     background-color: var(--lighter-green);
 }
 
 .btn-primary {
-    padding: 5px 24px;
+    padding: 0px 30px;
+    margin: 0px;
     border-radius: 25px;
+    line-height: 5; 
     color: var(--white);
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
@@ -96,8 +96,8 @@ p {
 }
 
 .btn-secondary {
-    padding: 5px 24px;
-    border-radius: 25px;
+    padding: 1px 60px;
+    border-radius: 20px;
     color: var(--white);
     background-color: var(--lighter-orange);
     border-color: var(--lighter-orange);
