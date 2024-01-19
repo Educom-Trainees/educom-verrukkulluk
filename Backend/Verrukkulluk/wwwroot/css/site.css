@@ -13,6 +13,8 @@ html {
     src: local(''), url('../fonts/pretty_lily-webfont.woff') format('woff');
 }
 
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -71,8 +73,12 @@ p {
     color: var(--white);
 }
 
+.lighter-red {
+    color: var(--lighter-red);
+}
+
 .card-login {
-    background-color: var(--lighter-red);
+    background-color: var(--darker-red);
 }
 
 .card-events {
@@ -114,7 +120,15 @@ p {
 }
 
 .lighter-green {
-    color: var(--lighter-green)
+    color: var(--lighter-green);
+}
+
+.bi-star-fill {
+    color: var(--lighter-orange);
+}
+
+.bi-star {
+    color: var(--lighter-orange);
 }
 
 :root {
