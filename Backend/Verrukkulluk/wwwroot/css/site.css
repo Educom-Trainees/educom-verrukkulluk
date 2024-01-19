@@ -40,6 +40,10 @@ body {
     overflow: hidden;
 }
 
+.header h3{
+    position: relative;
+}
+
 .events {
     background-color: var(--lighter-green);
 }
@@ -60,7 +64,7 @@ h1, h2, h3, h4 {
 }
 
 p {
-    font-familya: var(--regular);
+    font-family: var(--regular);
 }
 
 .white {
@@ -78,6 +82,8 @@ p {
 }
 
 .btn-primary {
+    padding: 5px 24px;
+    border-radius: 25px;
     color: var(--white);
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
@@ -90,6 +96,8 @@ p {
 }
 
 .btn-secondary {
+    padding: 5px 24px;
+    border-radius: 25px;
     color: var(--white);
     background-color: var(--lighter-orange);
     border-color: var(--lighter-orange);
