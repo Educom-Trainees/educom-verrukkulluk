@@ -12,7 +12,7 @@ html {
     }
     #toggleButton {
         position: static;
-        margin-top: 2.1rem;
+        margin-top: 1.5rem;
     }
 }
 
@@ -74,6 +74,15 @@ body {
 
 h1, h2, h3, h4 {
     font-family: var(--heading);
+}
+
+footer img {
+    height: 100px;
+    width: 240px
+}
+
+footer p {
+    font-size: 10px;
 }
 
 .verrukkulluk-logo {
@@ -155,6 +164,11 @@ p {
     padding: 0.375rem 0.75rem;
 }
 
+.footer {
+    background-color: var(--darker-orange);
+    color: var(--white);
+}
+
 .lighter-green {
     color: var(--lighter-green);
 }
@@ -189,7 +203,7 @@ p {
     border: none;
     font-size: 45px;
     position: absolute;
-    top: -4rem;
+    top: 1.5rem;
     right: 1rem;
 }
 

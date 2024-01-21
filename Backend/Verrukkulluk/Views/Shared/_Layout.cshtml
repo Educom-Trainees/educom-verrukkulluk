@@ -65,7 +65,7 @@
 
         <!--Search bar and Offcanvas button toggle-->
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-end">
                 <div class="search-bar">
                     <!--Moet nog een actie ingevuld worden-->
                     <form class="d-flex" action="" method="GET">
@@ -111,25 +111,25 @@
         </div>
     </header>
 
-    <div class="container" style="padding-bottom:120px;">
+    <div class="container" style="padding-bottom:240px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container" style="height:200px; background-color:var(--darker-orange); position:relative;">
-            <div class="d-inline-block">
-                <img src="../images/verrukkulluk-logo.png" style="height:100px; width: 240px">
-            </div>
-            <div class="d-inline-block">
-                <h1 style="color: white;">Contact(van dit stukje ga ik huilen)</h1>
-                <div style="color: white;">
+    <footer class="footer">
+        <div class="container mt-5 mb-5">
+            <div class="d-inline-flex">
+                <div>
+                    <img src="~/images/verrukkulluk-logo.png">
+                </div>
+                <div>
+                    <h1>Contact</h1>
                     <p>
-                        Verrukkulluk.nl<br style:"display: block; margin: 0px, 0;">
-                        Poststraat 2b<br style:"display: block; margin: 0px, 0;">
-                        Sittard<br style:"display: block; margin: 0px, 0;">
-                        info@verrukkulluk.nl
+                        Verrukkulluk.nl <br />
+                        Poststraat 2b <br />
+                        Sittard <br />
+                        info@verrukkulluk.nl <br />
                     </p>
                 </div>
             </div>
