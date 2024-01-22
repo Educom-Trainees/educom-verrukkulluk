@@ -121,7 +121,6 @@ footer p {
 }
 
 p {
-    color: var(--white);
     font-family: var(--regular);
 }
 
@@ -164,6 +163,10 @@ p {
 .container-login {
     width: 24vw;
     text-align: left;
+}
+
+.container-login p {
+    color: var(--white);
 }
 
 .card-events {
