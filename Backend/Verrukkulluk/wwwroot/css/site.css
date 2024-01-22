@@ -210,7 +210,7 @@ p {
 
 .img-crop {
     height: 14rem;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .btn-primary {
