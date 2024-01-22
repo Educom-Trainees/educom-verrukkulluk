@@ -2,13 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center" background-color>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
             <div class="m-3 mb-5">
                 <div class="card-events shadow">
                      <div class="card-header"> 
-                         <h1 class="white" font-family="heading" style="color: var(--white)">Age<u>nda</u></h1>
+                         <h1 class="white" font-family="heading" style="text-color: var(--white)">Age<u>nda</u><h1>
                      </div>
                      <div class="container text-start">
                          <div class="d-inline-flex">
@@ -57,25 +57,21 @@
                 </div>
             </div>
             <div class="m-3 mb-5">
-                <div class="card-login shadow">
+                <div class="card-login shadow"">
                     <div class="card-header">
                         <h1 class = "white"> Login</h1>
                     </div>
                     <div class="card-body">
                         <form>
                             <div class="container container-login">
-                                <div class="form-group">
-                                    <label for="email" class="white">Email</label>
-                                    <input type="email" class="form-control" id="email">
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="white">Wachtwoord</label>
-                                    <input type="password" class="form-control" id="password">
-                                </div>
-                                <div>                                    
-                                    <p>Nog geen account? Klik @{<a asp-area="Identity" asp-page="/Account/Register">hier</a>} om u te registreren</p>                                    
-                                </div>
-                                <br>
+                                  <div class="form-group">
+                                        <label for="email" class="white">Email</label>
+                                        <input type="email" class="form-control" id="email">
+                                  </div>
+                                  <div class="form-group">
+                                        <label for="password" class="white">Wachtwoord</label>
+                                        <input type="password" class="form-control" id="password">
+                                  </div><br>
                             </div>
                             <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
                         </form>
@@ -83,10 +79,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
             <div class="m-3 mb-5">
                 <div class="card shadow" style="height: 32rem">
-                    <img class="card-img-top" style="height: 14rem" src="../images/pexels-ella-olsson.jpg" alt="Card image cap">
+                    <img class="card-img-top img-crop" style="height:14rem" src="../images/pexels-ella-olsson.jpg" alt="Card image cap">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div><h2 class="darker-green">Couscous</h2></div>
@@ -100,6 +96,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row subtitle">
+                            <div class="col-md-6 justify-all">
+                                <div class="d-flex">
+                                    <h4 class="darker-green pr-2">Keuken</h4>
+                                    <p class="px-2">Marokkaans</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-end">
+                                    <h4 class="darker-green px-2">Type</h4>
+                                    <p class="pl-2">Veganistisch</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body"><p class="text-start">Hier kunnen de gebruikers de eerste vier regels van de omschrijving van het recept lezen.</p></div>
                     <div class="card-footer">
@@ -124,7 +134,7 @@
             </div>
             <div class="m-3 mb-5">
                 <div class="card shadow" style="height: 32rem">
-                    <img class="card-img-top" style="height: 14rem" src="../images/pexels-jane-doan.jpg" alt="Card image cap">
+                    <img class="card-img-top img-crop" src="../images/pexels-jane-doan.jpg" alt="Card image cap">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div><h2 class="darker-green">Fruit poké bowl</h2></div>
@@ -135,6 +145,20 @@
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star"></i>
                                     <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row subtitle">
+                            <div class="col-md-6 justify-all">
+                                <div class="d-flex">
+                                    <h4 class="darker-green pr-2">Keuken</h4>
+                                    <p class="px-2">Japans?</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-end">
+                                    <h4 class="darker-green px-2">Type</h4>
+                                    <p class="pl-2">Veganistisch</p>
                                 </div>
                             </div>
                         </div>
@@ -161,10 +185,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
             <div class="m-3 mb-5">
                 <div class="card shadow" style="height: 32rem">
-                    <img class="card-img-top" style="height: 14rem" src="../images/pexels-lisa-fotios.jpg" alt="Card image cap">
+                    <img class="card-img-top img-crop" src="../images/pexels-lisa-fotios.jpg" alt="Card image cap">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div><h2 class="darker-green">Spaghetti</h2></div>
@@ -175,6 +199,20 @@
                                     <i class="bi bi-star-fill"></i>
                                     <i class="bi bi-star"></i>
                                     <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row subtitle">
+                            <div class="col-md-6 justify-all">
+                                <div class="d-flex">
+                                    <h4 class="darker-green pr-2">Keuken</h4>
+                                    <p class="px-2">Italiaans</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-end">
+                                    <h4 class="darker-green px-2">Type</h4>
+                                    <p class="pl-2">Vegetarisch</p>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +240,7 @@
             </div>
             <div class="m-3 mb-5">
                 <div class="card shadow" style="height: 32rem">
-                    <img class="card-img-top" style="height: 14rem" src="../images/pexels-robin-stickel.jpg" alt="Card image cap">
+                    <img class="card-img-top img-crop" src="../images/pexels-robin-stickel.jpg" alt="Card image cap">
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div><h2 class="darker-green">Burger deluxe</h2></div>
