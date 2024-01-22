@@ -116,6 +116,11 @@ p {
     background-color: var(--lighter-green);
 }
 
+.card-header {
+    border-bottom: none;
+    background-color: inherit;
+}
+
 .btn-primary {
     padding: 0px 30px;
     border-radius: 25px;
