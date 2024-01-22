@@ -125,6 +125,20 @@ p {
     font-family: var(--regular);
 }
 
+.pagination a {
+    color: var(--black);
+}
+
+.pagination a:hover {
+    color: var(--black);
+    box-shadow: none;
+}
+
+.pagination a:focus {
+    color: var(--black);
+    box-shadow: none;
+}
+
 .white {
     color: var(--white);
 }
