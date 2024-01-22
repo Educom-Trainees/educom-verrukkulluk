@@ -131,7 +131,7 @@ p {
 
 .card-login {
     background-color: var(--darker-red);
-    height: 23rem;
+    height: 26rem;
     text-align: center;
 }
 
@@ -150,7 +150,7 @@ p {
 
 .card-events {
     background-color: var(--lighter-green);
-    height: 41rem;
+    height: 38rem;
 }
 
 .card-header {
