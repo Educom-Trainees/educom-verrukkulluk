@@ -207,6 +207,14 @@ p {
     right: 1rem;
 }
 
+#demo {
+    max-height: 16vh;
+}
+
+.lighter-red {
+    color: var(--lighter-red)
+}
+
 :root {
     /* FONTS */
     --heading: "pretty_lilyregular";
