@@ -62,8 +62,12 @@ body {
     overflow: hidden;
 }
 
-.header h3{
+.header h3 {
     position: relative;
+}
+
+.subtitle {
+    height: 5px;
 }
 
 .icon-adjust {
@@ -140,11 +144,11 @@ p {
 }
 
 .card-login input {
-    width: 300px;
+    width: 21vw;
 }
 
 .container-login {
-    width: 340px;
+    width: 24vw;
     text-align: left;
 }
 
