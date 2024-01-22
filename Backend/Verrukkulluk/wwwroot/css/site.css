@@ -180,15 +180,6 @@ p {
     height: 60px;
 }
 
-.card-login input {
-    width: 21vw;
-}
-
-.container-login {
-    width: 24vw;
-    text-align: left;
-}
-
 .container-login p {
     color: var(--white);
 }
