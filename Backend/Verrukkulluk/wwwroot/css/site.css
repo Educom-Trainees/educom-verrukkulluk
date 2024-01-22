@@ -120,13 +120,6 @@ p {
     color: var(--lighter-red);
 }
 
-.card-shadow {
-    width: 200px;
-    height: 100px;
-    background-color: #3498db; /* Achtergrondkleur van het object */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .card-login {
     background-color: var(--darker-red);
     height: 23rem;
