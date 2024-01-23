@@ -5,9 +5,9 @@ namespace Verrukkulluk.Controllers
 {
     public class VerrukkullukController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Recept()
         {
-            return View();
+            return View("Recipe");
         }
     }
 }
