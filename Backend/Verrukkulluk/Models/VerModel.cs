@@ -2,10 +2,10 @@
 
 namespace Verrukkulluk.Models
 {
-    public class PageModel
+    public class VerModel
     {
         private readonly ICrud Crud;
-        public PageModel(ICrud crud)
+        public VerModel(ICrud crud)
         {
             Crud = crud;
         }
