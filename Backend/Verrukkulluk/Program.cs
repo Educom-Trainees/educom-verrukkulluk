@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Verrukkulluk.Data;
 using Verrukkulluk.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Verrukkulluk
 {
@@ -19,7 +20,10 @@ namespace Verrukkulluk
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            builder.Services.TryAddScoped<ICrud, Crud>();
+
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<VerrukkullukContext>();
             builder.Services.AddControllersWithViews();
 

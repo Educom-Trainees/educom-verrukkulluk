@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using Verrukkulluk.Models;
 
 namespace Verrukkulluk
 {
@@ -15,10 +16,9 @@ namespace Verrukkulluk
         virtual public ICollection<Comment> Comments { get; set; }
         public int Rating { get; set; }
         public DateOnly CreationDate { get; set; }
-        public int UserId { get; set; }
-        public IdentityUser Creator { get; set; }
+        public int CreatorId { get; set; }
+        public User Creator { get; set; }
         public string PhotoLocation { get; set; }
-
         public ICollection<Ingredient> Ingredient { get; set; }
     }     
 }  
