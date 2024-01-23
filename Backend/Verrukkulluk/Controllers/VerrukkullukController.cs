@@ -9,5 +9,9 @@ namespace Verrukkulluk.Controllers
         {
             return View("Recipe");
         }
+        public IActionResult Event()
+        {
+            return View("Event");
+        }
     }
 }
