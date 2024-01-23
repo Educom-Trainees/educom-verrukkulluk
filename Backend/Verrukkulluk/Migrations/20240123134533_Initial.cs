@@ -89,7 +89,7 @@ namespace Verrukkulluk.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -342,9 +342,9 @@ namespace Verrukkulluk.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Ingredients_Product_ProductId",
+                        name: "FK_Ingredients_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -465,7 +465,7 @@ namespace Verrukkulluk.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Recipes");

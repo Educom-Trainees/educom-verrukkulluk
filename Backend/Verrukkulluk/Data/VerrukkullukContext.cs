@@ -7,6 +7,7 @@ namespace Verrukkulluk.Data
     public class VerrukkullukContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<Recipe> Recipes { get; set; } 
+        public DbSet<Product> Products { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users {  get; set; }

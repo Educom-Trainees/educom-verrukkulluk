@@ -9,6 +9,11 @@ namespace Verrukkulluk.Controllers
         {
             return View("Recipe");
         }
+
+        public IActionResult MijnRecepten()
+        {
+            return View("MyRecipes");
+        }
         public IActionResult Event()
         {
             return View("Event");

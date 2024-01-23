@@ -8,7 +8,7 @@ namespace Verrukkulluk
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -45,13 +45,15 @@ namespace Verrukkulluk
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+
+            await SeedDatabase.InitializeDatabase(app);
 
             app.Run();
         }

@@ -8,5 +8,13 @@ namespace Verrukkulluk.Models
         public List<Ingredient> ShoppingList { get; set; }
         public List<Recipe> FavouritesList { get; set; }
         public string CityOfResidence { get; set; }
+
+        public User() { }
+        public User(string email, string firstName, string cityOfResidence)
+        {
+            Email = email;
+            FirstName = firstName;
+            CityOfResidence = cityOfResidence;
+        }
     }
 }
