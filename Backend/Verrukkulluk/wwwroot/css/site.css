@@ -297,6 +297,34 @@ p {
     right: 1rem;
 }
 
+.card-body-recipe {
+    height: 20rem;
+    overflow:auto;
+}
+
+.bi-heart {
+    font-size: 30px;
+}
+
+.tab-content {
+    text-decoration: none;
+    height: 32rem;
+    overflow: auto;
+}
+
+.nav-link {
+    font-family: var(--heading);
+    color: var(--darker-green);
+}
+
+.nav-link a:focus {
+    color: var(--darker-green);
+}
+
+.nav-link a:hover {
+    color: var(--darker-green);
+}
+
 #demo {
     max-height: 16vh;
 }
