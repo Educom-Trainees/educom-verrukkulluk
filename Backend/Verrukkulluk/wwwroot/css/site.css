@@ -16,8 +16,6 @@ html {
     }
 }
 
-
-
 @media (min-width: 991) and (max-width: 1399) {
     .card-login input {
         width: 200px;
