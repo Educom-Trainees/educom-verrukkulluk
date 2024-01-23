@@ -119,7 +119,7 @@ h3 {
 }
 
 h4 {
-    font-size: 16px;
+    font-size: 24px;
 }
 
 footer img {
@@ -170,7 +170,7 @@ p {
 
 .card-login {
     background-color: var(--darker-red);
-    height: 26rem;
+    height: 22rem;
     text-align: center;
 }
 
@@ -184,7 +184,7 @@ p {
 
 .card-events {
     background-color: var(--lighter-green);
-    height: 38rem;
+    height: 42rem;
 }
 
 .card-header {
