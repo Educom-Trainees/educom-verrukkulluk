@@ -187,6 +187,11 @@ p {
     height: 42rem;
 }
 
+.card-recipe-stars {
+    color: var(--lighter-orange);
+    width: 7rem;
+}
+
 .card-header {
     border-bottom: none;
     background-color: inherit;

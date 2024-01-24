@@ -78,14 +78,14 @@
                     </form>
                 </div>
 
-                <button id="toggleButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+                <button id="toggleButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#top, #right">
                     <i class="bi bi-list lighter-orange"></i>
                 </button>
             </div>
         </div>
 
         <!--Overlay Toggle Top Offcanvas-->
-        <div class="offcanvas offcanvas-top" id="demo">
+        <div class="offcanvas offcanvas-top d-none d-lg-block" id="top">
             <div class="offcanvas-body d-flex align-items-center">
                 <div class="d-flex flex-wrap justify-content-between align-items-center w-100">
                     <div class="verrukkulluk-logo">
@@ -100,6 +100,22 @@
                     <div class="me-5 lighter-red">
                         <h1>Uitloggen</h1>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-end" id="right">
+            <div class="d-flex flex-wrap justify-content-between align-items-center w-100">
+                <div class="verrukkulluk-logo">
+                    <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo"/>
+                </div>
+                <div class="ms-auto me-5 lighter-red">
+                    <h1>Mijn favorieten</h1>
+                </div>
+                <div class="me-5 lighter-red">
+                    <h1>Mijn boodschappenlijst</h1>
+                </div>
+                <div class="me-5 lighter-red">
+                    <h1>Uitloggen</h1>
                 </div>
             </div>
         </div>
