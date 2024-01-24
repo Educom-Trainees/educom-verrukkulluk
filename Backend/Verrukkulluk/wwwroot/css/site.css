@@ -184,6 +184,18 @@ p {
     color: var(--lighter-red);
 }
 
+.card-register {
+    background-color: var(--darker-green);
+    color: var(--darker-green);
+    max-width: 550px;
+    margin: auto;
+}
+
+.card-register-header {
+    background-color: var(--darker-green);
+    color: var(--white);
+}
+
 .card-login {
     background-color: var(--darker-red);
     height: 22rem;
