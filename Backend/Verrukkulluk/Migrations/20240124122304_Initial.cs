@@ -74,7 +74,29 @@ namespace Verrukkulluk.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "KitchenType",
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    StartTime = table.Column<TimeOnly>(type: "time(6)", nullable: false),
+                    EndTime = table.Column<TimeOnly>(type: "time(6)", nullable: false),
+                    Place = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "KitchenTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -84,7 +106,7 @@ namespace Verrukkulluk.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KitchenType", x => x.Id);
+                    table.PrimaryKey("PK_KitchenTypes", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -97,7 +119,7 @@ namespace Verrukkulluk.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Calories = table.Column<int>(type: "int", nullable: false),
+                    Calories = table.Column<double>(type: "double", nullable: false),
                     Amount = table.Column<double>(type: "double", nullable: false),
                     IngredientType = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -106,7 +128,7 @@ namespace Verrukkulluk.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -258,9 +280,9 @@ namespace Verrukkulluk.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Recipes_KitchenType_KitchenTypeId",
+                        name: "FK_Recipes_KitchenTypes_KitchenTypeId",
                         column: x => x.KitchenTypeId,
-                        principalTable: "KitchenType",
+                        principalTable: "KitchenTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -296,7 +318,7 @@ namespace Verrukkulluk.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DishType",
+                name: "DishTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -307,9 +329,9 @@ namespace Verrukkulluk.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DishType", x => x.Id);
+                    table.PrimaryKey("PK_DishTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DishType_Recipes_RecipeId",
+                        name: "FK_DishTypes_Recipes_RecipeId",
                         column: x => x.RecipeId,
                         principalTable: "Recipes",
                         principalColumn: "Id");
@@ -325,9 +347,6 @@ namespace Verrukkulluk.Migrations
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Amount = table.Column<double>(type: "double", nullable: false),
-                    IngredientTypeId = table.Column<int>(type: "int", nullable: false),
-                    IngredientType = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Acquired = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
@@ -404,8 +423,8 @@ namespace Verrukkulluk.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DishType_RecipeId",
-                table: "DishType",
+                name: "IX_DishTypes_RecipeId",
+                table: "DishTypes",
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
@@ -456,7 +475,10 @@ namespace Verrukkulluk.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
-                name: "DishType");
+                name: "DishTypes");
+
+            migrationBuilder.DropTable(
+                name: "Events");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");
@@ -474,7 +496,7 @@ namespace Verrukkulluk.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "KitchenType");
+                name: "KitchenTypes");
         }
     }
 }

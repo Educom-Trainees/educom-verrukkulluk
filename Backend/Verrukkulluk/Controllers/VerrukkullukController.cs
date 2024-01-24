@@ -5,6 +5,11 @@ namespace Verrukkulluk.Controllers
 {
     public class VerrukkullukController : Controller
     {
+        private IVerModel VerModel;
+        public VerrukkullukController(IVerModel verModel)
+        {
+            VerModel = verModel;
+        }
         public IActionResult Recept()
         {
             return View("Recipe");
@@ -12,7 +17,8 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult MijnRecepten()
         {
-            return View("MyRecipes");
+            VerModel.GetUserRecipes();
+            return View("MyRecipes", VerModel);
         }
 
         public IActionResult Event(string eventName)

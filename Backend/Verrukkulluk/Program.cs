@@ -21,10 +21,12 @@ namespace Verrukkulluk
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.TryAddScoped<ICrud, Crud>();
+            builder.Services.TryAddScoped<IVerModel, VerModel>();
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<VerrukkullukContext>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();

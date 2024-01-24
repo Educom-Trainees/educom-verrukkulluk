@@ -1,4 +1,6 @@
-﻿namespace Verrukkulluk.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Verrukkulluk.Data
 {
     public class Crud : ICrud
     {
@@ -14,6 +16,8 @@
             try
             {
                 var recipes = Context.Recipes
+                    .Include(d => d.DishType)
+                    .Include(k => k.KitchenType)
                     .Where(recipe => recipe.CreatorId == userId)
                     .ToList();
                 return recipes;

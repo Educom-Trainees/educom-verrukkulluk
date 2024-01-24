@@ -8,7 +8,6 @@ namespace Verrukkulluk
         public int Id { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
-        public IngredientType IngredientType { get; set; }
         public bool Acquired { get; set; } = false;
 
         public int ProductId { get; set; }
@@ -17,11 +16,10 @@ namespace Verrukkulluk
         public Recipe Recipe { get; set; }
 
         public Ingredient() { }
-        public Ingredient(string name, double amount, IngredientType ingredientType, Product product)
+        public Ingredient(string name, double amount, Product product)
         {
             Name = name;
             Amount = amount;
-            IngredientType = ingredientType;
             ProductId = product.Id;
             Product = product;
         }

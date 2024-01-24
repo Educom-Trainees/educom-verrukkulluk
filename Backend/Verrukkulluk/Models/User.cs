@@ -16,5 +16,12 @@ namespace Verrukkulluk.Models
             FirstName = firstName;
             CityOfResidence = cityOfResidence;
         }
+        public User(int id, string email, string firstName, string cityOfResidence)
+        {
+            Id = id;
+            Email = email;
+            FirstName = firstName;
+            CityOfResidence = cityOfResidence;
+        }
     }
 }

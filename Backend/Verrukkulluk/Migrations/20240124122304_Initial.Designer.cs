@@ -11,7 +11,7 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    [Migration("20240123134533_Initial")]
+    [Migration("20240124122304_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,6 +21,33 @@ namespace Verrukkulluk.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
@@ -167,7 +194,39 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("DishType");
+                    b.ToTable("DishTypes");
+                });
+
+            modelBuilder.Entity("Verrukkulluk.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<string>("Place")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<TimeOnly>("StartTime")
+                        .HasColumnType("time(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Ingredient", b =>
@@ -181,14 +240,6 @@ namespace Verrukkulluk.Migrations
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
-
-                    b.Property<string>("IngredientType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<int>("IngredientTypeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -226,34 +277,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("KitchenType");
-                });
-
-            modelBuilder.Entity("Verrukkulluk.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("KitchenTypes");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Models.User", b =>
@@ -338,8 +362,8 @@ namespace Verrukkulluk.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int");
+                    b.Property<double>("Calories")
+                        .HasColumnType("double");
 
                     b.Property<string>("IngredientType")
                         .IsRequired()
@@ -359,7 +383,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>
@@ -405,7 +429,7 @@ namespace Verrukkulluk.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Verrukkulluk.Models.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -432,7 +456,7 @@ namespace Verrukkulluk.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Verrukkulluk.Models.Role", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -483,7 +507,7 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Ingredient", b =>
                 {
                     b.HasOne("Verrukkulluk.Product", "Product")
-                        .WithMany()
+                        .WithMany("Ingredients")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -527,6 +551,11 @@ namespace Verrukkulluk.Migrations
                     b.Navigation("FavouritesList");
 
                     b.Navigation("ShoppingList");
+                });
+
+            modelBuilder.Entity("Verrukkulluk.Product", b =>
+                {
+                    b.Navigation("Ingredients");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>

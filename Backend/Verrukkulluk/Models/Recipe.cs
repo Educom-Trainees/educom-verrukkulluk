@@ -38,9 +38,4 @@ namespace Verrukkulluk
             CreationDate = currentDate;
         }
     }     
-}  
-   
-
-
-
-   
+}
