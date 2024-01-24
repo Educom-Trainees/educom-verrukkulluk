@@ -26,7 +26,7 @@ namespace Verrukkulluk.Controllers
             Event eventModel = GetEventData(eventName);
             return View(eventModel);
         }
-
+        //ga database gebruiken en pas toe in view
         private Event GetEventData(string eventName)
         {
             switch (eventName?.ToLower())

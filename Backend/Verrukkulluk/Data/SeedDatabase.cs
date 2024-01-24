@@ -124,7 +124,56 @@ namespace Verrukkulluk.Data
                     dbContext.Recipes.AddRange(recipes);
                     dbContext.Ingredients.AddRange(ingredients);
                     await dbContext.SaveChangesAsync();
-                }                
+                }
+                if (!dbContext.Events.Any())
+                {
+                    Event[] events =
+                    {
+                        new Event
+                        {
+                            Title = "Vegetarisch koken",
+                            Description = "Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee",
+                            Date = new DateOnly(2024, 01, 30),
+                            StartTime = new TimeOnly(14, 0),
+                            EndTime = new TimeOnly(16, 0),
+                            Place = "Jaarbeurs Utrecht",
+                            Price = 12.99m
+                        },
+                        new Event
+                        {
+                            Title = "Test1",
+                            Description = "Test1 description",
+                            Date = new DateOnly(2024, 01, 30),
+                            StartTime = new TimeOnly(14, 0),
+                            EndTime = new TimeOnly(16, 0),
+                            Place = "Jaarbeurs Utrecht",
+                            Price = 12.99m
+                        },
+                        new Event
+                        {
+                            Title = "Test1",
+                            Description = "Test1 description",
+                            Date = new DateOnly(2024, 01, 30),
+                            StartTime = new TimeOnly(14, 0),
+                            EndTime = new TimeOnly(16, 0),
+                            Place = "Jaarbeurs Utrecht",
+                            Price = 15.99m
+                        },
+                        new Event
+                        {
+                            Title = "Test2",
+                            Description = "Test2 description",
+                            Date = new DateOnly(2024, 01, 30),
+                            StartTime = new TimeOnly(14, 0),
+                            EndTime = new TimeOnly(16, 0),
+                            Place = "Jaarbeurs Utrecht",
+                            Price = 18.99m
+                        }
+                    };
+
+                    dbContext.Events.AddRange(events);
+                    await dbContext.SaveChangesAsync();
+                }
             }
         }
     }
