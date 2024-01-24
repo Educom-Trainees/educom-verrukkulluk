@@ -136,6 +136,17 @@ footer p {
     font-size: 10px;
 }
 
+
+.verrukkulluk-logo-dynamic {
+    top: 2%;
+    bottom: 2%;
+}
+
+.verrukkulluk-logo-dynamic img {
+    max-width: 40%;
+    max-height: auto;
+}
+
 .verrukkulluk-logo {
     position: absolute;
     top: 2%;
@@ -194,7 +205,7 @@ p {
 
 .card-recipe-stars {
     color: var(--lighter-orange);
-    width: 7rem;
+    width: 6.1rem;
 }
 
 .card-header {
