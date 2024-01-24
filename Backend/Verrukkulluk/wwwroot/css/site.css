@@ -122,6 +122,11 @@ h4 {
     font-size: 24px;
 }
 
+.event-link {
+    color: var(--black);
+    text-decoration: none;
+}
+
 footer img {
     height: 100px;
     width: 240px
