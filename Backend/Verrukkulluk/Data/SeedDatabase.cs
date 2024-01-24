@@ -27,11 +27,11 @@ namespace Verrukkulluk.Data
 
                 User[] users =
                 {
-                    new User(2, "jan@jan.jan", "Jan", "Utrecht"),
-                    new User(3, "bert@bert.bert", "Bert", "Arnhem"),
-                    new User(4, "els@els.els", "Els", "Sittard")
+                    new User("jan@jan.jan", "Jan", "Utrecht"),
+                    new User("bert@bert.bert", "Bert", "Arnhem"),
+                    new User("els@els.els", "Els", "Sittard")
                 };
-                User adminUser = new User(1, "admin@admin.admin", "Admin", "Admindam");
+                User adminUser = new User("admin@admin.admin", "Admin", "Admindam");
 
                 string password = "Test890!";
 
@@ -40,14 +40,14 @@ namespace Verrukkulluk.Data
                     if (await userManager.FindByEmailAsync(user.Email) == null)
                     {
                         await userManager.CreateAsync(user, password);
-                        //await userManager.AddToRoleAsync(user, "VerUser");
+                        await userManager.AddToRoleAsync(user, "VerUser");
                     }
                 }
 
                 if (await userManager.FindByEmailAsync(adminUser.Email) == null)
                 {
                     await userManager.CreateAsync(adminUser, password);
-                    //await userManager.AddToRoleAsync(adminUser, "Admin");
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
 
                 VerrukkullukContext dbContext = scope.ServiceProvider.GetService<VerrukkullukContext>();
