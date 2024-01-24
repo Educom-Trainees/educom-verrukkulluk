@@ -19,7 +19,7 @@
                                     <div class="px-2">
                                         <div>
                                             @{
-                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="Vegetarisch Koken"><h3>Vegetarisch koken</h3></a>
                                             }
                                         </div>
                                         <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
@@ -34,7 +34,7 @@
                                     <div class="px-2">
                                         <div>
                                             @{
-                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test1"><h3>Test1</h3></a>
                                             }
                                         </div>
                                         <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
@@ -49,7 +49,7 @@
                                     <div class="px-2">
                                         <div>
                                             @{
-                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test2"><h3>Test2</h3></a>
                                             }
                                         </div>
                                         <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
@@ -64,7 +64,7 @@
                                     <div class="px-2">
                                         <div>
                                             @{
-                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test3"><h3>Test3</h3></a>
                                             }
                                         </div>
                                         <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
@@ -117,8 +117,8 @@
                     <div class="container text-start">
                         <div class="d-inline-flex">
                             <div class="px-2">
-                                <h2 class="darker-green"> (Laad titel in uit database)</h2>
-                                <p>(Laad omschrijving in uit database)</p>
+                                <h2 class="darker-green"> @Model.Title</h2>
+                                <p>@Model.Description</p>
                             </div>
                         </div>
                     </div>
@@ -126,8 +126,9 @@
                         <div class="d-inline-flex">
                             <div class="px-2">
                                 <h3 class="darker-green"> Wanneer?</h3>
-                                <p>Begintijd: (Laad begintijd in uit database)</p>
-                                <p>Eindtijd: (Laad eindtijd in uit database)</p>
+                                <p>Datum: @Model.Date.ToString("D", new System.Globalization.CultureInfo("nl-NL"))</p>
+                                <p>Begintijd: @Model.StartTime.ToString("HH:mm")</p>
+                                <p>Eindtijd: @Model.EndTime.ToString("HH:mm")</p>
                             </div>
                         </div>
                     </div>
@@ -136,7 +137,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Locatie?</h3>
                                 <p>Dit event zal gehouden worden op de volgende locatie:</p>
-                                <p>(Laad locatie in uit database)</p>
+                                <p>@Model.Place</p>
                             </div>
                         </div>
                     </div>
@@ -145,7 +146,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Prijs?</h3>
                                 <p>De kosten voor dit event zijn:</p>
-                                <p>(Laad kosten in uit database)</p>
+                                <p>€(add price to Event Model)</p>
                             </div>
                         </div>
                     </div>
