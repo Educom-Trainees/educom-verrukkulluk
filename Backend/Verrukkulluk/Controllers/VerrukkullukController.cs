@@ -39,7 +39,8 @@ namespace Verrukkulluk.Controllers
                         Date = new DateOnly(2024, 01, 30),
                         StartTime = new TimeOnly(14, 0),
                         EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht"
+                        Place = "Jaarbeurs Utrecht",
+                        Price = 12.99m
                     };
                 case "test1":
                     return new Event
@@ -49,7 +50,8 @@ namespace Verrukkulluk.Controllers
                         Date = new DateOnly(2024, 01, 30),
                         StartTime = new TimeOnly(14, 0),
                         EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht"
+                        Place = "Jaarbeurs Utrecht",
+                        Price = 12.99m
                     };
                 case "test2":
                     return new Event
@@ -59,7 +61,8 @@ namespace Verrukkulluk.Controllers
                         Date = new DateOnly(2024, 01, 30),
                         StartTime = new TimeOnly(14, 0),
                         EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht"
+                        Place = "Jaarbeurs Utrecht",
+                        Price = 12.99m
                     };
                 case "test3":
                     return new Event
@@ -69,7 +72,8 @@ namespace Verrukkulluk.Controllers
                         Date = new DateOnly(2024, 01, 30),
                         StartTime = new TimeOnly(14, 0),
                         EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht"
+                        Place = "Jaarbeurs Utrecht",
+                        Price = 12.99m
                     };
             }
         }

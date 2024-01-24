@@ -9,5 +9,6 @@ namespace Verrukkulluk
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public string Place { get; set; }
+        public decimal Price { get; set; }
     }
 }
