@@ -149,12 +149,13 @@
                         <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                @{<form method="GET">
-                                    <button asp-controller="Verrukkulluk" asp-action="Recept" class="btn btn-primary" type="submit"><h3>Op lijst</h3></button>
-                                </form>}
+                                    <button class="btn btn-primary" type="submit"><h3>Op lijst</h3></button>
                             </div>
-                            <div class="d-inline-block">   
-                                <i class="bi bi-heart lighter-red"></i> 
+                            <div class="d-inline-block">
+                                <input type="checkbox" id="heartCheckbox">
+                                <label id="heartButton" class="btn btn-primary" for="heartCheckbox">
+                                    <i class="bi bi-heart"></i>
+                                </label>  
                             </div>
                         </div>
                     </div>
@@ -163,39 +164,39 @@
         </div>
     </div>
     <!--Nav-->
-    <div class="container mt-5 shadow">
+    <div class="container mt-5 navblock">
         <!--Nav tabs-->
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#ingredients"><h3>Ingrediënten</h3></a>
+        <ol class="nav nav-tabs nav-tabs-recipe" role="tablist">
+            <li class="nav-item nav-item-recipe">
+                <a class="nav-link nav-link-recipe active darker-green" data-bs-toggle="tab" href="#ingredients"><h4>Ingrediënten</h4></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#preparation"><h3>Bereidingswijze</h3></a>
+            <li class="nav-item nav-item-recipe">
+                <a class="nav-link nav-link-recipe darker-green" data-bs-toggle="tab" href="#preparation"><h4>Bereidingswijze</h4></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#comments"><h3>Opmerkingen</h3></a>
+            <li class="nav-item nav-item-recipe">
+                <a class="nav-link nav-link-recipe darker-green" data-bs-toggle="tab" href="#comments"><h4>Opmerkingen</h4></a>
             </li>
-        </ul>
+        </ol>
 
         <!-- Tab panes -->
-        <div class="tab-content">
-            <div id="ingredients" class="container tab-pane active"><br>
-                <h3 class="darker-green">Couscous rijst</h3>
+        <div class="tab-content tab-content-recipe">
+            <div id="ingredients" class="container tab-pane tab-pane-recipe active"><br>
+                <h3 class="darker-green">Couscous</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 <p>Hoeveelheid 300 gram</p>
-                <h3 class="darker-green">Couscous rijst</h3>
+                <h3 class="darker-green">Couscous</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 <p>Hoeveelheid 300 gram</p>
-                <h3 class="darker-green">Couscous rijst</h3>
+                <h3 class="darker-green">Couscous</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                 <p>Hoeveelheid 300 gram</p>
             </div>
-            <div id="preparation" class="container tab-pane fade"><br>
+            <div id="preparation" class="container tab-pane tab-pane-recipe fade"><br>
                 <p>1. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><br>
                 <p>2. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p><br>
                 <p>3. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
-            <div id="comments" class="container tab-pane fade"><br>
+            <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
                 <h3 class="darker-green">Tommie Tuup</h3>
                 <p>Het was een heerlijk gerecht.</p>
             </div>

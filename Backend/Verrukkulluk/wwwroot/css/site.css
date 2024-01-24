@@ -53,7 +53,7 @@ a:hover {
     color: var(--white);
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus, .btn:active:focus, .btn-link.recipeNav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: none;
 }
 
@@ -335,27 +335,27 @@ p {
     overflow:auto;
 }
 
-.bi-heart {
+#heartButton {
     font-size: 30px;
+    background-color: transparent;
+    border: none;
 }
 
-.tab-content {
-    text-decoration: none;
-    height: 32rem;
-    overflow: auto;
+#heartCheckbox {
+    display: none;
 }
 
-.nav-link {
-    font-family: var(--heading);
-    color: var(--darker-green);
+#heartButton i:before {
+    content: "\2661";
+    color: var(--lighter-red); 
+    transform: scaleX(1.2);
+    margin-bottom: 0.5rem;
 }
 
-.nav-link a:focus {
-    color: var(--darker-green);
-}
-
-.nav-link a:hover {
-    color: var(--darker-green);
+#heartCheckbox:checked + #heartButton i:before {
+    content: "\2665";
+    color: var(--lighter-red);
+    transform: scaleX(1.2);
 }
 
 #demo {
@@ -384,3 +384,63 @@ p {
     --white: #FFF;
     --black: #000;
 }
+
+/*---------------Recipe nav-tabs-------------------*/
+  .nav-link-recipe {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--darker-green);
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  }
+  
+  .nav-link-recipe:hover, .nav-link-recipe:focus {
+    color: var(--darker-green);
+  }
+  .nav-link-recipe.disabled {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+  }
+  
+  .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .nav-tabs .nav-link-recipe {
+    margin-bottom: -1px;
+    background: none;
+    border: 1px solid transparent;
+    height: 2.5rem;
+    border-top-right-radius: 2.5rem;
+    border-top-left-radius: 2.5rem;
+  }
+  .nav-tabs .nav-link-recipe:hover, .nav-tabs .nav-link-recipe:focus {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    isolation: isolate;
+  }
+  .nav-tabs .nav-link-recipe.disabled {
+    color: #6c757d;
+    background-color: transparent;
+    border-color: transparent;
+  }
+  .nav-tabs .nav-link-recipe.active,
+  .nav-tabs .nav-item.show .nav-link-recipe {
+    color: var(--darker-green);
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+  }
+  
+  .tab-content-recipe {
+    text-decoration: none;
+    height: 32rem;
+    overflow: auto;
+}
+
+.tab-content-recipe {
+    box-shadow: 0 0 5px #5c5a5a;
+}
+
+.nav-link-recipe {
+    box-shadow: 0 -5px 5px -5px #7e7b7b, 5px 0 5px -5px #7e7b7b;
+}
+
