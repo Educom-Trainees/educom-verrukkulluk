@@ -1,6 +1,159 @@
 ﻿@{
     ViewData["Title"] = "Event";
 }
-<h1>Event</h1>
-<h2> Het volgende moet hier zichtbaar zijn: titel, locatie, omschrijving, kosten, 
-    begintijd en eindtijd. Deze worden opgehaald uit de database.</h2>
+<div class="parent-container d-flex flex-wrap">
+    <div class="container col-sm-12 col-md-6 col-xl-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="m-3">
+                    <div class="card-events shadow">
+                        <div class="card-header text-center">
+                            <h1 class="white" font-family="heading">Age<u>nda</u></h1>
+                        </div>
+                        <div class="display-block">
+                            <div class="container text-start">
+                                <div class="d-inline-flex">
+                                    <div class="px-2">
+                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                    </div>
+                                    <div class="px-2">
+                                        <div>
+                                            @{
+                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                            }
+                                        </div>
+                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container text-start">
+                                <div class="d-inline-flex">
+                                    <div class="px-2">
+                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                    </div>
+                                    <div class="px-2">
+                                        <div>
+                                            @{
+                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                            }
+                                        </div>
+                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container text-start">
+                                <div class="d-inline-flex">
+                                    <div class="px-2">
+                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                    </div>
+                                    <div class="px-2">
+                                        <div>
+                                            @{
+                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                            }
+                                        </div>
+                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container text-start hidden-md hidden-lg">
+                                <div class="d-inline-flex">
+                                    <div class="px-2">
+                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                    </div>
+                                    <div class="px-2">
+                                        <div>
+                                            @{
+                                                <a asp-controller="Verrukkulluk" asp-action="Event"><h3>Vegetarisch koken</h3></a>
+                                            }
+                                        </div>
+                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="m-3">
+                    <div class="card-login shadow">
+                        <div class="card-header card-header-login">
+                            <h1 class="white"> Login</h1>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="container container-login text-start">
+                                    <div class="form-group">
+                                        <label for="email" class="white">Email</label>
+                                        <input type="email" class="form-control" id="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password" class="white">Wachtwoord</label>
+                                        <input type="password" class="form-control" id="password">
+                                    </div>
+                                    <div class="text-center">
+                                        <p>Nog geen account? Klik @{
+                                                <a asp-area="Identity" asp-page="/Account/Register">hier</a>
+                                            } om u te registreren</p>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--Event-->
+    <div class="container col-sm-24 col-md-12 col-xl-8">
+        <div class="m-3">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h1 class="darker-green" font-family="heading"><u>Event</u></h1>
+                </div>
+                <div class="display-block">
+                    <div class="container text-start">
+                        <div class="d-inline-flex">
+                            <div class="px-2">
+                                <h2 class="darker-green"> (Laad titel in uit database)</h2>
+                                <p>(Laad omschrijving in uit database)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container text-start">
+                        <div class="d-inline-flex">
+                            <div class="px-2">
+                                <h3 class="darker-green"> Wanneer?</h3>
+                                <p>Begintijd: (Laad begintijd in uit database)</p>
+                                <p>Eindtijd: (Laad eindtijd in uit database)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container text-start">
+                        <div class="d-inline-flex">
+                            <div class="px-2">
+                                <h3 class="darker-green"> Locatie?</h3>
+                                <p>Dit event zal gehouden worden op de volgende locatie:</p>
+                                <p>(Laad locatie in uit database)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container text-start">
+                        <div class="d-inline-flex">
+                            <div class="px-2">
+                                <h3 class="darker-green"> Prijs?</h3>
+                                <p>De kosten voor dit event zijn:</p>
+                                <p>(Laad kosten in uit database)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
