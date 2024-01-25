@@ -84,6 +84,11 @@ body {
     overflow: hidden;
 }
 
+.offcanvas-large {
+    height: 300px;
+    background-color: var(--darker-red);
+}
+
 .header h3 {
     position: relative;
 }
