@@ -86,7 +86,8 @@ body {
 
 .offcanvas-large {
     height: 300px;
-    background-color: var(--darker-red);
+    background-color: var(--white);
+    overflow: visible;
 }
 
 .header h3 {
