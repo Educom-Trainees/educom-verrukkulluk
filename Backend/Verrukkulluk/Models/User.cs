@@ -14,7 +14,7 @@ namespace Verrukkulluk.Models
         {
             Email = email;
             FirstName = firstName;
-            UserName = firstName;
+            UserName = email;
             CityOfResidence = cityOfResidence;
         }
     }

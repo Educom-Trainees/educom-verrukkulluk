@@ -21,9 +21,9 @@ namespace Verrukkulluk.Models
 
         public void GetUserRecipes()
         {
-            //var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            //int userId = int.Parse(tempUserId);
-            int userId = 1;
+            var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+            int userId = int.Parse(tempUserId);
+            //int userId = 1;
             Recipes = Crud.ReadAllRecipesByUserId(userId);
         }
     }

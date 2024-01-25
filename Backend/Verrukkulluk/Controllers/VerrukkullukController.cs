@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk.Controllers
@@ -15,6 +16,7 @@ namespace Verrukkulluk.Controllers
             return View("Recipe");
         }
 
+        [Authorize(Roles = "VerUser")]
         public IActionResult MijnRecepten()
         {
             VerModel.GetUserRecipes();
