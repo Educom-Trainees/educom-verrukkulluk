@@ -89,7 +89,8 @@ namespace Verrukkulluk.Data
                         new KitchenType("Mexicaans"),
                         new KitchenType("Indisch"),
                         new KitchenType("Spaans"),
-                        new KitchenType("Marokkaans")
+                        new KitchenType("Marokkaans"),
+                        new KitchenType("Overig")
                     };
 
                     Ingredient[] ingredients =
