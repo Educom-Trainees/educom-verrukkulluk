@@ -54,6 +54,18 @@ namespace Verrukkulluk.Data
 
                 if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.DishTypes.Any() && !dbContext.Recipes.Any())
                 {
+                    DishType[] dishTypes =
+                    {
+                        new DishType("Vlees"),
+                        new DishType("Vis"),
+                        new DishType("Vegetarisch"),
+                        new DishType("Vegan"),
+                        new DishType("Glutenvrij"),
+                        new DishType("Lactosevrij")
+                    };
+                    dbContext.DishTypes.AddRange(dishTypes);
+                    await dbContext.SaveChangesAsync();
+
                     Product[] products =
                     {
                         new Product("Witte Bol", 1.59m, 759, 6, IngredientType.Quantity, "location unknown"),
@@ -80,16 +92,6 @@ namespace Verrukkulluk.Data
                         new KitchenType("Marokkaans")
                     };
 
-                    DishType[] dishTypes =
-                    {
-                        new DishType("Vlees"),
-                        new DishType("Vis"),
-                        new DishType("Vegetarisch"),
-                        new DishType("Vegan"),
-                        new DishType("Glutenvrij"),
-                        new DishType("Lactosevrij")
-                    };
-
                     Ingredient[] ingredients =
                     {
                         new Ingredient("Wit Bolletje", 4, products[0]),
@@ -102,7 +104,9 @@ namespace Verrukkulluk.Data
                     };
 
 
-                    List<DishType> recipeDishTypes = [dishTypes[1]];
+                    List<RecipeDishType> recipeDishTypes = new List<RecipeDishType>();
+                    recipeDishTypes.Add(new RecipeDishType { DishTypeId = 1 });
+
                     List<Ingredient> recipeIngredients = new List<Ingredient>();
                     foreach(Ingredient ingredient in ingredients)
                     {
@@ -120,7 +124,6 @@ namespace Verrukkulluk.Data
 
                     dbContext.Products.AddRange(products);
                     dbContext.KitchenTypes.AddRange(kitchenTypes);
-                    dbContext.DishTypes.AddRange(dishTypes);
                     dbContext.Recipes.AddRange(recipes);
                     dbContext.Ingredients.AddRange(ingredients);
                     await dbContext.SaveChangesAsync();

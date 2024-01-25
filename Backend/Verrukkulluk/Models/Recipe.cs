@@ -9,7 +9,7 @@ namespace Verrukkulluk
         public int Id { get; set; }
         [MaxLength(50)]
         public string Title { get; set; }         
-        public List<DishType> DishType { get; set; } 
+        public List<RecipeDishType> RecipeDishTypes { get; set; } 
         public KitchenType KitchenType { get; set; }
         [MaxLength(1000)]
         public string Instructions { get; set; }
@@ -22,10 +22,10 @@ namespace Verrukkulluk
         public ICollection<Ingredient> Ingredient { get; set; }
 
         public Recipe() { }
-        public Recipe(string title, List<DishType> dishType, KitchenType kitchenType, string instructions, int rating, User creator, string photoLocation, List<Ingredient> ingredient)
+        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string instructions, int rating, User creator, string photoLocation, List<Ingredient> ingredient)
         {
             Title = title;
-            DishType = dishType;
+            RecipeDishTypes = recipeDishTypes;
             KitchenType = kitchenType;
             Instructions = instructions;
             Rating = rating;

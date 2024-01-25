@@ -16,8 +16,9 @@ namespace Verrukkulluk.Data
             try
             {
                 var recipes = Context.Recipes
-                    .Include(d => d.DishType)
-                    .Include(k => k.KitchenType)
+                    .Include(r => r.RecipeDishTypes)
+                        .ThenInclude(r => r.DishType)
+                    .Include(r => r.KitchenType)
                     .Where(recipe => recipe.CreatorId == userId)
                     .ToList();
                 return recipes;
