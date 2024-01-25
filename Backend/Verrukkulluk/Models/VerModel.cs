@@ -9,8 +9,7 @@ namespace Verrukkulluk.Models
         private readonly ICrud Crud;
         private readonly UserManager<User> UserManager;
         private readonly IHttpContextAccessor HttpContextAccessor;
-        public List<Recipe>? Recipes { get; set; }
-        
+        public List<Recipe>? Recipes { get; set; }        
 
         public VerModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
         {
@@ -23,7 +22,6 @@ namespace Verrukkulluk.Models
         {
             var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
             int userId = int.Parse(tempUserId);
-            //int userId = 1;
             Recipes = Crud.ReadAllRecipesByUserId(userId);
         }
     }
