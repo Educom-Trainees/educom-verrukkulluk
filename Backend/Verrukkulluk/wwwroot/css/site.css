@@ -102,6 +102,10 @@ body {
     top: -3px;
 }
 
+.titleUnderlined {
+    height: 70px;
+}
+
 h1, h2, h3, h4 {
     font-family: var(--heading);
 }
