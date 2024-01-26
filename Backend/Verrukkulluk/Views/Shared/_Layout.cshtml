@@ -47,11 +47,11 @@
             </div>
         }
 
-        @if (ViewData["ShowBanner"] != null && (bool)ViewData["ShowBanner"])
+        @if (ViewData["ShowBanner"]!= null && (bool)ViewData["ShowBanner"])
         {
             <!--Banner-->
             <div class="single-image-container">
-                <img src="@ViewData["BannerImageSource"]" alt="Couscous" id="recipeBanner" class="d-block w-100 img-crop" />
+                <img src="~/Images/pexels-ella-olsson.jpg" alt="Couscous" id="recipeBanner" class="d-block w-100 img-crop" />
 
                 <!--Overlay Image: logo-->
                 <div class="verrukkulluk-logo">
@@ -61,7 +61,6 @@
                 </div>
             </div>
         }
-
 
         <!--Search bar and Offcanvas button toggle-->
         <div class="container">
