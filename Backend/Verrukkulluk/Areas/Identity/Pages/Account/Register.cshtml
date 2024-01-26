@@ -3,44 +3,68 @@
 @{
     ViewData["Title"] = "Registreren";
 }
-<div class="container pt-5">
-    <div class="card card-register shadow p-4">
-        <div class="container">
-            <div class="card-register-header px-5">
-                <h1>@ViewData["Title"]</h1>
-                <h2>Maak hier een nieuw account</h2>
-            </div>
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="Voornaam" />
-                    <label asp-for="Input.FirstName">Voornaam</label>
-                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                </div>
 
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.CityOfResidence" class="form-control" aria-required="true" placeholder="Woonplaats" />
-                    <label asp-for="Input.CityOfResidence">Woonplaats</label>
-                    <span asp-validation-for="Input.CityOfResidence" class="text-danger"></span>
+<div class="container mt-3">
+    <div class="row">
+        <div class="d-flex align-items-center col-xl-3">
+            <img class="img-fluid d-none d-xl-block" src="~/images/pexels-cottonbro-studio.jpg" />
+        </div>
+        <div class="col-lg-6 col-12">
+            <div class="card card-register shadow p-4">
+                <div class="container">
+                    <div class="card-register-header">
+                        <h1>@ViewData["Title"]</h1>
+                        <h2>Maak hier een nieuw account</h2>
+                    </div>
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <hr />
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="Voornaam" />
+                            <label asp-for="Input.FirstName">Voornaam</label>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.CityOfResidence" class="form-control" aria-required="true" placeholder="Woonplaats" />
+                            <label asp-for="Input.CityOfResidence">Woonplaats</label>
+                            <span asp-validation-for="Input.CityOfResidence" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">E-mail</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.Password">Wachtwoord</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                            <label asp-for="Input.ConfirmPassword">Herhaal wachtwoord</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-secondary"><h2>Registreren</h2></button>
+                    </form>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email">E-mail</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center col-xl-3 col-lg-6 col-12 mt-5 mt-lg-0">
+            <div class="card card-tips shadow p-4">
+                <div class="container">
+                    <div class="card-header">
+                        <h2>Voordelen van een account:</h2>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Uw favoriete recepten opslaan</li>
+                            <li>Uw eigen recepten delen met anderen op de website</li>
+                            <li>Recepten bespreken met andere "Verrukkulluk"-gebruikers</li>
+                            <li>Uw gegevens worden sowieso niet doorverkocht</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password">Wachtwoord</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.ConfirmPassword">Herhaal wachtwoord</label>
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary"><h2>Registreren</h2></button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -48,3 +72,4 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+

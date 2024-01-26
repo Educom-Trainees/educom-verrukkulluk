@@ -216,15 +216,20 @@ p {
     color: var(--lighter-red);
 }
 
-.card-register {
+.card-tips {
+    color: var(--white);
     background-color: var(--darker-green);
+}
+
+.card-register {
+    background-color: var(--darker-red);
     color: var(--darker-green);
     max-width: 550px;
     margin: auto;
 }
 
 .card-register-header {
-    background-color: var(--darker-green);
+    background-color: var(--darker-red);
     color: var(--white);
 }
 
