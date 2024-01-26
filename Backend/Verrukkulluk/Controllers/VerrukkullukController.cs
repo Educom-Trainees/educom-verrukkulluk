@@ -22,6 +22,10 @@ namespace Verrukkulluk.Controllers
             VerModel.GetUserRecipes();
             return View("MyRecipes", VerModel);
         }
+        public IActionResult MijnBoodschappenlijst()
+        {
+            return View("Shoplist");
+        }
 
         public IActionResult Event(string eventName)
         {

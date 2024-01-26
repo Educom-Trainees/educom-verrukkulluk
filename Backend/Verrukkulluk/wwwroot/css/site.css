@@ -137,6 +137,15 @@ h4 {
     text-decoration: none;
 }
 
+.shoplist-link {
+    color: var(--lighter-red);
+    text-decoration: none;
+}
+
+.shoplist-link:hover {
+    color: var(--black);
+}
+
 footer img {
     height: 100px;
     margin-right: 3rem;
