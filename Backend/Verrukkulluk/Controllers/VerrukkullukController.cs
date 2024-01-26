@@ -13,6 +13,9 @@ namespace Verrukkulluk.Controllers
         }
         public IActionResult Recept()
         {
+            ViewData["Title"]= "Recept";
+            ViewData["HideCarousel"]= true;
+            ViewData["ShowBanner"]= true;
             return View("Recipe");
         }
 

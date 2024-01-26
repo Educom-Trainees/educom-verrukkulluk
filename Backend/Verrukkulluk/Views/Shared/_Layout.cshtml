@@ -11,59 +11,56 @@
 </head>
 <body>
     <header>
-        @* <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Verrukkulluk</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav> *@
-        
-        <!--Courousel-->
-        <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+        @if (ViewData["HideCarousel"] == null || !(bool)ViewData["HideCarousel"])
+        {
+            <!--Courousel-->
+            <div id="carousel" class="carousel slide" data-bs-ride="carousel">
 
-            <!--Indicators-->
-            <div class="carousel-indicators">
-                <button data-bs-target="#carousel" data-bs-slide-to="0" class="active"></button>
-                <button data-bs-target="#carousel" data-bs-slide-to="1"></button>
-                <button data-bs-target="#carousel" data-bs-slide-to="2"></button>
-            </div>
+                <!--Indicators-->
+                <div class="carousel-indicators">
+                    <button data-bs-target="#carousel" data-bs-slide-to="0" class="active"></button>
+                    <button data-bs-target="#carousel" data-bs-slide-to="1"></button>
+                    <button data-bs-target="#carousel" data-bs-slide-to="2"></button>
+                </div>
 
-            <!--Images-->
-            <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="~/images/pexels-ella-olsson.jpg" alt="pexels-ella-olsson" class="d-block w-100" />
+                <!--Images-->
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="~/images/pexels-ella-olsson.jpg" alt="pexels-ella-olsson" class="d-block w-100" />
+                    </div>
+                    
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img src="~/images/pexels-jane-doan.jpg" alt="pexels-jane-doan" class="d-block w-100" />
+                    </div>
+                    
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img src="~/images/pexels-robin-stickel.jpg" alt="pexels-robin-stickel" class="d-block w-100" />
+                    </div>
                 </div>
-                
-                <div class="carousel-item" data-bs-interval="10000">
-                    <img src="~/images/pexels-jane-doan.jpg" alt="pexels-jane-doan" class="d-block w-100" />
-                </div>
-                
-                <div class="carousel-item" data-bs-interval="10000">
-                    <img src="~/images/pexels-robin-stickel.jpg" alt="pexels-robin-stickel" class="d-block w-100" />
-                </div>
-            </div>
 
-            <!--Overlay Image-->
-            <div class="verrukkulluk-logo">
-                <a href="@Url.Action("Index", "Home")">
-                    <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
-                </a>
+                <!--Overlay Image: logo-->
+                <div class="verrukkulluk-logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
+                    </a>
+                </div>
             </div>
-        </div>
+        }
+
+        @if (ViewData["ShowBanner"]!= null && (bool)ViewData["ShowBanner"])
+        {
+            <!--Banner-->
+            <div class="single-image-container">
+                <img src="~/Images/pexels-ella-olsson.jpg" alt="Couscous" id="recipeBanner" class="d-block w-100 img-crop" />
+
+                <!--Overlay Image: logo-->
+                <div class="verrukkulluk-logo">
+                    <a href="@Url.Action("Index", "Home")">
+                        <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
+                    </a>
+                </div>
+            </div>
+        }
 
         <!--Search bar and Offcanvas button toggle-->
         <div class="container">

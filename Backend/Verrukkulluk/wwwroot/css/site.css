@@ -331,6 +331,10 @@ p {
     color: var(--lighter-orange);
 }
 
+#recipeBanner {
+    max-height: 30vh;
+}
+
 .search-bar {
     position: absolute;
     top: 3rem;
