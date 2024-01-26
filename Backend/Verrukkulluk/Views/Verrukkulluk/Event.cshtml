@@ -2,79 +2,9 @@
     ViewData["Title"] = "Event";
 }
 <div class="parent-container d-flex flex-wrap">
+    <!--Login block-->
     <div class="container col-sm-12 col-md-6 col-xl-4">
         <div class="row">
-            <div class="col-12">
-                <div class="m-3">
-                    <div class="card-events shadow">
-                        <div class="card-header text-center">
-                            <h1 class="white" font-family="heading">Agenda</h1>
-                        </div>
-                        <div class="display-block">
-                            <div class="container text-start">
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="Vegetarisch Koken"><h3>Vegetarisch koken</h3></a>
-                                            }
-                                        </div>
-                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container text-start">
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test1"><h3>Test1</h3></a>
-                                            }
-                                        </div>
-                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container text-start">
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test2"><h3>Test2</h3></a>
-                                            }
-                                        </div>
-                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container text-start hidden-md hidden-lg">
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="test3"><h3>Test3</h3></a>
-                                            }
-                                        </div>
-                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-12">
                 <div class="m-3">
                     <div class="card-login shadow">
@@ -106,7 +36,7 @@
             </div>
         </div>
     </div>
-<!--Event-->
+    <!--Event-->
     <div class="container col-sm-24 col-md-12 col-xl-8">
         <div class="m-3">
             <div class="card shadow">
