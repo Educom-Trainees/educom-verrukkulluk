@@ -111,6 +111,10 @@ body {
 .titleUnderlined {
     height: 70px;
 }
+.ingredient {
+    max-height: 55px;
+    max-width: 55px;
+}
 
 h1, h2, h3, h4 {
     font-family: var(--heading);
@@ -155,6 +159,15 @@ footer p {
     font-size: 10px;
 }
 
+.shopping-list-text p {
+    font-size: 10px;
+}
+.shopping-list-text .bi {
+    font-size: 25px; 
+}
+.shopping-list-text .icon-lg {
+    font-size: 45px; 
+}
 
 .verrukkulluk-logo-dynamic {
     top: 2%;
@@ -313,6 +326,9 @@ p {
 
 .darker-green {
     color: var(--darker-green)
+}
+.darker-red {
+    color: var(--darker-red)
 }
 
 .lighter-orange {
@@ -483,5 +499,17 @@ p {
 
 .nav-link-recipe {
     box-shadow: 0 -5px 5px -5px #7e7b7b, 5px 0 5px -5px #7e7b7b;
+}
+.amount-box {
+    border: 1px solid;
+    border-radius: 5px;
+    max-width: 4em;
+}
+    
+.amount-box .amount-text {
+    font-size: 15px;
+}
+.price-text {
+    font-size: 15px;
 }
 
