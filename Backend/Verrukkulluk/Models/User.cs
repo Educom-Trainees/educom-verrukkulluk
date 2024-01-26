@@ -11,12 +11,15 @@ namespace Verrukkulluk.Models
         public string CityOfResidence { get; set; }
 
         public User() { }
-        public User(string email, string firstName, string cityOfResidence)
+
+        public byte[]? ProfilePicture { get; set; }
+        public User(string email, string firstName, string cityOfResidence, byte[]? newPicture)
         {
             Email = email;
             FirstName = firstName;
             UserName = email;
             CityOfResidence = cityOfResidence;
+            ProfilePicture = newPicture;
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

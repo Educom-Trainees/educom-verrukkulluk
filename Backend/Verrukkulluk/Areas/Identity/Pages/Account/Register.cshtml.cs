@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -88,6 +89,10 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
+            [Required]
+            [Display(Name = "Profile Picture")]
+            public byte[] ProfilePicture { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -119,9 +124,21 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+
+                if (Request.Form.Files.Count > 0)
+                {
+                    IFormFile file = Request.Form.Files.FirstOrDefault();
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(dataStream);
+                        user.ProfilePicture = dataStream.ToArray();
+                    }
+                    await _userManager.UpdateAsync(user);
+                }
 
                 user.CityOfResidence = Input.CityOfResidence;
                 user.FirstName = Input.FirstName;

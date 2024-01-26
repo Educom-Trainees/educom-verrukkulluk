@@ -27,11 +27,11 @@ namespace Verrukkulluk.Data
 
                 User[] users =
                 {
-                    new User("jan@jan.jan", "Jan", "Utrecht"),
-                    new User("bert@bert.bert", "Bert", "Arnhem"),
-                    new User("els@els.els", "Els", "Sittard")
+                    new User("jan@jan.jan", "Jan", "Utrecht", null),
+                    new User("bert@bert.bert", "Bert", "Arnhem", null),
+                    new User("els@els.els", "Els", "Sittard", null)
                 };
-                User adminUser = new User("admin@admin.admin", "Admin", "Admindam");
+                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", null);
 
                 string password = "Test890!";
 

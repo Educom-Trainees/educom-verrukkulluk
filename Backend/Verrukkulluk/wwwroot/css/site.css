@@ -216,6 +216,7 @@ p {
     color: var(--lighter-red);
 }
 
+<<<<<<< HEAD
 .card-tips {
     color: var(--white);
     background-color: var(--darker-green);
@@ -224,13 +225,16 @@ p {
 .card-register {
     background-color: var(--darker-red);
     color: var(--darker-green);
-    max-width: 550px;
-    margin: auto;
+=======
+.card-register {
+    background-color: var(--darker-red);
+>>>>>>> 754ed5b (#40 first working version)
 }
 
 .card-register-header {
+<<<<<<< HEAD
     background-color: var(--darker-red);
-    color: var(--white);
+=======
 }
 
 .card-login {
