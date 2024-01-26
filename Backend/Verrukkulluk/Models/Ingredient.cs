@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Verrukkulluk
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class Ingredient
     {
         public int Id { get; set; }
@@ -24,4 +25,5 @@ namespace Verrukkulluk
             Product = product;
         }
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

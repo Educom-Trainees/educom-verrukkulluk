@@ -20,9 +20,15 @@ namespace Verrukkulluk.Models
 
         public void GetUserRecipes()
         {
+            if (HttpContextAccessor?.HttpContext?.User == null)
+            {
+                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
+            }
             var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int userId = int.Parse(tempUserId);
-            Recipes = Crud.ReadAllRecipesByUserId(userId);
+            if (int.TryParse(tempUserId, out int userId))
+            {
+                Recipes = Crud.ReadAllRecipesByUserId(userId);
+            }
         }
     }
 }

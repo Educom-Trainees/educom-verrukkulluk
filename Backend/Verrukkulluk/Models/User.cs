@@ -2,6 +2,7 @@
 
 namespace Verrukkulluk.Models
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class User : IdentityUser<int>
     {
         public string FirstName { get; set; }
@@ -18,4 +19,5 @@ namespace Verrukkulluk.Models
             CityOfResidence = cityOfResidence;
         }
     }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

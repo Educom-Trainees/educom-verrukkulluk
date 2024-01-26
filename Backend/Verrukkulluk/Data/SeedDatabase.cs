@@ -37,6 +37,7 @@ namespace Verrukkulluk.Data
 
                 foreach (User user in users)
                 {
+#pragma warning disable CS8604 // Possible null reference argument.
                     if (await userManager.FindByEmailAsync(user.Email) == null)
                     {
                         await userManager.CreateAsync(user, password);
@@ -49,8 +50,9 @@ namespace Verrukkulluk.Data
                     await userManager.CreateAsync(adminUser, password);
                     await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
+#pragma warning restore CS8604 // Possible null reference argument.
 
-                VerrukkullukContext dbContext = scope.ServiceProvider.GetService<VerrukkullukContext>();
+                VerrukkullukContext dbContext = scope.ServiceProvider.GetRequiredService<VerrukkullukContext>();
 
                 if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.DishTypes.Any() && !dbContext.Recipes.Any())
                 {
