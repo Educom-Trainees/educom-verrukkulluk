@@ -9,13 +9,15 @@ namespace Verrukkulluk.Models
         private readonly ICrud Crud;
         private readonly UserManager<User> UserManager;
         private readonly IHttpContextAccessor HttpContextAccessor;
+        public readonly SignInManager<User> SignInManager;
         public List<Recipe>? Recipes { get; set; }        
 
-        public VerModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor)
+        public VerModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager)
         {
             Crud = crud;
             UserManager = userManager;
             HttpContextAccessor = httpContextAccessor;
+            SignInManager = signInManager;
         }
 
         public void GetUserRecipes()

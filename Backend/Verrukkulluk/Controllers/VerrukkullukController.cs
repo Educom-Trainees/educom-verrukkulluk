@@ -11,12 +11,16 @@ namespace Verrukkulluk.Controllers
         {
             VerModel = verModel;
         }
+        public IActionResult Index()
+        {
+            return View(VerModel);
+        }
         public IActionResult Recept()
         {
             ViewData["Title"]= "Recept";
             ViewData["HideCarousel"]= true;
             ViewData["ShowBanner"]= true;
-            return View("Recipe");
+            return View("Recipe", VerModel);
         }
 
         [Authorize(Roles = "VerUser")]
@@ -27,7 +31,7 @@ namespace Verrukkulluk.Controllers
         }
         public IActionResult MijnBoodschappenlijst()
         {
-            return View("Shoplist");
+            return View("Shoplist", VerModel);
         }
 
         public IActionResult Event(string eventName)
