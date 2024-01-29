@@ -111,9 +111,11 @@
                         </div>
                     </div>
                     <div class="d-inline ms-3">
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", new { area = "" })">
-                            <button type="submit" class="shoplist-link">Logout</button>
-                        </form>
+                        <div class="ms-auto">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", new { area = "" })">
+                                <button type="submit" class="logout-button">Logout</button>
+                            </form>
+                        </div>
                     </div>
                 }
                 else
@@ -165,9 +167,11 @@
                         </div>
                     </div>
                     <div class="d-inline">
+                        <div class="ms-5 ps-4 shoplist-link">
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", new { area = "" })">
-                            <button type="submit" class="shoplist-link">Logout</button>
+                            <button type="submit" class="logout-button">Logout</button>
                         </form>
+                        </div>
                     </div>
                 }
                 else

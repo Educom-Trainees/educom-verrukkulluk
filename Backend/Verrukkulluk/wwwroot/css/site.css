@@ -575,4 +575,14 @@ p {
     border-color: var(--dark-brown);
 }
 
+.logout-button {
+    color: var(--lighter-red);
+    border: none;
+    background-color: transparent;
+    font-family: var(--heading);
+    font-size: 45px;
+}
 
+.logout-button:hover {
+    color: var(--black);
+}
