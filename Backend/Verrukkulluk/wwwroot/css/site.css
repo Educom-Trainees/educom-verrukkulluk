@@ -302,6 +302,15 @@ p {
     font-size: 1.5rem;
 }
 
+#allergiesButton {
+    padding: 0.01rem 0.5rem;
+    background-color: var(--white);
+    border-color: var(--darker-green);
+    color: var(--darker-green);
+    font-family: var(--heading);
+    font-size: 24px;    
+}
+
 .black {
     color: var(--black);
 }
