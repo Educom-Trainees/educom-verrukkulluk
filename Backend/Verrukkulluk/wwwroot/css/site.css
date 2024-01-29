@@ -279,6 +279,21 @@ p {
     border-color: var(--lighter-red);
 }
 
+.btn-secondary {
+    padding: 0px 30px;
+    border-radius: 25px;
+    line-height: -3; 
+    color: var(--white);
+    background-color: var(--lighter-orange);
+    border-color: var(--lighter-orange);
+}
+
+.btn-secondary:hover {
+    color: var(--lighter-orange);
+    background-color: var(--white);
+    border-color: var(--lighter-orange);
+}
+
 .btn-darker-green {
     background-color: var(--darker-green);
     border-color: var(--darker-green);
@@ -360,11 +375,6 @@ p {
     color: var(--black);
 }
 
-.btn-secondary:hover {
-    color: var(--lighter-orange);
-    background-color: var(--white);
-    border-color: var(--lighter-orange);
-}
 
 .border-custom {
     border: none;
