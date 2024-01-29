@@ -20,6 +20,7 @@ namespace Verrukkulluk.Controllers
             ViewData["Title"]= "Recept";
             ViewData["HideCarousel"]= true;
             ViewData["ShowBanner"]= true;
+            ViewData["PictureLocation"] = "/images/pexels-ella-olsson.jpg";
             return View("Recipe", VerModel);
         }
 

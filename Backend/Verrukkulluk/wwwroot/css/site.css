@@ -8,11 +8,14 @@ html {
   }
     .search-bar {
         position: static;
-        margin-top: 1rem;
+        margin-top: 0.5rem;
     }
     #toggleButton {
         position: static;
-        margin-top: 1.5rem;
+        margin-top: 0.8rem;
+    }
+    .verrukkulluk-logo {
+        margin-top: -1.4rem;
     }
 }
 
@@ -176,7 +179,7 @@ footer p {
 }
 
 .verrukkulluk-logo img {
-    max-width: 25%;
+    max-width: 40%;
     max-height: auto;
 }
 
@@ -276,11 +279,58 @@ p {
     border-color: var(--lighter-red);
 }
 
-.btn-secondary {
-    padding: 0px 60px;
-    border-radius: 20px;
-    color: var(--white);
+.btn-darker-green {
+    background-color: var(--darker-green);
+    border-color: var(--darker-green);
+}
+
+.btn-darker-green:hover {
+    color: var(--darker-green);
+    background-color: var(--white);
+    border-color: var(--darker-green);
+}
+
+.btn-darker-orange {
+    background-color: var(--darker-orange);
+    border-color: var(--darker-orange);
+}
+
+.btn-darker-orange:hover {
+    color: var(--darker-orange);
+    background-color: var(--white);
+    border-color: var(--darker-orange);
+}
+
+.btn-darker-red {
+    background-color: var(--darker-red);
+    border-color: var(--darker-red);
+}
+
+.btn-darker-red:hover {
+    color: var(--darker-red);
+    background-color: var(--white);
+    border-color: var(--darker-red);
+}
+
+.btn-lighter-green {
+    background-color: var(--lighter-green);
+    border-color: var(--lighter-green);
+}
+
+.btn-lighter-green:hover {
+    color: var(--lighter-green);
+    background-color: var(--white);
+    border-color: var(--lighter-green);
+}
+
+.btn-lighter-orange {
     background-color: var(--lighter-orange);
+    border-color: var(--lighter-orange);
+}
+
+.btn-lighter-orange:hover {
+    color: var(--lighter-orange);
+    background-color: var(--white);
     border-color: var(--lighter-orange);
 }
 
@@ -312,7 +362,6 @@ p {
 }
 
 .border-custom {
-    border: 1px solid #ced4da;
     border: none;
     border-radius: 1.2rem;
     padding: 0.375rem 0.75rem;
@@ -321,6 +370,10 @@ p {
 .footer {
     background-color: var(--darker-orange);
     color: var(--white);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
 }
 
 .lighter-green {
@@ -350,8 +403,12 @@ p {
     color: var(--lighter-orange);
 }
 
+.empty-banner {
+    height: 20vh;
+}
+
 #recipeBanner {
-    max-height: 30vh;
+    height: 30vh;
 }
 
 .search-bar {
@@ -368,7 +425,7 @@ p {
     border: none;
     font-size: 45px;
     position: absolute;
-    top: 1.5rem;
+    top: 1.4rem;
     right: 1rem;
 }
 
