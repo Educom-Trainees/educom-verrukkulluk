@@ -1,1 +1,138 @@
-﻿
+﻿@model Verrukkulluk.Recipe
+@{
+    ViewData["Title"] = "Recept Maken";
+}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="d-flex align-items-center col-xl-3">
+            <img class="img-fluid d-none d-xl-block" src="~/images/bereiden.jpg" />
+        </div>
+        <div class="col-lg-9 col-12">
+            <div class="car card-create-recipe shadow p-4">
+                <div class="container">
+                    <div class="card-create-recipe-header darker-green">
+                        <h1>@ViewData["Title"]
+                        <h2>Voeg hier uw heerlijke recept toe</h2>
+                        <hr />
+                    </div>
+                    @using (Html.BeginForm("CreateRecipe", "Verrukkulluk", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group form-floating mb-4">
+                            <input asp-for="Title" class="form-control" placeholder="Titel van het recept"/>
+                            <label asp-for="Title" class="control-label">Titel van het recept</label>   
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-floating mb-4">
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Beschrijving"></textarea>
+                            <label asp-for="Description" class="control-label">Beschrijving</label>   
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-floating mb-4">
+                            <textarea asp-for="Instructions" class="form-control" rows="5" placeholder="Bereidingswijze"></textarea>
+                            <label asp-for="Instructions" class="control-label">Bereidingswijze</label>   
+                            <span asp-validation-for="Instructions" class="text-danger"></span>
+                        </div>
+                        @* <div class="form-group form-floating mb-4">
+                            Hier moeten de ingredienten komen, maar ik weet nog niet hoe die moeten... 
+                        </div> *@
+                        <div class="form-group mb-4">
+                            <label asp-for="KitchenType" class="visually-hidden"></label>
+                            <select asp-for="KitchenType" class="form-control" size="1">
+                                <option value="">Type keuken</option>
+                                <option value="Aziatisch">Aziatisch</option>
+                                <option value="Amerikaans">Amerikaans</option>
+                                <option value="Turks">Turks</option>
+                                <option value="Frans">Frans</option>
+                                <option value="Grieks">Grieks</option>
+                                <option value="Hollands">Hollands</option>
+                                <option value="Italiaans">Italiaans</option>
+                                <option value="Mexicaans">Mexicaans</option>
+                                <option value="Indisch">Indisch</option>
+                                <option value="Spaans">Spaans</option>
+                                <option value="Marokkaans">Marokkaans</option>
+                                <option value="Overig">Overig</option>
+                            </select>
+                            <span asp-validation-for="KitchenType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label asp-for="RecipeDishTypes" class="control-label">Type gerecht:</label>
+                                <div class="row">    
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="RecipeDishType" value="Vis" class="form-check-input"/>
+                                            <label class="form-check-label">Vis</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="RecipeDishType" value="Vlees" class="form-check-input"/>
+                                            <label class="form-check-label">Vlees</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="RecipeDishType" value="Vegetarisch" class="form-check-input"/>
+                                            <label class="form-check-label">Vegetarisch</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="RecipeDishType" value="Veganistisch" class="form-check-input"/>
+                                            <label class="form-check-label">Veganistisch</label>
+                                        </div>
+                                    </div>
+                                </div>    
+                            <span asp-validation-for="RecipeDishTypes" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Allergies" class="control-label">Dit gerecht bevat geen:</label>
+                                <div class="row">    
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="Allergy" value="Melk" class="form-check-input"/>
+                                            <label class="form-check-label">Melk</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="Allergy" value="Noten" class="form-check-input"/>
+                                            <label class="form-check-label">Noten</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="Allergy" value="Gluten" class="form-check-input"/>
+                                            <label class="form-check-label">Gluten</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                        <div class="form-check">
+                                            <input type="checkbox" name="Allergy" value="Schaaldieren" class="form-check-input"/>
+                                            <label class="form-check-label">Schaaldieren</label>
+                                        </div>
+                                    </div>
+                                </div>    
+                            <span asp-validation-for="Allergies" class="text-danger"></span>
+                        </div>
+                        <div class="form mt-4">
+                            <label for="DishPhoto" class="form-label">Afbeelding van het gerecht:</label>
+                            <input type="file"
+                                id="DishPhoto"
+                                accept=".png,.jpg,.jpeg,.gif,.tif"
+                                asp-for="DishPhoto"
+                                class="form-control"
+                                onchange="document.getElementById('DishPhoto').src = window.URL.createObjectURL(this.files[0])" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mt-4"><h3>Opslaan</h3></button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

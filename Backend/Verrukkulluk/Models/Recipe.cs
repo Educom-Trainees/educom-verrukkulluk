@@ -9,9 +9,12 @@ namespace Verrukkulluk
     {
         public int Id { get; set; }
         [MaxLength(50)]
-        public string Title { get; set; }         
+        public string Title { get; set; }  
+        [MaxLength(500)]       
+        public string Description { get; set; }
         public List<RecipeDishType> RecipeDishTypes { get; set; } 
         public KitchenType KitchenType { get; set; }
+        public List<Allergy> Allergies { get; set; }
         [MaxLength(1000)]
         public string Instructions { get; set; }
         virtual public ICollection<Comment>? Comments { get; set; } = null;
@@ -19,6 +22,9 @@ namespace Verrukkulluk
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
+
+        [Display(Name = "Afbeelding")]
+        public byte[] DishPhoto { get; set; }
         public string PhotoLocation { get; set; }
         public ICollection<Ingredient> Ingredient { get; set; }
 

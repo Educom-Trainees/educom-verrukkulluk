@@ -30,6 +30,24 @@ namespace Verrukkulluk.Controllers
             VerModel.GetUserRecipes();
             return View("MyRecipes", VerModel);
         }
+
+        public IActionResult ReceptMaken()
+        {
+            ViewData["Title"]= "Recept Maken";
+            return View("CreateRecipe", new Recipe());
+        }
+
+        public IActionResult CreateRecipe(Recipe recipe)
+        {
+            if (ModelState.IsValid)
+            {
+                //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
+                //Nu tijdelijk:
+                return RedirectToAction("Index");
+            }
+            return View("CreateRecipe", recipe);
+        }
+
         public IActionResult MijnBoodschappenlijst()
         {
             return View("Shoplist", VerModel);
