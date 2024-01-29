@@ -99,6 +99,13 @@
                 </div>
                 <div class="d-inline ms-3">
                     <div class="ms-auto lighter-red">
+                        @{
+                            <a class="shoplist-link" asp-area="Identity" asp-page="/Account/Manage/Index"><h2>Mijn Profiel</h2></a>
+                        }
+                    </div>
+                </div>
+                <div class="d-inline ms-3">
+                    <div class="ms-auto lighter-red">
                         <h2>Uitloggen</h2>
                     </div>
                 </div>
@@ -119,7 +126,16 @@
                 </div>
                 <div class="d-inline">
                     <div class="ms-5 ps-4 lighter-red">
-                        <h2>Mijn boodschappenlijst</h2>
+                        @{
+                            <a class="shoplist-link" asp-controller="Verrukkulluk" asp-action="MijnBoodschappenLijst"><h2>Mijn boodschappenlijst</h2></a>
+                        }
+                    </div>
+                </div>
+                <div class="d-inline">
+                    <div class="ms-5 ps-4 lighter-red">
+                        @{
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index"><h2>Mijn Profiel</h2></a>
+                        }
                     </div>
                 </div>
                 <div class="d-inline">

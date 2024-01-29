@@ -516,3 +516,63 @@ p {
     font-size: 15px;
 }
 
+.nav-link-profile {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--darker-green);
+    text-decoration: none;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.nav-link-profile:hover, .nav-link-profile:focus {
+    color: var(--darker-green);
+}
+
+.nav-link-profile.disabled {
+    color: #6c757d;
+    pointer-events: none;
+    cursor: default;
+}
+
+.nav-pills-profile .nav-link-profile {
+    background: none;
+    border: 0;
+    border-radius: 0.25rem;
+}
+
+.nav-pills-profile .nav-link-profile.active,
+.nav-pills-profile .show > .nav-link {
+    color: var(--white);
+    background-color: var(--darker-green);
+}
+
+.alert-warning-profile {
+    color: var(--white);
+    background-color: var(--darker-red);
+    border-color: var(--dark-brown);
+}
+
+.submit-profile {
+    color: var(--white);
+    background-color: var(--darker-green);
+    border-color: var(--dark-brown);
+}
+
+.submit-profile:hover {
+    color: var(--white);
+    background-color: var(--darker-red);
+    border-color: var(--dark-brown);
+}
+
+.submit-danger-profile {
+    color: var(--white);
+    background-color: var(--dark-brown);
+    border-color: var(--dark-brown);
+}
+.submit-danger-profile:hover {
+    color: var(--white);
+    background-color: var(--darker-red);
+    border-color: var(--dark-brown);
+}
+
+
