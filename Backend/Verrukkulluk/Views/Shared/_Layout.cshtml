@@ -14,7 +14,7 @@
         @if (ViewData["HideCarousel"] == null || !(bool)ViewData["HideCarousel"])
         {
             <!--Courousel-->
-            <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="carousel" class="carousel slide d-none d-lg-block" data-bs-ride="carousel">
 
                 <!--Indicators-->
                 <div class="carousel-indicators">
@@ -37,44 +37,41 @@
                         <img src="~/images/pexels-robin-stickel.jpg" alt="pexels-robin-stickel" class="d-block w-100" />
                     </div>
                 </div>
-
-                <!--Overlay Image: logo-->
-                <div class="verrukkulluk-logo">
-                    <a href="@Url.Action("Index", "Home")">
-                        <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
-                    </a>
-                </div>
             </div>
         }
 
-        @if (ViewData["ShowBanner"]!= null && (bool)ViewData["ShowBanner"])
+        @if (ViewData["ShowBanner"] != null && (bool)ViewData["ShowBanner"])
         {
             <!--Banner-->
             <div class="single-image-container">
                 <img src="~/Images/pexels-ella-olsson.jpg" alt="Couscous" id="recipeBanner" class="d-block w-100 img-crop" />
-
-                <!--Overlay Image: logo-->
-                <div class="verrukkulluk-logo">
-                    <a href="@Url.Action("Index", "Home")">
-                        <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
-                    </a>
-                </div>
             </div>
         }
 
-        <!--Search bar and Offcanvas button toggle-->
         <div class="container">
-            <div class="d-flex justify-content-between align-items-end">
-                <div class="search-bar">
-                    <!--Moet nog een actie ingevuld worden-->
-                    <form class="d-flex" action="" method="GET">
-                        <div class="input-group">
-                            <button class="btn btn-custom border-custom" type="submit">
-                                <i class="bi bi-search icon-adjust"></i>
-                            </button>
-                            <input class="form-control border-custom me-2" type="search" placeholder="Zoeken" aria-label="Search">
+            <div class="row">
+                <!--Overlay Image: logo-->
+                <div class="verrukkulluk-logo">
+                    <a href="@Url.Action("Index", "Verrukkulluk")">
+                        <img src="~/images/verrukkulluk-logo.png" alt="verrukkulluk-logo" />
+                    </a>
+                </div>
+
+                <!--Search bar and Offcanvas button toggle-->
+                <div class="container">
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div class="search-bar">
+                            <!--Moet nog een actie ingevuld worden-->
+                            <form class="d-flex" action="" method="GET">
+                                <div class="input-group">
+                                    <button class="btn btn-custom border-custom" type="submit">
+                                        <i class="bi bi-search icon-adjust"></i>
+                                    </button>
+                                    <input class="form-control border-custom me-2" type="search" placeholder="Zoeken" aria-label="Search">
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
