@@ -12,7 +12,7 @@ html {
     }
     #toggleButton {
         position: static;
-        margin-top: 0.8rem;
+        margin-top: 0.6rem;
     }
     .verrukkulluk-logo {
         margin-top: -1.4rem;
@@ -67,6 +67,8 @@ html {
 
 body {
   margin-bottom: 60px;
+  min-width: 530px;
+  width: auto !important;
 }
 
 #carousel {
@@ -429,18 +431,19 @@ p {
 .search-bar {
     position: absolute;
     top: 3rem;
-    right: 6rem;
+    right: 4.5rem;
     width: 40%;
     max-width: 400px;
     z-index: 1000;
 }
 
 #toggleButton {
-    background-color: transparent;
+    background-color: var(--white);
     border: none;
-    font-size: 45px;
+    border-radius: 70%;
+    font-size: 30px;
     position: absolute;
-    top: 1.4rem;
+    top: 2.2rem;
     right: 1rem;
 }
 
