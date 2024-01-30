@@ -76,13 +76,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <div class="m-3 mb-5">
-                    @if(!Model.SignInManager.IsSignedIn(User))
-                    {
-                        @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
-                    }
-                </div>
+            <div class="col-12">           
+                @if(!Model.SignInManager.IsSignedIn(User))
+                {
+                    @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
+                }
             </div>
         </div>
     </div>
