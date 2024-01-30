@@ -11,6 +11,14 @@ namespace Verrukkulluk.Data
             Context = context;
         }
 
+        public List<Product> ReadAllProducts()
+        {
+            return Context.Products.ToList();
+        }
+        public Product? ReadProductById(int id)
+        {
+            return Context.Products.Find(id);
+        }
         public List<Recipe>? ReadAllRecipesByUserId(int userId)
         {
             try
@@ -30,5 +38,7 @@ namespace Verrukkulluk.Data
 
             return null;
         }
+
+
     }
 }

@@ -37,10 +37,19 @@ namespace Verrukkulluk.Models
                 Recipes = Crud.ReadAllRecipesByUserId(userId);
             }
         }
+
+        public List<Product> GetAllProducts() {
+            return Crud.ReadAllProducts();
+        }
+
         public async Task<SignInResult> Login(InputModel input)
         {
             return await SignInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
         }
 
+        public Product? GetProductById(int productId)
+        {
+            return Crud.ReadProductById(productId);
+        }
     }
 }

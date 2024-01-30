@@ -27,7 +27,9 @@ namespace Verrukkulluk
                 .AddRoles<IdentityRole<int>>()
                 .AddEntityFrameworkStores<VerrukkullukContext>();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+            .AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter()));
+    
 
             var app = builder.Build();
 

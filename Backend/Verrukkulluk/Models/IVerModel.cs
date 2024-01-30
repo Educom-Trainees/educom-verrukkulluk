@@ -10,6 +10,8 @@ namespace Verrukkulluk.Models
 
         InputModel Input { get; set; }
 
+        List<Product> GetAllProducts();
+        Product? GetProductById(int productId);
         void GetUserRecipes();
 
         Task<SignInResult> Login(InputModel input);
