@@ -1,4 +1,34 @@
-﻿@page
-@model Verrukkulluk.Models.VerModel
-@{
-}
+﻿@model Verrukkulluk.Models.VerModel
+
+<div class="card-login shadow">
+    <div class="card-header card-header-login my-2">
+        <img class="titleUnderlined mt-3" src="../images/Login-met-streep.png">
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Login", "Verrukkulluk", FormMethod.Post))
+        {
+            <div class="container container-login text-start">
+                <div class="form-group">
+                    <label asp-for="Input.Email" class="white">Email</label>
+                    <input type="email" class="form-control" asp-for="Input.Email">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password" class="white">Wachtwoord</label>
+                    <input type="password" class="form-control" asp-for="Input.Password">
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe" class="form-label white">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+                <div class="text-center">
+                    <p>Nog geen account? Registreer @{<a asp-area="Identity" asp-page="/Account/Register">hier</a>}</p>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
+        }
+    </div>
+</div>
