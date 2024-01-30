@@ -49,7 +49,7 @@ namespace Verrukkulluk.Controllers
         }
         [HttpGet]
         public IActionResult ReceptMaken()
-        { System.Console.WriteLine("get");
+        { 
             ViewData["Title"]= "Recept Maken";
             AddRecipe model = new AddRecipe();
             FillModel(model);
