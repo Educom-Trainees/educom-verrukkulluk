@@ -273,6 +273,7 @@ p {
     color: var(--white);
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
+    font-family: var(--heading);
 }
 
 .btn-primary:hover {

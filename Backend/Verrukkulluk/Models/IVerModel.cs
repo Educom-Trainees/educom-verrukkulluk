@@ -8,6 +8,10 @@ namespace Verrukkulluk.Models
     {
         List<Recipe>? Recipes { get; set; }
 
+        InputModel Input { get; set; }
+
         void GetUserRecipes();
+
+        Task<SignInResult> Login(InputModel input);
     }
 }
