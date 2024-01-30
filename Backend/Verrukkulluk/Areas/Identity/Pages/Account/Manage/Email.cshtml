@@ -7,32 +7,17 @@
 
 <h3 class="darker-green">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
+
 <div class="row">
     <div class="col-md-6">
+        <div class="mb-3">
+            <p>Huidige e-mailadres: <strong>@Model.Email</strong></p>
+        </div>
         <form id="email-form" method="post">
-            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-            @if (Model.IsEmailConfirmed)
-            {
-                <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Voer uw e-mailadres in." disabled />
-                        <div class="input-group-append">
-                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
-                        </div>
-                    <label asp-for="Email" class="form-label"></label>
-                </div>
-            }
-            else
-            {
-                <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Voer uw huidige e-mailadres in." disabled />
-                    <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link darker-green">Stuur verificatie email</button>
-                </div>
-            }
             <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Voer een nieuw e-mailadres in." />
+                <input asp-for="Input.NewEmail" class="form-control" aria-required="true" placeholder="Voer een nieuw e-mailadres in." />
                 <label asp-for="Input.NewEmail" class="form-label"></label>
-                <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                <span asp-validation-for="Input.NewEmail" class="darker-red"></span>
             </div>
             <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-50 btn btn-lg submit-profile">Update uw e-mail</button>
         </form>

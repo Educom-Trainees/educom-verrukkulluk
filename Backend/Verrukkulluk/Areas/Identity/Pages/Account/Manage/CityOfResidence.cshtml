@@ -1,0 +1,28 @@
+﻿@page
+@model CityOfResidenceModel
+@{
+    ViewData["Title"] = "Woonplaats wijzigen";
+    ViewData["ActivePage"] = ManageNavPages.CityOfResidence;
+}
+
+<h3 class="darker-green">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <p>Huidige woonplaats: <strong>@Model.CityOfResidence</strong></p>
+        </div>
+        <form id="city-of-residence-form" method="post">
+            <div class="form-floating mb-3">
+                <input asp-for="Input.NewCityOfResidence" class="form-control" aria-required="true" placeholder="Voer uw nieuwe woonplaats in." />
+                <label asp-for="Input.NewCityOfResidence" class="form-label"></label>
+                <span asp-validation-for="Input.NewCityOfResidence" class="lightest-brown"></span>
+            </div>
+            <button id="change-city-button" type="submit" asp-page-handler="ChangeCityOfResidence" class="w-80 btn btn-lg submit-profile">Update uw woonplaats</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

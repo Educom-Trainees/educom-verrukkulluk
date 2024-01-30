@@ -70,7 +70,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nieuwe e-mail")]
             public string NewEmail { get; set; }
         }
 
@@ -81,7 +81,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                NewEmail = email,
+                NewEmail = string.Empty,
             };
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
@@ -126,14 +126,14 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
                     protocol: Request.Scheme);
                 await _emailSender.SendEmailAsync(
                     Input.NewEmail,
-                    "Confirm your email",
-                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Bevestig uw email",
+                    $"Bevestig uw account door <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>hier</a> te klikken.");
 
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = "Verificatie link is gestuurd naar uw email. Open de link uit die mail om de wijzigen te bevestigen.";
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = "Uw email is ongewijzigd, kies een ander e-mailadres dan uw huidige.";
             return RedirectToPage();
         }
 
@@ -162,10 +162,10 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                 "Bevestig uw email",
+                $"Bevestig uw account door <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>hier</a> te klikken.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = "Verificatie link is gestuurd naar uw email. Open de link uit die mail om de wijzigen te bevestigen.";
             return RedirectToPage();
         }
     }

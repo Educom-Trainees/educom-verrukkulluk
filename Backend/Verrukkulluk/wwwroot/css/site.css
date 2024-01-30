@@ -413,6 +413,9 @@ p {
 .lighter-orange {
     color: var(--lighter-orange);
 }
+.lightest-brown {
+    color: var(--lightest-brown);
+}
 
 .bi-search {
     color: var(--lighter-red);
