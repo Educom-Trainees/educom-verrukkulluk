@@ -29,15 +29,17 @@ namespace Verrukkulluk
         public ICollection<Ingredient> Ingredient { get; set; }
 
         public Recipe() { }
-        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string instructions, int rating, User creator, string photoLocation, List<Ingredient> ingredient)
+        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, byte[] dishPhoto, string photoLocation, List<Ingredient> ingredient)
         {
             Title = title;
             RecipeDishTypes = recipeDishTypes;
             KitchenType = kitchenType;
+            Description = description;
             Instructions = instructions;
             Rating = rating;
             CreatorId = creator.Id;
             Creator = creator;
+            DishPhoto = dishPhoto;
             PhotoLocation = photoLocation;
             Ingredient = ingredient;
 

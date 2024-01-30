@@ -116,13 +116,15 @@ namespace Verrukkulluk.Data
                         recipeIngredients.Add(ingredient);
                     }
                     string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
+                    string description = "Een heerlijke rijk gevulde hamburger uitermate geschikt voor de donderdagmiddag.";
+                    byte[] DishPhoto = { 0 };
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Amerikaanse Hamburger", recipeDishTypes, kitchenTypes[1], instructions, 4, users[0], "location unknown", recipeIngredients),
-                        new Recipe("Duitse Hamburger", recipeDishTypes, kitchenTypes[1], instructions, 3, users[0], "location unknown", recipeIngredients),
-                        new Recipe("Engelse Hamburger", recipeDishTypes, kitchenTypes[1], instructions, 1, users[0], "location unknown", recipeIngredients),
-                        new Recipe("Nederlandse Hamburger", recipeDishTypes, kitchenTypes[1], instructions, 5, users[0], "location unknown", recipeIngredients)
+                        new Recipe("Amerikaanse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 4, users[0], DishPhoto, "location unknown", recipeIngredients),
+                        new Recipe("Duitse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 3, users[0], DishPhoto, "location unknown", recipeIngredients),
+                        new Recipe("Engelse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 1, users[0], DishPhoto, "location unknown", recipeIngredients),
+                        new Recipe("Nederlandse Hamburger", recipeDishTypes, kitchenTypes[1], description,instructions, 5, users[0], DishPhoto, "location unknown", recipeIngredients)
                     };
 
                     dbContext.Products.AddRange(products);
