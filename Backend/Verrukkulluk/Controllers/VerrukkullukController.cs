@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Verrukkulluk.Models;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Verrukkulluk.Controllers
 {
@@ -108,6 +110,33 @@ namespace Verrukkulluk.Controllers
                         Price = 12.99m
                     };
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(VerModel model)
+        {
+            VerModel.Input = model.Input;
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                SignInResult result = await VerModel.Login(VerModel.Input);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index), VerModel);
+                }
+                if (result.IsLockedOut)
+                {
+                    return RedirectToPage("./Lockout");
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(VerModel.Input) + "." + nameof(VerModel.Input.Email), "Invalid login attempt.");
+                    return View(nameof(Index), VerModel);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(nameof(Index), VerModel);
         }
 
     }

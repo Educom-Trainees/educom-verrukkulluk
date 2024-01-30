@@ -10,7 +10,12 @@ namespace Verrukkulluk.Models
         private readonly UserManager<User> UserManager;
         private readonly IHttpContextAccessor HttpContextAccessor;
         public readonly SignInManager<User> SignInManager;
-        public List<Recipe>? Recipes { get; set; }        
+        public List<Recipe>? Recipes { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
+        public VerModel()
+        {
+             
+        }
 
         public VerModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager)
         {
@@ -32,5 +37,10 @@ namespace Verrukkulluk.Models
                 Recipes = Crud.ReadAllRecipesByUserId(userId);
             }
         }
+        public async Task<SignInResult> Login(InputModel input)
+        {
+            return await SignInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
+        }
+
     }
 }
