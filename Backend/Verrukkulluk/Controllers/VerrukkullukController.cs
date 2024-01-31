@@ -58,6 +58,9 @@ namespace Verrukkulluk.Controllers
         }
         [HttpPost]
         public IActionResult ReceptMaken(AddRecipe recipe)
+        {
+
+        }
 
         public IActionResult ReceptVerwijderen(int id)
         {
