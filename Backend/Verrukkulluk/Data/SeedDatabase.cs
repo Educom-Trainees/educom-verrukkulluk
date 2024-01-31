@@ -149,32 +149,32 @@ namespace Verrukkulluk.Data
                         },
                         new Event
                         {
-                            Title = "Test1",
-                            Description = "Test1 description",
-                            Date = new DateOnly(2024, 01, 30),
-                            StartTime = new TimeOnly(14, 0),
-                            EndTime = new TimeOnly(16, 0),
-                            Place = "Jaarbeurs Utrecht",
-                            Price = 12.99m
+                            Title = "Tafeldekken",
+                            Description = "Een workshop op een snelle en chique manier een dinertafel dekken",
+                            Date = new DateOnly(2024, 02, 15),
+                            StartTime = new TimeOnly(12, 0),
+                            EndTime = new TimeOnly(17, 0),
+                            Place = "De Kuip",
+                            Price = 10.49m
                         },
                         new Event
                         {
-                            Title = "Test1",
-                            Description = "Test1 description",
-                            Date = new DateOnly(2024, 01, 30),
-                            StartTime = new TimeOnly(14, 0),
-                            EndTime = new TimeOnly(16, 0),
-                            Place = "Jaarbeurs Utrecht",
+                            Title = "Secuur afwassen",
+                            Description = "Hier leert u hoe je kunt afwassen op een veilige en duurzame manier",
+                            Date = new DateOnly(2024, 02, 25),
+                            StartTime = new TimeOnly(09, 30),
+                            EndTime = new TimeOnly(12, 30),
+                            Place = "Johan Cruijff ArenA",
                             Price = 15.99m
                         },
                         new Event
                         {
-                            Title = "Test2",
-                            Description = "Test2 description",
-                            Date = new DateOnly(2024, 01, 30),
-                            StartTime = new TimeOnly(14, 0),
-                            EndTime = new TimeOnly(16, 0),
-                            Place = "Jaarbeurs Utrecht",
+                            Title = "Wokken",
+                            Description = "Wat is wokken precies en wat maakt het zo lekker? Volg deze workshop en je zal alle vragen erover kunnen beantwoorden",
+                            Date = new DateOnly(2024, 03, 04),
+                            StartTime = new TimeOnly(10, 0),
+                            EndTime = new TimeOnly(12, 30),
+                            Place = "Philips Stadion",
                             Price = 18.99m
                         }
                     };
