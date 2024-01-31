@@ -125,6 +125,10 @@ body {
     max-height: 55px;
     max-width: 55px;
 }
+.profile-picture {
+    max-height: 150px;
+    max-width: 150px;
+}
 
 h1, h2, h3, h4 {
     font-family: var(--heading);

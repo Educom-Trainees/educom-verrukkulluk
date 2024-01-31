@@ -53,7 +53,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Vul uw huidige wachtwoord in")]
             [DataType(DataType.Password)]
             [Display(Name = "Huidige wachtwoord")]
             public string OldPassword { get; set; }
@@ -62,7 +62,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Vul uw nieuwe wachtwoord in")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Nieuwe wachtwoord")]
@@ -113,7 +113,14 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code == "PasswordMismatch")
+                    {
+                        ModelState.AddModelError(string.Empty, "Het huidige wachtwoord was incorrect, probeer opnieuw");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
                 return Page();
             }

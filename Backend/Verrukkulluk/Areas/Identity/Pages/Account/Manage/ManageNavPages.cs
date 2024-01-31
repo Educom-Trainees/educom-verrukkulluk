@@ -116,11 +116,14 @@ namespace  Verrukkulluk.Areas.Identity.Pages.Account.Manage
         /// 
         public static string CityOfResidence => "CityOfResidence";
 
-        public static string CityOfResidenceNavClass(ViewContext viewContext) => PageNavClass(viewContext, FirstName);
+        public static string CityOfResidenceNavClass(ViewContext viewContext) => PageNavClass(viewContext, CityOfResidence);
 
         public static string FirstName => "Voornaam";
 
         public static string FirstNameNavClass(ViewContext viewContext) => PageNavClass(viewContext, FirstName);
+        public static string ProfilePicture => "Profielfoto";
+
+        public static string ProfilePictureNavClass(ViewContext viewContext) => PageNavClass(viewContext, ProfilePicture);
 
         public static string PageNavClass(ViewContext viewContext, string page)
         {

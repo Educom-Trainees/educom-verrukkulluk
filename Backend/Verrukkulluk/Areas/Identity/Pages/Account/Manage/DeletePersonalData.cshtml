@@ -1,7 +1,7 @@
 ﻿@page
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Verwijder je accountgegevens";
+    ViewData["Title"] = "Account verwijderen";
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
@@ -14,6 +14,8 @@
 </div>
 
 <div class="col-md-6">
+    <p>Wilt u uw account verwijderen?</p>
+    <p>Voer uw wachtwoord in om dit te bevestigen:</p>
     <form id="delete-user" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         @if (Model.RequirePassword)

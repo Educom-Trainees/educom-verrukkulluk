@@ -46,7 +46,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Vul uw wachtwoord in")]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
@@ -83,7 +83,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect wachtwoord, probeer opnieuw.");
+                    ModelState.AddModelError(string.Empty, "Incorrect wachtwoord, probeer opnieuw");
                     return Page();
                 }
             }

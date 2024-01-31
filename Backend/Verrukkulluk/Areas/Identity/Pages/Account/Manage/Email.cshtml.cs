@@ -68,8 +68,8 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Dit is geen geldig e-mailadres")]
+            [Required(ErrorMessage = "Vul uw nieuwe e-mailadres in")]
             [Display(Name = "Nieuwe e-mail")]
             public string NewEmail { get; set; }
         }

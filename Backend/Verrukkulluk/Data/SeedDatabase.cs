@@ -27,11 +27,11 @@ namespace Verrukkulluk.Data
 
                 User[] users =
                 {
-                    new User("jan@jan.jan", "Jan", "Utrecht", null),
-                    new User("bert@bert.bert", "Bert", "Arnhem", null),
-                    new User("els@els.els", "Els", "Sittard", null)
+                    new User("jan@jan.jan", "Jan", "Utrecht", User.ReadImageFile("jan.jpg")),
+                    new User("bert@bert.bert", "Bert", "Arnhem", User.ReadImageFile("bert.png")),
+                    new User("els@els.els", "Els", "Sittard", User.ReadImageFile("els.jpg"))
                 };
-                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", null);
+                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", User.ReadImageFile("admin.png"));
 
                 string password = "Test890!";
 

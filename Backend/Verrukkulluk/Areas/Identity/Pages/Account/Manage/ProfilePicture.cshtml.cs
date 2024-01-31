@@ -1,21 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Verrukkulluk.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
-using static CityOfResidenceModel;
+using System.Threading.Tasks;
+using Verrukkulluk.Models;
 
-public class FirstNameModel : PageModel
+public class ProfilePictureModel : PageModel
 {
     private readonly UserManager<User> _userManager;
 
-    public FirstNameModel(UserManager<User> userManager)
+    public ProfilePictureModel(UserManager<User> userManager)
     {
         _userManager = userManager;
     }
 
-    public string FirstName { get; set; }
     public string ProfilePictureBase64 { get; set; }
 
     [TempData]
@@ -26,10 +25,10 @@ public class FirstNameModel : PageModel
 
     public class InputModel
     {
-        [Required(ErrorMessage = "Vul uw correcte voornaam in")]
-        [CustomCityNameValidation(ErrorMessage = "Uw voornaam mag alleen letters bevatten, probeer opnieuw")]
-        [Display(Name = "Voornaam")]
-        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Kies een foto uit uw bestanden door op Choose File te klikken")]
+        [Display(Name = "Profielfoto")]
+        [DataType(DataType.Upload)]
+        public IFormFile ProfilePicture { get; set; }
     }
 
     public async Task<IActionResult> OnGetAsync()
@@ -40,7 +39,6 @@ public class FirstNameModel : PageModel
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        FirstName = user.FirstName;
         if (user.ProfilePicture != null)
         {
             ProfilePictureBase64 = Convert.ToBase64String(user.ProfilePicture);
@@ -53,7 +51,7 @@ public class FirstNameModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostChangeFirstNameAsync()
+    public async Task<IActionResult> OnPostChangeProfilePictureAsync()
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -63,36 +61,31 @@ public class FirstNameModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            FirstName = user.FirstName;
             return Page();
         }
 
-        user.FirstName = Input.FirstName;
+        if (Input.ProfilePicture != null)
+        {
+            using (var stream = Input.ProfilePicture.OpenReadStream())
+            {
+                using (var memoryStream = new System.IO.MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    user.ProfilePicture = memoryStream.ToArray();
+                }
+            }
+        }
+
         var result = await _userManager.UpdateAsync(user);
 
         if (result.Succeeded)
         {
-            StatusMessage = "Uw voornaam is aangepast!";
+            StatusMessage = "Uw profielfoto is bijgewerkt!";
         }
         else
         {
-            StatusMessage = "Er ging iets fout tijdens het aanpassen.";
+            StatusMessage = "Er ging iets fout tijdens het bijwerken.";
         }
         return RedirectToPage();
-    }
-    public class CustomFirstNameValidationAttribute : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            if (value != null)
-            {
-                string nameValue = value.ToString();
-                if (!Regex.IsMatch(nameValue, "^[a-zA-Z\\s]+$"))
-                {
-                    return new ValidationResult(ErrorMessage);
-                }
-            }
-            return ValidationResult.Success;
-        }
     }
 }

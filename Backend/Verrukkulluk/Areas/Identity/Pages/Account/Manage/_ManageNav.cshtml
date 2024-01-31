@@ -4,13 +4,14 @@
 }
 <ul class="nav nav-pills-profile flex-column">
     <li class="nav-item"><a class="nav-link-profile  @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profiel</a></li>
+    <li class="nav-item"><a class="nav-link-profile @ManageNavPages.ProfilePictureNavClass(ViewContext)" id="newPicture" asp-page="./ProfilePicture">Profielfoto</a></li>
     <li class="nav-item"><a class="nav-link-profile @ManageNavPages.FirstNameNavClass(ViewContext)" id="firstName" asp-page="./FirstName">Voornaam</a></li>
     <li class="nav-item"><a class="nav-link-profile @ManageNavPages.CityOfResidenceNavClass(ViewContext)" id="cityOfResidence" asp-page="./CityOfResidence">Woonplaats</a></li>
     <li class="nav-item"><a class="nav-link-profile  @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">E-mail</a></li>
     <li class="nav-item"><a class="nav-link-profile @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Wachtwoord</a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins darker-green" class="nav-item darker-green"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">Externe login</a></li>
+        <li id="external-logins" class="nav-item darker-green"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">Externe login</a></li>
     }
     <li class="nav-item"><a class="nav-link-profile @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./DeletePersonalData">Verwijder account</a></li>
 </ul>

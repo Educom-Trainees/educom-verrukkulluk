@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using Verrukkulluk.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 public class CityOfResidenceModel : PageModel
 {
@@ -24,6 +25,7 @@ public class CityOfResidenceModel : PageModel
     public class InputModel
     {
         [Required(ErrorMessage = "Vul uw nieuwe woonplaats in")]
+        [CustomCityNameValidation(ErrorMessage = "De woonplaats mag alleen letters bevatten, probeer opnieuw")]
         [Display(Name = "Nieuwe woonplaats")]
         public string NewCityOfResidence { get; set; }
     }
@@ -51,6 +53,7 @@ public class CityOfResidenceModel : PageModel
 
         if (!ModelState.IsValid)
         {
+            CityOfResidence = user.CityOfResidence;
             return Page();
         }
 
@@ -66,5 +69,21 @@ public class CityOfResidenceModel : PageModel
             StatusMessage = "Er ging iets fout tijdens het aanpassen.";
         }
         return RedirectToPage();
+    }
+
+    public class CustomCityNameValidationAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                string cityValue = value.ToString();
+                if (!Regex.IsMatch(cityValue, "^[a-zA-Z\\s]+$"))
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
+            }
+            return ValidationResult.Success;
+        }
     }
 }
