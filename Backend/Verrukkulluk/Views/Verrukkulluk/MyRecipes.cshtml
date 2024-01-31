@@ -88,7 +88,7 @@
                                 </div>
                                 <div>
                                     @{<form method="GET">
-                                        <button asp-controller="Verrukkulluk" asp-action="ReceptVerwijderen" class="btn btn-primary btn-darker-red m-1"><h3>Verwijder</h3></button>
+                                        <button asp-controller="Verrukkulluk" asp-action="ReceptVerwijderen" asp-route-id="@recipe.Id" class="btn btn-primary btn-darker-red m-1"><h3>Verwijder</h3></button>
                                     </form>}
                                 </div>
                             </div>                            

@@ -11,6 +11,30 @@ namespace Verrukkulluk.Data
             Context = context;
         }
 
+        public string DeleteUserRecipe(int userId, int recipeId)
+        {
+            try
+            {
+                var selectedRecipe = Context.Recipes
+                    .Where(recipe => recipe.CreatorId == userId)
+                    .FirstOrDefault(recipe => recipe.Id == recipeId);
+
+                if (selectedRecipe != null)
+                {
+                    Context.Recipes.Remove(selectedRecipe);
+                    Context.SaveChanges();
+                    return "Recept verwijderd.";
+                } else
+                {
+                    return "Recept kon niet worden gevonden.";
+                }
+            } catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+                return "Er ging iets mis. Probeer het later opnieuw";
+            }
+        }
+
         public List<Recipe>? ReadAllRecipesByUserId(int userId)
         {
             try

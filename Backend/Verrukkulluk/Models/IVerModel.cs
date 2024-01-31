@@ -6,12 +6,12 @@ namespace Verrukkulluk.Models
 {
     public interface IVerModel
     {
+        string Error { get; set; }
         List<Recipe>? Recipes { get; set; }
-
         InputModel Input { get; set; }
 
+        void DeleteUserRecipe(int id);
         void GetUserRecipes();
-
         Task<SignInResult> Login(InputModel input);
     }
 }

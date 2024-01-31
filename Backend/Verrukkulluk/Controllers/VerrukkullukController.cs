@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Verrukkulluk.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
@@ -37,6 +38,19 @@ namespace Verrukkulluk.Controllers
         {
             ViewData["Title"]= "Recept Maken";
             return View("CreateRecipe", new Recipe());
+        }
+
+        public IActionResult ReceptVerwijderen(int id)
+        {
+            VerModel.DeleteUserRecipe(id);
+
+            if (VerModel.Error.IsNullOrEmpty())
+            {
+                return View("MyRecipes", VerModel);
+            } else
+            {
+                return View("MyRecipes", VerModel);
+            }
         }
 
         public IActionResult CreateRecipe(Recipe recipe)
