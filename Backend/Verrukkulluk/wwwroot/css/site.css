@@ -346,12 +346,12 @@ p {
     border-color: var(--lighter-green);
 }
 
-.btn-lighter-orange {
+.btn-lighter-orange, .btn-addProduct {
     background-color: var(--lighter-orange);
     border-color: var(--lighter-orange);
 }
 
-.btn-lighter-orange:hover {
+.btn-lighter-orange:hover, .btn-addProduct:hover {
     color: var(--lighter-orange);
     background-color: var(--white);
     border-color: var(--lighter-orange);
@@ -363,6 +363,18 @@ p {
 
 .btn-custom i {
     font-size: 1.5rem;
+}
+
+.btn-addProduct {
+    color: white;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: none;
+    height: 2.2rem;
+}
+#newProduct
+{
+    height: 2.2rem;
 }
 
 #allergiesButton {

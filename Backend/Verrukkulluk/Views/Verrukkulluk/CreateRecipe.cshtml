@@ -36,7 +36,7 @@
                             <span asp-validation-for="Instructions" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
-                            <h4>Ingrediënten:</h4>
+                            <p>Ingrediënten:</p>
                             @{ int count = Model.Ingredients?.Count() ?? 0; }
                             <script>var ingredientCount = @count</script>
                             <div id="ingredients">
@@ -51,7 +51,7 @@
                                 </div>
                                 }
                             </div>
-                            Voeg <input type="text" list="productsList" class="formControl" id="newProduct"><button class="btn" id="addProduct">toe</button>
+                            <input type="text" list="productsList" class="formControl form-floating" id="newProduct"><button class="btn btn-addProduct" id="addProduct">Voeg toe</button>
                             <span id="newProductErr" class="text-danger"></span>
                             <datalist id="productsList">
                                 @foreach(Product product in Model.Products ?? new List<Product>()) {

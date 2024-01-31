@@ -2,8 +2,8 @@ namespace Verrukkulluk
 {
     public enum IngredientType
     {
-        Ml = 1, 
-        Gram = 2, 
-        Quantity = 3
+        ml = 1, 
+        gram = 2, 
+        stuks = 3
     }
 }
