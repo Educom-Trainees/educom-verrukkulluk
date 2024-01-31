@@ -1,5 +1,5 @@
 ﻿@page
-@model IndexModel
+@model FirstNameModel
 @{
     ViewData["Title"] = "Profiel";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -10,9 +10,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <p>Hallo <strong class="darker-green">@Model.Username</strong>!</p>
+            <p>Hallo <strong class="darker-green">@Model.FirstName</strong>!</p>
             <p>Op uw profielpagina kunt u elk van uw huidige gegevens inzien en aanpassen.</p>
-            <p>Als u uw account wil verwijderen, let dan op dat dit niet teruggedraaid kan worden!</p>
+            <p>Als u uw account wilt verwijderen, let dan op dat dit niet teruggedraaid kan worden!</p>
         </div>
     </div>
 </div>

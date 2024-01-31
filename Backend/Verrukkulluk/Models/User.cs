@@ -17,7 +17,7 @@ namespace Verrukkulluk.Models
         {
             Email = email;
             FirstName = firstName;
-            UserName = email;
+            UserName = firstName;
             CityOfResidence = cityOfResidence;
             ProfilePicture = newPicture;
         }

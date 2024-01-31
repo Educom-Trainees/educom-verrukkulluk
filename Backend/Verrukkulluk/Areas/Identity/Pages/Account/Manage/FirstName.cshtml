@@ -1,0 +1,29 @@
+﻿@page
+@model FirstNameModel
+@{
+    ViewData["Title"] = "Voornaam wijzigen (mocht er een foutje in zitten)";
+    ViewData["ActivePage"] = ManageNavPages.CityOfResidence;
+}
+
+<h3 class="darker-green">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <div class="mb-3">
+            <p>Uw voornaam is: <strong class="darker-green">@Model.FirstName</strong></p>
+            <p>Klopt dit niet? Dan kunt u dat hieronder aanpassen:</p>
+        </div>
+        <form id="first-name-form" method="post">
+            <div class="form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" aria-required="true" placeholder="Voer uw nieuwe woonplaats in." />
+                <label asp-for="Input.FirstName" class="form-label"></label>
+                <span asp-validation-for="Input.FirstName" class="lightest-brown"></span>
+            </div>
+            <button id="change-name-button" type="submit" asp-page-handler="ChangeFirstName" class="w-80 btn btn-lg submit-profile">Update uw voornaam</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
