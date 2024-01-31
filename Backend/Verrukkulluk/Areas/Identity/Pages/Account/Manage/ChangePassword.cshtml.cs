@@ -55,7 +55,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Huidig wachtwoord")]
+            [Display(Name = "Huidige wachtwoord")]
             public string OldPassword { get; set; }
 
             /// <summary>
@@ -65,7 +65,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Nieuw wachtwoord")]
+            [Display(Name = "Nieuwe wachtwoord")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -73,7 +73,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Bevestig nieuw wachtwoord")]
+            [Display(Name = "Bevestig nieuwe wachtwoord")]
             [Compare("NewPassword", ErrorMessage = "De wachtwoorden komen niet overeen, probeer nogmaals.")]
             public string ConfirmPassword { get; set; }
         }
