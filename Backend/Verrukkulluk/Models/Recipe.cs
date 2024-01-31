@@ -26,10 +26,10 @@ namespace Verrukkulluk
         [Display(Name = "Afbeelding")]
         public byte[] DishPhoto { get; set; }
         public string PhotoLocation { get; set; }
-        public ICollection<Ingredient> Ingredient { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
         public Recipe() { }
-        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, byte[] dishPhoto, string photoLocation, List<Ingredient> ingredient)
+        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, byte[] dishPhoto, string photoLocation, List<Ingredient> ingredients)
         {
             Title = title;
             RecipeDishTypes = recipeDishTypes;
@@ -41,7 +41,7 @@ namespace Verrukkulluk
             Creator = creator;
             DishPhoto = dishPhoto;
             PhotoLocation = photoLocation;
-            Ingredient = ingredient;
+            Ingredients = ingredients;
 
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             CreationDate = currentDate;

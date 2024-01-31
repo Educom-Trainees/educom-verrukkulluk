@@ -17,7 +17,7 @@
     <header>
         @if (ViewData["HideCarousel"] == null || !(bool)ViewData["HideCarousel"])
         {
-            <!--Courousel-->
+            <!--Carousel-->
             <div id="carousel" class="carousel slide d-none d-lg-block" data-bs-ride="carousel">
 
                 <!--Indicators-->
@@ -42,6 +42,8 @@
                     </div>
                 </div>
             </div>
+        <div class="container-fluid empty-banner d-lg-none">
+        </div>
         }
 
         <!--Banner-->
@@ -52,8 +54,6 @@
             </div>
         }
 
-        <div class="container-fluid empty-banner d-lg-none">
-        </div>
 
         <!--Overlay Image: logo-->
         <div class="verrukkulluk-logo">
@@ -62,7 +62,7 @@
             </a>
         </div>
 
-        <!--Search bar and Offcanvas button toggle-->
+        <!--Search bar-->
         <div class="container">
             <div class="d-flex justify-content-between align-items-end">
                 <div class="search-bar">
@@ -119,7 +119,7 @@
                     <div class="d-inline ms-3">
                         <div class="ms-auto">
                             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", new { area = "" })">
-                                <button type="submit" class="logout-button">Logout</button>
+                                <button type="submit" class="logout-button">Uitloggen</button>
                             </form>
                         </div>
                     </div>
@@ -210,20 +210,20 @@
         <div class="container d-none d-lg-block">
             <div class="d-flex justify-content-end">
                 <button id="toggleButton" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
-                    <i class="bi bi-list lighter-orange icon-adjust"></i>
+                    <i class="bi bi-list lighter-orange icon-adjust-hamburger"></i>
                 </button>
             </div>
         </div>
         <div class="container d-lg-none">
             <div class="d-flex justify-content-end">
                 <button id="toggleButton" class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo1">
-                    <i class="bi bi-list lighter-orange icon-adjust"></i>
+                    <i class="bi bi-list lighter-orange icon-adjust-hamburger"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <div class="container" style="padding-bottom:240px;">
+    <div class="container" style="padding-bottom:220px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

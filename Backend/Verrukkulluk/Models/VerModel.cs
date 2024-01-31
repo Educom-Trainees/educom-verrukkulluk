@@ -39,6 +39,11 @@ namespace Verrukkulluk.Models
             }
         }
 
+        public List<Product> GetAllProducts() {
+            return Crud.ReadAllProducts();
+        }
+
+
         public void DeleteUserRecipe(int recipeId)
         {
             string tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
@@ -58,5 +63,9 @@ namespace Verrukkulluk.Models
             return await SignInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
         }
 
+        public Product? GetProductById(int productId)
+        {
+            return Crud.ReadProductById(productId);
+        }
     }
 }

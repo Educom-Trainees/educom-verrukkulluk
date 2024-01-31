@@ -1,43 +1,19 @@
-﻿@{
+﻿@model Verrukkulluk.Models.VerModel;
+@{
     ViewData["Title"] = "Recept";
 }
 
 <div class="parent-container d-flex flex-wrap">
-    <div class="container col-sm-12 col-md-6 col-xl-4">
-        <div class="row">        
-            <!--Login block-->
-            <div class="container">
-                <div class="m-3">
-                    <div class="card-login shadow">
-                        <div class="card-header card-header-login">
-                            <h1 class="white"> Login</h1>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="container container-login text-start">
-                                    <div class="form-group">
-                                        <label for="email" class="white">Email</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password" class="white">Wachtwoord</label>
-                                        <input type="password" class="form-control" id="password">
-                                    </div>
-                                    <div class="text-center">
-                                        <p>Nog geen account? Klik @{<a asp-area="Identity" asp-page="/Account/Register">hier</a>} om u te registreren</p>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container col-4 mt-2 d-none d-xl-block">
+        <!--Login block-->
+        @if(!Model.SignInManager.IsSignedIn(User))
+        {
+            @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
+        }
     </div>
 
     <!--Recipe-->
-    <div class="container col-xl-8">
+    <div class="container col-12 col-xl-8">
         <div class="container mt-4">
             <div class="card shadow">
                 <div class="row">
@@ -157,5 +133,12 @@
                 <p>Het was een heerlijk gerecht.</p>
             </div>
         </div>
+    </div>
+    <div class="container col-sm-12 col-md-8 d-block d-xl-none mt-5">
+        <!--Login block-->
+        @if(!Model.SignInManager.IsSignedIn(User))
+        {
+            @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
+        }
     </div>
 </div>

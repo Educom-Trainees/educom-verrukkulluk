@@ -1,4 +1,4 @@
-﻿@model Verrukkulluk.Recipe
+﻿@model Verrukkulluk.AddRecipe
 @{
     ViewData["Title"] = "Recept Maken";
 }
@@ -16,7 +16,7 @@
                         <h2>Voeg hier uw heerlijke recept toe</h2>
                         <hr />
                     </div>
-                    @using (Html.BeginForm("CreateRecipe", "Verrukkulluk", FormMethod.Post))
+                    @using (Html.BeginForm("ReceptMaken", "Verrukkulluk", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
 
@@ -35,20 +35,29 @@
                             <label asp-for="Instructions" class="control-label">Bereidingswijze</label>   
                             <span asp-validation-for="Instructions" class="text-danger"></span>
                         </div>
-                        @* <div class="form-group form-floating mb-4">
-                            Hier moeten de ingredienten komen, maar ik weet nog niet hoe die moeten... 
-                        </div> *@
-                        <div>
-                            <label for="fruitSelect">Kies de producten voor het recept:</label>
-                            <select class="form-select mb-4" id="fruitSelect" name="fruit[]" multiple>
-                            <option value="Witte Bol">Witte Bol</option>
-                            <option value="Avocado">Avocado</option>
-                            <option value="Vegan Burgersaus">Vegan Burgersaus</option>
-                            <option value="Hamburger">Hamburger</option>
-                            <option value="Tomaten">Tomaten</option>
-                            <option value="Ijsbergsla">Ijsbergsla</option>
-                            <option value="Boter">Boter</option>
-                            </select>
+                        <div class="form-group form-floating mb-4">
+                            <p>Ingrediënten:</p>
+                            @{ int count = Model.Ingredients?.Count() ?? 0; }
+                            <script>var ingredientCount = @count</script>
+                            <div id="ingredients">
+                                @for(int i=0; i < count; i++) {
+                                    Ingredient ingredient = Model.Ingredients.ElementAt(i); 
+                                <div class="row">
+                                    <label class="col-4">@ingredient.Name</label>
+                                    <input type="number" class="col-2 formField" name="AddedIngredients[@i].Amount" value="@ingredient.Amount">
+                                    <input type="hidden" name="AddedIngredients[@i].Id" value="@ingredient.Id">
+                                    <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
+                                    <div class="col-2">@ingredient.Product.IngredientType</div>
+                                </div>
+                                }
+                            </div>
+                            <input type="text" list="productsList" class="formControl form-floating" id="newProduct"><button class="btn btn-addProduct" id="addProduct">Voeg toe</button>
+                            <span id="newProductErr" class="text-danger"></span>
+                            <datalist id="productsList">
+                                @foreach(Product product in Model.Products ?? new List<Product>()) {
+                                    <option value="@product.Name" data-product-id="@product.Id"></option>
+                                }
+                            </datalist>
                         </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="visually-hidden"></label>

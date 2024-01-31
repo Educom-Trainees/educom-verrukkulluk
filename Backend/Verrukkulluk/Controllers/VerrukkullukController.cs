@@ -34,11 +34,30 @@ namespace Verrukkulluk.Controllers
             return View("MyRecipes", VerModel);
         }
 
-        public IActionResult ReceptMaken()
+        private void FillModel(AddRecipe model)
         {
-            ViewData["Title"]= "Recept Maken";
-            return View("CreateRecipe", new Recipe());
+            model.Products = VerModel.GetAllProducts();
+
+            if (model.AddedIngredients != null) {
+                foreach(Ingredient ingredient in model.AddedIngredients) {
+                    Product? product = VerModel.GetProductById(ingredient.ProductId);
+                    if (product != null) {
+                        model.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product));
+                    }
+                }
+            }
+
         }
+        [HttpGet]
+        public IActionResult ReceptMaken()
+        { 
+            ViewData["Title"]= "Recept Maken";
+            AddRecipe model = new AddRecipe();
+            FillModel(model);
+            return base.View("CreateRecipe", model);
+        }
+        [HttpPost]
+        public IActionResult ReceptMaken(AddRecipe recipe)
 
         public IActionResult ReceptVerwijderen(int id)
         {
@@ -61,6 +80,8 @@ namespace Verrukkulluk.Controllers
                 //Nu tijdelijk:
                 return RedirectToAction("Index");
             }
+            FillModel(recipe);
+            System.Console.WriteLine(recipe.AddedIngredients.Count());
             return View("CreateRecipe", recipe);
         }
 

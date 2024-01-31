@@ -108,6 +108,11 @@ body {
     top: -3px;
 }
 
+.icon-adjust-hamburger {
+    position: relative;
+    top: -6px;
+}
+
 .button-text-adjust {
     position: relative;
     top: -3px;
@@ -341,12 +346,12 @@ p {
     border-color: var(--lighter-green);
 }
 
-.btn-lighter-orange {
+.btn-lighter-orange, .btn-addProduct {
     background-color: var(--lighter-orange);
     border-color: var(--lighter-orange);
 }
 
-.btn-lighter-orange:hover {
+.btn-lighter-orange:hover, .btn-addProduct:hover {
     color: var(--lighter-orange);
     background-color: var(--white);
     border-color: var(--lighter-orange);
@@ -358,6 +363,18 @@ p {
 
 .btn-custom i {
     font-size: 1.5rem;
+}
+
+.btn-addProduct {
+    color: white;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: none;
+    height: 2.2rem;
+}
+#newProduct
+{
+    height: 2.2rem;
 }
 
 #allergiesButton {
@@ -408,6 +425,9 @@ p {
 .lighter-orange {
     color: var(--lighter-orange);
 }
+.lightest-brown {
+    color: var(--lightest-brown);
+}
 
 .bi-search {
     color: var(--lighter-red);
@@ -444,8 +464,10 @@ p {
     border-radius: 70%;
     font-size: 30px;
     position: absolute;
-    top: 2.2rem;
+    top: 2.3rem;
     right: 1rem;
+    height: 50px;
+    width: 50px;
 }
 
 .card-body-dish {
