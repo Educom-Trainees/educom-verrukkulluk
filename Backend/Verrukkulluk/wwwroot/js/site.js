@@ -6,7 +6,20 @@ $(document).ready(function(){
 
     // jQuery methods go here...
     $("#addProduct").click(addProduct)
-  
+
+    $('#deleteRecipeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var recipeId = button.data('recipe-id');
+        var recipeTitle = button.data('recipe-title');
+        var deleteRecipeTitle = $('#deleteRecipeTitle');
+
+        deleteRecipeTitle.text('Weet u zeker dat u het recept "' + recipeTitle + '" wilt verwijderen?');
+
+        //Recipe is removed when confirmation is given
+        $('#confirmDeleteBtn').on('click', function () {
+            window.location.href = '/Verrukkulluk/ReceptVerwijderen/' + recipeId;
+        });
+    });
   });
 
 function addProduct(e)

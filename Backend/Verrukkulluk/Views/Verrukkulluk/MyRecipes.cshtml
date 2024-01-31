@@ -13,7 +13,6 @@
     </form>}
 </div>
 
-
 <div class="container col-12">
     <div class="row">
         @foreach (Recipe recipe in Model.Recipes)
@@ -87,9 +86,7 @@
                                     </form>}
                                 </div>
                                 <div>
-                                    @{<form method="GET">
-                                        <button asp-controller="Verrukkulluk" asp-action="ReceptVerwijderen" asp-route-id="@recipe.Id" class="btn btn-primary btn-darker-red m-1"><h3>Verwijder</h3></button>
-                                    </form>}
+                                    <button class="btn btn-primary btn-darker-red m-1" data-bs-toggle="modal" data-bs-target="#deleteRecipeModal" data-recipe-id="@recipe.Id" data-recipe-title="@recipe.Title"><h3>Verwijder</h3></button>
                                 </div>
                             </div>                            
                         </div>
@@ -97,5 +94,20 @@
                 </div>
             </div>
         }
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteRecipeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <p id="deleteRecipeTitle"></p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary btn-darker-orange" data-bs-dismiss="modal"><h3>Annuleren</h3></button>
+                <button type="button" class="btn btn-primary btn-darker-red" id="confirmDeleteBtn"><h3>Verwijder recept</h3></button>
+            </div>
+        </div>
     </div>
 </div>
