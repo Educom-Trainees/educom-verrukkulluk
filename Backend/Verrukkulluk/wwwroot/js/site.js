@@ -53,3 +53,44 @@ function addIngredient(product) {
     ingredientCount++;
     $("#newProduct")[0].value = "";
 }
+
+//Foto toevoegen aan Recept Maken:
+function handleFileSelect(input) {
+    var files = input.files;
+    var fileLabel = document.getElementById('fileLabel');
+    var img = document.getElementById('preview');
+    var removeButton = document.getElementById('removeButton');
+    if (files.length > 0) {
+        fileLabel.innerHTML = files[0].name;
+        removeButton.style.display = 'inline-block';
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(files[0]);
+    } else {
+        fileLabel.innerHTML = 'Geen bestand gekozen';
+        img.style.display = 'none';
+        removeButton.style.display = 'none';
+    }
+}
+//Foto verwijderen bij Recept Maken:
+function removeFile() {
+    var input = document.getElementById('DishPhoto');
+    var fileLabel = document.getElementById('fileLabel');
+    var img = document.getElementById('preview');
+    var removeButton = document.getElementById('removeButton');
+
+    input.value = '';
+    fileLabel.innerHTML = 'Geen bestand gekozen';
+    img.style.display = 'none';
+    removeButton.style.display = 'none';
+}
+
+//Tekstvak meebewegen met tekst:
+function autoSize(element) {
+    element.style.height = "auto";
+    element.style.height = (element.scrollHeight) + "px";
+}

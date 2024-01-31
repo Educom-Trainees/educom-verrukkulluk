@@ -335,6 +335,17 @@ p {
     border-color: var(--darker-red);
 }
 
+.btn-lighter-red, .btn-delete-img {
+    background-color: var(--lighter-red);
+    border-color: var(--lighter-red);
+}
+
+.btn-lighter-red:hover, .btn-delete-img:hover {
+    color: var(--lighter-red);
+    background-color: var(--white);
+    border-color: var(--lighter-red);
+}
+
 .btn-lighter-green {
     background-color: var(--lighter-green);
     border-color: var(--lighter-green);
@@ -346,12 +357,12 @@ p {
     border-color: var(--lighter-green);
 }
 
-.btn-lighter-orange, .btn-addProduct {
+.btn-lighter-orange, .btn-addProduct, .btn-browse {
     background-color: var(--lighter-orange);
     border-color: var(--lighter-orange);
 }
 
-.btn-lighter-orange:hover, .btn-addProduct:hover {
+.btn-lighter-orange:hover, .btn-addProduct:hover, .btn-browse:hover {
     color: var(--lighter-orange);
     background-color: var(--white);
     border-color: var(--lighter-orange);
@@ -365,7 +376,7 @@ p {
     font-size: 1.5rem;
 }
 
-.btn-addProduct {
+.btn-addProduct, .btn-delete-img {
     color: white;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -375,6 +386,22 @@ p {
 #newProduct
 {
     height: 2.2rem;
+}
+
+.btn-browse {
+    color: white;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding: none;
+    height: 2.2rem;
+}
+
+.file-label {
+    height: 2.2rem;
+}
+
+.form-control-smaller {
+    width: 15rem;
 }
 
 #allergiesButton {

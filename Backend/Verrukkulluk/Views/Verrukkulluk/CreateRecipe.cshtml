@@ -5,10 +5,10 @@
 
 <div class="container mt-3">
     <div class="row">
-        <div class="d-flex align-items-center col-xl-3">
-            <img class="img-fluid d-none d-xl-block" src="~/images/bereiden.jpg" />
+        <div class="col-xl-3 sticky-top">
+            <img class="img-fluid" src="~/images/bereiden.jpg"/>
         </div>
-        <div class="col-lg-9 col-12">
+        <div class="col-xl-9 col-12">
             <div class="car card-create-recipe shadow p-4">
                 <div class="container">
                     <div class="card-create-recipe-header darker-green">
@@ -26,12 +26,12 @@
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
-                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Beschrijving"></textarea>
+                            <textarea asp-for="Description" class="form-control" placeholder="Beschrijving" oninput="autoSize(this)"></textarea>
                             <label asp-for="Description" class="control-label">Beschrijving</label>   
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
-                            <textarea asp-for="Instructions" class="form-control" rows="5" placeholder="Bereidingswijze"></textarea>
+                            <textarea asp-for="Instructions" class="form-control" placeholder="Bereidingswijze" oninput="autoSize(this)"></textarea>
                             <label asp-for="Instructions" class="control-label">Bereidingswijze</label>   
                             <span asp-validation-for="Instructions" class="text-danger"></span>
                         </div>
@@ -39,11 +39,11 @@
                             <p>Ingrediënten:</p>
                             @{ int count = Model.Ingredients?.Count() ?? 0; }
                             <script>var ingredientCount = @count</script>
-                            <div id="ingredients">
+                            <div id="ingredients" class="mb-3">
                                 @for(int i=0; i < count; i++) {
                                     Ingredient ingredient = Model.Ingredients.ElementAt(i); 
                                 <div class="row">
-                                    <label class="col-4">@ingredient.Name</label>
+                                    <label class="col-2">@ingredient.Name</label>
                                     <input type="number" class="col-2 formField" name="AddedIngredients[@i].Amount" value="@ingredient.Amount">
                                     <input type="hidden" name="AddedIngredients[@i].Id" value="@ingredient.Id">
                                     <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
@@ -51,17 +51,22 @@
                                 </div>
                                 }
                             </div>
-                            <input type="text" list="productsList" class="formControl form-floating" id="newProduct"><button class="btn btn-addProduct" id="addProduct">Voeg toe</button>
-                            <span id="newProductErr" class="text-danger"></span>
-                            <datalist id="productsList">
-                                @foreach(Product product in Model.Products ?? new List<Product>()) {
-                                    <option value="@product.Name" data-product-id="@product.Id"></option>
-                                }
-                            </datalist>
+                            <div class="form-group form-floating mb-4">
+                                <div class="d-flex">
+                                    <input type="text" list="productsList" class="form-control form-control-smaller" id="newProduct">
+                                    <button class="btn btn-addProduct" id="addProduct">Voeg toe</button>
+                                    <span id="newProductErr" class="text-danger"></span>
+                                    <datalist id="productsList">
+                                        @foreach(Product product in Model.Products ?? new List<Product>()) {
+                                            <option value="@product.Name" data-product-id="@product.Id"></option>
+                                        }
+                                    </datalist>
+                                </div
+                            </div>
                         </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="visually-hidden"></label>
-                            <select asp-for="KitchenType" class="form-control" size="1">
+                            <select asp-for="KitchenType" class="form-control form-control-smaller" size="1">
                                 <option value="">Type keuken</option>
                                 <option value="Aziatisch">Aziatisch</option>
                                 <option value="Amerikaans">Amerikaans</option>
@@ -138,14 +143,32 @@
                                 </div>    
                             <span asp-validation-for="Allergies" class="text-danger"></span>
                         </div>
-                        <div class="form mt-4">
+                        <!--Add Picture-->
+                       <div class="form mt-4">
                             <label for="DishPhoto" class="form-label">Afbeelding van het gerecht:</label>
-                            <input type="file"
-                                id="DishPhoto"
-                                accept=".png,.jpg,.jpeg,.gif,.tif"
-                                asp-for="DishPhoto"
-                                class="form-control"
-                                onchange="document.getElementById('DishPhoto').src = window.URL.createObjectURL(this.files[0])" />
+                            <div class="input-group">
+                                <input type="file"
+                                    id="DishPhoto"
+                                    accept=".png,.jpg,.jpeg,.gif,.tif"
+                                    asp-for="DishPhoto"
+                                    class="form-control"
+                                    style="display: none;"
+                                    onchange="handleFileSelect(this);" />
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary btn-browse" onclick="document.getElementById('DishPhoto').click();">Bladeren</button>
+                                </div>
+                                <div class="custom-file">
+                                    <span class="custom-file-label form-control file-label" id="fileLabel">Geen bestand gekozen</span>
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="display: none;" onclick="removeFile();">Verwijderen</button>
+                                </div>
+                            </div>
+                            <img id="preview" src="#" alt="Voorbeeldafbeelding" style="display: none; max-width: 100%; margin-top: 10px;" />
+                        </div>
+                        <div class="form mt-4">
+                            <input class="form-check-input" type="checkbox" id="myCheck"  name="remember" required>
+                            <label class="form-check-label" for="myCheck"> Ik heb alles gecheckt en naar waarheid ingevuld.</label>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary mt-4"><h3>Opslaan</h3></button>

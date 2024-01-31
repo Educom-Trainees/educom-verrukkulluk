@@ -64,7 +64,7 @@ namespace Verrukkulluk.Controllers
             if (ModelState.IsValid)
             {
                 //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
-                //Nu tijdelijk:
+                //!Nog aanpassen! Nu tijdelijk:
                 return RedirectToAction("Index");
             }
             FillModel(recipe);
