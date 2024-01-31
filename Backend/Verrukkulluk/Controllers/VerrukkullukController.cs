@@ -46,20 +46,30 @@ namespace Verrukkulluk.Controllers
                     }
                 }
             }
-
         }
+
         [HttpGet]
         public IActionResult ReceptMaken()
-        { 
-            ViewData["Title"]= "Recept Maken";
+        {
+            System.Console.WriteLine("get");
+            ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
             FillModel(model);
             return base.View("CreateRecipe", model);
         }
+
         [HttpPost]
         public IActionResult ReceptMaken(AddRecipe recipe)
         {
-
+            if (ModelState.IsValid)
+            {
+                //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
+                //Nu tijdelijk:
+                return RedirectToAction("Index");
+            }
+            FillModel(recipe);
+            System.Console.WriteLine(recipe.AddedIngredients.Count());
+            return View("CreateRecipe", recipe);
         }
 
         public IActionResult ReceptVerwijderen(int id)
@@ -73,19 +83,6 @@ namespace Verrukkulluk.Controllers
             {
                 return View("MyRecipes", VerModel);
             }
-        }
-
-        public IActionResult CreateRecipe(Recipe recipe)
-        {
-            if (ModelState.IsValid)
-            {
-                //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
-                //Nu tijdelijk:
-                return RedirectToAction("Index");
-            }
-            FillModel(recipe);
-            System.Console.WriteLine(recipe.AddedIngredients.Count());
-            return View("CreateRecipe", recipe);
         }
 
         public IActionResult MijnBoodschappenlijst()
