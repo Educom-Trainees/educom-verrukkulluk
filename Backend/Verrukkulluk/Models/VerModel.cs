@@ -13,6 +13,7 @@ namespace Verrukkulluk.Models
         public string Error {  get; set; }
         public List<Recipe>? Recipes { get; set; }
         public InputModel Input { get; set; } = new InputModel();
+        public Utils Utils { get; set; } = new Utils();
         public VerModel()
         {
              
@@ -80,6 +81,16 @@ namespace Verrukkulluk.Models
         public Product? GetProductById(int productId)
         {
             return Crud.ReadProductById(productId);
+        }
+
+        public double GetCalories(int Id)
+        {
+            return Crud.ReadCaloriesByRecipeId(Id);
+        }
+
+        public double GetPrice(int Id)
+        {
+            return Crud.ReadPriceByRecipeId(Id);
         }
     }
 }

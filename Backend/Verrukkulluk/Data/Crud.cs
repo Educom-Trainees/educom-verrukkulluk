@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using System.Numerics;
+using Verrukkulluk.Models;
 
 namespace Verrukkulluk.Data
 {
@@ -61,6 +64,30 @@ namespace Verrukkulluk.Data
             }
 
             return null;
+        }
+
+        public double ReadCaloriesByRecipeId(int recipeId)
+        {
+            var Ingredients = Context.Ingredients
+                .Where(i => i.RecipeId == recipeId)
+                .Select(i => new
+                {
+                    calories = i.Amount * i.Product.Calories
+                }).ToList();
+            double total = Ingredients.Select(i => i.calories).Sum();
+            return total;
+        }
+
+        public double ReadPriceByRecipeId(int recipeId)
+        {
+            var Ingredients = Context.Ingredients
+                .Where(i => i.RecipeId == recipeId)
+                .Select(i => new
+                {
+                    calories = Math.Ceiling(i.Amount) * (double)i.Product.Price
+                }).ToList();
+            double total = Ingredients.Select(i => i.calories).Sum();
+            return total;
         }
     }
 }
