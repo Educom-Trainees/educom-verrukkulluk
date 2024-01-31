@@ -39,6 +39,20 @@ namespace Verrukkulluk.Models
             }
         }
 
+        public void GetUserFavorites()
+        {
+            if (HttpContextAccessor?.HttpContext?.User == null)
+            {
+                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
+            }
+            var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+            if (int.TryParse(tempUserId, out int userId))
+            {
+                //Hoe de favorieten uit de crud gehaald moeten worden. !Nog aanpassen! Nu zijn het de recepten die iemand zelf gemaakt heeft
+                Recipes = Crud.ReadAllRecipesByUserId(userId);
+            }
+        }
+
         public List<Product> GetAllProducts() {
             return Crud.ReadAllProducts();
         }

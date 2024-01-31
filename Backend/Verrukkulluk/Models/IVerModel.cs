@@ -14,6 +14,7 @@ namespace Verrukkulluk.Models
         Product? GetProductById(int productId);
         void DeleteUserRecipe(int id);
         void GetUserRecipes();
+        void GetUserFavorites();
         Task<SignInResult> Login(InputModel input);
     }
 }

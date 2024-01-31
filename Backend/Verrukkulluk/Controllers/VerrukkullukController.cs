@@ -34,6 +34,11 @@ namespace Verrukkulluk.Controllers
             return View("MyRecipes", VerModel);
         }
 
+        public IActionResult MijnFavorieten()
+        {
+            VerModel.GetUserFavorites();
+            return View("MyFavorites", VerModel);
+        }
         private void FillModel(AddRecipe model)
         {
             model.Products = VerModel.GetAllProducts();
