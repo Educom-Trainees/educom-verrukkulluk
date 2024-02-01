@@ -72,7 +72,7 @@ namespace Verrukkulluk.Data
                     {
                         new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, "location unknown"),
                         new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, "location unknown"),
-                        new Product("Vegan Burgersaus", 7.29m, 906D, 300, IngredientType.gram, "location unknown"),
+                        new Product("Vegan Burgersaus", 7.29m, 906, 300, IngredientType.gram, "location unknown"),
                         new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, "location unknown"),
                         new Product("Tomaten", 1.39m, 105, 6, IngredientType.stuks, "location unknown"),
                         new Product("Ijsbergsla", 1.09m, 25, 200, IngredientType.gram, "location unknown"),
@@ -97,13 +97,13 @@ namespace Verrukkulluk.Data
 
                     Ingredient[] ingredients =
                     {
-                        new Ingredient("Wit Bolletje", 4, products[0]),
+                        new Ingredient("Wit Bolletje", 0.66, products[0]),
                         new Ingredient("Avocado", 2, products[1]),
-                        new Ingredient("Vegan Burgersaus", 3, products[2]),
-                        new Ingredient("Hamburger", 4, products[3]),
+                        new Ingredient("Vegan Burgersaus", 0.1, products[2]),
+                        new Ingredient("Hamburger", 2, products[3]),
                         new Ingredient("Tomaten", 1, products[4]),
-                        new Ingredient("Ijsbergsla", 10, products[5]),
-                        new Ingredient("Boter", 10, products[6])
+                        new Ingredient("Ijsbergsla", 0.5, products[5]),
+                        new Ingredient("Boter", 0.1, products[6])
                     };
 
 
@@ -127,6 +127,10 @@ namespace Verrukkulluk.Data
                     {
                         recipeIngredients.Add(ingredient);
                     }
+                    List<Ingredient> recipeIngredientsTest = new List<Ingredient>();
+                    recipeIngredientsTest.Add(new Ingredient("Tomaten", 0.5, products[4]));
+                    
+                    
                     string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
                     string description = "Een lekkere vegetarisch gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
@@ -136,7 +140,7 @@ namespace Verrukkulluk.Data
                         new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], DishPhoto, "/images/pexels-ella-olsson.jpg", recipeIngredients),
                         new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], DishPhoto, "/images/pexels-robin-stickel.jpg", recipeIngredients),
                         new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], DishPhoto, "/images/pexels-jane-doan.jpg", recipeIngredients),
-                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], DishPhoto, "/images/pexels-lisa-fotios.jpg", recipeIngredients)
+                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], DishPhoto, "/images/pexels-lisa-fotios.jpg", recipeIngredientsTest)
                     };
 
                     dbContext.Products.AddRange(products);

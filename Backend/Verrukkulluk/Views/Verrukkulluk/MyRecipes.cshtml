@@ -19,45 +19,9 @@
         {
             <div class="col-xl-6">
                 <div class="m-3 mb-5">
-                    <div class="card shadow" style="height: 32rem">
-                        <img class="card-img-top img-crop" src="~/images/pexels-jane-doan.jpg" alt="Card image cap">
+                    <div class="card shadow" style="height: 35rem">
+                        <img class="card-img-top img-crop" src="@recipe.PhotoLocation" alt="Card image cap">
                         <div class="card-header">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-inline-block text-truncate"><h2 class="darker-green">@recipe.Title</h2></div>
-                                <div>
-                                    <div class="d-inline-block">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= recipe.Rating)
-                                            {
-                                                <i class="bi bi-star-fill"></i>
-                                            } else
-                                            {
-                                                <i class="bi bi-star"></i>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row subtitle">
-                                <div class="col-6 justify-all">
-                                    <div class="d-flex">
-                                        <h4 class="darker-green pr-2">Keuken</h4>
-                                        <p class="px-2">@recipe.KitchenType.Name</p>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="d-flex justify-content-end">
-                                        <h4 class="darker-green px-2">Type</h4>
-                                        @foreach (RecipeDishType recipeDishType in recipe.RecipeDishTypes)
-                                        {
-                                            <p class="pl-2">@recipeDishType.DishType.Name</p>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
                             <div class="d-flex justify-content-start m-2">
                                 <div class="d-inline-block">
                                     <i class="bi bi-people-fill lighter-red"></i> 4
@@ -73,11 +37,59 @@
                                     </svg> 800
                                 </div>
                             </div>
-                            <p class="text-start">@recipe.Instructions</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-inline-block text-truncate"><h2 class="darker-green">@recipe.Title</h2></div>
+                                <div>
+                                    <div class="d-inline-block">
+                                        @for (int i = 0; i < recipe.Rating; i++)
+                                        {
+                                            <i class="bi bi-star-fill"></i>
+                                        }
+                                        @for (int i = 5; i > recipe.Rating; i--)
+                                        {
+                                            <i class="bi bi-star"></i>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row subtitle">
+                                <div class="col-6 justify-all">
+                                    <div class="d-flex">
+                                        <div class="dropdown dropstart text-end">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" id="allergiesButton" data-bs-toggle="dropdown">
+                                            Allergenen
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                            <li><p class="dropdown-item">Bevat geen melk</p></li>
+                                            <li><p class="dropdown-item">Bevat geen noten</p></li>
+                                            <li><p class="dropdown-item disabled">Bevat geen gluten</p></li>
+                                            <li><p class="dropdown-item">Bevat geen schaaldieren</p></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="d-flex justify-content-end">
+                                        <h4 class="darker-green pr-2">Keuken</h4>
+                                        <p class="px-2">@recipe.KitchenType.Name</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body card-body-recipe">
+                            <br><p class="text-start">@recipe.Description</p>
+                        </div>
+                        <div class="col-6">
                         </div>
                         <div class="card-footer">
+                            <div class="d-flex justify-content-end">
+                                @foreach (RecipeDishType recipeDishType in recipe.RecipeDishTypes)
+                                {
+                                    <span class="dishTypeBadge mb-2">@recipeDishType.DishType.Name</span>
+                                }
+                            </div>
                             <div class="d-flex justify-content-start align-items-center">
-                                <div>
+                                <div> 
                                     @{<form method="GET">
                                         <button asp-controller="Verrukkulluk" asp-action="Recept" class="btn btn-primary btn-darker-green m-1"><h3>Details</h3></button>
                                     </form>}

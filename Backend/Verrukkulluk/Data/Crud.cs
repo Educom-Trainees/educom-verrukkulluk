@@ -104,9 +104,9 @@ namespace Verrukkulluk.Data
                 .Where(i => i.RecipeId == recipeId)
                 .Select(i => new
                 {
-                    calories = Math.Ceiling(i.Amount) * (double)i.Product.Price
+                    price = Math.Ceiling(i.Amount) * (double)i.Product.Price
                 }).ToList();
-            double total = Ingredients.Select(i => i.calories).Sum();
+            double total = Ingredients.Select(i => i.price).Sum();
             return total;
         }
 
