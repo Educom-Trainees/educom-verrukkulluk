@@ -11,5 +11,6 @@ namespace Verrukkulluk.Data
         Product? ReadProductById(int id);
         public double ReadCaloriesByRecipeId(int recipeId);
         public double ReadPriceByRecipeId(int recipeId);
+        public Recipe ReadRecipeById(int Id);
     }
 }

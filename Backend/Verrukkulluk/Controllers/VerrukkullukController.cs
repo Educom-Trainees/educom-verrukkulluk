@@ -18,8 +18,11 @@ namespace Verrukkulluk.Controllers
         {
             return View(VerModel);
         }
-        public IActionResult Recept()
+        public IActionResult Recept(int Id = 1)
         {
+            VerModel.GetCalories(Id);
+            VerModel.GetPrice(Id);
+            VerModel.GetRecipeById(Id);
             ViewData["Title"]= "Recept";
             ViewData["HideCarousel"]= true;
             ViewData["ShowBanner"]= true;

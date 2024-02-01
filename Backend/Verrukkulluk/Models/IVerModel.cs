@@ -15,6 +15,9 @@ namespace Verrukkulluk.Models
         void DeleteUserRecipe(int id);
         void GetUserRecipes();
         void GetUserFavorites();
+        void GetCalories(int Id);
+        void GetPrice(int Id);
+        void GetRecipeById(int Id);
         Task<SignInResult> Login(InputModel input);
     }
 }

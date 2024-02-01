@@ -89,5 +89,13 @@ namespace Verrukkulluk.Data
             double total = Ingredients.Select(i => i.calories).Sum();
             return total;
         }
+
+        public Recipe ReadRecipeById(int Id)
+        {
+            var Recipe = Context.Recipes
+                .Where(i => i.Id == Id)
+                .First();
+            return Recipe;
+        }
     }
 }
