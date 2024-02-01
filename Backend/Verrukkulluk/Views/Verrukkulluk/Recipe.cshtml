@@ -39,12 +39,16 @@
                                 <div>
                                     <h2 class="darker-green">@Model.Recipe.Title</h2></div>
                                 <div>    
-                                    <div class="d-inline-block">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
+                                    <div class="d-inline-block card-recipe-stars">
+                                        @for (int i = 0; i < 5; i++)
+                                        {
+                                            if (i < Model.Recipe.Rating)
+                                            {
+                                                <i class="bi bi-star-fill"></i>
+                                            } else {
+                                                <i class="bi bi-star"></i>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
