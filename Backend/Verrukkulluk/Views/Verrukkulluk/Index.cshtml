@@ -84,20 +84,23 @@
             </div>
         </div>
     </div>
+
+<!---------------------------------------------------Kaartjes van de recepten------------------------------------------------------------->
+
     <div class="container col-sm-12 col-md-6 col-xl-4">
         <div class="row">
             <div class="col-12">
-                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml")
+                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[0])
             <div class="col-12">
-                @* //kaart 2 *@
+                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[1])
             </div>
         </div>    
     <div class="container col-12 col-xl-4">
         <div class="row">
             <div class="col-12 col-md-6 col-xl-12">
-                @* //kaart 3 *@
+                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[2])
             <div class="col-12 col-md-6 col-xl-12">
-                @* //kaart 4 *@
+                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[3])
             </div>
         </div>
     </div>
