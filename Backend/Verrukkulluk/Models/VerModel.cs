@@ -14,6 +14,9 @@ namespace Verrukkulluk.Models
         public List<Recipe>? Recipes { get; set; }
         public InputModel Input { get; set; } = new InputModel();
         public Utils Utils { get; set; } = new Utils();
+        public Recipe Recipe { get; set; }
+        public double Calories { get; set; }
+        public decimal Price { get; set; }
         public VerModel()
         {
              
@@ -25,6 +28,11 @@ namespace Verrukkulluk.Models
             UserManager = userManager;
             HttpContextAccessor = httpContextAccessor;
             SignInManager = signInManager;
+        }
+
+        public void GetAllRecipes()
+        {
+            Recipes = Crud.ReadAllRecipes();
         }
 
         public void GetUserRecipes()
@@ -83,14 +91,19 @@ namespace Verrukkulluk.Models
             return Crud.ReadProductById(productId);
         }
 
-        public double GetCalories(int Id)
+        public void GetCalories(int Id)
         {
-            return Crud.ReadCaloriesByRecipeId(Id);
+            Calories = Crud.ReadCaloriesByRecipeId(Id);
         }
 
-        public double GetPrice(int Id)
+        public void GetPrice(int Id)
         {
-            return Crud.ReadPriceByRecipeId(Id);
+            Price = (decimal)Crud.ReadPriceByRecipeId(Id);
+        }
+
+        public void GetRecipeById(int Id)
+        {
+            Recipe = Crud.ReadRecipeById(Id);
         }
     }
 }

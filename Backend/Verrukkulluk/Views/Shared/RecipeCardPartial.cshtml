@@ -1,0 +1,64 @@
+@model Verrukkulluk.Recipe;
+
+<div class="m-3 mb-5">
+    <div class="card shadow" style="height: 32rem">
+        <img class="card-img-top img-crop" src="@Model.PhotoLocation" alt="Afbeelding van het gerecht">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-inline-block text-truncate"><h2 class="darker-green">@Model.Title</h2></div>
+                    <div>    
+                        <div class="d-inline-block card-recipe-stars">
+                            @for (int i = 0; i < Model.Rating; i++)
+                            {
+                                <i class="bi bi-star-fill"></i>
+                            }
+                            @for (int i = 5; i > Model.Rating; i--)
+                            {
+                                <i class="bi bi-star"></i>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row subtitle">
+                    <div class="col-6 justify-all">
+                        <div class="d-flex">
+                            <h4 class="darker-green pr-2">Keuken</h4>
+                            <p class="px-2">@Model.KitchenType.Name</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body card-body-dish">
+                <p class="text-start">@Model.Description</p>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex">
+                    @foreach (RecipeDishType recipeDishType in Model.RecipeDishTypes)
+                {
+                    <span class="dishTypeBadge mb-2">@recipeDishType.DishType.Name</span>
+                }
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        @{<form method="GET">
+                            <button asp-controller="Verrukkulluk" asp-action="Recept" asp-route-id="@Model.Id" class="btn btn-primary" type="submit"><h3>Smullen!</h3></button>
+                        </form>}
+                    </div>
+                    <div class="d-inline-block">    
+                        <i class="bi bi-people-fill lighter-red"></i> 4
+                    </div>
+                    <div class="d-inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-euro lighter-red" viewBox="0 0 16 16">
+                            <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936q-.002-.165.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.6 6.6 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z"/>
+                        </svg> 12,-
+                    </div>
+                    <div class="d-inline-block">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fire lighter-red" viewBox="0 0 16 16">
+                            <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15"/>
+                        </svg> 800
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -46,6 +46,26 @@ namespace Verrukkulluk.Data
             }
         }
 
+        public List<Recipe>? ReadAllRecipes()
+        {
+            try 
+            {
+                var recipes = Context.Recipes
+                    .Include(r => r.RecipeDishTypes)
+                    .ThenInclude(r => r.DishType)
+                    .Include(r => r.KitchenType)
+                    .OrderBy(recipe => recipe.CreationDate)
+                    .ToList();
+                return recipes;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+            }
+
+            return null;
+        }
+
         public List<Recipe>? ReadAllRecipesByUserId(int userId)
         {
             try
@@ -88,6 +108,14 @@ namespace Verrukkulluk.Data
                 }).ToList();
             double total = Ingredients.Select(i => i.calories).Sum();
             return total;
+        }
+
+        public Recipe ReadRecipeById(int Id)
+        {
+            var Recipe = Context.Recipes
+                .Where(i => i.Id == Id)
+                .First();
+            return Recipe;
         }
     }
 }

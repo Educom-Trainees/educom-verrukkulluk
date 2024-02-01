@@ -99,16 +99,28 @@ namespace Verrukkulluk.Data
                     {
                         new Ingredient("Wit Bolletje", 4, products[0]),
                         new Ingredient("Avocado", 2, products[1]),
-                        new Ingredient("Vegan Burgersaus", 40, products[2]),
+                        new Ingredient("Vegan Burgersaus", 3, products[2]),
                         new Ingredient("Hamburger", 4, products[3]),
                         new Ingredient("Tomaten", 1, products[4]),
-                        new Ingredient("Ijsbergsla", 100, products[5]),
+                        new Ingredient("Ijsbergsla", 10, products[5]),
                         new Ingredient("Boter", 10, products[6])
                     };
 
 
-                    List<RecipeDishType> recipeDishTypes = new List<RecipeDishType>();
-                    recipeDishTypes.Add(new RecipeDishType { DishTypeId = 1 });
+                    List<RecipeDishType> vlees = new List<RecipeDishType>();
+                    vlees.Add(new RecipeDishType { DishTypeId = 1 });
+                    List<RecipeDishType> veganistisch = new List<RecipeDishType>();
+                    veganistisch.Add(new RecipeDishType { DishTypeId = 3 });
+                    veganistisch.Add(new RecipeDishType { DishTypeId = 4 });
+                    List<RecipeDishType> surfturf = new List<RecipeDishType>();
+                    surfturf.Add(new RecipeDishType { DishTypeId = 1 });
+                    surfturf.Add(new RecipeDishType { DishTypeId = 2 });
+                    List<RecipeDishType> vis = new List<RecipeDishType>();
+                    vis.Add(new RecipeDishType { DishTypeId = 2 });
+                    List<RecipeDishType> vegetarisch1 = new List<RecipeDishType>();
+                    vegetarisch1.Add(new RecipeDishType { DishTypeId = 3 });
+                    List<RecipeDishType> vegetarisch2 = new List<RecipeDishType>();
+                    vegetarisch2.Add(new RecipeDishType { DishTypeId = 3 });
 
                     List<Ingredient> recipeIngredients = new List<Ingredient>();
                     foreach(Ingredient ingredient in ingredients)
@@ -116,15 +128,15 @@ namespace Verrukkulluk.Data
                         recipeIngredients.Add(ingredient);
                     }
                     string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
-                    string description = "Een heerlijke rijk gevulde hamburger uitermate geschikt voor de donderdagmiddag.";
+                    string description = "Een lekkere vegetarisch gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Amerikaanse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 4, users[0], DishPhoto, "location unknown", recipeIngredients),
-                        new Recipe("Duitse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 3, users[0], DishPhoto, "location unknown", recipeIngredients),
-                        new Recipe("Engelse Hamburger", recipeDishTypes, kitchenTypes[1], description, instructions, 1, users[0], DishPhoto, "location unknown", recipeIngredients),
-                        new Recipe("Nederlandse Hamburger", recipeDishTypes, kitchenTypes[1], description,instructions, 5, users[0], DishPhoto, "location unknown", recipeIngredients)
+                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], DishPhoto, "/images/pexels-ella-olsson.jpg", recipeIngredients),
+                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], DishPhoto, "/images/pexels-robin-stickel.jpg", recipeIngredients),
+                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], DishPhoto, "/images/pexels-jane-doan.jpg", recipeIngredients),
+                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], DishPhoto, "/images/pexels-lisa-fotios.jpg", recipeIngredients)
                     };
 
                     dbContext.Products.AddRange(products);

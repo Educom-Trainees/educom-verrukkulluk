@@ -14,7 +14,7 @@ namespace Verrukkulluk
         public string Description { get; set; }
         public List<RecipeDishType> RecipeDishTypes { get; set; } 
         public KitchenType KitchenType { get; set; }
-        public List<Allergy> Allergies { get; set; }
+        public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
         public string Instructions { get; set; }
         virtual public ICollection<Comment>? Comments { get; set; } = null;
