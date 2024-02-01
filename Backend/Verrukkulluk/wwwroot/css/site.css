@@ -525,10 +525,22 @@ p {
     color: white;
 }
 
-#heartButton, #favoriteButton{
+#heartButton {
     font-size: 30px;
-    background-color:
+    background-color: transparent;
     border: none;
+}
+
+#favoriteButton{ 
+    background-color: var(--darker-red);
+    font-size: 30px;
+    color: var(--white)
+}
+
+#favoriteButton:hover {
+    background-color: var(--white);
+    font-size: 30px;
+    color: var(--darker-red)
 }
 
 #heartCheckbox {

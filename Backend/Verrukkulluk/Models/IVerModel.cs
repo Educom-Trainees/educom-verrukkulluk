@@ -13,6 +13,7 @@ namespace Verrukkulluk.Models
         List<Product> GetAllProducts();
         Product? GetProductById(int productId);
         void DeleteUserRecipe(int id);
+        void GetAllRecipes();
         void GetUserRecipes();
         void GetUserFavorites();
         void GetCalories(int Id);

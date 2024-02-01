@@ -30,6 +30,11 @@ namespace Verrukkulluk.Models
             SignInManager = signInManager;
         }
 
+        public void GetAllRecipes()
+        {
+            Recipes = Crud.ReadAllRecipes();
+        }
+
         public void GetUserRecipes()
         {
             if (HttpContextAccessor?.HttpContext?.User == null)
