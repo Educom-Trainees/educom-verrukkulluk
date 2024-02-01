@@ -80,6 +80,7 @@ namespace Verrukkulluk.Controllers
         public IActionResult ReceptVerwijderen(int id)
         {
             VerModel.DeleteUserRecipe(id);
+            VerModel.GetUserRecipes();
 
             if (VerModel.Error.IsNullOrEmpty())
             {

@@ -333,6 +333,11 @@ p {
     border-color: var(--darker-red);
 }
 
+.btn-darker-red:focus {
+    background-color: var(--darker-red);
+    border-color: var(--darker-red);
+}
+
 .btn-darker-red:hover {
     color: var(--darker-red);
     background-color: var(--white);
