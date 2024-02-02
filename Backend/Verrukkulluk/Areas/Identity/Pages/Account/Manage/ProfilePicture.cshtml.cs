@@ -25,7 +25,7 @@ public class ProfilePictureModel : PageModel
 
     public class InputModel
     {
-        [Required(ErrorMessage = "Kies een foto uit uw bestanden door op Choose File te klikken")]
+        [Required(ErrorMessage = "Kies een nieuwe profielfoto uit uw bestanden")]
         [Display(Name = "Profielfoto")]
         [DataType(DataType.Upload)]
         public IFormFile ProfilePicture { get; set; }

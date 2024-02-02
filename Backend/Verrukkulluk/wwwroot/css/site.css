@@ -126,8 +126,8 @@ body {
     max-width: 55px;
 }
 .profile-picture {
-    max-height: 150px;
-    max-width: 150px;
+    height: 75px;
+    width: 75px;
 }
 
 h1, h2, h3, h4 {
