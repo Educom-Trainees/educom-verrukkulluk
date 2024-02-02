@@ -7,13 +7,13 @@
 
 <h3 class="darker-green">@ViewData["Title"]</h3>
 
-<div class="col-md-8 alert alert-warning-profile" role="alert">
+<div class="col-md-6 alert-warning-profile" role="alert">
     <p>
         <strong>Het verwijderen van uw account en al uw persoonlijke gegevens is permanent en kan niet teruggedraaid worden...</strong>
     </p>
 </div>
 
-<div class="col-md-6">
+<div class="col-md-4">
     <p>Wilt u uw account verwijderen?</p>
     <p>Voer uw wachtwoord in om dit te bevestigen:</p>
     <form id="delete-user" method="post">
@@ -26,7 +26,7 @@
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
         }
-        <button class="w-80 btn btn-lg submit-danger-profile" type="submit">Verwijder uw account</button>
+        <button class="w-75 btn btn-lg submit-danger-profile" type="submit">Verwijder uw account</button>
     </form>
 </div>
 

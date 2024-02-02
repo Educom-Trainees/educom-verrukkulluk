@@ -16,8 +16,8 @@
             <p>Dan kunt u dat hieronder aanpassen:</p>
         </div>
         <form id="email-form" method="post">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" aria-required="true" placeholder="Voer een nieuw e-mailadres in." />
+            <div class="form-floating mb-3 w-75">
+                <input asp-for="Input.NewEmail" class="form-control" aria-required="true" placeholder="Voer een nieuw e-mailadres in." value="@Model.Email" />
                 <label asp-for="Input.NewEmail" class="form-label"></label>
                 <span asp-validation-for="Input.NewEmail" class="darker-red"></span>
             </div>

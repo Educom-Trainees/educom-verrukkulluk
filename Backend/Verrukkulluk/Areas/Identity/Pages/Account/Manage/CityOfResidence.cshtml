@@ -15,12 +15,12 @@
             <p>Dan kunt u dat hieronder aanpassen:</p>
         </div>
         <form id="city-of-residence-form" method="post">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.NewCityOfResidence" class="form-control" aria-required="true" placeholder="Voer uw nieuwe woonplaats in." />
+            <div class="form-floating mb-3 w-50">
+                <input asp-for="Input.NewCityOfResidence" class="form-control" aria-required="true" placeholder="Voer uw nieuwe woonplaats in." value="@Model.CityOfResidence" />
                 <label asp-for="Input.NewCityOfResidence" class="form-label"></label>
                 <span asp-validation-for="Input.NewCityOfResidence" class="lightest-brown"></span>
             </div>
-            <button id="change-city-button" type="submit" asp-page-handler="ChangeCityOfResidence" class="w-80 btn btn-lg submit-profile">Update uw woonplaats</button>
+            <button id="change-city-button" type="submit" asp-page-handler="ChangeCityOfResidence" class="w-50 btn btn-lg submit-profile">Update uw woonplaats</button>
         </form>
     </div>
 </div>

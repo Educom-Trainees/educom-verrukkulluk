@@ -694,33 +694,44 @@ p {
 }
 
 .alert-warning-profile {
+    padding: 1rem 1rem 0rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 1rem;
     color: var(--white);
     background-color: var(--darker-red);
-    border-color: var(--dark-brown);
+    border-color: var(--darker-red);
+    border-radius: 25px;
 }
 
 .submit-profile {
     color: var(--white);
     background-color: var(--darker-green);
-    border-color: var(--dark-brown);
+    border-color: var(--darker-green);
+    font-family: var(--heading);
+    font-size: 25px;
+    border-radius: 25px;
 }
 
-.submit-profile:hover {
-    color: var(--white);
-    background-color: var(--darker-red);
-    border-color: var(--dark-brown);
-}
+    .submit-profile:hover {
+        color: var(--darker-green);
+        background-color: var(--white);
+        border-color: var(--darker-green);
+    }
 
 .submit-danger-profile {
     color: var(--white);
-    background-color: var(--dark-brown);
-    border-color: var(--dark-brown);
-}
-.submit-danger-profile:hover {
-    color: var(--white);
     background-color: var(--darker-red);
-    border-color: var(--dark-brown);
+    border-color: var(--darker-red);
+    font-family: var(--heading);
+    font-size: 25px;
+    border-radius: 25px;
 }
+    .submit-danger-profile:hover {
+        color: var(--darker-red);
+        background-color: var(--white);
+        border-color: var(--darker-red);
+    }
 
 .logout-button {
     color: var(--lighter-red);
