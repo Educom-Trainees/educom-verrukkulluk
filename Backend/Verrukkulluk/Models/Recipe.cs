@@ -12,12 +12,12 @@ namespace Verrukkulluk
         public string Title { get; set; }  
         [MaxLength(500)]       
         public string Description { get; set; }
-        public List<RecipeDishType> RecipeDishTypes { get; set; } 
+        public List<RecipeDishType> RecipeDishTypes { get; set; } = new List<RecipeDishType>();
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
         public string Instructions { get; set; }
-        virtual public ICollection<Comment>? Comments { get; set; } = null;
+        virtual public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
         public int Rating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }

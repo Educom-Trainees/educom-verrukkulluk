@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Bcpg;
+using System.ComponentModel.DataAnnotations;
 using Verrukkulluk.Data;
 
 namespace Verrukkulluk.Models
@@ -17,6 +18,7 @@ namespace Verrukkulluk.Models
         public Recipe Recipe { get; set; }
         public double Calories { get; set; }
         public decimal Price { get; set; }
+        public String base64RecipePicture { get; set; }
         public VerModel()
         {
              
@@ -104,6 +106,7 @@ namespace Verrukkulluk.Models
         public void GetRecipeById(int Id)
         {
             Recipe = Crud.ReadRecipeById(Id);
+            base64RecipePicture = Convert.ToBase64String(Recipe.DishPhoto);
         }
     }
 }
