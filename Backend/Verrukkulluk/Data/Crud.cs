@@ -112,8 +112,15 @@ namespace Verrukkulluk.Data
 
         public Recipe ReadRecipeById(int Id)
         {
-            var Recipe = Context.Recipes
+            var Recipes = Context.Recipes
                 .Where(i => i.Id == Id)
+                .Include(r => r.KitchenType)
+                .Include(r => r.RecipeDishTypes)
+                    .ThenInclude(r => r.DishType);
+            var Recipe = Recipes
+                .Include(r => r.Comments)
+                .Include(r => r.Ingredients)
+                    .ThenInclude(r => r.Product)
                 .First();
             return Recipe;
         }
