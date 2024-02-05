@@ -22,6 +22,10 @@ namespace Verrukkulluk
 
             builder.Services.TryAddScoped<ICrud, Crud>();
             builder.Services.TryAddScoped<IVerModel, VerModel>();
+            builder.Services.TryAddScoped<IHomeModel, HomeModel>();
+            builder.Services.TryAddScoped<IUserRecipesModel, UserRecipesModel>();
+            builder.Services.TryAddScoped<IFavoritesModel, FavoritesModel>();
+            builder.Services.TryAddScoped<IDetailsModel, DetailsModel>();
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole<int>>()
