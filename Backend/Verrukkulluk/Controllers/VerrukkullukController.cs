@@ -122,38 +122,38 @@ namespace Verrukkulluk.Controllers
                         Place = "Jaarbeurs Utrecht",
                         Price = 12.99m
                     };
-                case "test1":
+                case "event2":
                     return new Event
                     {
-                        Title = "Test1",
-                        Description = "Test1 description",
-                        Date = new DateOnly(2024, 01, 30),
-                        StartTime = new TimeOnly(14, 0),
-                        EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht",
-                        Price = 12.99m
+                        Title = "Tafeldekken",
+                        Description = "Een workshop om op een snelle en chique manier een dinertafel te dekken",
+                        Date = new DateOnly(2024, 02, 15),
+                        StartTime = new TimeOnly(12, 0),
+                        EndTime = new TimeOnly(17, 0),
+                        Place = "De Kuip",
+                        Price = 10.49m
                     };
-                case "test2":
+                case "event3":
                     return new Event
                     {
-                        Title = "Test2",
-                        Description = "Test2 description",
-                        Date = new DateOnly(2024, 01, 30),
-                        StartTime = new TimeOnly(14, 0),
-                        EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht",
-                        Price = 12.99m
+                        Title = "Secuur afwassen",
+                        Description = "Hier leert u hoe u kunt afwassen op een veilige en duurzame manier",
+                        Date = new DateOnly(2024, 02, 25),
+                        StartTime = new TimeOnly(09, 30),
+                        EndTime = new TimeOnly(12, 30),
+                        Place = "Johan Cruijff ArenA",
+                        Price = 15.99m
                     };
-                case "test3":
+                case "event4":
                     return new Event
                     {
-                        Title = "Test3",
-                        Description = "Test3 description",
-                        Date = new DateOnly(2024, 01, 30),
-                        StartTime = new TimeOnly(14, 0),
-                        EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht",
-                        Price = 12.99m
+                        Title = "Wokken",
+                        Description = "Wat is wokken precies en wat maakt het nou zo lekker?",
+                        Date = new DateOnly(2024, 03, 04),
+                        StartTime = new TimeOnly(10, 0),
+                        EndTime = new TimeOnly(12, 30),
+                        Place = "Philips Stadion",
+                        Price = 18.99m
                     };
             }
         }

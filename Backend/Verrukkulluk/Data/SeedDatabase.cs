@@ -166,7 +166,7 @@ namespace Verrukkulluk.Data
                         new Event
                         {
                             Title = "Tafeldekken",
-                            Description = "Een workshop op een snelle en chique manier een dinertafel dekken",
+                            Description = "Een workshop om op een snelle en chique manier een dinertafel te dekken",
                             Date = new DateOnly(2024, 02, 15),
                             StartTime = new TimeOnly(12, 0),
                             EndTime = new TimeOnly(17, 0),
@@ -176,7 +176,7 @@ namespace Verrukkulluk.Data
                         new Event
                         {
                             Title = "Secuur afwassen",
-                            Description = "Hier leert u hoe je kunt afwassen op een veilige en duurzame manier",
+                            Description = "Hier leert u hoe u kunt afwassen op een veilige en duurzame manier",
                             Date = new DateOnly(2024, 02, 25),
                             StartTime = new TimeOnly(09, 30),
                             EndTime = new TimeOnly(12, 30),
@@ -186,7 +186,7 @@ namespace Verrukkulluk.Data
                         new Event
                         {
                             Title = "Wokken",
-                            Description = "Wat is wokken precies en wat maakt het zo lekker? Volg deze workshop en je zal alle vragen erover kunnen beantwoorden",
+                            Description = "Wat is wokken precies en wat maakt het nou zo lekker?",
                             Date = new DateOnly(2024, 03, 04),
                             StartTime = new TimeOnly(10, 0),
                             EndTime = new TimeOnly(12, 30),
