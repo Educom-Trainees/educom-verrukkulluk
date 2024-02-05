@@ -20,6 +20,12 @@ $(document).ready(function(){
             window.location.href = '/Verrukkulluk/ReceptVerwijderen/' + recipeId;
         });
     });
+    $('.quantity-input').on('input', function () {
+        // Perform actions when the quantity changes
+        // You can retrieve the new quantity and item details using JavaScript
+        var newQuantity = $(this).val();
+        // Perform further actions, e.g., update the total price
+    });
   });
 
 function addProduct(e)
@@ -107,3 +113,80 @@ function autoSize(element) {
     element.style.height = "auto";
     element.style.height = (element.scrollHeight) + "px";
 }
+
+// Remove all shopping items from cart
+function removeAllItems() {
+    fetch('/RemoveAllShopItems')
+        .then(response => response.json())
+        .then(data => {
+            location.reload();
+        });
+}
+
+// Handle checking/unchecking items
+function handleCheckmarkClick() {
+    var row = this.closest('.container.text-start.shopping-list-text');
+    row.style.textDecoration = row.style.textDecoration === 'line-through' ? 'none' : 'line-through';
+}
+
+// Remove a shopping item from cart
+function removeItem() {
+    var trashIcon = event.target;
+    
+    var row = trashIcon.closest('.container.text-start.shopping-list-text');
+    
+    var itemName = row.querySelector('.darker-green').innerText.trim();
+    
+    console.log('Removing item:', itemName);
+    
+    fetch(`/RemoveShopItemByName?itemName=${itemName}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                console.error(data.message);
+            }
+        });
+}
+
+// Show/hide chevron-down shopping list
+function handleScrollChevronDown() {
+    var shoppingListContent = document.querySelector('.shopping-list-content');
+    
+    var chevronDown = document.querySelector('.bi-chevron-down');
+    
+    var isAtBottom = shoppingListContent.scrollHeight - shoppingListContent.clientHeight <= shoppingListContent.scrollTop + 1;
+    
+    chevronDown.style.display = isAtBottom ? 'none' : 'block';
+}
+
+// Show/hide chevron-up shopping list
+function handleScrollChevronUp() {
+    var shoppingListContent = document.querySelector('.shopping-list-content');
+    
+    var chevronUp = document.querySelector('.bi-chevron-up');
+    
+    var isAtTop = shoppingListContent.scrollTop <= 0;
+    
+    chevronUp.style.display = isAtTop ? 'none' : 'flex';
+}
+
+// Event listeners shopping list
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.bi-check').forEach(function (checkmark) {
+        checkmark.addEventListener('click', handleCheckmarkClick);
+    });
+
+    document.querySelectorAll('.product-trash').forEach(function (trashIcon) {
+        trashIcon.addEventListener('click', removeItem);
+    });
+
+    var shoppingListContent = document.querySelector('.shopping-list-content');
+
+    shoppingListContent.addEventListener('scroll', handleScrollChevronDown);
+    handleScrollChevronDown();
+
+    shoppingListContent.addEventListener('scroll', handleScrollChevronUp);
+    handleScrollChevronUp();
+});

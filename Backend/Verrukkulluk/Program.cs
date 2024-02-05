@@ -29,7 +29,11 @@ namespace Verrukkulluk
 
             builder.Services.AddControllersWithViews()
             .AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter()));
-    
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(360);
+            });
 
             var app = builder.Build();
 
@@ -51,6 +55,7 @@ namespace Verrukkulluk
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

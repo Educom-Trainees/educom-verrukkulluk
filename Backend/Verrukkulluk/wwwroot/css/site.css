@@ -748,3 +748,33 @@ p {
 .recipeForm {
     background-color: #5c5a5a;
 }
+
+.bi-trash:hover {
+    cursor: pointer; 
+}
+
+.bi-check:hover {
+    cursor: pointer;
+}
+
+
+.shopping-list-content {
+    max-height: 350px; 
+    overflow-y: scroll;
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
+}
+
+.shopping-list-content::-webkit-scrollbar {
+    display: none;
+}
+
+.bi-chevron-up {
+    justify-content: center;
+    font-size: 40px;
+}
+
+.bi-chevron-down {
+    text-align: center;
+    font-size: 40px;
+}
