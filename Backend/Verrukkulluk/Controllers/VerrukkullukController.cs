@@ -72,7 +72,6 @@ namespace Verrukkulluk.Controllers
         [HttpGet]
         public IActionResult ReceptMaken()
         {
-            System.Console.WriteLine("get");
             ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
             FillModel(model);
@@ -89,7 +88,6 @@ namespace Verrukkulluk.Controllers
                 return RedirectToAction("Index");
             }
             FillModel(recipe);
-            System.Console.WriteLine(recipe.AddedIngredients.Count());
             return View("CreateRecipe", recipe);
         }
 
@@ -172,13 +170,10 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
-            System.Console.WriteLine("Hij komt hier wel");
             VerModel = model;
             VerModel.Input = model.Input;
-            System.Console.WriteLine(VerModel.Input);
             if (ModelState.IsValid)
             {
-                System.Console.WriteLine("Inloggen gelukt");
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 SignInResult result = await VerModel.Login(VerModel.Input);
@@ -193,14 +188,11 @@ namespace Verrukkulluk.Controllers
                 }
                 else
                 {
-                    System.Console.WriteLine("inloggen mislukt");
-                    System.Console.WriteLine("verkeerde gegevens");
                     ModelState.AddModelError(nameof(VerModel.Input) + "." + nameof(VerModel.Input.Email), "Invalid login attempt.");
                     HomeModel.GetAllRecipes();
                     return View(nameof(Index), HomeModel);
                 }
             }
-            System.Console.WriteLine("succeed werkt niet");
             // If we got this far, something failed, redisplay form
             HomeModel.GetAllRecipes();
             return View(nameof(Index), HomeModel);
@@ -303,7 +295,6 @@ namespace Verrukkulluk.Controllers
         [Route("RemoveShopItemByName")]
         public IActionResult RemoveItemByName(string itemName)
         {
-            Console.WriteLine($"Removing item by name: {itemName}");
             var shoppingList = GetShoppingList();
             var index = shoppingList.FindIndex(item => item.Name == itemName);
             if (index != -1)
