@@ -11,7 +11,7 @@ namespace Verrukkulluk.Models
         protected readonly UserManager<User> UserManager;
         protected readonly IHttpContextAccessor HttpContextAccessor;
         public readonly SignInManager<User> SignInManager;
-        public string Error {  get; set; }
+        public string Error { get; set; } = "";
         public InputModel Input { get; set; } = new InputModel();
         public Utils Utils { get; set; } = new Utils();
         public VerModel()
@@ -33,7 +33,12 @@ namespace Verrukkulluk.Models
 
         public async Task<SignInResult> Login(InputModel input)
         {
-            return await SignInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
+            User? theUser = await UserManager.FindByEmailAsync(Input.Email);
+            if (theUser == null)
+            {
+                return SignInResult.Failed;
+            }
+            return await SignInManager.PasswordSignInAsync(theUser, input.Password, input.RememberMe, lockoutOnFailure: false);
         }
 
         public Product? GetProductById(int productId)

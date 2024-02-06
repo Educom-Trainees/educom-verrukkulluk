@@ -170,7 +170,7 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
-            VerModel = model;
+            System.Console.WriteLine("Hij komt hier wel");
             VerModel.Input = model.Input;
             if (ModelState.IsValid)
             {
