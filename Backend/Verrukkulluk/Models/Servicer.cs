@@ -4,7 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Verrukkulluk.Models
 {
-    public class Servicer
+    public class Servicer: IServicer
     {
         private readonly ICrud Crud;
         private readonly UserManager<User> UserManager;
@@ -21,6 +21,11 @@ namespace Verrukkulluk.Models
             UserManager = userManager;
             HttpContextAccessor = httpContextAccessor;
             SignInManager = signInManager;
+        }
+
+        public List<Recipe> GetAllRecipes()
+        {
+            return Crud.ReadAllRecipes();
         }
 
         public List<Recipe> GetUserRecipes()

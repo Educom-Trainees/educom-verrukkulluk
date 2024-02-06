@@ -18,24 +18,27 @@ namespace Verrukkulluk.Controllers
         private IUserRecipesModel UserRecipesModel;
         private IFavoritesModel FavoritesModel;
         private IDetailsModel DetailsModel;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel)
+        private IServicer Servicer;
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IServicer servicer)
         {
             VerModel = verModel;
             HomeModel = homeModel;
             UserRecipesModel = userRecipesModel;
             FavoritesModel = favoritesModel;
             DetailsModel = detailsModel;
+            Servicer = servicer;
         }
         public IActionResult Index()
         {
-            HomeModel.GetAllRecipes();
+            HomeModel.Recipes = Servicer.GetAllRecipes();
             return View(HomeModel);
         }
         public IActionResult Recept(int Id = 1)
         {
-            DetailsModel.GetCalories(Id);
-            DetailsModel.GetPrice(Id);
-            DetailsModel.GetRecipeById(Id);
+            DetailsModel.Calories = Servicer.GetCalories(Id);
+            DetailsModel.Price = Servicer.GetPrice(Id);
+            DetailsModel.Recipe = Servicer.GetRecipeById(Id);
+
             ViewData["Title"]= "Recept";
             ViewData["HideCarousel"]= true;
             ViewData["ShowBanner"]= true;
@@ -46,23 +49,23 @@ namespace Verrukkulluk.Controllers
         [Authorize(Roles = "VerUser")]
         public IActionResult MijnRecepten()
         {
-            UserRecipesModel.GetUserRecipes();
+            UserRecipesModel.Recipes = Servicer.GetUserRecipes();
             return View("MyRecipes", UserRecipesModel);
         }
 
         [Authorize(Roles = "VerUser")]
         public IActionResult MijnFavorieten()
         {
-            FavoritesModel.GetUserFavorites();
+            FavoritesModel.Recipes = Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
         private void FillModel(AddRecipe model)
         {
-            model.Products = VerModel.GetAllProducts();
+            model.Products = Servicer.GetAllProducts();
 
             if (model.AddedIngredients != null) {
                 foreach(Ingredient ingredient in model.AddedIngredients) {
-                    Product? product = VerModel.GetProductById(ingredient.ProductId);
+                    Product? product = Servicer.GetProductById(ingredient.ProductId);
                     if (product != null) {
                         model.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product));
                     }
@@ -94,8 +97,8 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult ReceptVerwijderen(int id)
         {
-            UserRecipesModel.DeleteUserRecipe(id);
-            UserRecipesModel.GetUserRecipes();
+            Servicer.DeleteUserRecipe(id);
+            UserRecipesModel.Recipes = Servicer.GetUserRecipes();
 
             if (VerModel.Error.IsNullOrEmpty())
             {
@@ -171,7 +174,6 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
-            System.Console.WriteLine("Hij komt hier wel");
             VerModel.Input = model.Input;
             if (ModelState.IsValid)
             {
@@ -180,7 +182,7 @@ namespace Verrukkulluk.Controllers
                 SignInResult result = await VerModel.Login(VerModel.Input);
                 if (result.Succeeded)
                 {
-                    HomeModel.GetAllRecipes();
+                    HomeModel.Recipes = Servicer.GetAllRecipes();
                     return RedirectToAction(nameof(Index), HomeModel);
                 }
                 if (result.IsLockedOut)
@@ -190,12 +192,12 @@ namespace Verrukkulluk.Controllers
                 else
                 {
                     ModelState.AddModelError(nameof(VerModel.Input) + "." + nameof(VerModel.Input.Email), "Invalid login attempt.");
-                    HomeModel.GetAllRecipes();
+                    HomeModel.Recipes = Servicer.GetAllRecipes();
                     return View(nameof(Index), HomeModel);
                 }
             }
             // If we got this far, something failed, redisplay form
-            HomeModel.GetAllRecipes();
+            HomeModel.Recipes = Servicer.GetAllRecipes();
             return View(nameof(Index), HomeModel);
         }
 
@@ -309,7 +311,7 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult AddRecipeToShoppingList(int recipeId)
         {
-            DetailsModel.GetRecipeById(recipeId);
+            DetailsModel.Recipe = Servicer.GetRecipeById(recipeId);
 
             if (DetailsModel.Recipe == null)
             {

@@ -27,10 +27,6 @@ namespace Verrukkulluk.Models
             SignInManager = signInManager;
         }
 
-        public List<Product> GetAllProducts() {
-            return Crud.ReadAllProducts();
-        }
-
         public async Task<SignInResult> Login(InputModel input)
         {
             User? theUser = await UserManager.FindByEmailAsync(Input.Email);
@@ -39,11 +35,6 @@ namespace Verrukkulluk.Models
                 return SignInResult.Failed;
             }
             return await SignInManager.PasswordSignInAsync(theUser, input.Password, input.RememberMe, lockoutOnFailure: false);
-        }
-
-        public Product? GetProductById(int productId)
-        {
-            return Crud.ReadProductById(productId);
         }
     }
 }

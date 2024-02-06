@@ -7,11 +7,6 @@ namespace Verrukkulluk.Models
     {
         public List<Recipe>? Recipes { get; set; }
 
-        public void GetAllRecipes()
-        {
-            Recipes = Crud.ReadAllRecipes();
-        }
-
         public HomeModel() { }
 
         public HomeModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager) : base(crud, userManager, httpContextAccessor, signInManager)

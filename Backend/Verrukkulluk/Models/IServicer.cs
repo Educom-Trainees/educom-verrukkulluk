@@ -5,7 +5,6 @@ namespace Verrukkulluk.Models
 {
     public interface IServicer
     {
-        InputModel Input { get; set; }
         List<Product> GetAllProducts();
         Product? GetProductById(int productId);
         void DeleteUserRecipe(int id);

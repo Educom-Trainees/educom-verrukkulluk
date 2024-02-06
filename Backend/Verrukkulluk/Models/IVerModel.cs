@@ -8,9 +8,6 @@ namespace Verrukkulluk.Models
     {
         string Error { get; set; }
         InputModel Input { get; set; }
-
-        List<Product> GetAllProducts();
-        Product? GetProductById(int productId);
         Task<SignInResult> Login(InputModel input);
     }
 }
