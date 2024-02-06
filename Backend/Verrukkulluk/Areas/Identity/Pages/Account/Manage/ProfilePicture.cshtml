@@ -20,7 +20,25 @@
         </div>
         <form id="profile-picture-form" method="post" enctype="multipart/form-data">
             <div class="form-group mb-3">
-                <input type="file" asp-for="Input.ProfilePicture" class="form-control" />
+                <div class="input-group">
+                    <input type="file" 
+                        id="Input.ProfilePicture"
+                        accept=".png,.jpg,.jpeg,.gif,.tif"
+                        asp-for="Input.ProfilePicture" 
+                        class="form-control" 
+                        style="display: none;"
+                        onchange="handleFileSelectProfilePicture(this);"/>
+                    <div class="input-group-prepend">
+                        <button type="button" class="btn btn-outline-secondary btn-browse" onclick="document.getElementById('Input.ProfilePicture').click();">Bladeren</button>
+                    </div>
+                    <div class="custom-file">
+                        <span class="custom-file-label form-control file-label" id="fileLabel">Selecteer uw nieuwe profielfoto...</span>
+                    </div>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="display: none;" onclick="removeFileProfilePicture();">Verwijderen</button>
+                    </div>
+                </div>
+                <img id="preview" src="#" alt="Voorbeeldafbeelding" style="display: none; max-width: 30%; margin-top: 10px;" />
                 <span asp-validation-for="Input.ProfilePicture" class="lightest-brown"></span>
             </div>
             <button id="change-picture-button" type="submit" asp-page-handler="ChangeProfilePicture" class="w-80 btn btn-lg submit-profile">Update uw profielfoto</button>
