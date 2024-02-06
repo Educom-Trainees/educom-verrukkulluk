@@ -122,7 +122,7 @@
             <div id="ingredients" class="container tab-pane tab-pane-recipe active"><br>
                 @foreach(Ingredient ingredient in Model.Recipe.Ingredients){
                     <h3 class="darker-green"> @ingredient.Product.Name </h3>
-                    <p> ingredient.Product.Description: Een omschrijving als die is toegevoegd aan de tabel</p>
+                    <p> @ingredient.Product.Description</p>
                     <h4 class="d-inline darker-green">Hoeveelheid: </h4><p class="d-inline">@(ingredient.Product.Amount * ingredient.Amount) @ingredient.Product.IngredientType</p>
                 }
             </div>
