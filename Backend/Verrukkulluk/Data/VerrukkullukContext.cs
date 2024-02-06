@@ -15,6 +15,7 @@ namespace Verrukkulluk.Data
         public DbSet<DishType> DishTypes { get; set; }
         public DbSet<KitchenType> KitchenTypes { get; set; }
         public DbSet<RecipeDishType> RecipeDishTypes { get; set; }
+        public DbSet<ImageObj> ImageObjs { get; set; }
         public VerrukkullukContext(DbContextOptions<VerrukkullukContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
