@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Formats.Asn1;
 using Verrukkulluk.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Verrukkulluk.Data;
 
 namespace Verrukkulluk.Controllers
 {
@@ -304,6 +305,39 @@ namespace Verrukkulluk.Controllers
                 return Json(new { success = true });
             }
             return Json(new { success = false, message = "Item not found" });
+        }
+
+        public IActionResult AddRecipeToShoppingList(int recipeId)
+        {
+            DetailsModel.GetRecipeById(recipeId);
+
+            if (DetailsModel.Recipe == null)
+            {
+                return Json(new { success = false, message = "Recipe not found" });
+            }
+
+            var existingShoppingList = HttpContext.Session.Get<List<CartItem>>("ShoppingList");
+            var shoppingList = existingShoppingList ?? new List<CartItem>();
+
+            foreach (var ingredient in DetailsModel.Recipe.Ingredients)
+            {
+                var quantityNeeded = Math.Ceiling(ingredient.Amount / ingredient.Product.Amount);
+
+                var newItem = new CartItem
+                {
+                    ImageUrl = ingredient.Product.PhotoLocation,
+                    Name = ingredient.Product.Name,
+                    Description = ingredient.Product.Description,
+                    Quantity = (int)quantityNeeded,
+                    Price = ingredient.Product.Price
+                };
+
+                shoppingList.Add(newItem);
+            }
+
+            HttpContext.Session.Set("ShoppingList", shoppingList);
+
+            return Json(new { success = true, message = "Recipe added to shopping list successfully" });
         }
     }
 }

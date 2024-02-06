@@ -26,7 +26,27 @@ $(document).ready(function(){
         var newQuantity = $(this).val();
         // Perform further actions, e.g., update the total price
     });
-  });
+    $('#addToShoppingListForm').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+       
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            success: function (data) {
+                if (data.success) {
+                    console.log(data.message);
+                } else {
+                    console.error(data.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error adding recipe to shopping list:', error);
+            }
+        });
+    });
+});
 
 function addProduct(e)
 {
