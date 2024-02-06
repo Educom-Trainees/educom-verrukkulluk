@@ -306,23 +306,23 @@ p {
     border-color: var(--lighter-orange);
 }
 
-.btn-darker-green {
+.btn-darker-green, .btn-browse-profile {
     background-color: var(--darker-green);
     border-color: var(--darker-green);
 }
 
-.btn-darker-green:hover {
+.btn-darker-green:hover, .btn-browse-profile:hover {
     color: var(--darker-green);
     background-color: var(--white);
     border-color: var(--darker-green);
 }
 
-.btn-darker-orange {
+.btn-darker-orange, .btn-delete-img-profile {
     background-color: var(--darker-orange);
     border-color: var(--darker-orange);
 }
 
-.btn-darker-orange:hover {
+.btn-darker-orange:hover, .btn-delete-img-profile:hover {
     color: var(--darker-orange);
     background-color: var(--white);
     border-color: var(--darker-orange);
@@ -349,7 +349,7 @@ p {
     border-color: var(--lighter-red);
 }
 
-.btn-lighter-red:hover, .btn-delete-img:hover {
+.btn-lighter-red:hover {
     color: var(--lighter-red);
     background-color: var(--white);
     border-color: var(--lighter-red);
@@ -385,7 +385,7 @@ p {
     font-size: 1.5rem;
 }
 
-.btn-addProduct, .btn-delete-img {
+.btn-addProduct, .btn-delete-img, .btn-delete-img-profile{
     color: white;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
@@ -397,7 +397,7 @@ p {
     height: 2.2rem;
 }
 
-.btn-browse {
+.btn-browse, .btn-browse-profile {
     color: white;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;

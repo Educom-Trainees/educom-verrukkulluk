@@ -29,7 +29,8 @@ namespace Verrukkulluk.Data
                 {
                     new User("jan@jan.jan", "Jan", "Utrecht", User.ReadImageFile("jan.jpg")),
                     new User("bert@bert.bert", "Bert", "Arnhem", User.ReadImageFile("bert.png")),
-                    new User("els@els.els", "Els", "Sittard", User.ReadImageFile("els.jpg"))
+                    new User("els@els.els", "Els", "Sittard", User.ReadImageFile("els.jpg")),
+                    new User("a@a.a", "Albert", "Soesterberg", User.ReadImageFile("bert.jpg"))
                 };
                 User adminUser = new User("admin@admin.admin", "Admin", "Admindam", User.ReadImageFile("admin.png"));
 
@@ -70,10 +71,10 @@ namespace Verrukkulluk.Data
 
                     Product[] products =
                     {
-                        new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, "location unknown"),
-                        new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, "location unknown"),
+                        new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, "/images/witte_bol.jpg"),
+                        new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, "/images/avocado.jpg"),
                         new Product("Vegan Burgersaus", 7.29m, 906, 300, IngredientType.gram, "location unknown"),
-                        new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, "location unknown"),
+                        new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, "/images/VeganBurger.jpg"),
                         new Product("Tomaten", 1.39m, 105, 6, IngredientType.stuks, "location unknown"),
                         new Product("Ijsbergsla", 1.09m, 25, 200, IngredientType.gram, "location unknown"),
                         new Product("Boter", 3.79m, 1674, 225, IngredientType.gram, "location unknown")

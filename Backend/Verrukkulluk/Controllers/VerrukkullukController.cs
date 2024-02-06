@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using System.Xml;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -171,9 +172,13 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
+            System.Console.WriteLine("Hij komt hier wel");
+            VerModel = model;
             VerModel.Input = model.Input;
+            System.Console.WriteLine(VerModel.Input);
             if (ModelState.IsValid)
             {
+                System.Console.WriteLine("Inloggen gelukt");
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 SignInResult result = await VerModel.Login(VerModel.Input);
@@ -188,12 +193,14 @@ namespace Verrukkulluk.Controllers
                 }
                 else
                 {
+                    System.Console.WriteLine("inloggen mislukt");
+                    System.Console.WriteLine("verkeerde gegevens");
                     ModelState.AddModelError(nameof(VerModel.Input) + "." + nameof(VerModel.Input.Email), "Invalid login attempt.");
                     HomeModel.GetAllRecipes();
                     return View(nameof(Index), HomeModel);
                 }
             }
-
+            System.Console.WriteLine("succeed werkt niet");
             // If we got this far, something failed, redisplay form
             HomeModel.GetAllRecipes();
             return View(nameof(Index), HomeModel);

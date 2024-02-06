@@ -90,7 +90,7 @@ function handleFileSelect(input) {
         };
         reader.readAsDataURL(files[0]);
     } else {
-        fileLabel.innerHTML = 'Geen bestand gekozen';
+        fileLabel.innerHTML = 'Geen afbeelding geselcteerd...';
         img.style.display = 'none';
         removeButton.style.display = 'none';
     }
@@ -103,7 +103,71 @@ function removeFile() {
     var removeButton = document.getElementById('removeButton');
 
     input.value = '';
-    fileLabel.innerHTML = 'Geen bestand gekozen';
+    fileLabel.innerHTML = 'Geen afbeelding geselecteerd...';
+    img.style.display = 'none';
+    removeButton.style.display = 'none';
+}
+//Foto profiel en preview
+function handleFileSelectProfilePicture(input) {
+    var files = input.files;
+    var fileLabel = document.getElementById('fileLabel');
+    var img = document.getElementById('preview');
+    var removeButton = document.getElementById('removeButton');
+
+    if (files.length > 0) {
+        fileLabel.innerHTML = files[0].name;
+        removeButton.style.display = 'inline-block';
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var originalImg = new Image();
+            originalImg.src = e.target.result;
+
+            originalImg.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const squareSize = Math.min(originalImg.width, originalImg.height);
+
+                canvas.width = squareSize / 2;
+                canvas.height = squareSize / 2;
+
+                ctx.drawImage(originalImg, 0, 0, squareSize / 2, squareSize / 2);
+
+                const circularCanvas = document.createElement('canvas');
+                const circularCtx = circularCanvas.getContext('2d');
+
+                circularCanvas.width = squareSize / 2;
+                circularCanvas.height = squareSize / 2;
+
+                const radius = squareSize / 4;
+
+                circularCtx.arc(squareSize / 4, squareSize / 4, radius, 0, 2 * Math.PI);
+                circularCtx.clip();
+                circularCtx.drawImage(canvas, 0, 0);
+
+                img.src = circularCanvas.toDataURL();
+                img.style.display = 'block';
+            };
+        };
+
+        reader.readAsDataURL(files[0]);
+    } else {
+        fileLabel.innerHTML = 'Selecteer uw profielfoto...';
+        img.style.display = 'none';
+        removeButton.style.display = 'none';
+    }
+}
+
+//Foto verwijderen profiel
+function removeFileProfilePicture() {
+    var input = document.getElementById('Input.ProfilePicture');
+    var fileLabel = document.getElementById('fileLabel');
+    var img = document.getElementById('preview');
+    var removeButton = document.getElementById('removeButton');
+
+    input.value = '';
+    fileLabel.innerHTML = 'Selecteer uw profielfoto...';
     img.style.display = 'none';
     removeButton.style.display = 'none';
 }
