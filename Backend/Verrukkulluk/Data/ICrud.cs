@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Verrukkulluk.Models;
 
 namespace Verrukkulluk.Data
 {
@@ -13,5 +14,6 @@ namespace Verrukkulluk.Data
         public double ReadCaloriesByRecipeId(int recipeId);
         public double ReadPriceByRecipeId(int recipeId);
         public Recipe ReadRecipeById(int Id);
+        public ImageObj ReadImageById(int Id);
     }
 }

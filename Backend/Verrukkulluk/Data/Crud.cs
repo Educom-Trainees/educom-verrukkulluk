@@ -124,5 +124,10 @@ namespace Verrukkulluk.Data
                 .First();
             return Recipe;
         }
+
+        public ImageObj ReadImageById(int Id)
+        {
+            return Context.ImageObjs.Where(i => i.Id == Id).First();
+        }
     }
 }

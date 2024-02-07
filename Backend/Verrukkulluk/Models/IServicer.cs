@@ -15,5 +15,6 @@ namespace Verrukkulluk.Models
         decimal GetPrice(int Id);
         Recipe GetRecipeById(int Id);
         Task<SignInResult> Login(InputModel input);
+        ImageObj GetImage(int Id);
     }
 }
