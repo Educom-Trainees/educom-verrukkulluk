@@ -2,7 +2,7 @@
 
 <div class="m-3 mb-5">
     <div class="card shadow" style="height: 32rem">
-        <img class="card-img-top img-crop" src="@Model.PhotoLocation" alt="Afbeelding van het gerecht">
+        <img class="card-img-top img-crop" src="@Url.Action("GetImage", "ImageController", new { id = Model.ImageObjId })" alt="Afbeelding van het gerecht">
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-inline-block text-truncate"><h2 class="darker-green">@Model.Title</h2></div>

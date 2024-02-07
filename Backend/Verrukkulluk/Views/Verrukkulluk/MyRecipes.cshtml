@@ -20,7 +20,7 @@
             <div class="col-xl-6">
                 <div class="m-3 mb-5">
                     <div class="card shadow" style="height: 35rem">
-                        <img class="card-img-top img-crop" src="@recipe.PhotoLocation" alt="Card image cap">
+                        <img class="card-img-top img-crop" src="@Url.Action("GetImage", "ImageController", new { id = recipe.ImageObjId })"  alt="Afbeelding van het gerecht">
                         <div class="card-header">
                             <div class="d-flex justify-content-start m-2">
                                 <div class="d-inline-block">

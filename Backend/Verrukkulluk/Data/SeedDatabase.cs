@@ -5,6 +5,29 @@ namespace Verrukkulluk.Data
 {
     public static class SeedDatabase
     {
+        public static byte[] ReadImageFile(string fileName)
+        {
+            string folderPath = "wwwroot/Images/";
+            string filePath = Path.Combine(folderPath, fileName);
+
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    return File.ReadAllBytes(filePath);
+                }
+                else
+                {
+                    Console.WriteLine($"File not found: {filePath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading file: {ex.Message}");
+            }
+
+            return null;
+        }
         public static async Task InitializeDatabase(IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())
@@ -27,12 +50,12 @@ namespace Verrukkulluk.Data
 
                 User[] users =
                 {
-                    new User("jan@jan.jan", "Jan", "Utrecht", User.ReadImageFile("jan.jpg")),
-                    new User("bert@bert.bert", "Bert", "Arnhem", User.ReadImageFile("bert.png")),
-                    new User("els@els.els", "Els", "Sittard", User.ReadImageFile("els.jpg")),
-                    new User("a@a.a", "Albert", "Soesterberg", User.ReadImageFile("bert.jpg"))
+                    new User("jan@jan.jan", "Jan", "Utrecht", ReadImageFile("jan.jpg")),
+                    new User("bert@bert.bert", "Bert", "Arnhem", ReadImageFile("bert.png")),
+                    new User("els@els.els", "Els", "Sittard", ReadImageFile("els.jpg")),
+                    new User("a@a.a", "Albert", "Soesterberg", ReadImageFile("bert.jpg"))
                 };
-                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", User.ReadImageFile("admin.png"));
+                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", ReadImageFile("admin.png"));
 
                 string password = "Test890!";
 
@@ -137,12 +160,29 @@ namespace Verrukkulluk.Data
                     string description = "Een lekkere vegetarisch gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
 
+                    ImageObj CouscousImage = new ImageObj(ReadImageFile("couscous.jpg"), "jpg");
+                    System.Console.WriteLine(CouscousImage.ImageContent.Length);
+                    dbContext.ImageObjs.Add(CouscousImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj HamburgerImage = new ImageObj(ReadImageFile("hamburger.jpg"), "jpg");
+                    System.Console.WriteLine(HamburgerImage.ImageContent.Length);
+                    dbContext.ImageObjs.Add(HamburgerImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj PokeBowlImage = new ImageObj(ReadImageFile("pokebowl.jpg"), "jpg");
+                    System.Console.WriteLine(PokeBowlImage.ImageContent.Length);
+                    dbContext.ImageObjs.Add(PokeBowlImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj SpaghettiImage = new ImageObj(ReadImageFile("spaghetti.jpg"), "jpg");
+                    System.Console.WriteLine(SpaghettiImage.ImageContent.Length);
+                    dbContext.ImageObjs.Add(SpaghettiImage);
+                    await dbContext.SaveChangesAsync();
+
                     Recipe[] recipes =
                     {
-                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], DishPhoto, "/images/pexels-ella-olsson.jpg", recipeIngredients),
-                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], DishPhoto, "/images/pexels-robin-stickel.jpg", recipeIngredients),
-                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], DishPhoto, "/images/pexels-jane-doan.jpg", recipeIngredients),
-                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], DishPhoto, "/images/pexels-lisa-fotios.jpg", recipeIngredientsTest)
+                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients),
+                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients),
+                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients),
+                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest)
                     };
 
                     dbContext.Products.AddRange(products);

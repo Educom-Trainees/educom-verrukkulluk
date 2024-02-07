@@ -88,6 +88,7 @@ namespace Verrukkulluk.Controllers
             if (ModelState.IsValid)
             {
                 //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
+                // recipe.DishPhoto apart opslaan en id toevoegen aan recipe
                 //!Nog aanpassen! Nu tijdelijk:
                 return RedirectToAction("Index");
             }

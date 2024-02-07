@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Models;
 
@@ -22,14 +24,11 @@ namespace Verrukkulluk
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
-
-        [Display(Name = "Afbeelding")]
-        public byte[] DishPhoto { get; set; }
-        public string PhotoLocation { get; set; }
+        public int ImageObjId { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
         public Recipe() { }
-        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, byte[] dishPhoto, string photoLocation, List<Ingredient> ingredients)
+        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients)
         {
             Title = title;
             RecipeDishTypes = recipeDishTypes;
@@ -39,8 +38,7 @@ namespace Verrukkulluk
             Rating = rating;
             CreatorId = creator.Id;
             Creator = creator;
-            DishPhoto = dishPhoto;
-            PhotoLocation = photoLocation;
+            ImageObjId = imageObjId;
             Ingredients = ingredients;
 
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);

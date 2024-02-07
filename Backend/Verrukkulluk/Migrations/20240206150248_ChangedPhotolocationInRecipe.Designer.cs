@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Verrukkulluk.Data;
 
@@ -10,9 +11,11 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    partial class VerrukkullukContextModelSnapshot : ModelSnapshot
+    [Migration("20240206150248_ChangedPhotolocationInRecipe")]
+    partial class ChangedPhotolocationInRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -493,9 +496,6 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.HasIndex("ImageObjId")
-                        .IsUnique();
-
                     b.HasIndex("KitchenTypeId");
 
                     b.ToTable("Recipes");
@@ -629,12 +629,6 @@ namespace Verrukkulluk.Migrations
                     b.HasOne("Verrukkulluk.Models.User", "Creator")
                         .WithMany("FavouritesList")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Verrukkulluk.Models.ImageObj", null)
-                        .WithOne()
-                        .HasForeignKey("Verrukkulluk.Recipe", "ImageObjId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

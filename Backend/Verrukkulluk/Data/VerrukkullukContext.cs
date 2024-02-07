@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace Verrukkulluk.Data
             builder.Entity<Event>().Property(e => e.Price).HasColumnType("decimal(18,2)");
             builder.Entity<Event>().Property(e => e.StartTime).HasColumnType("time");
             builder.Entity<Event>().Property(e => e.EndTime).HasColumnType("time");
+            builder.Entity<Recipe>().HasOne<ImageObj>().WithOne();
             base.OnModelCreating(builder);
         }
     }
