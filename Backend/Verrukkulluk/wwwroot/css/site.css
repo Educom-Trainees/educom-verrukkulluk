@@ -777,3 +777,38 @@ p {
     text-align: center;
     font-size: 40px;
 }
+
+.numbered-step {
+    padding-left: 0px;
+    counter-reset: sentence-counter;
+    padding: 30px 0;
+}
+
+.numbered-step li {
+    position: relative;
+    margin-bottom: 30px;
+    list-style: none;
+}
+
+.numbered-step p {
+    margin: 0;
+    padding-left: 50px;
+    position: relative;
+}
+
+.numbered-step p:before {
+    content: counter(sentence-counter);
+    counter-increment: sentence-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: var(--darker-green);
+    color: var(--white);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-family: var(--heading);
+    line-height: 30px;
+}
+

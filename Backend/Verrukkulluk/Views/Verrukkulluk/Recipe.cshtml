@@ -126,11 +126,20 @@
                     <h4 class="d-inline darker-green">Hoeveelheid: </h4><p class="d-inline">@(ingredient.Product.Amount * ingredient.Amount) @ingredient.Product.IngredientType</p>
                 }
             </div>
-            <div id="preparation" class="container tab-pane tab-pane-recipe fade"><br>
-                <p>foreach (PreparationStep step in Model.Recipe.PreparationSteps){</p><br>
-                <p>step.Content</p><br>
-                <p>}</p>
-            </div>
+                <div id="preparation" class="container tab-pane tab-pane-recipe fade">
+                    @if (Model.Recipe != null && !string.IsNullOrEmpty(Model.Recipe.Instructions))
+                    {
+                        <ol class="numbered-step">
+                            @foreach (var steps in Model.Recipe.Instructions.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                <li>
+                                    <p>@steps.Trim()</p>
+                                </li>
+                            }
+                        </ol>
+                    }
+                </div>
+
             @foreach (Comment comment in Model.Recipe.Comments){
             <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
                 <h3 class="darker-green">comment.Creator.Name</h3>
