@@ -29,20 +29,24 @@ $(document).ready(function(){
     $('#addToShoppingListForm').submit(function (e) {
         e.preventDefault();
         var formData = $(this).serialize();
-       
+        
+        $('#addToShoppingListButton').prop('disabled', true);
+
         $.ajax({
             type: 'POST',
             url: $(this).attr('action'),
             data: formData,
             success: function (data) {
                 if (data.success) {
-                    console.log(data.message);
+                    displaySuccessMessage("Het recept is toegevoegd aan uw boodschappenlijst!");
                 } else {
                     console.error(data.message);
                 }
             },
             error: function (xhr, status, error) {
                 console.error('Error adding recipe to shopping list:', error);
+            },
+            complete: function () {
             }
         });
     });
@@ -274,3 +278,10 @@ document.addEventListener('DOMContentLoaded', function () {
     shoppingListContent.addEventListener('scroll', handleScrollChevronUp);
     handleScrollChevronUp();
 });
+
+// Display success message
+function displaySuccessMessage(message) {
+    var successMessage = document.getElementById('successMessage');
+    successMessage.innerText = message;
+    successMessage.style.display = 'block';
+}

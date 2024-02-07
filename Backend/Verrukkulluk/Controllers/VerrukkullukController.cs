@@ -324,22 +324,18 @@ namespace Verrukkulluk.Controllers
 
             foreach (var ingredient in DetailsModel.Recipe.Ingredients)
             {
-                var quantityNeeded = Math.Ceiling(ingredient.Amount / ingredient.Product.Amount);
-
+                var quantityNeeded = ingredient.Amount;
                 var newItem = new CartItem
                 {
                     ImageUrl = ingredient.Product.PhotoLocation,
                     Name = ingredient.Product.Name,
                     Description = ingredient.Product.Description,
-                    Quantity = (int)quantityNeeded,
+                    Quantity = Math.Round(quantityNeeded, 2),
                     Price = ingredient.Product.Price
                 };
-
                 shoppingList.Add(newItem);
             }
-
             HttpContext.Session.Set("ShoppingList", shoppingList);
-
             return Json(new { success = true, message = "Recipe added to shopping list successfully" });
         }
     }
