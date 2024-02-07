@@ -26,6 +26,7 @@ namespace Verrukkulluk.Data
             builder.Entity<Event>().Property(e => e.StartTime).HasColumnType("time");
             builder.Entity<Event>().Property(e => e.EndTime).HasColumnType("time");
             builder.Entity<Recipe>().HasOne<ImageObj>().WithOne();
+            builder.Entity<Product>().HasOne<ImageObj>().WithOne();
             base.OnModelCreating(builder);
         }
     }

@@ -62,7 +62,7 @@
                             <div class="row align-items-center">
                                 <div class="col-md-1 ms-4">
                                     <!-- Display image from CartItem -->
-                                    <img class="ingredient" src="@item.ImageUrl" alt="@item.Name">
+                                    <img class="ingredient" src="@Url.Action("GetImage", "ImageController", new { id = item.ImageObjId })" alt="@item.Name">
                                 </div>
                                 <div class="col-md-4">
                                     <h3 class="darker-green">@item.Name</h3>

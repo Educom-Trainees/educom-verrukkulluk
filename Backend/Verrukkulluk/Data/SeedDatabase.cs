@@ -92,15 +92,37 @@ namespace Verrukkulluk.Data
                     dbContext.DishTypes.AddRange(dishTypes);
                     await dbContext.SaveChangesAsync();
 
+                    ImageObj WitteBolImage = new ImageObj(ReadImageFile("witte_bol.jpg"), "jpg");
+                    dbContext.ImageObjs.Add(WitteBolImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj AvocadoImage = new ImageObj(ReadImageFile("avocado.jpg"), "jpg");
+                    dbContext.ImageObjs.Add(AvocadoImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj VeganburgersausImage = new ImageObj(ReadImageFile("veganburgersaus.png"), "png");
+                    dbContext.ImageObjs.Add(VeganburgersausImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj HamburgersImage = new ImageObj(ReadImageFile("hamburgers.png"), "png");
+                    dbContext.ImageObjs.Add(HamburgersImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj TomatenImage = new ImageObj(ReadImageFile("tomaten.png"), "png");
+                    dbContext.ImageObjs.Add(TomatenImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj IjsbergslaImage = new ImageObj(ReadImageFile("ijsbergsla.png"), "png");
+                    dbContext.ImageObjs.Add(IjsbergslaImage);
+                    await dbContext.SaveChangesAsync();
+                    ImageObj BoterImage = new ImageObj(ReadImageFile("boter.png"), "png");
+                    dbContext.ImageObjs.Add(BoterImage);
+                    await dbContext.SaveChangesAsync();
+
                     Product[] products =
                     {
-                        new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, "location unknown", "Verpakking van zes witte bollen"),
-                        new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, "location unknown", "Verse losse avocado's"),
-                        new Product("Vegan Burgersaus", 7.29m, 906, 300, IngredientType.gram, "location unknown", "Fles met vegan burgersaus (300 g)"),
-                        new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, "location unknown", "Verpakking van twee hamburgers"),
-                        new Product("Tomaten", 1.39m, 105, 6, IngredientType.stuks, "location unknown", "Plastic verpakking van zes verse tomaten"),
-                        new Product("Ijsbergsla", 1.09m, 25, 200, IngredientType.gram, "location unknown", "Zakje ijsbergsla (200 g)"),
-                        new Product("Boter", 3.79m, 1674, 225, IngredientType.gram, "location unknown", "Pakje boter (225 g)"),
+                        new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, WitteBolImage.Id, "Verpakking van zes witte bollen"),
+                        new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, AvocadoImage.Id, "Verse losse avocado's"),
+                        new Product("Vegan Burgersaus", 7.29m, 906, 300, IngredientType.gram, VeganburgersausImage.Id, "Fles met vegan burgersaus (300 g)"),
+                        new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, HamburgersImage.Id, "Verpakking van twee hamburgers"),
+                        new Product("Tomaten", 1.39m, 105, 6, IngredientType.stuks, TomatenImage.Id, "Plastic verpakking van zes verse tomaten"),
+                        new Product("Ijsbergsla", 1.09m, 25, 200, IngredientType.gram, IjsbergslaImage.Id, "Zakje ijsbergsla (200 g)"),
+                        new Product("Boter", 3.79m, 1674, 225, IngredientType.gram, BoterImage.Id, "Pakje boter (225 g)"),
                     };
 
 

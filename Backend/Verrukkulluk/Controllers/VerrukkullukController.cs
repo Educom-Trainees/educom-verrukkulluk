@@ -223,70 +223,70 @@ namespace Verrukkulluk.Controllers
         [HttpGet]
         [Route("fillcart")]
         // A test shopping list with a few items that get stored in the session
-        public IActionResult TestShoppingList()
-        {
-            var sampleShoppingList = new List<CartItem>
-            {
-                new CartItem
-                {
-                    ImageUrl = "../images/avocado.jpg",
-                    Name = "Avocado",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 4,
-                    Price = 5.99m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/witte_bol.jpg",
-                    Name = "Witte bol",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 1,
-                    Price = 3.49m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/avocado.jpg",
-                    Name = "Avocado2",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 4,
-                    Price = 5.99m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/witte_bol.jpg",
-                    Name = "Witte bol2",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 1,
-                    Price = 3.49m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/witte_bol.jpg",
-                    Name = "Witte bol3",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 1,
-                    Price = 3.49m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/avocado.jpg",
-                    Name = "Avocado3",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 4,
-                    Price = 5.99m
-                },
-                new CartItem
-                {
-                    ImageUrl = "../images/avocado.jpg",
-                    Name = "Avocado4",
-                    Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-                    Quantity = 4,
-                    Price = 5.99m
-                },
-            };
-            SaveShoppingList(sampleShoppingList);
-            return RedirectToAction("MijnBoodschappenlijst");
-        }
+        // public IActionResult TestShoppingList()
+        // {
+        //     var sampleShoppingList = new List<CartItem>
+        //     {
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/avocado.jpg",
+        //             Name = "Avocado",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 4,
+        //             Price = 5.99m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/witte_bol.jpg",
+        //             Name = "Witte bol",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 1,
+        //             Price = 3.49m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/avocado.jpg",
+        //             Name = "Avocado2",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 4,
+        //             Price = 5.99m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/witte_bol.jpg",
+        //             Name = "Witte bol2",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 1,
+        //             Price = 3.49m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/witte_bol.jpg",
+        //             Name = "Witte bol3",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 1,
+        //             Price = 3.49m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/avocado.jpg",
+        //             Name = "Avocado3",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 4,
+        //             Price = 5.99m
+        //         },
+        //         new CartItem
+        //         {
+        //             ImageUrl = "../images/avocado.jpg",
+        //             Name = "Avocado4",
+        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
+        //             Quantity = 4,
+        //             Price = 5.99m
+        //         },
+        //     };
+        //     SaveShoppingList(sampleShoppingList);
+        //     return RedirectToAction("MijnBoodschappenlijst");
+        // }
 
         [HttpGet]
         [Route("RemoveAllShopItems")]
@@ -327,7 +327,7 @@ namespace Verrukkulluk.Controllers
                 var quantityNeeded = ingredient.Amount;
                 var newItem = new CartItem
                 {
-                    ImageUrl = ingredient.Product.PhotoLocation,
+                    ImageObjId = ingredient.Product.ImageObjId, //Ik weet niet hoe dit meegegeven wordt
                     Name = ingredient.Product.Name,
                     Description = ingredient.Product.Description,
                     Quantity = Math.Round(quantityNeeded, 2),
