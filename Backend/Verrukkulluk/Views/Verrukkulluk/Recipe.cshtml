@@ -119,14 +119,22 @@
 
         <!-- Tab panes -->
         <div class="tab-content tab-content-recipe">
-            <div id="ingredients" class="container tab-pane tab-pane-recipe active"><br>
-                @foreach(Ingredient ingredient in Model.Recipe.Ingredients){
-                    <h3 class="darker-green"> @ingredient.Product.Name </h3>
-                    <p> @ingredient.Product.Description</p>
-                    <h4 class="d-inline darker-green">Hoeveelheid: </h4><p class="d-inline">@(ingredient.Product.Amount * ingredient.Amount) @ingredient.Product.IngredientType</p>
+            <div id="ingredients" class="container tab-pane tab-pane-recipe active">
+                @foreach (Ingredient ingredient in Model.Recipe.Ingredients)
+                {
+                    <div class="ingredient-item">
+                        <div class="image-column">
+                            <img class="ingredient" src="@Url.Action("GetImage", "ImageController", new { id = Model.Recipe.ImageObjId })" alt="Afbeelding van het ingredient">
+                        </div>
+                        <div class="info-column">
+                            <h3 class="darker-green">@ingredient.Product.Name</h3>
+                            <p>@ingredient.Product.Description</p>
+                            <h4 class="d-inline darker-green">Hoeveelheid: </h4><p class="d-inline">@(ingredient.Product.Amount * ingredient.Amount) @ingredient.Product.IngredientType</p>
+                        </div>
+                    </div>
                 }
             </div>
-                <div id="preparation" class="container tab-pane tab-pane-recipe fade">
+            <div id="preparation" class="container tab-pane tab-pane-recipe fade">
                     @if (Model.Recipe != null && !string.IsNullOrEmpty(Model.Recipe.Instructions))
                     {
                         <ol class="numbered-step">
@@ -138,8 +146,7 @@
                             }
                         </ol>
                     }
-                </div>
-
+            </div>
             @foreach (Comment comment in Model.Recipe.Comments){
             <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
                 <h3 class="darker-green">comment.Creator.Name</h3>
@@ -147,8 +154,15 @@
             </div>
             }
             <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
-                <h3 class="darker-green">Tommie Tuup</h3>
+                    <div class="comments-item">
+                <div class="image-column">
+                <img class="profile-picture" src="@Url.Action("GetImage", "ImageController", new { id = Model.Recipe.ImageObjId })" alt="Profielfoto">
+                </div>
+                <div class="info-column">
+                <h3 class="darker-green">Tommie (Den Helder)</h3>
                 <p>Het was een heerlijk gerecht.</p>
+                </div>
+                </div>
             </div>
         </div>
     </div>
