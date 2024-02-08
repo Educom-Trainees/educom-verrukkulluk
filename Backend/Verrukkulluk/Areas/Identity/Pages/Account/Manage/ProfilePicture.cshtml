@@ -38,7 +38,7 @@
                         <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="display: none;" onclick="removeFileProfilePicture();">Verwijderen</button>
                     </div>
                 </div>
-                <img id="preview" src="#" alt="Voorbeeldafbeelding" style="display: none; max-width: 30%; margin-top: 10px;" />
+                <img id="preview" class="profile-picture" src="#" alt="Voorbeeldafbeelding" style="display: none; max-width: 30%; margin-top: 10px;" />
                 <span asp-validation-for="Input.ProfilePicture" class="lightest-brown"></span>
             </div>
             <button id="change-picture-button" type="submit" asp-page-handler="ChangeProfilePicture" class="w-80 btn btn-lg submit-profile">Update uw profielfoto</button>

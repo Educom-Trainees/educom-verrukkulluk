@@ -8,7 +8,6 @@ namespace Verrukkulluk.Models
         public Recipe Recipe { get; set; }
         public double Calories { get; set; }
         public decimal Price { get; set; }
-        public String base64RecipePicture { get; set; }
 
 
         public DetailsModel() { }

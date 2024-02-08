@@ -126,8 +126,11 @@ body {
     max-width: 55px;
 }
 .profile-picture {
-    height: 75px;
-    width: 75px;
+    height: 100px;
+    width: 100px;
+    border-radius: 50px;
+    border: 3px solid var(--darker-orange);
+    object-fit: cover;
 }
 
 h1, h2, h3, h4 {
@@ -636,14 +639,12 @@ p {
     border-color: #dee2e6 #dee2e6 #fff;
   }
   
-  .tab-content-recipe {
+.tab-content-recipe {
     text-decoration: none;
     height: 32rem;
     overflow: auto;
-}
-
-.tab-content-recipe {
     box-shadow: 0 0 5px #5c5a5a;
+    padding: 1.5rem;
 }
 
 .nav-link-recipe {
