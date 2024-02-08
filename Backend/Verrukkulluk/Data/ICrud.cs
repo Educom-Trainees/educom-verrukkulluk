@@ -11,8 +11,6 @@ namespace Verrukkulluk.Data
         List<RecipeInfo>? ReadAllRecipes();
         List<RecipeInfo>? ReadAllRecipesByUserId(int userId);
         Product? ReadProductById(int id);
-        public double ReadCaloriesByRecipeId(int recipeId);
-        public double ReadPriceByRecipeId(int recipeId);
         public RecipeInfo ReadRecipeById(int Id);
         public ImageObj ReadImageById(int Id);
     }

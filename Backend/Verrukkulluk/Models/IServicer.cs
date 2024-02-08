@@ -11,8 +11,6 @@ namespace Verrukkulluk.Models
         List<RecipeInfo> GetAllRecipes();
         List<RecipeInfo> GetUserRecipes();
         List<RecipeInfo> GetUserFavorites();
-        double GetCalories(int Id);
-        decimal GetPrice(int Id);
         RecipeInfo GetRecipeById(int Id);
         Task<SignInResult> Login(InputModel input);
         ImageObj GetImage(int Id);

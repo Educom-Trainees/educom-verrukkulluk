@@ -35,8 +35,6 @@ namespace Verrukkulluk.Controllers
         }
         public IActionResult Recept(int Id = 1)
         {
-            DetailsModel.Calories = Servicer.GetCalories(Id);
-            DetailsModel.Price = Servicer.GetPrice(Id);
             DetailsModel.Recipe = Servicer.GetRecipeById(Id);
 
             ViewData["Title"]= "Recept";

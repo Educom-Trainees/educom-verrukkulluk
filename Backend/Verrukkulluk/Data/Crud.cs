@@ -52,9 +52,11 @@ namespace Verrukkulluk.Data
             {
                 var recipes = Context.Recipes
                     .Include(r => r.RecipeDishTypes)
-                    .ThenInclude(r => r.DishType)
+                        .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
+                    .Include(r => r.Ingredients)
+                        .ThenInclude(i => i.Product)
                     .OrderBy(recipe => recipe.CreationDate)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -77,6 +79,8 @@ namespace Verrukkulluk.Data
                         .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
+                    .Include(r => r.Ingredients)
+                        .ThenInclude(i => i.Product)
                     .Where(recipe => recipe.CreatorId == userId)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -88,30 +92,6 @@ namespace Verrukkulluk.Data
             }
 
             return null;
-        }
-
-        public double ReadCaloriesByRecipeId(int recipeId)
-        {
-            var Ingredients = Context.Ingredients
-                .Where(i => i.RecipeId == recipeId)
-                .Select(i => new
-                {
-                    calories = i.Amount * i.Product.Calories
-                }).ToList();
-            double total = Ingredients.Select(i => i.calories).Sum();
-            return total;
-        }
-
-        public double ReadPriceByRecipeId(int recipeId)
-        {
-            var Ingredients = Context.Ingredients
-                .Where(i => i.RecipeId == recipeId)
-                .Select(i => new
-                {
-                    price = Math.Ceiling(i.Amount) * (double)i.Product.Price
-                }).ToList();
-            double total = Ingredients.Select(i => i.price).Sum();
-            return total;
         }
 
         public RecipeInfo ReadRecipeById(int Id)

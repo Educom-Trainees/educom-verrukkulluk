@@ -91,16 +91,6 @@ namespace Verrukkulluk.Models
             return Crud.ReadProductById(productId);
         }
 
-        public double GetCalories(int Id)
-        {
-            return Crud.ReadCaloriesByRecipeId(Id);
-        }
-
-        public decimal GetPrice(int Id)
-        {
-            return (decimal)Crud.ReadPriceByRecipeId(Id);
-        }
-
         public RecipeInfo GetRecipeById(int Id)
         {
             return Crud.ReadRecipeById(Id);
