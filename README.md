@@ -28,5 +28,9 @@ https://e-learning.educom.nu/cases/verrukkulluk/intro
   dotnet ef database update
   ```
 
+## Configuration XAMMP
+* Add under [mysqld] the line: bulk_insert_buffer_size=256M
+* Change max_allowed_packet=1M to max_allowed_packet=256M
+
 ## Run de applicatie
 * Run de applicatie vanuit Visual Studio of met het commandline commando `dotnet run`
