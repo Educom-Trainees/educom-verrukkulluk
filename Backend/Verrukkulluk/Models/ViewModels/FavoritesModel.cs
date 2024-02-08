@@ -5,7 +5,7 @@ namespace Verrukkulluk.Models
 {
     public class FavoritesModel : VerModel, IFavoritesModel
     {
-        public List<Recipe>? Recipes { get; set; }
+        public List<RecipeInfo>? Recipes { get; set; }
 
         public void GetUserFavorites()
         {

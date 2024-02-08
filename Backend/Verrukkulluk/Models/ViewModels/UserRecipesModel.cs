@@ -5,7 +5,7 @@ namespace Verrukkulluk.Models
 {
     public class UserRecipesModel : VerModel, IUserRecipesModel
     {
-        public List<Recipe>? Recipes { get; set; }
+        public List<RecipeInfo>? Recipes { get; set; }
         public void GetUserRecipes()
         {
             if (HttpContextAccessor?.HttpContext?.User == null)

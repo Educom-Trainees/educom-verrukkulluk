@@ -8,12 +8,12 @@ namespace Verrukkulluk.Data
     {
         List<Product> ReadAllProducts();
         string DeleteUserRecipe(int userId, int recipeId);
-        List<Recipe>? ReadAllRecipes();
-        List<Recipe>? ReadAllRecipesByUserId(int userId);
+        List<RecipeInfo>? ReadAllRecipes();
+        List<RecipeInfo>? ReadAllRecipesByUserId(int userId);
         Product? ReadProductById(int id);
         public double ReadCaloriesByRecipeId(int recipeId);
         public double ReadPriceByRecipeId(int recipeId);
-        public Recipe ReadRecipeById(int Id);
+        public RecipeInfo ReadRecipeById(int Id);
         public ImageObj ReadImageById(int Id);
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IFavoritesModel
     {
-        public List<Recipe>? Recipes { get; set; }
+        public List<RecipeInfo>? Recipes { get; set; }
         void GetUserFavorites();
     }
 }

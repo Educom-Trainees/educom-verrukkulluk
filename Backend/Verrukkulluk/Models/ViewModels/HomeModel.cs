@@ -5,7 +5,7 @@ namespace Verrukkulluk.Models
 {
     public class HomeModel:VerModel,IHomeModel
     {
-        public List<Recipe>? Recipes { get; set; }
+        public List<RecipeInfo>? Recipes { get; set; }
 
         public HomeModel() { }
 

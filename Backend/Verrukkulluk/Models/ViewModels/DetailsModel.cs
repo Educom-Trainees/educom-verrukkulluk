@@ -5,7 +5,7 @@ namespace Verrukkulluk.Models
 {
     public class DetailsModel:VerModel, IDetailsModel
     {
-        public Recipe Recipe { get; set; }
+        public RecipeInfo Recipe { get; set; }
         public double Calories { get; set; }
         public decimal Price { get; set; }
 

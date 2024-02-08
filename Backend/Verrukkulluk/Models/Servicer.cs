@@ -23,12 +23,12 @@ namespace Verrukkulluk.Models
             SignInManager = signInManager;
         }
 
-        public List<Recipe> GetAllRecipes()
+        public List<RecipeInfo> GetAllRecipes()
         {
             return Crud.ReadAllRecipes();
         }
 
-        public List<Recipe> GetUserRecipes()
+        public List<RecipeInfo> GetUserRecipes()
         {
             if (HttpContextAccessor?.HttpContext?.User == null)
             {
@@ -46,7 +46,7 @@ namespace Verrukkulluk.Models
             }
         }
 
-        public List<Recipe> GetUserFavorites()
+        public List<RecipeInfo> GetUserFavorites()
         {
             if (HttpContextAccessor?.HttpContext?.User == null)
             {
@@ -101,7 +101,7 @@ namespace Verrukkulluk.Models
             return (decimal)Crud.ReadPriceByRecipeId(Id);
         }
 
-        public Recipe GetRecipeById(int Id)
+        public RecipeInfo GetRecipeById(int Id)
         {
             return Crud.ReadRecipeById(Id);
             //base64RecipePicture = Convert.ToBase64String(Recipe.DishPhoto);

@@ -46,7 +46,7 @@ namespace Verrukkulluk.Data
             }
         }
 
-        public List<Recipe>? ReadAllRecipes()
+        public List<RecipeInfo>? ReadAllRecipes()
         {
             try 
             {
@@ -54,7 +54,9 @@ namespace Verrukkulluk.Data
                     .Include(r => r.RecipeDishTypes)
                     .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
+                    .Include(r => r.Creator)
                     .OrderBy(recipe => recipe.CreationDate)
+                    .Select(r => new RecipeInfo(r))
                     .ToList();
                 return recipes;
             }
@@ -66,7 +68,7 @@ namespace Verrukkulluk.Data
             return null;
         }
 
-        public List<Recipe>? ReadAllRecipesByUserId(int userId)
+        public List<RecipeInfo>? ReadAllRecipesByUserId(int userId)
         {
             try
             {
@@ -74,7 +76,9 @@ namespace Verrukkulluk.Data
                     .Include(r => r.RecipeDishTypes)
                         .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
+                    .Include(r => r.Creator)
                     .Where(recipe => recipe.CreatorId == userId)
+                    .Select(r => new RecipeInfo(r))
                     .ToList();
                 return recipes;
             }
@@ -110,11 +114,12 @@ namespace Verrukkulluk.Data
             return total;
         }
 
-        public Recipe ReadRecipeById(int Id)
+        public RecipeInfo ReadRecipeById(int Id)
         {
             var Recipes = Context.Recipes
                 .Where(i => i.Id == Id)
                 .Include(r => r.KitchenType)
+                .Include(r => r.Creator)
                 .Include(r => r.RecipeDishTypes)
                     .ThenInclude(r => r.DishType);
             var Recipe = Recipes
@@ -122,7 +127,7 @@ namespace Verrukkulluk.Data
                 .Include(r => r.Ingredients)
                     .ThenInclude(r => r.Product)
                 .First();
-            return Recipe;
+            return new RecipeInfo(Recipe);
         }
 
         public ImageObj ReadImageById(int Id)
