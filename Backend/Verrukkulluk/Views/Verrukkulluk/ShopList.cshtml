@@ -120,7 +120,14 @@
                                 </svg>
                                 @{
                                     // Calculate the total price dynamically
-                                    decimal totalPrice = Model.Sum(item => item.Price);
+                                    decimal totalPrice = 0;
+                                    foreach (var group in Model.GroupBy(item => item.Name))
+                                    {
+                                        var item = group.First();
+                                        var totalQuantity = (int)Math.Ceiling(group.Sum(item => item.Quantity));
+                                        var itemPrice = (item.Price * totalQuantity);
+                                        totalPrice += itemPrice;
+                                    }
                                 }
                                 @totalPrice.ToString("0.00")
                             </div>

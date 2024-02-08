@@ -298,13 +298,14 @@ namespace Verrukkulluk.Controllers
         public IActionResult RemoveItemByName(string itemName)
         {
             var shoppingList = GetShoppingList();
-            var index = shoppingList.FindIndex(item => item.Name == itemName);
-            if (index != -1)
+            var removedCount = shoppingList.RemoveAll(item => item.Name == itemName);
+
+            if (removedCount > 0)
             {
-                shoppingList.RemoveAt(index);
                 SaveShoppingList(shoppingList);
-                return Json(new { success = true });
+                return Json(new { success = true, removedCount });
             }
+
             return Json(new { success = false, message = "Item not found" });
         }
 

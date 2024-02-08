@@ -211,7 +211,7 @@ function removeItem() {
 
 // Show/hide chevron-down shopping list
 function handleScrollChevronDown() {
-    document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
+    document.querySelectorAll('.scrolling-content').forEach(function(scrollingContent) {
         var chevronDown = scrollingContent.nextElementSibling.querySelector('.bi-chevron-down');
         var isAtBottom = scrollingContent.scrollHeight - scrollingContent.clientHeight <= scrollingContent.scrollTop + 1;
         chevronDown.style.visibility = isAtBottom ? 'hidden' : 'visible';
@@ -220,7 +220,7 @@ function handleScrollChevronDown() {
 
 // Show/hide chevron-up shopping list
 function handleScrollChevronUp() {
-    document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
+    document.querySelectorAll('.scrolling-content').forEach(function(scrollingContent) {
         var chevronUp = scrollingContent.previousElementSibling.querySelector('.bi-chevron-up');
         var isAtTop = scrollingContent.scrollTop <= 0;
         chevronUp.style.visibility = isAtTop ? 'hidden' : 'visible';
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
         scrollingContent.addEventListener('scroll', handleScrollChevronDown);
         handleScrollChevronDown();
-
+        
         scrollingContent.addEventListener('scroll', handleScrollChevronUp);
         handleScrollChevronUp();
     });
