@@ -646,9 +646,6 @@ p {
     box-shadow: 0 0 5px #5c5a5a;
     padding: 1.5rem;
     padding-top: 0rem;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
 .tab-content-recipe::-webkit-scrollbar {
@@ -794,21 +791,22 @@ p {
     position: relative;
 }
 
-.numbered-step p:before {
-    content: counter(sentence-counter);
-    counter-increment: sentence-counter;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: var(--darker-green);
-    color: var(--white);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    font-family: var(--heading);
-    line-height: 30px;
-}
+    .numbered-step p:before {
+        content: counter(sentence-counter);
+        counter-increment: sentence-counter;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: var(--darker-green);
+        color: var(--white);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        font-family: var(--heading);
+        line-height: 30px;
+        font-size: 30px;
+    }
 
 .ingredient-item {
     display: flex;

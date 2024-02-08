@@ -211,24 +211,20 @@ function removeItem() {
 
 // Show/hide chevron-down shopping list
 function handleScrollChevronDown() {
-    var scrollingContent = document.querySelector('.scrolling-content');
-    
-    var chevronDown = document.querySelector('.bi-chevron-down');
-    
-    var isAtBottom = scrollingContent.scrollHeight - scrollingContent.clientHeight <= scrollingContent.scrollTop + 1;
-    
-    chevronDown.style.visibility = isAtBottom ? 'hidden' : 'visible';
+    document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
+        var chevronDown = scrollingContent.nextElementSibling.querySelector('.bi-chevron-down');
+        var isAtBottom = scrollingContent.scrollHeight - scrollingContent.clientHeight <= scrollingContent.scrollTop + 1;
+        chevronDown.style.visibility = isAtBottom ? 'hidden' : 'visible';
+    });
 }
 
 // Show/hide chevron-up shopping list
 function handleScrollChevronUp() {
-    var scrollingContent = document.querySelector('.scrolling-content');
-    
-    var chevronUp = document.querySelector('.bi-chevron-up');
-    
-    var isAtTop = scrollingContent.scrollTop <= 0;
-    
-    chevronUp.style.visibility = isAtTop ? 'hidden' : 'visible';
+    document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
+        var chevronUp = scrollingContent.previousElementSibling.querySelector('.bi-chevron-up');
+        var isAtTop = scrollingContent.scrollTop <= 0;
+        chevronUp.style.visibility = isAtTop ? 'hidden' : 'visible';
+    });
 }
 
 // Event listeners
@@ -241,14 +237,15 @@ document.addEventListener('DOMContentLoaded', function () {
         trashIcon.addEventListener('click', removeItem);
     });
 
-    var scrollingContent = document.querySelector('.scrolling-content');
+    document.querySelectorAll('.scrolling-content').forEach(function (scrollingContent) {
+        scrollingContent.addEventListener('scroll', handleScrollChevronDown);
+        handleScrollChevronDown();
 
-    scrollingContent.addEventListener('scroll', handleScrollChevronDown);
-    handleScrollChevronDown();
-
-    scrollingContent.addEventListener('scroll', handleScrollChevronUp);
-    handleScrollChevronUp();
+        scrollingContent.addEventListener('scroll', handleScrollChevronUp);
+        handleScrollChevronUp();
+    });
 });
+
 
 // Display success message
 function displaySuccessMessage(message) {
