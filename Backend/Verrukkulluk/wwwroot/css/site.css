@@ -638,15 +638,22 @@ p {
     background-color: #fff;
     border-color: #dee2e6 #dee2e6 #fff;
   }
-  
+
 .tab-content-recipe {
     text-decoration: none;
     height: 32rem;
     overflow: auto;
     box-shadow: 0 0 5px #5c5a5a;
     padding: 1.5rem;
+    padding-top: 0rem;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
+.tab-content-recipe::-webkit-scrollbar {
+    display: none;
+}
 .nav-link-recipe {
     box-shadow: 0 -5px 5px -5px #7e7b7b, 5px 0 5px -5px #7e7b7b;
 }
@@ -758,25 +765,15 @@ p {
 }
 
 
-.shopping-list-content {
-    max-height: 350px; 
+.scrolling-content {
+    max-height: 330px; 
     overflow-y: scroll;
     scrollbar-width: none; 
     -ms-overflow-style: none; 
 }
 
-.shopping-list-content::-webkit-scrollbar {
+.scrolling-content::-webkit-scrollbar {
     display: none;
-}
-
-.bi-chevron-up {
-    justify-content: center;
-    font-size: 40px;
-}
-
-.bi-chevron-down {
-    text-align: center;
-    font-size: 40px;
 }
 
 .numbered-step {
@@ -838,3 +835,20 @@ p {
     margin-bottom: 20px;
 }
 
+.chevron-recipe {
+    display: flex;
+    justify-content: center;
+}
+
+.chevron-shoplist {
+    display: flex;
+    justify-content: center;
+}
+
+.bi-chevron-up {
+    font-size: 40px;
+}
+
+.bi-chevron-down {
+    font-size: 40px;
+}

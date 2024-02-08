@@ -45,8 +45,10 @@
                 <div class="card-header">
                     <h1 class="darker-green text-start ms-4" font-family="heading">Boodschappen</h1>
                 </div>
-                <span class="darker-green bi bi-chevron-up"></span>
-                <div class="shopping-list-content">
+                <div class="chevron-shoplist">
+                    <span class="darker-green bi bi-chevron-up"></span>
+                </div>
+                <div class="scrolling-content">
                 @if (Model.Count == 0)
                 {
                         <p class="black text-start m-4">Uw boodschappenlijst is momenteel leeg. Voeg producten toe middels de “Op lijst”-knop op de detailpagina's van de gerechten.</p>
@@ -95,7 +97,9 @@
                     }
                 }
                 </div>
-                <span class="darker-green bi bi-chevron-down"></span>
+                <div class="chevron-shoplist">
+                    <span class="darker-green bi bi-chevron-down"></span>
+                </div>
                 <!-- Divider line -->
                 <div class="row">
                     <div class="col-md-11 mx-auto">

@@ -211,27 +211,27 @@ function removeItem() {
 
 // Show/hide chevron-down shopping list
 function handleScrollChevronDown() {
-    var shoppingListContent = document.querySelector('.shopping-list-content');
+    var scrollingContent = document.querySelector('.scrolling-content');
     
     var chevronDown = document.querySelector('.bi-chevron-down');
     
-    var isAtBottom = shoppingListContent.scrollHeight - shoppingListContent.clientHeight <= shoppingListContent.scrollTop + 1;
+    var isAtBottom = scrollingContent.scrollHeight - scrollingContent.clientHeight <= scrollingContent.scrollTop + 1;
     
-    chevronDown.style.display = isAtBottom ? 'none' : 'block';
+    chevronDown.style.visibility = isAtBottom ? 'hidden' : 'visible';
 }
 
 // Show/hide chevron-up shopping list
 function handleScrollChevronUp() {
-    var shoppingListContent = document.querySelector('.shopping-list-content');
+    var scrollingContent = document.querySelector('.scrolling-content');
     
     var chevronUp = document.querySelector('.bi-chevron-up');
     
-    var isAtTop = shoppingListContent.scrollTop <= 0;
+    var isAtTop = scrollingContent.scrollTop <= 0;
     
-    chevronUp.style.display = isAtTop ? 'none' : 'flex';
+    chevronUp.style.visibility = isAtTop ? 'hidden' : 'visible';
 }
 
-// Event listeners shopping list
+// Event listeners
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.bi-check').forEach(function (checkmark) {
         checkmark.addEventListener('click', handleCheckmarkClick);
@@ -241,12 +241,12 @@ document.addEventListener('DOMContentLoaded', function () {
         trashIcon.addEventListener('click', removeItem);
     });
 
-    var shoppingListContent = document.querySelector('.shopping-list-content');
+    var scrollingContent = document.querySelector('.scrolling-content');
 
-    shoppingListContent.addEventListener('scroll', handleScrollChevronDown);
+    scrollingContent.addEventListener('scroll', handleScrollChevronDown);
     handleScrollChevronDown();
 
-    shoppingListContent.addEventListener('scroll', handleScrollChevronUp);
+    scrollingContent.addEventListener('scroll', handleScrollChevronUp);
     handleScrollChevronUp();
 });
 
@@ -256,3 +256,5 @@ function displaySuccessMessage(message) {
     successMessage.innerText = message;
     successMessage.style.display = 'block';
 }
+
+

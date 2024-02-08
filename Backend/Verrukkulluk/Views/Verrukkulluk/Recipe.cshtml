@@ -120,6 +120,10 @@
         <!-- Tab panes -->
         <div class="tab-content tab-content-recipe">
             <div id="ingredients" class="container tab-pane tab-pane-recipe active">
+                    <div class="chevron-recipe">
+                        <span class="darker-green bi bi-chevron-up"></span>
+                    </div>
+                    <div class="scrolling-content">
                 @foreach (Ingredient ingredient in Model.Recipe.Ingredients)
                 {
                     <div class="ingredient-item">
@@ -133,8 +137,16 @@
                         </div>
                     </div>
                 }
+                </div>
+                    <div class="chevron-recipe">
+                        <span class="darker-green bi bi-chevron-down"></span>
+                    </div>
             </div>
             <div id="preparation" class="container tab-pane tab-pane-recipe fade">
+                    <div class="chevron-recipe">
+                        <!-- doesnt work yet, so currently hidden --> <span class="darker-green bi bi-chevron-up" style="display: none;"></span>
+                    </div>
+                    <div class="scrolling-content">
                     @if (Model.Recipe != null && !string.IsNullOrEmpty(Model.Recipe.Instructions))
                     {
                         <ol class="numbered-step">
@@ -146,14 +158,22 @@
                             }
                         </ol>
                     }
+                    </div>
+                    <div class="chevron-recipe">
+                        <!-- doesnt work yet, so currently hidden --> <span class="darker-green bi bi-chevron-down" style="display: none;"></span>
+                    </div>
             </div>
-            @foreach (Comment comment in Model.Recipe.Comments){
+@*             @foreach (Comment comment in Model.Recipe.Comments){
             <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
                 <h3 class="darker-green">comment.Creator.Name</h3>
                 <p>comment.Content</p>
             </div>
-            }
+            } *@
             <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
+                    <div class="chevron-recipe">
+                        <!-- doesnt work yet, so currently hidden --> <span class="darker-green bi bi-chevron-up" style="display: none;"></span>
+                    </div>
+                    <div class="scrolling-content">
                     <div class="comments-item">
                 <div class="image-column">
                 @*<img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = Model.Recipe.ImageObjId })" alt="Profielfoto">*@
@@ -164,6 +184,10 @@
                 <p>Het was een heerlijk gerecht.</p>
                 </div>
                 </div>
+                    </div>
+                    <div class="chevron-recipe">
+                        <!-- doesnt work yet, so currently hidden --> <span class="darker-green bi bi-chevron-down" style="display: none;"></span>
+                    </div>
             </div>
         </div>
     </div>
