@@ -51,7 +51,7 @@ namespace Verrukkulluk.Data
                 User[] users =
                 {
                     new User("jan@jan.jan", "Jan", "Utrecht", ReadImageFile("jan.jpg")),
-                    new User("bert@bert.bert", "Bert", "Arnhem", ReadImageFile("bert.png")),
+                    new User("bert@bert.bert", "Bert", "Sesamstraat", ReadImageFile("bert.png")),
                     new User("els@els.els", "Els", "Sittard", ReadImageFile("els.jpg")),
                     new User("a@a.a", "Albert", "Soesterberg", ReadImageFile("bert.jpg"))
                 };
@@ -182,19 +182,19 @@ namespace Verrukkulluk.Data
                     string description = "Een lekkere vegetarisch gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
 
-                    ImageObj CouscousImage = new ImageObj(ReadImageFile("couscous.jpg"), "jpg");
+                    ImageObj CouscousImage = new ImageObj(ReadImageFile("pexels-ella-olsson.jpg"), "jpg");
                     System.Console.WriteLine(CouscousImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(CouscousImage);
                     await dbContext.SaveChangesAsync();
-                    ImageObj HamburgerImage = new ImageObj(ReadImageFile("hamburger.jpg"), "jpg");
+                    ImageObj HamburgerImage = new ImageObj(ReadImageFile("pexels-robin-stickel.jpg"), "jpg");
                     System.Console.WriteLine(HamburgerImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(HamburgerImage);
                     await dbContext.SaveChangesAsync();
-                    ImageObj PokeBowlImage = new ImageObj(ReadImageFile("pokebowl.jpg"), "jpg");
+                    ImageObj PokeBowlImage = new ImageObj(ReadImageFile("pexels-jane-doan.jpg"), "jpg");
                     System.Console.WriteLine(PokeBowlImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(PokeBowlImage);
                     await dbContext.SaveChangesAsync();
-                    ImageObj SpaghettiImage = new ImageObj(ReadImageFile("spaghetti.jpg"), "jpg");
+                    ImageObj SpaghettiImage = new ImageObj(ReadImageFile("pexels-lisa-fotios.jpg"), "jpg");
                     System.Console.WriteLine(SpaghettiImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(SpaghettiImage);
                     await dbContext.SaveChangesAsync();

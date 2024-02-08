@@ -50,7 +50,7 @@
         @if (ViewData["ShowBanner"] != null && (bool)ViewData["ShowBanner"])
         {
             <div class="single-image-container">
-                <img src="@ViewData["PictureLocation"]" alt="Couscous" id="recipeBanner" class="d-block w-100 img-crop" />
+                <img src="@Url.Action("GetImage", "Image", new { id = Model.Recipe.ImageObjId })" alt="Afbeelding van @Model.Recipe.Title" id="recipeBanner" class="d-block w-100 img-crop" />
             </div>
         }
 
