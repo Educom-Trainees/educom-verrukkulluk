@@ -145,8 +145,12 @@ namespace Verrukkulluk.Data
                     Ingredient[] ingredients =
                     {
                         new Ingredient("Wit Bolletje", 0.66, products[0]),
+                        new Ingredient("Avocado", 2, products[1]),
+                        new Ingredient("Vegan Burgersaus", 0.1, products[2]),
                         new Ingredient("Hamburger", 2, products[3]),
+                        new Ingredient("Tomaten", 1, products[4]),
                         new Ingredient("Ijsbergsla", 0.5, products[5]),
+                        new Ingredient("Boter", 0.1, products[6])
                     };
 
 
@@ -164,59 +168,43 @@ namespace Verrukkulluk.Data
                     vegetarisch1.Add(new RecipeDishType { DishTypeId = 3 });
                     List<RecipeDishType> vegetarisch2 = new List<RecipeDishType>();
                     vegetarisch2.Add(new RecipeDishType { DishTypeId = 3 });
-                    List<RecipeDishType> vegetarisch3 = new List<RecipeDishType>();
-                    vegetarisch3.Add(new RecipeDishType { DishTypeId = 3 });
-                    List<RecipeDishType> veganistisch1 = new List<RecipeDishType>();
-                    veganistisch1.Add(new RecipeDishType { DishTypeId = 3 });
-                    veganistisch1.Add(new RecipeDishType { DishTypeId = 4 });
 
-                    List<Ingredient> recipeIngredientsBurger = new List<Ingredient>();
+                    List<Ingredient> recipeIngredients = new List<Ingredient>();
                     foreach(Ingredient ingredient in ingredients)
                     {
-                        recipeIngredientsBurger.Add(ingredient);
+                        recipeIngredients.Add(ingredient);
                     }
-                    List<Ingredient> recipeIngredientsTomaat = new List<Ingredient>();
-                    recipeIngredientsTomaat.Add(new Ingredient("Tomaten", 0.5, products[4]));
-                    List<Ingredient> recipeIngredientsTomaat2 = new List<Ingredient>();
-                    recipeIngredientsTomaat2.Add(new Ingredient("Tomaten", 0.5, products[4]));
-                    List<Ingredient> recipeIngredientsPizza = new List<Ingredient>();
-                    recipeIngredientsPizza.Add(new Ingredient("Tomaten", 0.5, products[4]));
-                    List<Ingredient> recipeIngredientsTomaat3 = new List<Ingredient>();
-                    recipeIngredientsTomaat3.Add(new Ingredient("Tomaten", 0.5, products[4]));
-                    List<Ingredient> recipeIngredientsTomaat4 = new List<Ingredient>();
-                    recipeIngredientsTomaat4.Add(new Ingredient("Tomaten", 0.5, products[4]));                    
+                    List<Ingredient> recipeIngredientsTest = new List<Ingredient>();
+                    recipeIngredientsTest.Add(new Ingredient("Tomaten", 0.5, products[4]));
+                    
                     
                     string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
                     string description = "Een lekkere vegetarisch gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
 
                     ImageObj CouscousImage = new ImageObj(ReadImageFile("couscous.jpg"), "jpg");
+                    System.Console.WriteLine(CouscousImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(CouscousImage);
                     await dbContext.SaveChangesAsync();
                     ImageObj HamburgerImage = new ImageObj(ReadImageFile("hamburger.jpg"), "jpg");
+                    System.Console.WriteLine(HamburgerImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(HamburgerImage);
                     await dbContext.SaveChangesAsync();
                     ImageObj PokeBowlImage = new ImageObj(ReadImageFile("pokebowl.jpg"), "jpg");
+                    System.Console.WriteLine(PokeBowlImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(PokeBowlImage);
                     await dbContext.SaveChangesAsync();
                     ImageObj SpaghettiImage = new ImageObj(ReadImageFile("spaghetti.jpg"), "jpg");
+                    System.Console.WriteLine(SpaghettiImage.ImageContent.Length);
                     dbContext.ImageObjs.Add(SpaghettiImage);
-                    await dbContext.SaveChangesAsync();
-                    ImageObj PizzaImage = new ImageObj(ReadImageFile("pizza.png"), "png");
-                    dbContext.ImageObjs.Add(PizzaImage);
-                    await dbContext.SaveChangesAsync();
-                    ImageObj SaladeImage = new ImageObj(ReadImageFile("salade.jpg"), "jpg");
-                    dbContext.ImageObjs.Add(SaladeImage);
                     await dbContext.SaveChangesAsync();
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredientsTomaat4),
-                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredientsBurger),
-                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredientsTomaat3),
-                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTomaat),
-                        new Recipe("Pizza", vegetarisch3, kitchenTypes[6], description, instructions, 2, users[1], PizzaImage.Id, recipeIngredientsPizza),
-                        new Recipe("Salade", veganistisch1, kitchenTypes[5], description, instructions, 3, users[1], SaladeImage.Id, recipeIngredientsTomaat2)
+                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients),
+                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients),
+                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients),
+                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest)
                     };
 
                     dbContext.Products.AddRange(products);
