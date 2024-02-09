@@ -57,6 +57,8 @@ namespace Verrukkulluk.Data
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
                         .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.ProductAllergies)
+                                .ThenInclude(p => p.Allergy)
                     .OrderBy(recipe => recipe.CreationDate)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -81,6 +83,8 @@ namespace Verrukkulluk.Data
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
                         .ThenInclude(i => i.Product)
+                            .ThenInclude(p => p.ProductAllergies)
+                                .ThenInclude(p => p.Allergy)
                     .Where(recipe => recipe.CreatorId == userId)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -106,6 +110,8 @@ namespace Verrukkulluk.Data
                 .Include(r => r.Comments)
                 .Include(r => r.Ingredients)
                     .ThenInclude(r => r.Product)
+                        .ThenInclude(p => p.ProductAllergies)
+                                .ThenInclude(p => p.Allergy)
                 .First();
             return new RecipeInfo(Recipe);
         }

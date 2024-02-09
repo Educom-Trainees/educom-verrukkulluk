@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk.Models;
-using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Data
 {

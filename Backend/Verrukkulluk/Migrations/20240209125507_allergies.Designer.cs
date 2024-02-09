@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Verrukkulluk.Data;
 
@@ -10,9 +11,11 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    partial class VerrukkullukContextModelSnapshot : ModelSnapshot
+    [Migration("20240209125507_allergies")]
+    partial class allergies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +172,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Allergies", (string)null);
+                    b.ToTable("Allergies");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Comment", b =>
@@ -194,7 +197,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Verrukkulluk.DishType", b =>
@@ -209,7 +212,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DishTypes", (string)null);
+                    b.ToTable("DishTypes");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Event", b =>
@@ -244,7 +247,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Ingredient", b =>
@@ -280,7 +283,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("Verrukkulluk.KitchenType", b =>
@@ -295,7 +298,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("KitchenTypes", (string)null);
+                    b.ToTable("KitchenTypes");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Models.ImageObj", b =>
@@ -314,7 +317,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ImageObjs", (string)null);
+                    b.ToTable("ImageObjs");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Models.RecipeDishType", b =>
@@ -335,7 +338,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeDishTypes", (string)null);
+                    b.ToTable("RecipeDishTypes");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Models.User", b =>
@@ -450,7 +453,7 @@ namespace Verrukkulluk.Migrations
                     b.HasIndex("ImageObjId")
                         .IsUnique();
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Verrukkulluk.ProductAllergy", b =>
@@ -476,7 +479,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("ProductAllergies", (string)null);
+                    b.ToTable("ProductAllergies");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>
@@ -524,7 +527,7 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("KitchenTypeId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

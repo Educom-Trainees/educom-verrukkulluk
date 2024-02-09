@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Models;
-using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk
 {

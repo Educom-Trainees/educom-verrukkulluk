@@ -7,6 +7,8 @@ namespace Verrukkulluk.Models
         public string Price { get; set; }
         public int Calories { get; set; }
 
+        public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
+
         public RecipeInfo() { }
         public RecipeInfo(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients) :
                      base(title, recipeDishTypes, kitchenType, description, instructions, rating, creator, imageObjId, ingredients)
@@ -20,6 +22,7 @@ namespace Verrukkulluk.Models
             Id = recipe.Id;
             Price = recipe.Ingredients.Select(i => i.Product.Price * (decimal)Math.Ceiling(i.Amount)).Sum().ToString("F2");
             Calories = (int)recipe.Ingredients.Select(i => i.Product.Calories * i.Amount).Sum();
+            Allergies = Ingredients.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy).Distinct().ToList();
         }
     }
 }

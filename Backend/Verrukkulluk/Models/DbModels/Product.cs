@@ -11,6 +11,7 @@ namespace Verrukkulluk
         public int ImageObjId { get; set; }
         public string Description { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<ProductAllergy> ProductAllergies { get; set; }
 
         public Product() { }
         public Product(string name, decimal price, double calories, double amount, IngredientType ingredientType, int imageObjId, string description)
