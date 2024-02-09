@@ -238,12 +238,12 @@ namespace Verrukkulluk.Data
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients),
-                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients),
-                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients),
-                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest),
-                        new Recipe("Pizza", vegetarisch3, kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest),
-                        new Recipe("Salade", veganistisch1, kitchenTypes[6], description,instructions, 5, users[0], SaladeImage.Id, recipeIngredientsTest)
+                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients, 3),
+                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients, 4),
+                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients, 2),
+                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
+                        new Recipe("Pizza", vegetarisch3, kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
+                        new Recipe("Salade", veganistisch1, kitchenTypes[6], description,instructions, 5, users[0], SaladeImage.Id, recipeIngredientsTest, 4)
                     };
 
                     dbContext.Products.AddRange(products);

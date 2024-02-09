@@ -25,12 +25,13 @@ namespace Verrukkulluk
         public int CreatorId { get; set; }
         public User Creator { get; set; }
         public int ImageObjId { get; set; }
+        public int NumberOfPeople { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
         public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
 
         public Recipe() { }
-        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients)
+        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
             Title = title;
             RecipeDishTypes = recipeDishTypes;
@@ -45,6 +46,7 @@ namespace Verrukkulluk
 
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             CreationDate = currentDate;
+            NumberOfPeople = numberOfPeople;
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
