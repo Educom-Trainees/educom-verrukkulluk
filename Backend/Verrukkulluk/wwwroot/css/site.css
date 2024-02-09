@@ -17,6 +17,15 @@ html {
     .verrukkulluk-logo {
         margin-top: -1.4rem;
     }
+    .agenda-scroll {
+        overflow-y: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .agenda-scroll::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 @media (min-width: 991) and (max-width: 1399) {
@@ -836,17 +845,23 @@ p {
 .chevron-recipe {
     display: flex;
     justify-content: center;
+    font-size: 40px;
 }
 
 .chevron-shoplist {
     display: flex;
     justify-content: center;
-}
-
-.bi-chevron-up {
     font-size: 40px;
 }
 
-.bi-chevron-down {
-    font-size: 40px;
+.chevron-agenda {
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    .chevron-agenda {
+        display: none;
+    }
 }

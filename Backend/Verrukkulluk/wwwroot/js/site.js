@@ -201,9 +201,12 @@ function removeItem() {
     fetch(`/RemoveShopItemByName?itemName=${itemName}`, { method: 'POST' })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
+            if (data.success)
+            {
                 location.reload();
-            } else {
+            }
+            else
+            {
                 console.error(data.message);
             }
         });
@@ -253,5 +256,40 @@ function displaySuccessMessage(message) {
     successMessage.innerText = message;
     successMessage.style.display = 'block';
 }
+
+function setHeightAgenda() {
+    if ($('.agenda-scroll').css('overflow-y') === 'auto')
+    {
+        var flexBoxHeight = $('.d-inline-flex').height();
+        $('.agenda-scroll').css('max-height', flexBoxHeight);
+    }
+    else
+    {
+        $('.agenda-scroll').css('max-height', '');
+    }
+}
+$(document).ready(function () {
+    setHeightAgenda();
+
+    $(window).resize(function () {
+        setHeightAgenda();
+    });
+});
+
+window.addEventListener('DOMContentLoaded', function () {
+    var chevronDown = document.querySelector('.bi-chevron-down');
+    var agendaScroll = document.getElementById('agendaScroll');
+    
+    function toggleChevronVisibility() {
+        if (window.innerWidth <= 767) {
+            chevronDown.classList.add('visible-on-small-screen');
+        } else {
+            chevronDown.classList.remove('visible-on-small-screen');
+        }
+    }
+    toggleChevronVisibility();
+    window.addEventListener('resize', toggleChevronVisibility);
+});
+
 
 
