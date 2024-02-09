@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Models;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk
 {
@@ -26,6 +27,8 @@ namespace Verrukkulluk
         public User Creator { get; set; }
         public int ImageObjId { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
+        public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
 
         public Recipe() { }
         public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients)

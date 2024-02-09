@@ -6,12 +6,14 @@ namespace Verrukkulluk
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Allergy> Allergies { get; set; }
+
+        public int ImgObjId { get; set; }
 
         public Allergy() { }
-        public Allergy(string name)
+        public Allergy(string name, int imgObjId)
         {
             Name = name;
+            ImgObjId = imgObjId;
         }
     }
     
