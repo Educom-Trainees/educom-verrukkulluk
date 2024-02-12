@@ -301,6 +301,23 @@ namespace Verrukkulluk.Data
                     dbContext.Events.AddRange(events);
                     await dbContext.SaveChangesAsync();
                 }
+                if (!dbContext.RecipeRatings.Any())
+                {
+                    var recipes = dbContext.Recipes.ToList();
+
+                    foreach (var recipe in recipes)
+                    {
+                        //Test rating for each recipe
+                        dbContext.RecipeRatings.Add(new RecipeRating
+                        {
+                            RecipeId = recipe.Id,
+                            UserId = 1,
+                            RatingValue = 3 
+                        });
+                    }
+
+                    await dbContext.SaveChangesAsync();
+                }
             }
         }
     }

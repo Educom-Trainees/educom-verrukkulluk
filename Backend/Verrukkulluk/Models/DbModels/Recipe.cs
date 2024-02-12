@@ -27,8 +27,8 @@ namespace Verrukkulluk
         public int ImageObjId { get; set; }
         public int NumberOfPeople { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-
         public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
+        public ICollection<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
 
         public Recipe() { }
         public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)

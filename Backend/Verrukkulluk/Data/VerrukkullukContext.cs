@@ -19,6 +19,7 @@ namespace Verrukkulluk.Data
         public DbSet<ImageObj> ImageObjs { get; set; }
         public DbSet<Allergy> Allergies { get; set; }
         public DbSet<ProductAllergy> ProductAllergies { get; set; }
+        public DbSet<RecipeRating> RecipeRatings { get; set; }
         public VerrukkullukContext(DbContextOptions<VerrukkullukContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
