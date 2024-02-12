@@ -127,6 +127,34 @@ namespace Verrukkulluk.Data
                     await dbContext.SaveChangesAsync();
                     ImageObj AardbeienImage = new ImageObj(ReadImageFile("aardbeien.jpeg"), "jpeg");
                     dbContext.ImageObjs.Add(AardbeienImage);
+                    ImageObj EiIcoon = new ImageObj(ReadImageFile("allergenen/ei.png"), "png");
+                    dbContext.ImageObjs.Add(EiIcoon);
+                    ImageObj GlutenIcoon = new ImageObj(ReadImageFile("allergenen/gluten.png"), "png");
+                    dbContext.ImageObjs.Add(GlutenIcoon);
+                    ImageObj LupineIcoon = new ImageObj(ReadImageFile("allergenen/lupine.png"), "png");
+                    dbContext.ImageObjs.Add(LupineIcoon);
+                    ImageObj MelkIcoon = new ImageObj(ReadImageFile("allergenen/melk.png"), "png");
+                    dbContext.ImageObjs.Add(MelkIcoon);
+                    ImageObj MosterdIcoon = new ImageObj(ReadImageFile("allergenen/mosterd.png"), "png");
+                    dbContext.ImageObjs.Add(MosterdIcoon);
+                    ImageObj NotenIcoon = new ImageObj(ReadImageFile("allergenen/noten.png"), "png");
+                    dbContext.ImageObjs.Add(NotenIcoon);
+                    ImageObj PindasIcoon = new ImageObj(ReadImageFile("allergenen/pindas.png"), "png");
+                    dbContext.ImageObjs.Add(PindasIcoon);
+                    ImageObj SchaaldIcoon = new ImageObj(ReadImageFile("allergenen/schaald.png"), "png");
+                    dbContext.ImageObjs.Add(SchaaldIcoon);
+                    ImageObj SelderijIcoon = new ImageObj(ReadImageFile("allergenen/selderij.png"), "png");
+                    dbContext.ImageObjs.Add(SelderijIcoon);
+                    ImageObj SesamzaadIcoon = new ImageObj(ReadImageFile("allergenen/sesamzaad.png"), "png");
+                    dbContext.ImageObjs.Add(SesamzaadIcoon);
+                    ImageObj SojaIcoon = new ImageObj(ReadImageFile("allergenen/soja.png"), "png");
+                    dbContext.ImageObjs.Add(SojaIcoon);
+                    ImageObj VisIcoon = new ImageObj(ReadImageFile("allergenen/vis.png"), "png");
+                    dbContext.ImageObjs.Add(VisIcoon);
+                    ImageObj WeekdierenIcoon = new ImageObj(ReadImageFile("allergenen/weekdieren.png"), "png");
+                    dbContext.ImageObjs.Add(WeekdierenIcoon);
+                    ImageObj ZwavelIcoon = new ImageObj(ReadImageFile("allergenen/zwavel.png"), "png");
+                    dbContext.ImageObjs.Add(ZwavelIcoon);
                     await dbContext.SaveChangesAsync();
 
                     Product[] products =
@@ -250,6 +278,33 @@ namespace Verrukkulluk.Data
                     dbContext.KitchenTypes.AddRange(kitchenTypes);
                     dbContext.Recipes.AddRange(recipes);
                     dbContext.Ingredients.AddRange(ingredients);
+                    await dbContext.SaveChangesAsync();
+
+                    Allergy[] allergies =
+                    {
+                        new Allergy("Ei", EiIcoon.Id),
+                        new Allergy("Gluten", GlutenIcoon.Id),
+                        new Allergy("Lupine", LupineIcoon.Id),
+                        new Allergy("Melk", MelkIcoon.Id),
+                        new Allergy("Mosterd", MosterdIcoon.Id),
+                        new Allergy("Noten", NotenIcoon.Id),
+                        new Allergy("Pindas", PindasIcoon.Id),
+                        new Allergy("Schaaldieren", SchaaldIcoon.Id),
+                        new Allergy("Selderij", SelderijIcoon.Id),
+                        new Allergy("Sesamzaad", SesamzaadIcoon.Id),
+                        new Allergy("Soja", SojaIcoon.Id),
+                        new Allergy("Vis", VisIcoon.Id),
+                        new Allergy("Weekdieren", WeekdierenIcoon.Id),
+                        new Allergy("Zwavel", ZwavelIcoon.Id)
+                    };
+                    dbContext.Allergies.AddRange(allergies);
+                    await dbContext.SaveChangesAsync();
+
+                    ProductAllergy[] productAllergies =
+                    {
+                        new ProductAllergy(allergies[1], products[0])
+                    };
+                    dbContext.ProductAllergies.AddRange(productAllergies);
                     await dbContext.SaveChangesAsync();
                 }
                 if (!dbContext.Events.Any())

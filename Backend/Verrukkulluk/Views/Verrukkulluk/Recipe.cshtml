@@ -61,7 +61,7 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 @foreach(Allergy Allergy in Model.Recipe.Allergies){
-                                                    <li><p class="dropdown-item"> @Allergy.Name </p></li>
+                                                        <li class="d-inline"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="Hier moet nog een allergie" style="width:70px; height:auto"></li>
                                                 }
                                             </ul>
                                         </div>
