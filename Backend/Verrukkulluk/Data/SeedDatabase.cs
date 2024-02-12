@@ -302,7 +302,8 @@ namespace Verrukkulluk.Data
 
                     ProductAllergy[] productAllergies =
                     {
-                        new ProductAllergy(allergies[1], products[0])
+                        new ProductAllergy(allergies[1], products[0]),
+                        new ProductAllergy(allergies[4], products[2])
                     };
                     dbContext.ProductAllergies.AddRange(productAllergies);
                     await dbContext.SaveChangesAsync();

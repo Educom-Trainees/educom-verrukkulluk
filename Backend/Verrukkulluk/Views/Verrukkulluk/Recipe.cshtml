@@ -59,9 +59,9 @@
                                             <button type="button" class="btn btn-primary dropdown-toggle" id="allergiesButton" data-bs-toggle="dropdown">
                                             Allergenen
                                             </button>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu allergy-list">
                                                 @foreach(Allergy Allergy in Model.Recipe.Allergies){
-                                                        <li class="d-inline"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="Hier moet nog een allergie" style="width:70px; height:auto"></li>
+                                                        <li class="d-inline allergy-item"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="Hier moet nog een allergie" style="width:70px; height:auto"></li>
                                                 }
                                             </ul>
                                         </div>

@@ -879,3 +879,12 @@ p {
         display: none;
     }
 }
+
+.allergy-list {
+    width: 70px;
+}
+
+.allergy-item {
+    width: 70px;
+    height: auto;
+}
