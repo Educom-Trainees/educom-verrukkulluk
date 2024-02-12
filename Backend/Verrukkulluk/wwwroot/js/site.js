@@ -291,5 +291,14 @@ window.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', toggleChevronVisibility);
 });
 
+function scrollToEvent(event, eventNumber) {
+    event.preventDefault();
+    var eventContainer = document.getElementById('event' + eventNumber);
+    var agendaContainer = document.getElementById('agendaScroll');
+    var scrollToY = eventContainer.offsetTop - agendaContainer.offsetTop;
+    agendaContainer.scrollTop = scrollToY;
+}
+
+
 
 

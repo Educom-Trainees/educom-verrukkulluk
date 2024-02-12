@@ -224,6 +224,12 @@ p {
     box-shadow: none;
 }
 
+.pagination:hover {
+    color: var(--black);
+    box-shadow: none;
+    cursor: pointer;
+}
+
 .white {
     color: var(--white);
 }
@@ -854,14 +860,14 @@ p {
     font-size: 40px;
 }
 
-.chevron-agenda {
+.small-agenda {
     display: flex;
     justify-content: center;
     font-size: 15px;
 }
 
 @media (min-width: 768px) {
-    .chevron-agenda {
+    .small-agenda {
         display: none;
     }
 }

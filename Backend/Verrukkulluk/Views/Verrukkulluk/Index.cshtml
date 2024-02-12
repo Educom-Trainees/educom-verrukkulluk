@@ -12,72 +12,79 @@
                             <img class="titleUnderlined mt-3 mb-2" src="../images/Agenda-met-streep.png">
                         </div>
                         <div class="display-block">
-                            <div class="container text-start agenda-scroll id=" agendaScroll"">
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
+                            <div class="container text-start agenda-scroll" id="agendaScroll">
+                                <!-- Event 1 -->
+                                <div id="event1" class="agenda-event">
+                                    <div class="d-inline-flex">
+                                        <div class="px-2">
+                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                        </div>
+                                        <div class="px-2">
+                                            <div>
                                                 <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event1"><h3>Vegetarisch koken</h3></a>
-                                            }
+                                            </div>
+                                            <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
                                         </div>
-                                        <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
                                     </div>
                                 </div>
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
+                                <!-- Event 2 -->
+                                <div id="event2" class="agenda-event">
+                                    <div class="d-inline-flex">
+                                        <div class="px-2">
+                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                        </div>
+                                        <div class="px-2">
+                                            <div>
                                                 <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event2"><h3>Tafeldekken</h3></a>
-                                            }
+                                            </div>
+                                            <p>Een workshop om op een snelle en chique manier een dinertafel te dekken</p>
                                         </div>
-                                        <p>Een workshop om op een snelle en chique manier een dinertafel te dekken</p>
                                     </div>
                                 </div>
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
+                                <!-- Event 3 -->
+                                <div id="event3" class="agenda-event">
+                                    <div class="d-inline-flex">
+                                        <div class="px-2">
+                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
+                                        </div>
+                                        <div class="px-2">
+                                            <div>
                                                 <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event3"><h3>Secuur afwassen</h3></a>
-                                            }
+                                            </div>
+                                            <p>Hier leert u hoe u kunt afwassen op een veilige en duurzame manier</p>
                                         </div>
-                                        <p>Hier leert u hoe u kunt afwassen op een veilige en duurzame manier</p>
                                     </div>
                                 </div>
-                                <div class="d-inline-flex">
-                                    <div class="px-2">
-                                        <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                    </div>
-                                    <div class="px-2">
-                                        <div>
-                                            @{
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="Event4"><h3>Wokken</h3></a>
-                                            }
+                                <!-- Event 4 -->
+                                <div id="event4" class="agenda-event">
+                                    <div class="d-inline-flex">
+                                        <div class="px-2">
+                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
                                         </div>
-                                        <p>Wat is wokken precies en wat maakt het nou zo lekker?</p>
+                                        <div class="px-2">
+                                            <div>
+                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event4"><h3>Wokken</h3></a>
+                                            </div>
+                                            <p>Wat is wokken precies en wat maakt het nou zo lekker?</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="chevron-agenda">
-                                <div class="bi bi-chevron-up"></div>
-                            </div>
-                            <div class="chevron-agenda">
-                                <div class="bi bi-chevron-down"></div>
+                            <div class="small-agenda">
+                                <!-- Event navigation buttons -->
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 1)">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 2)">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 3)">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 4)">4</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12">           
-                @if(!Model.SignInManager.IsSignedIn(User))
+            <div class="col-12">
+                @if (!Model.SignInManager.IsSignedIn(User))
                 {
                     @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
                 }
@@ -85,35 +92,29 @@
         </div>
     </div>
 
-<!---------------------------------------------------Kaartjes van de recepten------------------------------------------------------------->
-
+    <!-- Recipe Cards -->
     <div class="container col-sm-12 col-md-6 col-xl-4">
         <div class="row">
             <div class="col-12">
                 @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[0])
+            </div>
             <div class="col-12">
                 @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[1])
             </div>
-        </div>    
-    <div class="container col-12 col-xl-4">
-        <div class="row">
-            <div class="col-12 col-md-6 col-xl-12">
-                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[2])
-            <div class="col-12 col-md-6 col-xl-12">
-                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[3])
-            </div>
         </div>
     </div>
-</div>
-<div class="col-xl-8 offset-xl-4">
-    <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item"><a class="page-link" href="#">6</a></li>
-        <li class="page-item"><a class="page-link" href="#">7</a></li>
-        <li class="page-item"><a class="page-link" href="#">8</a></li>
-    </ul>
+
+    <!-- Pagination -->
+    <div class="container col-xl-8 offset-xl-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item"><a class="page-link" href="#">7</a></li>
+            <li class="page-item"><a class="page-link" href="#">8</a></li>
+        </ul>
+    </div>
 </div>
