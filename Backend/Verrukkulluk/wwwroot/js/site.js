@@ -300,5 +300,40 @@ function scrollToEvent(event, eventNumber) {
 }
 
 
+function scrollToEvent(event, eventNumber) {
+    event.preventDefault();
+    var eventContainer = document.getElementById('event' + eventNumber);
+    var agendaContainer = document.getElementById('agendaScroll');
+    var scrollToY = eventContainer.offsetTop - agendaContainer.offsetTop;
+    agendaContainer.scrollTop = scrollToY;
+}
+
+
+function addInstructionStep(inputElement) {
+    if (inputElement.getAttribute('added-textarea') !== 'true' && inputElement.value.trim() !== '') {
+        const nextInstructionStepDiv = document.createElement('div');
+        nextInstructionStepDiv.className = 'form-group form-floating mb-4 instruction';
+
+        const nextInstructionStep = document.createElement('textarea');
+        nextInstructionStep.className = 'form-control';
+        nextInstructionStep.name = `AddedInstructions[${document.getElementsByClassName('instruction').length + 1}]`;
+        nextInstructionStep.oninput = function () {
+            autoSize(this);
+        };
+        nextInstructionStep.onkeydown = function () {
+            addInstructionStep(this);
+        };
+
+        const nextInstructionLabel = document.createElement('label');
+        nextInstructionLabel.className = 'control-label';
+        nextInstructionLabel.textContent = `Stap ${document.getElementsByClassName('instruction').length + 1}`;
+
+        nextInstructionStepDiv.appendChild(nextInstructionStep);
+        nextInstructionStepDiv.appendChild(nextInstructionLabel);
+        inputElement.parentNode.appendChild(nextInstructionStepDiv);
+
+        inputElement.setAttribute('added-textarea', 'true');
+    }
+}
 
 

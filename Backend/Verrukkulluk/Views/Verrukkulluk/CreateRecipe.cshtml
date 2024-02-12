@@ -30,9 +30,10 @@
                             <label asp-for="Description" class="control-label">Beschrijving</label>   
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
-                        <div class="form-group form-floating mb-4">
-                            <textarea asp-for="Instructions" class="form-control" placeholder="Bereidingswijze" oninput="autoSize(this)"></textarea>
-                            <label asp-for="Instructions" class="control-label">Bereidingswijze</label>   
+                            <p>Bereidingswijze:</p>
+                        <div class="form-group form-floating mb-4 instructionStep">
+                            <textarea asp-for="Instructions" class="form-control instruction" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)"></textarea>
+                            <label asp-for="Instructions" class="control-label">Stap 1</label>   
                             <span asp-validation-for="Instructions" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
@@ -64,6 +65,12 @@
                                 </div
                             </div>
                         </div>
+                        <div class="form-group mb-4 d-flex">
+                            <label asp-for="NumberOfPeople">Dit gerecht is voor</label>
+                            <input type="number" class="form-control ms-2" name="NumberOfPersons" value="4" min="1" max="20" style="width: 60px;"/>
+                            <label class="ms-2">personen.</label>
+                            <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
+                        </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="visually-hidden"></label>
                             <select asp-for="KitchenType" class="form-control form-control-smaller" size="1">
@@ -82,66 +89,6 @@
                                 <option value="Overig">Overig</option>
                             </select>
                             <span asp-validation-for="KitchenType" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label asp-for="RecipeDishTypes" class="control-label">Type gerecht:</label>
-                                <div class="row">    
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="RecipeDishType" value="Vis" class="form-check-input"/>
-                                            <label class="form-check-label">Vis</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="RecipeDishType" value="Vlees" class="form-check-input"/>
-                                            <label class="form-check-label">Vlees</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="RecipeDishType" value="Vegetarisch" class="form-check-input"/>
-                                            <label class="form-check-label">Vegetarisch</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="RecipeDishType" value="Veganistisch" class="form-check-input"/>
-                                            <label class="form-check-label">Veganistisch</label>
-                                        </div>
-                                    </div>
-                                </div>    
-                            <span asp-validation-for="RecipeDishTypes" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Allergies" class="control-label">Dit gerecht bevat geen:</label>
-                                <div class="row">    
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="Allergy" value="Melk" class="form-check-input"/>
-                                            <label class="form-check-label">Melk</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="Allergy" value="Noten" class="form-check-input"/>
-                                            <label class="form-check-label">Noten</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="Allergy" value="Gluten" class="form-check-input"/>
-                                            <label class="form-check-label">Gluten</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 ">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="Allergy" value="Schaaldieren" class="form-check-input"/>
-                                            <label class="form-check-label">Schaaldieren</label>
-                                        </div>
-                                    </div>
-                                </div>    
-                            <span asp-validation-for="Allergies" class="text-danger"></span>
                         </div>
                         <!--Add Picture-->
                        <div class="form mt-4">
