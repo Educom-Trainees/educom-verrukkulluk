@@ -308,6 +308,14 @@ p {
     border-color: var(--lighter-red);
 }
 
+    .btn-primary:disabled,
+    .btn-primary.disabled {
+        color: var(--white);
+        background-color: var(--darker-green);
+        border-color: var(--darker-green);
+        opacity: 1;
+    }
+
 .btn-secondary {
     padding: 0px 30px;
     border-radius: 25px;
