@@ -4,13 +4,13 @@
 }
 
 <div class="parent-container d-flex flex-wrap">
-    <div class="container col-4 mt-2 d-none d-xl-block">
         <!--Login block-->
         @if(!Model.SignInManager.IsSignedIn(User))
         {
+            <div class="container col-4 mt-2 d-none d-xl-block">
             @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
+            </div>
         }
-    </div>
 
     <!--Recipe-->
     <div class="container col-12 col-xl-8">
