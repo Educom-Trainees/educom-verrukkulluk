@@ -120,5 +120,15 @@ namespace Verrukkulluk.Data
         {
             return Context.ImageObjs.Where(i => i.Id == Id).First();
         }
+
+        public Event ReadEventById(int Id)
+        {
+            return Context.Events.Where(e => e.Id == Id).First();
+        }
+
+        public List<Event> ReadAllEvents()
+        {
+            return Context.Events.ToList();
+        }
     }
 }

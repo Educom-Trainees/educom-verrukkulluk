@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Verrukkulluk.Models.EventModel;
+
+@{
     ViewData["Title"] = "Event";
 }
 <div class="parent-container d-flex flex-wrap">
@@ -47,8 +49,8 @@
                     <div class="container text-start">
                         <div class="d-inline-flex">
                             <div class="px-2">
-                                <h2 class="darker-green"> @Model.Title</h2>
-                                <p>@Model.Description</p>
+                                <h2 class="darker-green"> @Model.Event.Title</h2>
+                                <p>@Model.Event.Description</p>
                             </div>
                         </div>
                     </div>
@@ -56,9 +58,9 @@
                         <div class="d-inline-flex">
                             <div class="px-2">
                                 <h3 class="darker-green"> Wanneer?</h3>
-                                <p>Datum: @Model.Date.ToString("D", new System.Globalization.CultureInfo("nl-NL"))</p>
-                                <p>Begintijd: @Model.StartTime.ToString("HH:mm")</p>
-                                <p>Eindtijd: @Model.EndTime.ToString("HH:mm")</p>
+                                <p>Datum: @Model.Event.Date.ToString("D", new System.Globalization.CultureInfo("nl-NL"))</p>
+                                <p>Begintijd: @Model.Event.StartTime.ToString("HH:mm")</p>
+                                <p>Eindtijd: @Model.Event.EndTime.ToString("HH:mm")</p>
                             </div>
                         </div>
                     </div>
@@ -67,7 +69,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Locatie?</h3>
                                 <p>Dit event zal gehouden worden op de volgende locatie:</p>
-                                <p>@Model.Place</p>
+                                <p>@Model.Event.Place</p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +78,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Prijs?</h3>
                                 <p>De kosten voor dit event zijn:</p>
-                                <p>€@Model.Price</p>
+                                <p>€@Model.Event.Price</p>
                             </div>
                         </div>
                     </div>
