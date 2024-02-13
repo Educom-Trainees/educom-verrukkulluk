@@ -34,10 +34,10 @@ const CustomDrawer = (props) => {
   return (
     <DrawerContentScrollView {...props}>
       <Image
-        source={require('./assets/images/logo-zonder-verrukkulluk.png')}
+        source={require('./assets/images/verrukkulluk-logo.png')}
         style={styles.drawerImage}
+        resizeMode="contain"
       />
-      <Text style={styles.drawerText}>Verrukkulluk</Text>
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
   )
