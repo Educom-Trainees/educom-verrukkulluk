@@ -14,7 +14,6 @@ namespace Verrukkulluk
         public string Title { get; set; }  
         [MaxLength(500)]       
         public string Description { get; set; }
-        public List<RecipeDishType> RecipeDishTypes { get; set; } = new List<RecipeDishType>();
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
@@ -31,10 +30,9 @@ namespace Verrukkulluk
         public ICollection<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
 
         public Recipe() { }
-        public Recipe(string title, List<RecipeDishType> recipeDishTypes, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
+        public Recipe(string title, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
             Title = title;
-            RecipeDishTypes = recipeDishTypes;
             KitchenType = kitchenType;
             Description = description;
             Instructions = instructions;

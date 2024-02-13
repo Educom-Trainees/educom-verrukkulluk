@@ -1,41 +1,16 @@
-﻿@{
+﻿@model Verrukkulluk.Models.EventModel;
+
+@{
     ViewData["Title"] = "Event";
 }
 <div class="parent-container d-flex flex-wrap">
     <!--Login block-->
-    <div class="container col-sm-12 col-md-6 col-xl-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="m-3">
-                    <div class="card-login shadow">
-                        <div class="card-header card-header-login">
-                            <h1 class="white"> Login</h1>
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="container container-login text-start">
-                                    <div class="form-group">
-                                        <label for="email" class="white">Email</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password" class="white">Wachtwoord</label>
-                                        <input type="password" class="form-control" id="password">
-                                    </div>
-                                    <div class="text-center">
-                                        <p>Nog geen account? Klik @{
-                                                <a asp-area="Identity" asp-page="/Account/Register">hier</a>
-                                            } om u te registreren</p>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    @if(!Model.SignInManager.IsSignedIn(User))
+        {
+            <div class="container col-4 mt-2 d-none d-xl-block">
+            @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
             </div>
-        </div>
-    </div>
+        }
     <!--Event-->
     <div class="container col-sm-24 col-md-12 col-xl-8">
         <div class="m-3">
@@ -47,8 +22,8 @@
                     <div class="container text-start">
                         <div class="d-inline-flex">
                             <div class="px-2">
-                                <h2 class="darker-green"> @Model.Title</h2>
-                                <p>@Model.Description</p>
+                                <h2 class="darker-green"> @Model.Event.Title</h2>
+                                <p>@Model.Event.Description</p>
                             </div>
                         </div>
                     </div>
@@ -56,9 +31,9 @@
                         <div class="d-inline-flex">
                             <div class="px-2">
                                 <h3 class="darker-green"> Wanneer?</h3>
-                                <p>Datum: @Model.Date.ToString("D", new System.Globalization.CultureInfo("nl-NL"))</p>
-                                <p>Begintijd: @Model.StartTime.ToString("HH:mm")</p>
-                                <p>Eindtijd: @Model.EndTime.ToString("HH:mm")</p>
+                                <p>Datum: @Model.Event.Date.ToString("D", new System.Globalization.CultureInfo("nl-NL"))</p>
+                                <p>Begintijd: @Model.Event.StartTime.ToString("HH:mm")</p>
+                                <p>Eindtijd: @Model.Event.EndTime.ToString("HH:mm")</p>
                             </div>
                         </div>
                     </div>
@@ -67,7 +42,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Locatie?</h3>
                                 <p>Dit event zal gehouden worden op de volgende locatie:</p>
-                                <p>@Model.Place</p>
+                                <p>@Model.Event.Place</p>
                             </div>
                         </div>
                     </div>
@@ -76,7 +51,7 @@
                             <div class="px-2">
                                 <h3 class="darker-green"> Prijs?</h3>
                                 <p>De kosten voor dit event zijn:</p>
-                                <p>€@Model.Price</p>
+                                <p>€@Model.Event.Price</p>
                             </div>
                         </div>
                     </div>

@@ -13,62 +13,23 @@
                         </div>
                         <div class="display-block">
                             <div class="container text-start agenda-scroll" id="agendaScroll">
-                                <!-- Event 1 -->
-                                <div id="event1" class="agenda-event">
-                                    <div class="d-inline-flex">
-                                        <div class="px-2">
-                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                        </div>
-                                        <div class="px-2">
-                                            <div>
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event1"><h3>Vegetarisch koken</h3></a>
+                                <!-- Events -->
+                                @foreach (Event Event in Model.Events)
+                                {
+                                    <div id="event1" class="agenda-event">
+                                        <div class="d-inline-flex">
+                                            <div class="px-2">
+                                                <h3><i class="bi bi-calendar-date-fill white"></i></h3>
                                             </div>
-                                            <p>Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee</p>
+                                            <div class="px-2">
+                                                <div>
+                                                    <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-id="@Event.Id"><h3>@Event.Title</h3></a>
+                                                </div>
+                                                <p>@Event.Description</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Event 2 -->
-                                <div id="event2" class="agenda-event">
-                                    <div class="d-inline-flex">
-                                        <div class="px-2">
-                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                        </div>
-                                        <div class="px-2">
-                                            <div>
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event2"><h3>Tafeldekken</h3></a>
-                                            </div>
-                                            <p>Een workshop om op een snelle en chique manier een dinertafel te dekken</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Event 3 -->
-                                <div id="event3" class="agenda-event">
-                                    <div class="d-inline-flex">
-                                        <div class="px-2">
-                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                        </div>
-                                        <div class="px-2">
-                                            <div>
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event3"><h3>Secuur afwassen</h3></a>
-                                            </div>
-                                            <p>Hier leert u hoe u kunt afwassen op een veilige en duurzame manier</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Event 4 -->
-                                <div id="event4" class="agenda-event">
-                                    <div class="d-inline-flex">
-                                        <div class="px-2">
-                                            <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                        </div>
-                                        <div class="px-2">
-                                            <div>
-                                                <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-eventName="event4"><h3>Wokken</h3></a>
-                                            </div>
-                                            <p>Wat is wokken precies en wat maakt het nou zo lekker?</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                             </div>
                             <div class="small-agenda">
                                 <!-- Event navigation buttons -->

@@ -101,5 +101,15 @@ namespace Verrukkulluk.Models
         {
             return Crud.ReadImageById(Id);
         }
+
+        public Event GetEventById(int Id)
+        {
+            return Crud.ReadEventById(Id);
+        }
+
+        public List<Event> GetAllEvents()
+        {
+            return Crud.ReadAllEvents();
+        }
     }
 }

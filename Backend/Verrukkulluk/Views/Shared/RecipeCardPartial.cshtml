@@ -33,9 +33,9 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex">
-                    @foreach (RecipeDishType recipeDishType in Model.RecipeDishTypes)
+                    @foreach (DishType DishType in Model.DishTypes)
                 {
-                    <span class="dishTypeBadge mb-2">@recipeDishType.DishType.Name</span>
+                    <span class="dishTypeBadge mb-2">@DishType.Name</span>
                 }
                 </div>
                 <div class="d-flex justify-content-between align-items-center">

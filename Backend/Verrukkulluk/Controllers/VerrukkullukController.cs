@@ -18,19 +18,24 @@ namespace Verrukkulluk.Controllers
         private IUserRecipesModel UserRecipesModel;
         private IFavoritesModel FavoritesModel;
         private IDetailsModel DetailsModel;
+        private IEventModel EventModel;
+        private IShopListModel ShopListModel;
         private IServicer Servicer;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IServicer servicer)
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer)
         {
             VerModel = verModel;
             HomeModel = homeModel;
             UserRecipesModel = userRecipesModel;
             FavoritesModel = favoritesModel;
             DetailsModel = detailsModel;
+            EventModel = eventModel;
+            ShopListModel = shopListModel;
             Servicer = servicer;
         }
         public IActionResult Index()
         {
             HomeModel.Recipes = Servicer.GetAllRecipes();
+            HomeModel.Events = Servicer.GetAllEvents();
             return View(HomeModel);
         }
         public IActionResult Recept(int Id = 1)
@@ -110,66 +115,16 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult MijnBoodschappenlijst()
         {
-            var shoppingList = GetShoppingList();
-            return View("Shoplist", shoppingList);
+            ShopListModel.ShopList = GetShoppingList();
+            return View("Shoplist", ShopListModel);
         }
 
-        public IActionResult Event(string eventName)
+        public IActionResult Event(int id)
         {
-            Event eventModel = GetEventData(eventName);
-            return View(eventModel);
+            EventModel.Event = Servicer.GetEventById(id);
+            return View(EventModel);
         }
-        //ga database gebruiken en pas toe in view
-        private Event GetEventData(string eventName)
-        {
-            switch (eventName?.ToLower())
-            {
-                default:
-                    return new Event
-                    {
-                        Title = "Vegetarisch koken",
-                        Description = "Een workshop vegetarisch koken, onder leiding van Trientje Hupsakee",
-                        Date = new DateOnly(2024, 01, 30),
-                        StartTime = new TimeOnly(14, 0),
-                        EndTime = new TimeOnly(16, 0),
-                        Place = "Jaarbeurs Utrecht",
-                        Price = 12.99m
-                    };
-                case "event2":
-                    return new Event
-                    {
-                        Title = "Tafeldekken",
-                        Description = "Een workshop om op een snelle en chique manier een dinertafel te dekken",
-                        Date = new DateOnly(2024, 02, 15),
-                        StartTime = new TimeOnly(12, 0),
-                        EndTime = new TimeOnly(17, 0),
-                        Place = "De Kuip",
-                        Price = 10.49m
-                    };
-                case "event3":
-                    return new Event
-                    {
-                        Title = "Secuur afwassen",
-                        Description = "Hier leert u hoe u kunt afwassen op een veilige en duurzame manier",
-                        Date = new DateOnly(2024, 02, 25),
-                        StartTime = new TimeOnly(09, 30),
-                        EndTime = new TimeOnly(12, 30),
-                        Place = "Johan Cruijff ArenA",
-                        Price = 15.99m
-                    };
-                case "event4":
-                    return new Event
-                    {
-                        Title = "Wokken",
-                        Description = "Wat is wokken precies en wat maakt het nou zo lekker?",
-                        Date = new DateOnly(2024, 03, 04),
-                        StartTime = new TimeOnly(10, 0),
-                        EndTime = new TimeOnly(12, 30),
-                        Place = "Philips Stadion",
-                        Price = 18.99m
-                    };
-            }
-        }
+        
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
@@ -217,74 +172,6 @@ namespace Verrukkulluk.Controllers
             SaveShoppingList(shoppingList);
             return RedirectToAction("MijnBoodschappenlijst");
         }
-
-        [HttpGet]
-        [Route("fillcart")]
-        // A test shopping list with a few items that get stored in the session
-        // public IActionResult TestShoppingList()
-        // {
-        //     var sampleShoppingList = new List<CartItem>
-        //     {
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/avocado.jpg",
-        //             Name = "Avocado",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 4,
-        //             Price = 5.99m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/witte_bol.jpg",
-        //             Name = "Witte bol",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 1,
-        //             Price = 3.49m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/avocado.jpg",
-        //             Name = "Avocado2",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 4,
-        //             Price = 5.99m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/witte_bol.jpg",
-        //             Name = "Witte bol2",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 1,
-        //             Price = 3.49m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/witte_bol.jpg",
-        //             Name = "Witte bol3",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 1,
-        //             Price = 3.49m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/avocado.jpg",
-        //             Name = "Avocado3",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 4,
-        //             Price = 5.99m
-        //         },
-        //         new CartItem
-        //         {
-        //             ImageUrl = "../images/avocado.jpg",
-        //             Name = "Avocado4",
-        //             Description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt, consectetur adipisicing elit sum laude, ut labore et dolore magna aliqua.",
-        //             Quantity = 4,
-        //             Price = 5.99m
-        //         },
-        //     };
-        //     SaveShoppingList(sampleShoppingList);
-        //     return RedirectToAction("MijnBoodschappenlijst");
-        // }
 
         [HttpGet]
         [Route("RemoveAllShopItems")]

@@ -14,5 +14,7 @@ namespace Verrukkulluk.Models
         RecipeInfo GetRecipeById(int Id);
         Task<SignInResult> Login(InputModel input);
         ImageObj GetImage(int Id);
+        Event GetEventById(int Id);
+        List<Event> GetAllEvents();
     }
 }

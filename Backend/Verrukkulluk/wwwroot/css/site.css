@@ -882,6 +882,7 @@ p {
 
 .allergy-list {
     width: 70px;
+    min-width: 0rem;
 }
 
 .allergy-item {

@@ -13,7 +13,6 @@ namespace Verrukkulluk.Models
         public readonly SignInManager<User> SignInManager;
         public string Error { get; set; } = "";
         public InputModel Input { get; set; } = new InputModel();
-        public Utils Utils { get; set; } = new Utils();
         public VerModel()
         {
              

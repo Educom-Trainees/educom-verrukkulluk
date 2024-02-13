@@ -13,5 +13,7 @@ namespace Verrukkulluk.Data
         Product? ReadProductById(int id);
         public RecipeInfo ReadRecipeById(int Id);
         public ImageObj ReadImageById(int Id);
+        public Event ReadEventById(int Id);
+        List<Event> ReadAllEvents();
     }
 }
