@@ -124,5 +124,43 @@ namespace Verrukkulluk.Data
         {
             return Context.Events.ToList();
         }
+
+        public bool AddRecipeRating(int recipeId, int userId, int ratingValue)
+        {
+            try
+            {
+                var existingRating = Context.RecipeRatings
+                    .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
+
+                if (existingRating != null)
+                {
+                    existingRating.RatingValue = ratingValue;
+                }
+                else
+                {
+                    Context.RecipeRatings.Add(new RecipeRating
+                    {
+                        RecipeId = recipeId,
+                        UserId = userId,
+                        RatingValue = ratingValue
+                    });
+                }
+
+                Context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+                return false;
+            }
+        }
+        public int? ReadUserRating(int recipeId, int userId)
+        {
+            var rating = Context.RecipeRatings
+                .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
+
+            return rating?.RatingValue;
+        }
     }
 }

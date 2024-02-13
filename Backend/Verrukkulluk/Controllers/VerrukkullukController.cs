@@ -119,6 +119,20 @@ namespace Verrukkulluk.Controllers
             return View("Shoplist", ShopListModel);
         }
 
+        [HttpPost]
+        public IActionResult RateRecipe(int recipeId, int ratingValue)
+        {
+            bool success = Servicer.RateRecipe(recipeId, ratingValue);
+            return Json(new { success });
+        }
+
+        [HttpGet]
+        public IActionResult GetUserRating(int recipeId)
+        {
+            int? userRating = Servicer.GetUserRating(recipeId);
+            return Json(new { rating = userRating });
+        }
+
         public IActionResult Event(int id)
         {
             EventModel.Event = Servicer.GetEventById(id);

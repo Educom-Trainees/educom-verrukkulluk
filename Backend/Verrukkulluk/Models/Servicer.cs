@@ -111,5 +111,27 @@ namespace Verrukkulluk.Models
         {
             return Crud.ReadAllEvents();
         }
+
+        public bool RateRecipe(int recipeId, int ratingValue)
+        {
+            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+            int parsedUserId;
+            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            {
+                parsedUserId = 4;
+            }
+            return Crud.AddRecipeRating(recipeId, parsedUserId, ratingValue);
+        }
+
+        public int? GetUserRating(int recipeId)
+        {
+            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+            int parsedUserId;
+            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            {
+                parsedUserId = 4;
+            }
+            return Crud.ReadUserRating(recipeId, parsedUserId);
+        }
     }
 }

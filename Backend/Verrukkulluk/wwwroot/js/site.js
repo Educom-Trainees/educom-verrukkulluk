@@ -50,6 +50,62 @@ $(document).ready(function(){
             }
         });
     });
+    var ratingValue = 0;
+    var rated = false;
+
+    $('#recipeRating i').hover(function () {
+        if (!rated) {
+            var index = $(this).index();
+            $('#recipeRating i').removeClass('bi-star-fill').addClass('bi-star');
+            $('#recipeRating i:lt(' + (index + 1) + ')').removeClass('bi-star').addClass('bi-star-fill');
+        }
+    }, function () {
+        if (!rated) {
+            $('#recipeRating i').removeClass('bi-star-fill').addClass('bi-star');
+            $('#recipeRating i:lt(' + ratingValue + ')').removeClass('bi-star').addClass('bi-star-fill');
+        }
+    });
+
+    $('#recipeRating i').on('click', function () {
+        if (!rated) {
+            ratingValue = $(this).data('value');
+        }
+    });
+
+    $('#confirmRating').on('click', function () {
+        if (ratingValue < 1) {
+            $('#ratingMessage').text('Geef een beoordeling tussen de 1 en 5.');
+            $('#confirmRating').prop('disabled', false);
+        } else {
+            rateRecipe(ratingValue);
+            rated = true;
+            $('#confirmRating').remove();
+        }
+    });
+
+    fetchUserRating();
+
+    function fetchUserRating() {
+        $.ajax({
+            type: 'GET',
+            url: '/Verrukkulluk/GetUserRating',
+            data: { recipeId: $('#recipeId').val() },
+            success: function (response) {
+                if (response.rating) {
+                    displayRating(response.rating);
+                    $('#confirmRating').text('Verander uw beoordeling');
+                } else {
+                }
+            },
+            error: function () {
+                console.error('Error occurred while fetching user rating.');
+            }
+        });
+    }
+
+    function displayRating(rating) {
+        $('#userRating').text('Uw beoordeling: ' + rating);
+    }
 });
 
 function addProduct(e)
@@ -334,6 +390,25 @@ function addInstructionStep(inputElement) {
 
         inputElement.setAttribute('added-textarea', 'true');
     }
+}
+
+function rateRecipe(ratingValue) {
+    $.ajax({
+        type: 'POST',
+        url: '/Verrukkulluk/RateRecipe',
+        data: { recipeId: $('#recipeId').val(), ratingValue: ratingValue },
+        success: function (response) {
+            if (response.success) {
+                $('#ratingMessage').text('Bedankt voor uw beoordeling!');
+                $('#userRating').text('Uw beoordeling: ' + ratingValue);
+            } else {
+                $('#ratingMessage').text('Er ging iets mis, probeer opnieuw.');
+            }
+        },
+        error: function () {
+            $('#ratingMessage').text('An error occurred while submitting rating.');
+        }
+    });
 }
 
 
