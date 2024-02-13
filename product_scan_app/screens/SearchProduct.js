@@ -2,25 +2,47 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
 import ProductCard from '../components/ProductCard';
 import productList from '../data.json';
-import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ProductDetailsScreen from './ProductDetails';
 
 const SearchProductScreen = () => {
-    const navigation = useNavigation();
-
-    const navigateToProductDetails = (product) => {
-        navigation.navigate('ProductDetails', { product });
-    };
+    const Stack = createStackNavigator();
 
     return (
-        <SafeAreaView style={styles.container}>
-            <FlatList style={styles.flatlist}
-                data={productList}
-                renderItem={({ item }) => <ProductCard product={item} />}
-                keyExtractor={(item) => item.id}
+        <Stack.Navigator>
+            <Stack.Screen
+                options={{
+                    headerShown: false,
+                }}
+                name="ProductList"
+                component={ProductList}
             />
-        </SafeAreaView>
+            <Stack.Screen
+                options={{
+                    headerTitle: '',
+                }}
+                name="ProductDetails"
+                component={ProductDetailsScreen}
+            />
+        </Stack.Navigator>
     );
 };
+
+const ProductList = ({ navigation }) => (
+    <SafeAreaView style={styles.container}>
+        <FlatList
+            style={styles.flatlist}
+            data={productList}
+            renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => navigation.navigate('ProductDetails', { product: item})}>
+                    <ProductCard product={item} />
+                </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+        />
+    </SafeAreaView>
+);
 
 export default SearchProductScreen;
 

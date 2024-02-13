@@ -10,8 +10,10 @@ const images = {
 const ProductCard = ({ product }) => {
     return (
         <View style={styles.card} key={product.id}>
-            <Text>{product.id}</Text>
-            <Text>{product.title}</Text>
+            <View style={styles.cardContent}>
+                <Text style={styles.title}>{product.title}</Text>
+                <Image source={images[product.picture]} style={styles.image} resizeMode="contain" />
+            </View>
         </View>
     );
 };
@@ -23,14 +25,23 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         flex: 1,
         fontSize: 24,
-        fontWeight: "bold",
+        fontWeight: 'bold',
         padding: 16,
         borderRadius: 8,
         borderWidth: 1,
         marginBottom: 10,
     },
+    cardContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
     image: {
         width: 100,
         height: 100,
-    }
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
 });

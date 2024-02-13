@@ -1,5 +1,5 @@
 [
-    { "id": "1", "title": "Witte bolletjes", "description":"Ambachtelijke witte bolletjes", "type":"3", "quantity":"6", "minimumQuantity":"1", "packaging":"9", "price":"1.59", "picture":"witte_bol", "allergies":"allergies"},
-    { "id": "2", "title": "Hamburgers", "description":"Een perfecte burger gemaakt van lokale ingrediënten", "type":"1", "quantity":"2", "minimumQuantity":"1", "packaging":"12", "price":"3.39", "picture":"hamburgers", "allergies":"allergies"},
-    { "id": "3", "title": "Augurken", "description":"Uit een pot", "type":"2", "quantity":"360", "minimumQuantity":"20", "packaging":"11", "price":"1.59", "picture":"augurken", "allergies":"allergies"}
+    { "id": "1", "title": "Witte bolletjes", "description":"Ambachtelijke witte bolletjes", "type":"3", "quantity":"6", "minimumQuantity":"1", "packaging":"9", "price":"1.59", "picture":"witte_bol", "allergies":"gluten"},
+    { "id": "2", "title": "Hamburgers", "description":"Een perfecte burger gemaakt van lokale ingrediënten", "type":"1", "quantity":"2", "minimumQuantity":"1", "packaging":"12", "price":"3.39", "picture":"hamburgers", "allergies":"vlees"},
+    { "id": "3", "title": "Augurken", "description":"Uit een pot", "type":"2", "quantity":"360", "minimumQuantity":"20", "packaging":"11", "price":"1.59", "picture":"augurken", "allergies":"Niets"}
 ]
