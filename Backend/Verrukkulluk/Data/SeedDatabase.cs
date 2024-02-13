@@ -78,20 +78,8 @@ namespace Verrukkulluk.Data
 
                 VerrukkullukContext dbContext = scope.ServiceProvider.GetRequiredService<VerrukkullukContext>();
 
-                if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.DishTypes.Any() && !dbContext.Recipes.Any())
+                if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.Recipes.Any())
                 {
-                    DishType[] dishTypes =
-                    {
-                        new DishType("Vlees"),
-                        new DishType("Vis"),
-                        new DishType("Vegetarisch"),
-                        new DishType("Vegan"),
-                        new DishType("Glutenvrij"),
-                        new DishType("Lactosevrij")
-                    };
-                    dbContext.DishTypes.AddRange(dishTypes);
-                    await dbContext.SaveChangesAsync();
-
                     ImageObj WitteBolImage = new ImageObj(ReadImageFile("witte_bol.jpg"), "jpg");
                     dbContext.ImageObjs.Add(WitteBolImage);
                     await dbContext.SaveChangesAsync();
@@ -155,6 +143,8 @@ namespace Verrukkulluk.Data
                     dbContext.ImageObjs.Add(WeekdierenIcoon);
                     ImageObj ZwavelIcoon = new ImageObj(ReadImageFile("allergenen/zwavel.png"), "png");
                     dbContext.ImageObjs.Add(ZwavelIcoon);
+                    ImageObj VleesIcoon = new ImageObj(ReadImageFile("allergenen/vlees.png"), "png");
+                    dbContext.ImageObjs.Add(VleesIcoon);
                     await dbContext.SaveChangesAsync();
 
                     Product[] products =
@@ -209,29 +199,6 @@ namespace Verrukkulluk.Data
                     };
                     await dbContext.SaveChangesAsync();
 
-
-                    List<RecipeDishType> vlees = new List<RecipeDishType>();
-                    vlees.Add(new RecipeDishType { DishTypeId = 1 });
-                    List<RecipeDishType> veganistisch = new List<RecipeDishType>();
-                    veganistisch.Add(new RecipeDishType { DishTypeId = 3 });
-                    veganistisch.Add(new RecipeDishType { DishTypeId = 4 });
-                    List<RecipeDishType> surfturf = new List<RecipeDishType>();
-                    surfturf.Add(new RecipeDishType { DishTypeId = 1 });
-                    surfturf.Add(new RecipeDishType { DishTypeId = 2 });
-                    List<RecipeDishType> vis = new List<RecipeDishType>();
-                    vis.Add(new RecipeDishType { DishTypeId = 2 });
-                    List<RecipeDishType> vegetarisch1 = new List<RecipeDishType>();
-                    vegetarisch1.Add(new RecipeDishType { DishTypeId = 3 });
-                    List<RecipeDishType> vegetarisch2 = new List<RecipeDishType>();
-                    vegetarisch2.Add(new RecipeDishType { DishTypeId = 3 });
-                    List<RecipeDishType> vegetarisch3 = new List<RecipeDishType>();
-                    vegetarisch3.Add(new RecipeDishType { DishTypeId = 3 });
-                    List<RecipeDishType> veganistisch1 = new List<RecipeDishType>();
-                    veganistisch1.Add(new RecipeDishType { DishTypeId = 3 });
-                    veganistisch1.Add(new RecipeDishType { DishTypeId = 4 });
-
-                    await dbContext.SaveChangesAsync();
-
                     List<Ingredient> recipeIngredients = new List<Ingredient>();
                     foreach(Ingredient ingredient in ingredients)
                     {
@@ -266,12 +233,12 @@ namespace Verrukkulluk.Data
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Couscous", vegetarisch1, kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients, 3),
-                        new Recipe("Duitse Hamburger", vlees, kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients, 4),
-                        new Recipe("Fruit Pokébowl", veganistisch, kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients, 2),
-                        new Recipe("Spaghetti", vegetarisch2, kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
-                        new Recipe("Pizza", vegetarisch3, kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
-                        new Recipe("Salade", veganistisch1, kitchenTypes[6], description,instructions, 5, users[0], SaladeImage.Id, recipeIngredientsTest, 4)
+                        new Recipe("Couscous", kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients, 3),
+                        new Recipe("Duitse Hamburger", kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients, 4),
+                        new Recipe("Fruit Pokébowl", kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients, 2),
+                        new Recipe("Spaghetti", kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
+                        new Recipe("Pizza", kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
+                        new Recipe("Salade", kitchenTypes[6], description,instructions, 5, users[0], SaladeImage.Id, recipeIngredientsTest, 4)
                     };
 
                     dbContext.Products.AddRange(products);
@@ -295,7 +262,8 @@ namespace Verrukkulluk.Data
                         new Allergy("Soja", SojaIcoon.Id),
                         new Allergy("Vis", VisIcoon.Id),
                         new Allergy("Weekdieren", WeekdierenIcoon.Id),
-                        new Allergy("Zwavel", ZwavelIcoon.Id)
+                        new Allergy("Zwavel", ZwavelIcoon.Id),
+                        new Allergy("Vlees", VleesIcoon.Id)
                     };
                     dbContext.Allergies.AddRange(allergies);
                     await dbContext.SaveChangesAsync();
@@ -303,7 +271,8 @@ namespace Verrukkulluk.Data
                     ProductAllergy[] productAllergies =
                     {
                         new ProductAllergy(allergies[1], products[0]),
-                        new ProductAllergy(allergies[4], products[2])
+                        new ProductAllergy(allergies[4], products[2]),
+                        new ProductAllergy(allergies[14], products[3])
                     };
                     dbContext.ProductAllergies.AddRange(productAllergies);
                     await dbContext.SaveChangesAsync();

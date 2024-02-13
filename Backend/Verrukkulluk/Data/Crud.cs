@@ -51,8 +51,6 @@ namespace Verrukkulluk.Data
             try 
             {
                 var recipes = Context.Recipes
-                    .Include(r => r.RecipeDishTypes)
-                        .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
@@ -77,8 +75,6 @@ namespace Verrukkulluk.Data
             try
             {
                 var recipes = Context.Recipes
-                    .Include(r => r.RecipeDishTypes)
-                        .ThenInclude(r => r.DishType)
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
@@ -103,9 +99,7 @@ namespace Verrukkulluk.Data
             var Recipes = Context.Recipes
                 .Where(i => i.Id == Id)
                 .Include(r => r.KitchenType)
-                .Include(r => r.Creator)
-                .Include(r => r.RecipeDishTypes)
-                    .ThenInclude(r => r.DishType);
+                .Include(r => r.Creator);
             var Recipe = Recipes
                 .Include(r => r.Comments)
                 .Include(r => r.Ingredients)

@@ -78,8 +78,8 @@
                         <div class=" card-body card-body-recipe"><p class="text-start"><br>@Model.Recipe.Description</p></div>
                         <div class="card-footer">
                             <div class="d-flex">
-                                @foreach(RecipeDishType dishType in Model.Recipe.RecipeDishTypes){
-                                    <span class="dishTypeBadge mb-2"> @dishType.DishType.Name </span>
+                                @foreach(DishType dishType in Model.Recipe.DishTypes){
+                                    <span class="dishTypeBadge mb-2"> @dishType.Name </span>
                                 }
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
