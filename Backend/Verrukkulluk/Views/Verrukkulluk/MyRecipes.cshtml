@@ -61,6 +61,14 @@
                                             Allergenen
                                             </button>
                                             <ul class="dropdown-menu allergy-list">
+                                                @if (!recipe.Allergies.Any())
+                                                {
+                                                    <li class="d-inline allergy-list">
+                                                        <div class="allergy-item">
+                                                            Geen allergenen in dit gerecht
+                                                        </div>
+                                                    </li>
+                                                }
                                                 @foreach(Allergy Allergy in recipe.Allergies)
                                                 {
                                                     <li class="d-inline allergy-list"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="Hier moet nog een allergie" style="width:70px; height:auto"></li>
@@ -91,8 +99,8 @@
                             </div>
                             <div class="d-flex justify-content-start align-items-center">
                                 <div> 
-                                    @{<form method="GET">
-                                        <button asp-controller="Verrukkulluk" asp-action="Recept" class="btn btn-primary btn-darker-green m-1"><h3>Details</h3></button>
+                                   @{<form method="GET">
+                                        <button asp-controller="Verrukkulluk" asp-action="Recept" asp-route-id="@recipe.Id" class="btn btn-primary btn-darker-green m-1"><h3>Details</h3></button>
                                     </form>}
                                 </div>
                                 <div>
