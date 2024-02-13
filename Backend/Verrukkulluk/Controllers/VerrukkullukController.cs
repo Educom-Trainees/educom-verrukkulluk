@@ -19,8 +19,9 @@ namespace Verrukkulluk.Controllers
         private IFavoritesModel FavoritesModel;
         private IDetailsModel DetailsModel;
         private IEventModel EventModel;
+        private IShopListModel ShopListModel;
         private IServicer Servicer;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IServicer servicer)
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer)
         {
             VerModel = verModel;
             HomeModel = homeModel;
@@ -28,6 +29,7 @@ namespace Verrukkulluk.Controllers
             FavoritesModel = favoritesModel;
             DetailsModel = detailsModel;
             EventModel = eventModel;
+            ShopListModel = shopListModel;
             Servicer = servicer;
         }
         public IActionResult Index()
@@ -113,8 +115,8 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult MijnBoodschappenlijst()
         {
-            var shoppingList = GetShoppingList();
-            return View("Shoplist", shoppingList);
+            ShopListModel.ShopList = GetShoppingList();
+            return View("Shoplist", ShopListModel);
         }
 
         public IActionResult Event(int id)

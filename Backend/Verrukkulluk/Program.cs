@@ -27,6 +27,7 @@ namespace Verrukkulluk
             builder.Services.TryAddScoped<IFavoritesModel, FavoritesModel>();
             builder.Services.TryAddScoped<IDetailsModel, DetailsModel>();
             builder.Services.TryAddScoped<IEventModel, EventModel>();
+            builder.Services.TryAddScoped<IShopListModel, ShopListModel>();
             builder.Services.TryAddScoped<IServicer, Servicer>();
 
             builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)

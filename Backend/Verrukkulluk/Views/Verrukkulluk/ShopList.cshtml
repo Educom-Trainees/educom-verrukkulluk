@@ -1,43 +1,16 @@
-﻿@model List<CartItem>
+﻿@model Verrukkulluk.Models.ShopListModel;
 
 @{
     ViewData["Title"] = "Mijn Boodschappenlijst";
 }
 <div class="parent-container d-flex flex-wrap">
     <!--Login block-->
-    <div class="container col-sm-12 col-md-6 col-xl-4">
-        <div class="row">
-            <div class="col-12">
-                <div class="m-3">
-                    <div class="card-login shadow">
-                        <div class="card-header card-header-login mt-3 mb-3">
-                            <img class="titleUnderlined mt-3" src="../images/Login-met-streep.png">
-                        </div>
-                        <div class="card-body">
-                            <form>
-                                <div class="container container-login text-start">
-                                    <div class="form-group">
-                                        <label for="email" class="white">Email</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password" class="white">Wachtwoord</label>
-                                        <input type="password" class="form-control" id="password">
-                                    </div>
-                                    <div class="text-center">
-                                        <p>Nog geen account? Klik @{
-                                                <a asp-area="Identity" asp-page="/Account/Register">hier</a>
-                                            } om u te registreren</p>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-secondary"><h3>Login</h3></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    @if(!Model.SignInManager.IsSignedIn(User))
+        {
+            <div class="container col-4 mt-2 d-none d-xl-block">
+            @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
             </div>
-        </div>
-    </div>
+        }
     <!--Boodschappenlijst-->
     <div class="container col-sm-12 col-md-12 col-xl-8">
         <div class="m-3 shopping-list-container">
@@ -49,13 +22,13 @@
                     <span class="darker-green bi bi-chevron-up"></span>
                 </div>
                 <div class="scrolling-content">
-                @if (Model.Count == 0)
+                @if (Model.ShopList.Count == 0)
                 {
                         <p class="black text-start m-4">Uw boodschappenlijst is momenteel leeg. Voeg producten toe middels de “Op lijst”-knop op de detailpagina's van de gerechten.</p>
                 }
                 else
                 {
-                    @foreach (var group in Model.GroupBy(item => item.Name))
+                    @foreach (var group in Model.ShopList.GroupBy(item => item.Name))
                     {
                         var item = group.First();
                             var totalQuantity = (int)Math.Ceiling(group.Sum(item => item.Quantity));
@@ -121,7 +94,7 @@
                                 @{
                                     // Calculate the total price dynamically
                                     decimal totalPrice = 0;
-                                    foreach (var group in Model.GroupBy(item => item.Name))
+                                    foreach (var group in Model.ShopList.GroupBy(item => item.Name))
                                     {
                                         var item = group.First();
                                         var totalQuantity = (int)Math.Ceiling(group.Sum(item => item.Quantity));
