@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const images = {
     witte_bol: require('../assets/images/witte_bol.jpg'),
@@ -11,7 +12,7 @@ const ProductDetailsScreen = ({ route }) => {
     const { product } = route.params;
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Image source={images[product.picture]} style={styles.image} resizeMode="contain" />
 
             <Text style={styles.heading}>Titel</Text>
@@ -32,12 +33,12 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.heading}>Verpakking</Text>
             <Text style={styles.text}>{product.packaging}</Text>
 
-            <Text style={styles.heading}>prijs</Text>
+            <Text style={styles.heading}>Prijs</Text>
             <Text style={styles.text}>{product.price}</Text>
 
             <Text style={styles.heading}>Allergieën</Text>
             <Text style={styles.text}>{product.allergies}</Text>
-        </View>
+        </SafeAreaView>
     );
 };
 
