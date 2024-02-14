@@ -120,6 +120,12 @@ namespace Verrukkulluk.Models
             {
                 parsedUserId = userIdValue;
             }
+            else
+            {
+                var sessionRatings = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int, int>>("SessionRatings") ?? new Dictionary<int, int>();
+                sessionRatings[recipeId] = ratingValue;
+                HttpContextAccessor.HttpContext.Session.Set("SessionRatings", sessionRatings);
+            }
             return Crud.AddRecipeRating(recipeId, parsedUserId, ratingValue);
         }
 
@@ -129,7 +135,15 @@ namespace Verrukkulluk.Models
             int parsedUserId;
             if (userId == null || !int.TryParse(userId, out parsedUserId))
             {
-                return null;
+                var sessionRatings = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int, int>>("SessionRatings");
+                if (sessionRatings != null && sessionRatings.ContainsKey(recipeId))
+                {
+                    return -sessionRatings[recipeId];
+                }
+                else
+                {
+                    return null;
+                }
             }
             return Crud.ReadUserRating(recipeId, parsedUserId);
         }

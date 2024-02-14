@@ -91,13 +91,18 @@ $(document).ready(function(){
             url: '/Verrukkulluk/GetUserRating',
             data: { recipeId: $('#recipeId').val() },
             success: function (response) {
-                if (response.rating) {
+                if (response.rating > 0) {
                     ratingValue = response.rating;
                     displayRating();
                     updateStars(response.rating);
                     $('#confirmRating').text('Verander uw beoordeling');
-                } else {
                 }
+                if (response.rating < 0) {
+                    ratingValue = -response.rating;
+                    displayRating();
+                    updateStars(-response.rating);
+                    disableStarRating();
+                } 
             },
             error: function () {
                 console.error('Error occurred while fetching user rating.');
@@ -115,6 +120,12 @@ $(document).ready(function(){
                 $(this).removeClass('bi-star').addClass('bi-star-fill');
             }
         });
+    }
+
+    function disableStarRating() {
+        $('#recipeRating i').off('click');
+        $('#recipeRating i').off('mouseenter mouseleave');
+        $('#confirmRating').remove();
     }
 });
 

@@ -546,6 +546,10 @@ p {
     color: var(--lighter-orange);
 }
 
+.bi-star-half {
+    color: var(--lighter-orange);
+}
+
 .empty-banner {
     height: 20vh;
 }
