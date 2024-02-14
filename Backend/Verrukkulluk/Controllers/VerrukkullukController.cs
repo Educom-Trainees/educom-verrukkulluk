@@ -224,14 +224,14 @@ namespace Verrukkulluk.Controllers
 
             foreach (var ingredient in DetailsModel.Recipe.Ingredients)
             {
-                var quantityNeeded = ingredient.Amount;
+                double quantityNeeded = ingredient.Amount / ingredient.Product.Amount;
                 var newItem = new CartItem
                 {
                     ImageObjId = ingredient.Product.ImageObjId, //Ik weet niet hoe dit meegegeven wordt
                     Name = ingredient.Product.Name,
                     Description = ingredient.Product.Description,
                     Quantity = Math.Round(quantityNeeded, 2),
-                    Price = ingredient.Product.Price
+                    Price = ingredient.Product.Price * (decimal)quantityNeeded
                 };
                 shoppingList.Add(newItem);
             }

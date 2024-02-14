@@ -184,18 +184,19 @@ namespace Verrukkulluk.Data
 
                     Ingredient[] ingredients =
                     {
-                        new Ingredient("Wit Bolletje", 0.66, products[0]),
+                        new Ingredient("Wit Bolletje", 4, products[0]),
                         new Ingredient("Avocado", 2, products[1]),
-                        new Ingredient("Vegan Burgersaus", 0.1, products[2]),
-                        new Ingredient("Hamburger", 2, products[3]),
+                        new Ingredient("Vegan Burgersaus", 30, products[2]),
+                        new Ingredient("Hamburger", 4, products[3]),
                         new Ingredient("Tomaten", 1, products[4]),
-                        new Ingredient("Ijsbergsla", 0.5, products[5]),
-                        new Ingredient("Boter", 0.1, products[6]),
-                        new Ingredient("Spaghetti", 0.4, products[7]),
-                        new Ingredient("Couscous", 0.3, products[8]),
+                        new Ingredient("Ijsbergsla", 100, products[5]),
+                        new Ingredient("Boter", 25, products[6]),
+                        new Ingredient("Spaghetti", 200, products[7]),
+                        new Ingredient("Couscous", 75, products[8]),
                         new Ingredient("Komkommer", 0.5, products[9]),
-                        new Ingredient("Broccoli", 1, products[10]),
-                        new Ingredient("Aardbeien", 1, products[11])
+                        new Ingredient("Broccoli", 250, products[10]),
+                        new Ingredient("Aardbeien", 400, products[11]),
+                        new Ingredient("Hamburger", 4, products[3])
                     };
                     await dbContext.SaveChangesAsync();
 
@@ -206,6 +207,8 @@ namespace Verrukkulluk.Data
                     }
                     List<Ingredient> recipeIngredientsTest = new List<Ingredient>();
                     recipeIngredientsTest.Add(new Ingredient("Tomaten", 0.5, products[4]));
+                    List<Ingredient> burgerIngredients = new List<Ingredient>();
+                    burgerIngredients.Add(ingredients[12]);
                     
                     
                     string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
@@ -234,7 +237,7 @@ namespace Verrukkulluk.Data
                     Recipe[] recipes =
                     {
                         new Recipe("Couscous", kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients, 3),
-                        new Recipe("Duitse Hamburger", kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , recipeIngredients, 4),
+                        new Recipe("Duitse Hamburger", kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , burgerIngredients, 4),
                         new Recipe("Fruit Pokébowl", kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients, 2),
                         new Recipe("Spaghetti", kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
                         new Recipe("Pizza", kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
@@ -272,7 +275,8 @@ namespace Verrukkulluk.Data
                     {
                         new ProductAllergy(allergies[1], products[0]),
                         new ProductAllergy(allergies[4], products[2]),
-                        new ProductAllergy(allergies[14], products[3])
+                        new ProductAllergy(allergies[14], products[3]),
+                        new ProductAllergy(allergies[1], products[7])
                     };
                     dbContext.ProductAllergies.AddRange(productAllergies);
                     await dbContext.SaveChangesAsync();
