@@ -236,12 +236,12 @@ namespace Verrukkulluk.Data
 
                     Recipe[] recipes =
                     {
-                        new Recipe("Couscous", kitchenTypes[10], description, instructions, 4, users[0], CouscousImage.Id, recipeIngredients, 3),
-                        new Recipe("Duitse Hamburger", kitchenTypes[11], description, instructions, 3, users[0], HamburgerImage.Id , burgerIngredients, 4),
-                        new Recipe("Fruit Pokébowl", kitchenTypes[0], description, instructions, 1, users[0], PokeBowlImage.Id , recipeIngredients, 2),
-                        new Recipe("Spaghetti", kitchenTypes[6], description,instructions, 5, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
-                        new Recipe("Pizza", kitchenTypes[6], description,instructions, 5, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
-                        new Recipe("Salade", kitchenTypes[6], description,instructions, 5, users[0], SaladeImage.Id, recipeIngredientsTest, 4)
+                        new Recipe("Couscous", kitchenTypes[10], description, instructions, 0, users[0], CouscousImage.Id, recipeIngredients, 3),
+                        new Recipe("Duitse Hamburger", kitchenTypes[11], description, instructions, 0, users[0], HamburgerImage.Id , burgerIngredients, 4),
+                        new Recipe("Fruit Pokébowl", kitchenTypes[0], description, instructions, 0, users[0], PokeBowlImage.Id , recipeIngredients, 2),
+                        new Recipe("Spaghetti", kitchenTypes[6], description,instructions, 0, users[0], SpaghettiImage.Id, recipeIngredientsTest,3 ),
+                        new Recipe("Pizza", kitchenTypes[6], description,instructions, 0, users[0], PizzaImage.Id, recipeIngredientsTest, 2),
+                        new Recipe("Salade", kitchenTypes[6], description,instructions, 0, users[0], SaladeImage.Id, recipeIngredientsTest, 4)
                     };
 
                     dbContext.Products.AddRange(products);
@@ -328,23 +328,6 @@ namespace Verrukkulluk.Data
                     };
 
                     dbContext.Events.AddRange(events);
-                    await dbContext.SaveChangesAsync();
-                }
-                if (!dbContext.RecipeRatings.Any())
-                {
-                    var recipes = dbContext.Recipes.ToList();
-
-                    foreach (var recipe in recipes)
-                    {
-                        //Test rating for each recipe
-                        dbContext.RecipeRatings.Add(new RecipeRating
-                        {
-                            RecipeId = recipe.Id,
-                            UserId = 1,
-                            RatingValue = 3 
-                        });
-                    }
-
                     await dbContext.SaveChangesAsync();
                 }
             }

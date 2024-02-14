@@ -40,12 +40,22 @@
                                     <h2 class="darker-green">@Model.Recipe.Title</h2></div>
                                 <div>    
                                     <div class="d-inline-block card-recipe-stars">
+                                        @{
+                                            double averageRatingRounded = Math.Round(Model.Recipe.AverageRating * 2) / 2;
+                                        }
+
                                         @for (int i = 0; i < 5; i++)
                                         {
-                                            if (i < Model.Recipe.Rating)
+                                            if (i < (int)averageRatingRounded)
                                             {
                                                 <i class="bi bi-star-fill"></i>
-                                            } else {
+                                            }
+                                            else if (i == (int)averageRatingRounded && averageRatingRounded % 1 > 0)
+                                            {
+                                                <i class="bi bi-star-half"></i>
+                                            }
+                                            else
+                                            {
                                                 <i class="bi bi-star"></i>
                                             }
                                         }
@@ -84,18 +94,6 @@
                             </div>
                         </div>
                         <div class=" card-body card-body-recipe"><p class="text-start"><br>@Model.Recipe.Description</p>                          
-                            <div class="rating-container">
-                                <input type="hidden" id="recipeId" value="@Model.Recipe.Id">
-                                <div id="userRating"></div>
-                                <div class="d-inline-block rating-recipe-stars" id="recipeRating">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        <i class="bi bi-star large-star" data-value="@i"></i>
-                                    }
-                                </div>
-                                <button type="button" id="confirmRating" class="btn btn-rating">Geef Beoordeling</button>
-                                <div id="ratingMessage"></div>
-                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="d-flex">
@@ -137,6 +135,9 @@
             <li class="nav-item nav-item-recipe">
                 <a class="nav-link nav-link-recipe darker-green" data-bs-toggle="tab" href="#comments"><h4>Opmerkingen</h4></a>
             </li>
+                <li class="nav-item nav-item-recipe">
+                    <a class="nav-link nav-link-recipe darker-green" data-bs-toggle="tab" href="#rating"><h4>Geef beoordeling</h4></a>
+                </li>
         </ol>
 
         <!-- Tab panes -->
@@ -210,6 +211,30 @@
                     <div class="chevron-recipe">
                     <span class="darker-green bi bi-chevron-down"></span>
                     </div>
+            </div>
+            <div id="rating" class="container tab-pane tab-pane-recipe fade">
+                <br>
+                <div class="chevron-recipe">
+                    <span class="darker-green bi bi-chevron-up"></span>
+                </div>
+                <div class="scrolling-content">
+                        <div class="rating-container">
+                            <p>Wat vond u van dit recept?</p>
+                            <input type="hidden" id="recipeId" value="@Model.Recipe.Id">
+                            <div class= "regular-text" id="userRating"></div>
+                            <div class="d-inline-block rating-recipe-stars" id="recipeRating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="bi bi-star large-star" data-value="@i"></i>
+                                }
+                            </div>
+                            <button type="button" id="confirmRating" class="btn btn-rating">Geef Beoordeling</button>
+                            <br><div class="regular-text" id="ratingMessage"></div>
+                        </div>
+                </div>
+                <div class="chevron-recipe">
+                    <span class="darker-green bi bi-chevron-down"></span>
+                </div>
             </div>
         </div>
     </div>

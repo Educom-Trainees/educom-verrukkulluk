@@ -19,7 +19,7 @@ namespace Verrukkulluk
         [MaxLength(1000)]
         public string Instructions { get; set; }
         virtual public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
-        public int Rating { get; set; }
+        public double AverageRating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
@@ -30,13 +30,13 @@ namespace Verrukkulluk
         public ICollection<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
 
         public Recipe() { }
-        public Recipe(string title, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
+        public Recipe(string title, KitchenType kitchenType, string description, string instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
             Title = title;
             KitchenType = kitchenType;
             Description = description;
             Instructions = instructions;
-            Rating = rating;
+            AverageRating = rating;
             CreatorId = creator.Id;
             Creator = creator;
             ImageObjId = imageObjId;

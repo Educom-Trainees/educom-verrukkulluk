@@ -126,7 +126,7 @@ namespace Verrukkulluk.Models
                 sessionRatings[recipeId] = ratingValue;
                 HttpContextAccessor.HttpContext.Session.Set("SessionRatings", sessionRatings);
             }
-            return Crud.AddRecipeRating(recipeId, parsedUserId, ratingValue);
+            return Crud.AddOrUpdateRecipeRating(recipeId, parsedUserId, ratingValue);
         }
 
         public int? GetUserRating(int recipeId)
@@ -146,6 +146,11 @@ namespace Verrukkulluk.Models
                 }
             }
             return Crud.ReadUserRating(recipeId, parsedUserId);
+        }
+
+        public void UpdateAverageRating(int recipeId)
+        {
+            Crud.UpdateAverageRating(recipeId);
         }
     }
 }

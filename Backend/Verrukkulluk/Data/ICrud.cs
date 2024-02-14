@@ -15,7 +15,8 @@ namespace Verrukkulluk.Data
         public ImageObj ReadImageById(int Id);
         public Event ReadEventById(int Id);
         List<Event> ReadAllEvents();
-        bool AddRecipeRating(int recipeId, int? userId, int ratingValue);
+        bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue);
         int? ReadUserRating(int recipeId, int userId);
+        void UpdateAverageRating(int recipeId);
     }
 }

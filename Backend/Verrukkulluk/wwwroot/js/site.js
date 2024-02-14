@@ -420,13 +420,33 @@ function rateRecipe(ratingValue) {
         data: { recipeId: $('#recipeId').val(), ratingValue: ratingValue },
         success: function (response) {
             if (response.success) {
-                $('#ratingMessage').text('Bedankt voor uw beoordeling!');
+                updateAverageRating($('#recipeId').val());
+                $('#ratingMessage').text('Bedankt voor uw feedback!');
             } else {
                 $('#ratingMessage').text('Er ging iets mis, probeer opnieuw.');
             }
         },
         error: function () {
             $('#ratingMessage').text('An error occurred while submitting rating.');
+        }
+    });
+}
+
+function updateAverageRating(recipeId) {
+    $.ajax({
+        type: 'POST',
+        url: '/Verrukkulluk/UpdateAverageRating',
+        data: { recipeId: recipeId },
+        success: function (response) {
+            if (response.success) {
+                console.log('Average rating updated successfully.');
+                // Optionally, you can update the UI to reflect the new average rating
+            } else {
+                console.error('Failed to update average rating.');
+            }
+        },
+        error: function () {
+            console.error('An error occurred while updating the average rating.');
         }
     });
 }

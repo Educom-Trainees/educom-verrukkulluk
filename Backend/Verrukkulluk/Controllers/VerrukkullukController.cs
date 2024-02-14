@@ -133,6 +133,20 @@ namespace Verrukkulluk.Controllers
             return Json(new { rating = userRating });
         }
 
+        [HttpPost]
+        public IActionResult UpdateAverageRating(int recipeId)
+        {
+            try
+            {
+                Servicer.UpdateAverageRating(recipeId);
+                return Ok("Average rating updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while updating the average rating: " + ex.Message);
+            }
+        }
+
         public IActionResult Event(int id)
         {
             EventModel.Event = Servicer.GetEventById(id);

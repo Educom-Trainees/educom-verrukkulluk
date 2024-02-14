@@ -125,17 +125,25 @@ namespace Verrukkulluk.Data
             return Context.Events.ToList();
         }
 
-        public bool AddRecipeRating(int recipeId, int? userId, int ratingValue)
+        public bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue)
         {
             try
             {
-                Context.RecipeRatings.Add(new RecipeRating
-                {
-                    RecipeId = recipeId,
-                    UserId = userId,
-                    RatingValue = ratingValue
-                });
+                var existingRating = Context.RecipeRatings.FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
 
+                if (existingRating != null)
+                {
+                    existingRating.RatingValue = ratingValue;
+                }
+                else
+                {
+                    Context.RecipeRatings.Add(new RecipeRating
+                    {
+                        RecipeId = recipeId,
+                        UserId = userId,
+                        RatingValue = ratingValue
+                    });
+                }
                 Context.SaveChanges();
                 return true;
             }
@@ -145,12 +153,37 @@ namespace Verrukkulluk.Data
                 return false;
             }
         }
+
         public int? ReadUserRating(int recipeId, int userId)
         {
             var rating = Context.RecipeRatings
                 .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
 
             return rating?.RatingValue;
+        }
+
+        public double? GetAverageRating(int recipeId)
+        {
+            var ratings = Context.RecipeRatings.Where(r => r.RecipeId == recipeId).Select(r => r.RatingValue);
+            if (ratings.Any())
+            {
+                return Math.Round(ratings.Average(), 2);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void UpdateAverageRating(int recipeId)
+        {
+            var averageRating = GetAverageRating(recipeId);
+            if (averageRating != null)
+            {
+                var recipe = Context.Recipes.Find(recipeId);
+                recipe.AverageRating = (double)averageRating;
+                Context.SaveChanges();
+            }
         }
     }
 }

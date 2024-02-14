@@ -331,7 +331,7 @@ p {
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
     font-family: var(--heading);
-    font-size:18px;
+    font-size:30px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: auto;
@@ -938,11 +938,16 @@ p {
 }
 
 .large-star {
-    font-size: 25px;
+    font-size: 40px;
 }
 
 .rating-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.regular-text {
+    font-family: var(--regular);
+    color: var(--black);
 }

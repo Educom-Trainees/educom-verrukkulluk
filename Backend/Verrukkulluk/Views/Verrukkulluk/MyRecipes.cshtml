@@ -41,12 +41,22 @@
                                 <div class="d-inline-block text-truncate"><h2 class="darker-green">@recipe.Title</h2></div>
                                 <div>
                                     <div class="d-inline-block card-recipe-stars">
+                                        @{
+                                            double averageRatingRounded = Math.Round(recipe.AverageRating * 2) / 2;
+                                        }
+
                                         @for (int i = 0; i < 5; i++)
                                         {
-                                            if (i < recipe.Rating)
+                                            if (i < (int)averageRatingRounded)
                                             {
                                                 <i class="bi bi-star-fill"></i>
-                                            } else {
+                                            }
+                                            else if (i == (int)averageRatingRounded && averageRatingRounded % 1 > 0)
+                                            {
+                                                <i class="bi bi-star-half"></i>
+                                            }
+                                            else
+                                            {
                                                 <i class="bi bi-star"></i>
                                             }
                                         }

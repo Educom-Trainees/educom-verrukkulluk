@@ -11,7 +11,7 @@ namespace Verrukkulluk.Models
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
 
         public RecipeInfo() { }
-        public RecipeInfo(string title, KitchenType kitchenType, string description, string instructions, int rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople) :
+        public RecipeInfo(string title, KitchenType kitchenType, string description, string instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople) :
                      base(title, kitchenType, description, instructions, rating, creator, imageObjId, ingredients, numberOfPeople)
         {
             Price = ingredients.Select(i => i.Product.Price * (decimal)Math.Ceiling(i.Amount / i.Product.Amount)).Sum().ToString("F2");
@@ -43,7 +43,7 @@ namespace Verrukkulluk.Models
             }
         }
 
-        public RecipeInfo(Recipe recipe) : base(recipe.Title, recipe.KitchenType, recipe.Description, recipe.Instructions, recipe.Rating, recipe.Creator, recipe.ImageObjId, recipe.Ingredients.ToList(), recipe.NumberOfPeople)
+        public RecipeInfo(Recipe recipe) : base(recipe.Title, recipe.KitchenType, recipe.Description, recipe.Instructions, recipe.AverageRating, recipe.Creator, recipe.ImageObjId, recipe.Ingredients.ToList(), recipe.NumberOfPeople)
         {
             Id = recipe.Id;
             Price = recipe.Ingredients.Select(i => i.Product.Price * (decimal)Math.Ceiling(i.Amount / i.Product.Amount)).Sum().ToString("F2");

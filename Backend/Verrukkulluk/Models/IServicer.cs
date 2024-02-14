@@ -18,5 +18,6 @@ namespace Verrukkulluk.Models
         int? GetUserRating(int recipeId);
         Event GetEventById(int Id);
         List<Event> GetAllEvents();
+        void UpdateAverageRating(int recipeId);
     }
 }
