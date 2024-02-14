@@ -210,8 +210,14 @@ namespace Verrukkulluk.Data
                     List<Ingredient> burgerIngredients = new List<Ingredient>();
                     burgerIngredients.Add(ingredients[12]);
                     
+                    string[] instructions = 
+                    {
+                        "Doe boter in de pan.",
+                        "Bak de hamburger.",
+                        "Snij sla, tomaten en een bolletje.",
+                        "Doe de hamburger in het bolletje met de sla en tomaten."
+                    };
                     
-                    string instructions = "Doe boter in de pan. Bak de hamburger. Snij sla, tomaten en een bolletje. Doe de hamburger in het bolletje met de sla en tomaten.";
                     string description = "Een lekkere gerecht, snel klaar te maken en een favoriet van het hele gezin.";
                     byte[] DishPhoto = { 0 };
 

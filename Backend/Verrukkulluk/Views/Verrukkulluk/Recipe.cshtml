@@ -170,13 +170,13 @@
                      <span class="darker-green bi bi-chevron-up"></span>
                     </div>
                     <div class="scrolling-content">
-                    @if (Model.Recipe != null && !string.IsNullOrEmpty(Model.Recipe.Instructions))
+                    @if (Model.Recipe != null && Model.Recipe.Instructions != null && Model.Recipe.Instructions.Any())
                     {
                         <ol class="numbered-step">
-                            @foreach (var steps in Model.Recipe.Instructions.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries))
+                            @foreach (string step in Model.Recipe.Instructions)
                             {
                                 <li>
-                                    <p>@steps.Trim()</p>
+                                    <p>@step</p>
                                 </li>
                             }
                         </ol>
