@@ -21,7 +21,8 @@ namespace Verrukkulluk.Controllers
         private IEventModel EventModel;
         private IShopListModel ShopListModel;
         private IServicer Servicer;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer)
+        private ISessionManager SessionManager;
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager)
         {
             VerModel = verModel;
             HomeModel = homeModel;
@@ -31,6 +32,7 @@ namespace Verrukkulluk.Controllers
             EventModel = eventModel;
             ShopListModel = shopListModel;
             Servicer = servicer;
+            SessionManager = sessionManager;
         }
         public IActionResult Index()
         {
@@ -115,7 +117,7 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult MijnBoodschappenlijst()
         {
-            ShopListModel.ShopList = GetShoppingList();
+            ShopListModel.ShopList = SessionManager.GetShoppingList();
             return View("Shoplist", ShopListModel);
         }
 
@@ -182,22 +184,11 @@ namespace Verrukkulluk.Controllers
             HomeModel.Recipes = Servicer.GetAllRecipes();
             return View(nameof(Index), HomeModel);
         }
-
-        private List<CartItem> GetShoppingList()
-        {
-            var shoppingList = HttpContext.Session.Get<List<CartItem>>("ShoppingList") ?? new List<CartItem>();
-            return shoppingList;
-        }
-
-        private void SaveShoppingList(List<CartItem> shoppingList)
-        {
-            HttpContext.Session.Set("ShoppingList", shoppingList);
-        }
         public IActionResult AddToShoppingList(CartItem newItem)
         {
-            var shoppingList = GetShoppingList();
+            var shoppingList = SessionManager.GetShoppingList();
             shoppingList.Add(newItem);
-            SaveShoppingList(shoppingList);
+            SessionManager.SaveShoppingList(shoppingList);
             return RedirectToAction("MijnBoodschappenlijst");
         }
 
@@ -205,19 +196,19 @@ namespace Verrukkulluk.Controllers
         [Route("RemoveAllShopItems")]
         public IActionResult RemoveAllItems()
         {
-            SaveShoppingList(new List<CartItem>());
+            SessionManager.SaveShoppingList(new List<CartItem>());
             return Json(new { success = true });
         }
         [HttpPost]
         [Route("RemoveShopItemByName")]
         public IActionResult RemoveItemByName(string itemName)
         {
-            var shoppingList = GetShoppingList();
+            var shoppingList = SessionManager.GetShoppingList();
             var removedCount = shoppingList.RemoveAll(item => item.Name == itemName);
 
             if (removedCount > 0)
             {
-                SaveShoppingList(shoppingList);
+                SessionManager.SaveShoppingList(shoppingList);
                 return Json(new { success = true, removedCount });
             }
 
@@ -226,31 +217,14 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult AddRecipeToShoppingList(int recipeId)
         {
-            DetailsModel.Recipe = Servicer.GetRecipeById(recipeId);
-
-            if (DetailsModel.Recipe == null)
+            Recipe Recipe = Servicer.GetRecipeById(recipeId);
+            string result = SessionManager.AddRecipeToShoppingList(Recipe);
+            if (result == "success") { 
+                return Json(new { success = true, message = "Recipe added to shopping list successfully" }); 
+            } else
             {
                 return Json(new { success = false, message = "Recipe not found" });
             }
-
-            var existingShoppingList = HttpContext.Session.Get<List<CartItem>>("ShoppingList");
-            var shoppingList = existingShoppingList ?? new List<CartItem>();
-
-            foreach (var ingredient in DetailsModel.Recipe.Ingredients)
-            {
-                double quantityNeeded = ingredient.Amount / ingredient.Product.Amount;
-                var newItem = new CartItem
-                {
-                    ImageObjId = ingredient.Product.ImageObjId, //Ik weet niet hoe dit meegegeven wordt
-                    Name = ingredient.Product.Name,
-                    Description = ingredient.Product.Description,
-                    Quantity = Math.Round(quantityNeeded, 2),
-                    Price = ingredient.Product.Price * (decimal)quantityNeeded
-                };
-                shoppingList.Add(newItem);
-            }
-            HttpContext.Session.Set("ShoppingList", shoppingList);
-            return Json(new { success = true, message = "Recipe added to shopping list successfully" });
         }
     }
 }
