@@ -115,10 +115,10 @@ namespace Verrukkulluk.Models
         public bool RateRecipe(int recipeId, int ratingValue)
         {
             var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int parsedUserId;
-            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            int? parsedUserId =null;
+            if (userId != null && int.TryParse(userId, out int userIdValue))
             {
-                parsedUserId = 4;
+                parsedUserId = userIdValue;
             }
             return Crud.AddRecipeRating(recipeId, parsedUserId, ratingValue);
         }
@@ -129,7 +129,7 @@ namespace Verrukkulluk.Models
             int parsedUserId;
             if (userId == null || !int.TryParse(userId, out parsedUserId))
             {
-                parsedUserId = 4;
+                return null;
             }
             return Crud.ReadUserRating(recipeId, parsedUserId);
         }

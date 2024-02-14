@@ -83,22 +83,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" card-body card-body-recipe"><p class="text-start"><br>@Model.Recipe.Description</p></div>
-                        <input type="hidden" id="recipeId" value="@Model.Recipe.Id">
-                        <div id="userRating"></div>
-                        <div class="d-inline-block rating-recipe-stars" id="recipeRating">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                <i class="bi bi-star large-star" data-value="@i"></i>
-                            }
+                        <div class=" card-body card-body-recipe"><p class="text-start"><br>@Model.Recipe.Description</p>                          
+                            <div class="rating-container">
+                                <input type="hidden" id="recipeId" value="@Model.Recipe.Id">
+                                <div id="userRating"></div>
+                                <div class="d-inline-block rating-recipe-stars" id="recipeRating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="bi bi-star large-star" data-value="@i"></i>
+                                    }
+                                </div>
+                                <button type="button" id="confirmRating" class="btn btn-rating">Geef Beoordeling</button>
+                                <div id="ratingMessage"></div>
+                            </div>
                         </div>
-                        <button type="button" id="confirmRating" class="btn btn-rating">Geef Beoordeling</button>
-                        <div id="ratingMessage"></div>
                         <div class="card-footer">
                             <div class="d-flex">
-                                @foreach(DishType dishType in Model.Recipe.DishTypes){
-                                    <span class="dishTypeBadge mb-2"> @dishType.Name </span>
-                                }
+                                    @foreach (DishType dishType in Model.Recipe.DishTypes)
+                                    {
+                                        <span class="dishTypeBadge mb-2"> @dishType.Name </span>
+                                    }
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

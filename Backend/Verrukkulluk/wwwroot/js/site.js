@@ -74,7 +74,7 @@ $(document).ready(function(){
 
     $('#confirmRating').on('click', function () {
         if (ratingValue < 1) {
-            $('#ratingMessage').text('Geef een beoordeling tussen de 1 en 5.');
+            $('#ratingMessage').text('Geef een beoordeling tussen de 1 en 5');
             $('#confirmRating').prop('disabled', false);
         } else {
             rateRecipe(ratingValue);
@@ -92,7 +92,9 @@ $(document).ready(function(){
             data: { recipeId: $('#recipeId').val() },
             success: function (response) {
                 if (response.rating) {
-                    displayRating(response.rating);
+                    ratingValue = response.rating;
+                    displayRating();
+                    updateStars(response.rating);
                     $('#confirmRating').text('Verander uw beoordeling');
                 } else {
                 }
@@ -103,8 +105,16 @@ $(document).ready(function(){
         });
     }
 
-    function displayRating(rating) {
-        $('#userRating').text('Uw beoordeling: ' + rating);
+    function displayRating() {
+        $('#userRating').text('Uw beoordeling:');
+    }
+
+    function updateStars(rating) {
+        $('#recipeRating i').each(function (index) {
+            if (index < rating) {
+                $(this).removeClass('bi-star').addClass('bi-star-fill');
+            }
+        });
     }
 });
 
@@ -400,7 +410,6 @@ function rateRecipe(ratingValue) {
         success: function (response) {
             if (response.success) {
                 $('#ratingMessage').text('Bedankt voor uw beoordeling!');
-                $('#userRating').text('Uw beoordeling: ' + ratingValue);
             } else {
                 $('#ratingMessage').text('Er ging iets mis, probeer opnieuw.');
             }

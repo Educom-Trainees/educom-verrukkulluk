@@ -125,26 +125,16 @@ namespace Verrukkulluk.Data
             return Context.Events.ToList();
         }
 
-        public bool AddRecipeRating(int recipeId, int userId, int ratingValue)
+        public bool AddRecipeRating(int recipeId, int? userId, int ratingValue)
         {
             try
             {
-                var existingRating = Context.RecipeRatings
-                    .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
-
-                if (existingRating != null)
+                Context.RecipeRatings.Add(new RecipeRating
                 {
-                    existingRating.RatingValue = ratingValue;
-                }
-                else
-                {
-                    Context.RecipeRatings.Add(new RecipeRating
-                    {
-                        RecipeId = recipeId,
-                        UserId = userId,
-                        RatingValue = ratingValue
-                    });
-                }
+                    RecipeId = recipeId,
+                    UserId = userId,
+                    RatingValue = ratingValue
+                });
 
                 Context.SaveChanges();
                 return true;

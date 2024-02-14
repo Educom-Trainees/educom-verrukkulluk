@@ -324,14 +324,18 @@ p {
     }
 
 .btn-rating {
-    padding: 0px 30px;
+    padding: 0px 10px;
     border-radius: 25px;
     line-height: -3;
     color: var(--white);
     background-color: var(--lighter-red);
     border-color: var(--lighter-red);
     font-family: var(--heading);
-    font-size: 17px;
+    font-size:18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto;
+    flex: 1;
 }
 
     .btn-rating:hover {
@@ -931,4 +935,10 @@ p {
 
 .large-star {
     font-size: 25px;
+}
+
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
