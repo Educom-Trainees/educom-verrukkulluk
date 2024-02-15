@@ -79,7 +79,7 @@
                                                     </li>
                                                 }
                                                 @foreach(Allergy Allergy in Model.Recipe.Allergies){
-                                                        <li class="inline-flexgm allergy-list"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="@Allergy.Name" style="width:70px; height:auto"></li>
+                                                        <li class="inline-flex allergy-list"><img src ="@Url.Action("GetImage", "Image", new {id = Allergy.ImgObjId})" alt="@Allergy.Name" style="width:70px; height:auto"></li>
                                                 }
                                             </ul>
                                         </div>

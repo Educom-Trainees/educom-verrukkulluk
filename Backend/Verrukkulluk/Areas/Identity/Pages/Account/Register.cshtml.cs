@@ -178,8 +178,22 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
-            // If we got this far, something failed, redisplay form
+            else
+            {
+                foreach (var modelStateEntry in ModelState.Values)
+                {
+                    foreach (var error in modelStateEntry.Errors)
+                    {
+                        var errorMessage = error.ErrorMessage;
+                        var exceptionMessage = error.Exception?.Message;
+                        _logger.LogError(errorMessage);
+                        if (exceptionMessage != null)
+                        {
+                            _logger.LogError(exceptionMessage);
+                        }
+                    }
+                }
+            }
             return Page();
         }
 
