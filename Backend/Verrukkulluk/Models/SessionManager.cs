@@ -41,11 +41,11 @@ namespace Verrukkulluk.Models
                 double quantityNeeded = ingredient.Amount / ingredient.Product.Amount;
                 var newItem = new CartItem
                 {
-                    ImageObjId = ingredient.Product.ImageObjId, //Ik weet niet hoe dit meegegeven wordt
+                    ImageObjId = ingredient.Product.ImageObjId,
                     Name = ingredient.Product.Name,
                     Description = ingredient.Product.Description,
-                    Quantity = Math.Round(quantityNeeded, 2),
-                    Price = ingredient.Product.Price * (decimal)quantityNeeded
+                    Quantity = quantityNeeded,
+                    Price = ingredient.Product.Price
                 };
                 shoppingList.Add(newItem);
             }
