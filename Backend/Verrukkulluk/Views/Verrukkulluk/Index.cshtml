@@ -16,7 +16,7 @@
                                 <!-- Events -->
                                 @foreach (Event Event in Model.Events)
                                 {
-                                    <div id="event1" class="agenda-event">
+                                    <div id="event@(Event.Id)" class="agenda-event">
                                         <div class="d-inline-flex">
                                             <div class="px-2">
                                                 <h3><i class="bi bi-calendar-date-fill white"></i></h3>
@@ -34,10 +34,10 @@
                             <div class="small-agenda">
                                 <!-- Event navigation buttons -->
                                 <ul class="pagination justify-content-center">
-                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 1)">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 2)">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 3)">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, 4)">4</a></li>
+                                    @foreach (Event Event in Model.Events)
+                                    {
+                                        <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, @(Event.Id))">@Event.Id</a></li>
+                                    }
                                 </ul>
                             </div>
                         </div>
