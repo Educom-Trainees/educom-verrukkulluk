@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GetPackagingValue } from '../constants/PackagingDict';
+import { GetProductType } from '../constants/ProductTypeDict';
 
 const images = {
     witte_bol: require('../assets/images/witte_bol.jpg'),
@@ -22,7 +24,7 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.text}>{product.description}</Text>
 
             <Text style={styles.heading}>Type</Text>
-            <Text style={styles.text}>{product.type}</Text>
+            <Text style={styles.text}>{GetProductType(product.type)}</Text>
 
             <Text style={styles.heading}>Kwantiteit</Text>
             <Text style={styles.text}>{product.quantity}</Text>
@@ -31,10 +33,10 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.text}>{product.minimumQuantity}</Text>
 
             <Text style={styles.heading}>Verpakking</Text>
-            <Text style={styles.text}>{product.packaging}</Text>
+            <Text style={styles.text}>{GetPackagingValue(product.packaging)}</Text>
 
             <Text style={styles.heading}>Prijs</Text>
-            <Text style={styles.text}>{product.price}</Text>
+            <Text style={styles.text}>€{product.price}</Text>
 
             <Text style={styles.heading}>Allergieën</Text>
             <Text style={styles.text}>{product.allergies}</Text>
