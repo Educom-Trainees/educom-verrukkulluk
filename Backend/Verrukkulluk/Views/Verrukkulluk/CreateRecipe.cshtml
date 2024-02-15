@@ -1,11 +1,11 @@
-﻿@model Verrukkulluk.AddRecipe
+﻿@model Verrukkulluk.ViewModels.AddRecipe
 @{
     ViewData["Title"] = "Recept Maken";
 }
 
 <div class="container mt-3">
     <div class="row">
-        <div class="col-xl-3 sticky-top">
+        <div class="col-xl-3">
             <img class="img-fluid" src="~/images/bereiden.jpg"/>
         </div>
         <div class="col-xl-9 col-12">
@@ -31,12 +31,18 @@
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                             <p>Bereidingswijze:</p>
-                        <div class="form-group form-floating mb-4 instructionStep">
-                            <textarea asp-for="Instructions" class="form-control instruction" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)"></textarea>
-                            <label asp-for="Instructions" class="control-label">Stap 1</label>   
+                        <div class="form-group form-floating instructionStep">
+                            @{int countSteps = Model.Instructions?.Count() ?? 0; }
+                            @for (int step = 0; step < countSteps; step++) {
+                            string instruction = Model.Instructions?.ElementAtOrDefault(step) ?? "";
+                            <div class="form-group form-floating mb-4 instructionStep">
+                                <textarea class="form-control instruction" name="Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
+                                <label class="control-label">Stap @(step+1)</label>
+                            </div>
+                            }   
                             <span asp-validation-for="Instructions" class="text-danger"></span>
                         </div>
-                        <div class="form-group form-floating mb-4">
+                        <div class="form-group form-floating mt-4 mb-4">
                             <p>Ingrediënten:</p>
                             @{ int count = Model.Ingredients?.Count() ?? 0; }
                             <script>var ingredientCount = @count</script>

@@ -8,6 +8,7 @@ using System.Formats.Asn1;
 using Verrukkulluk.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Verrukkulluk.Data;
+using Verrukkulluk.ViewModels;
 
 namespace Verrukkulluk.Controllers
 {
@@ -83,6 +84,7 @@ namespace Verrukkulluk.Controllers
         {
             ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
+            model.Instructions = new string[] { "" };
             FillModel(model);
             return base.View("CreateRecipe", model);
         }
@@ -90,6 +92,7 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public IActionResult ReceptMaken(AddRecipe recipe)
         {
+                System.Console.WriteLine(recipe.Instructions.Length);
             if (ModelState.IsValid)
             {
                 //Recept opslaan en weergeven van detailpagina met het toegevoegde recept

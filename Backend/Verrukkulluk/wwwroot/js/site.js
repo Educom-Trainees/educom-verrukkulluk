@@ -389,11 +389,11 @@ function scrollToEvent(event, eventNumber) {
 function addInstructionStep(inputElement) {
     if (inputElement.getAttribute('added-textarea') !== 'true' && inputElement.value.trim() !== '') {
         const nextInstructionStepDiv = document.createElement('div');
-        nextInstructionStepDiv.className = 'form-group form-floating mb-4 instruction';
+        nextInstructionStepDiv.className = 'form-group form-floating instruction';
 
         const nextInstructionStep = document.createElement('textarea');
         nextInstructionStep.className = 'form-control';
-        nextInstructionStep.name = `AddedInstructions[${document.getElementsByClassName('instruction').length + 1}]`;
+        nextInstructionStep.name = `Instructions[${document.getElementsByClassName('instruction').length}]`;
         nextInstructionStep.oninput = function () {
             autoSize(this);
         };
