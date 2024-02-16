@@ -185,7 +185,7 @@ function updateAllergyInfo(productAllergie) {
     if (excistingAllergy.length>0){
         return
     } 
-    const template = '<img class="allergy" id="'+allergy.id+'" src ="/Image/GetImage/'+allergy.imgObjId+'" alt="'+allergy.name+'">'
+    const template = '<img class="allergy" id="'+allergy.id+'" src ="/Image/GetImage/'+allergy.imgObjId+'" alt="'+allergy.name+'" style="width:70px; height:auto">'
     $("#allergies").append(template);
 }
 

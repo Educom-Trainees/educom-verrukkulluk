@@ -32,7 +32,7 @@
                             <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
-                            <textarea asp-for="Description" id="descriptionTextarea" class="form-control" rows="3" placeholder="Beschrijving" oninput="autoSize(this)"></textarea>
+                            <textarea asp-for="Description" id="descriptionTextarea" class="form-control" placeholder="Beschrijving" oninput="autoSize(this)" rows="3" style="height:100%;"></textarea>
                             <label asp-for="Description" class="control-label">Beschrijving</label>   
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
@@ -122,12 +122,8 @@
                         <div class="mt-4">
                             Allergenen in de gerecht:
                             <div class="row mt-1" id="allergies">
-                                @if (!Model.Allergies.Any())
-                                {
-                                    <p>Geen allergenen</p>
-                                }
                                 @foreach( Allergy allergy in Model.Allergies){
-                                    <img class="allergy" id="@allergy.Id" src ="@Url.Action("GetImage", "Image", new {id = allergy.ImgObjId})" alt="@allergy.Name">
+                                    <img class="allergy" id="@allergy.Id" src ="@Url.Action("GetImage", "Image", new {id = allergy.ImgObjId})" alt="@allergy.Name" style="width:70px; height:auto">
                                 }
                             </div>
                         </div>
