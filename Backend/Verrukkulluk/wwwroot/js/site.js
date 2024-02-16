@@ -52,6 +52,7 @@ $(document).ready(function(){
     });
     var ratingValue = 0;
     var rated = false;
+    var comment = "";
 
     $('#recipeRating i').hover(function () {
         if (!rated) {
@@ -73,11 +74,12 @@ $(document).ready(function(){
     });
 
     $('#confirmRating').on('click', function () {
+        var comment = $('#comment').val();
         if (ratingValue < 1) {
             $('#ratingMessage').text('Geef een beoordeling tussen de 1 en 5');
             $('#confirmRating').prop('disabled', false);
         } else {
-            rateRecipe(ratingValue);
+            rateRecipe(ratingValue, comment);
             rated = true;
             $('#confirmRating').remove();
         }
@@ -102,7 +104,10 @@ $(document).ready(function(){
                     displayRating();
                     updateStars(-response.rating);
                     disableStarRating();
-                } 
+                }
+                if (response.comment) {
+                    $('#comment').val(response.comment);
+                }
             },
             error: function () {
                 console.error('Error occurred while fetching user rating.');
@@ -438,11 +443,13 @@ function addInstructionStep(inputElement) {
     }
 }
 
-function rateRecipe(ratingValue) {
+function rateRecipe(ratingValue, comment) {
+    var comment = $("#comment").val();
+
     $.ajax({
         type: 'POST',
         url: '/Verrukkulluk/RateRecipe',
-        data: { recipeId: $('#recipeId').val(), ratingValue: ratingValue },
+        data: { recipeId: $('#recipeId').val(), ratingValue: ratingValue, comment: comment },
         success: function (response) {
             if (response.success) {
                 updateAverageRating($('#recipeId').val());

@@ -125,7 +125,7 @@ namespace Verrukkulluk.Data
             return Context.Events.ToList();
         }
 
-        public bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue)
+        public bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment)
         {
             try
             {
@@ -134,6 +134,7 @@ namespace Verrukkulluk.Data
                 if (existingRating != null)
                 {
                     existingRating.RatingValue = ratingValue;
+                    existingRating.Comment = comment;
                 }
                 else
                 {
@@ -141,7 +142,8 @@ namespace Verrukkulluk.Data
                     {
                         RecipeId = recipeId,
                         UserId = userId,
-                        RatingValue = ratingValue
+                        RatingValue = ratingValue,
+                        Comment = comment
                     });
                 }
                 Context.SaveChanges();
@@ -160,6 +162,14 @@ namespace Verrukkulluk.Data
                 .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
 
             return rating?.RatingValue;
+        }
+
+        public string? ReadUserComment(int recipeId, int userId)
+        {
+            var comment = Context.RecipeRatings
+                .FirstOrDefault(c => c.RecipeId == recipeId && c.UserId == userId);
+
+            return comment?.Comment;
         }
 
         public double? GetAverageRating(int recipeId)

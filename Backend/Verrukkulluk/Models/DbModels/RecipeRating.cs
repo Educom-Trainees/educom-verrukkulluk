@@ -15,5 +15,7 @@ namespace Verrukkulluk.Models
 
         [Range(1, 5)]
         public int RatingValue { get; set; }
+
+        public string? Comment { get; set; }
     }
 }

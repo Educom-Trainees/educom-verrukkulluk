@@ -112,7 +112,7 @@ namespace Verrukkulluk.Models
             return Crud.ReadAllEvents();
         }
 
-        public bool RateRecipe(int recipeId, int ratingValue)
+        public bool RateRecipe(int recipeId, int ratingValue, string comment)
         {
             var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
             int? parsedUserId =null;
@@ -126,7 +126,7 @@ namespace Verrukkulluk.Models
                 sessionRatings[recipeId] = ratingValue;
                 HttpContextAccessor.HttpContext.Session.Set("SessionRatings", sessionRatings);
             }
-            return Crud.AddOrUpdateRecipeRating(recipeId, parsedUserId, ratingValue);
+            return Crud.AddOrUpdateRecipeRating(recipeId, parsedUserId, ratingValue, comment);
         }
 
         public int? GetUserRating(int recipeId)
@@ -146,6 +146,18 @@ namespace Verrukkulluk.Models
                 }
             }
             return Crud.ReadUserRating(recipeId, parsedUserId);
+        }
+
+        public string? GetUserComment(int recipeId)
+        {
+            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+            int parsedUserId;
+            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            {
+                return null;
+                
+            }
+            return Crud.ReadUserComment(recipeId, parsedUserId);
         }
 
         public void UpdateAverageRating(int recipeId)

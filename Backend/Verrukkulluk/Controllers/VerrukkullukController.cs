@@ -125,9 +125,9 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpPost]
-        public IActionResult RateRecipe(int recipeId, int ratingValue)
+        public IActionResult RateRecipe(int recipeId, int ratingValue, string comment)
         {
-            bool success = Servicer.RateRecipe(recipeId, ratingValue);
+            bool success = Servicer.RateRecipe(recipeId, ratingValue, comment);
             return Json(new { success });
         }
 
@@ -135,7 +135,8 @@ namespace Verrukkulluk.Controllers
         public IActionResult GetUserRating(int recipeId)
         {
             int? userRating = Servicer.GetUserRating(recipeId);
-            return Json(new { rating = userRating });
+            string? comment = Servicer.GetUserComment(recipeId);
+            return Json(new { rating = userRating, comment = comment });
         }
 
         [HttpPost]

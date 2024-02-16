@@ -14,8 +14,9 @@ namespace Verrukkulluk.Models
         RecipeInfo GetRecipeById(int Id);
         Task<SignInResult> Login(InputModel input);
         ImageObj GetImage(int Id);
-        bool RateRecipe(int recipeId, int ratingValue);
+        bool RateRecipe(int recipeId, int ratingValue, string comment);
         int? GetUserRating(int recipeId);
+        string? GetUserComment(int recipeId);
         Event GetEventById(int Id);
         List<Event> GetAllEvents();
         void UpdateAverageRating(int recipeId);
