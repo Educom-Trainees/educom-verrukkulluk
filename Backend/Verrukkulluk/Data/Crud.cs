@@ -16,11 +16,11 @@ namespace Verrukkulluk.Data
 
         public List<Product> ReadAllProducts()
         {
-            return Context.Products.ToList();
+            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).ToList();
         }
         public Product? ReadProductById(int id)
         {
-            return Context.Products.Find(id);
+            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
         }
         public string DeleteUserRecipe(int userId, int recipeId)
         {

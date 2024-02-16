@@ -36,7 +36,9 @@ namespace Verrukkulluk
                 .AddEntityFrameworkStores<VerrukkullukContext>();
 
             builder.Services.AddControllersWithViews()
-            .AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter()));
+            .AddNewtonsoftJson(opts => 
+                {opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                opts.SerializerSettings.PreserveReferencesHandling=Newtonsoft.Json.PreserveReferencesHandling.Objects;});
 
             builder.Services.AddSession(options =>
             {

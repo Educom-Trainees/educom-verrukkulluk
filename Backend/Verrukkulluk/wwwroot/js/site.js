@@ -172,6 +172,21 @@ function addIngredient(product) {
     $("#AddedIngredients_"+ingredientCount).focus();
     ingredientCount++;
     $("#newProduct")[0].value = "";
+
+    product.productAllergies.forEach(updateAllergyInfo);
+}
+
+function updateAllergyInfo(productAllergie) {
+    console.log(productAllergie);
+    const allergy = productAllergie.allergy;
+    const excistingAllergy = $(".allergy[id="+allergy.id+"]")
+    console.log(allergy);
+    console.log(excistingAllergy);
+    if (excistingAllergy.length>0){
+        return
+    } 
+    const template = '<img class="allergy" id="'+allergy.id+'" src ="/Image/GetImage/'+allergy.imgObjId+'" alt="'+allergy.name+'">'
+    $("#allergies").append(template);
 }
 
 //Foto toevoegen aan Recept Maken:
@@ -243,6 +258,16 @@ function removeFileProfilePicture() {
     img.style.display = 'none';
     removeButton.style.display = 'none';
 }
+
+//Tekstvak beschrijving minimaal 3 regels
+console.log("Script geladen!");
+document.addEventListener("DOMContentLoaded", function() {
+    var descriptionTextarea = document.getElementById("descriptionTextarea");
+    descriptionTextarea.rows = 3;
+    descriptionTextarea.addEventListener("input", function() {
+        autoSize(descriptionTextarea);
+    });
+});
 
 //Tekstvak meebewegen met tekst:
 function autoSize(element) {

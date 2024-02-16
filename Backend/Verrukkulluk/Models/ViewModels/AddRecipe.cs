@@ -10,7 +10,10 @@ namespace Verrukkulluk.ViewModels
         public List<Product>? Products { get; set; }
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]
-        public byte[] DishPhoto { get; set; }    
+        public byte[] DishPhoto { get; set; } 
+        public List<Allergy> Allergies { get{
+            return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy).Distinct().ToList() ?? new List<Allergy>();
+        }}   
         public AddRecipe() {}
 
         public AddRecipe(string title, string description, string[] addedInstructionSteps, Ingredient[] addedIngredients, int numberOfPeople, KitchenType kitchenType, byte[] dishPhoto, User creator)  
