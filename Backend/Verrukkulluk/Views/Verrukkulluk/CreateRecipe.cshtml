@@ -61,6 +61,7 @@
                                     <input type="hidden" name="AddedIngredients[@i].Id" value="@ingredient.Id">
                                     <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
                                     <div class="col-2">@ingredient.Product.IngredientType</div>
+                                    <div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>
                                 </div>
                                 }
                             </div>

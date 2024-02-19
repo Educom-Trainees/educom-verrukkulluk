@@ -134,6 +134,7 @@ $(document).ready(function(){
     }
 });
 
+//Adding ingredient in CreateRecipe
 function addProduct(e)
 {
     e.preventDefault();
@@ -153,7 +154,6 @@ function addProduct(e)
         }
       });
 }
-
 function findProductToAdd() 
 {
     const input = $("#newProduct")[0].value
@@ -163,7 +163,6 @@ function findProductToAdd()
     console.log(entries);
     return entries[0]
 }
-
 function addIngredient(product) {
     console.log(product);
     const template = '<div class="row">'+
@@ -171,8 +170,9 @@ function addIngredient(product) {
         '<input type="number" class="col-2 formField" name="AddedIngredients['+ingredientCount+'].Amount" id="AddedIngredients_'+ingredientCount+'" value="">'+
         '<input type="hidden" name="AddedIngredients['+ingredientCount+'].Id" value="0">'+
         '<input type="hidden" name="AddedIngredients['+ingredientCount+'].ProductId" value="'+product.id+'">'+
-        '<div class="col-2">'+product.ingredientType+'</div>'+
-    '</div>'
+        '<div class="col-1">'+product.ingredientType+'</div>'+
+        '<div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>'+
+        '</div>'
     $("#ingredients").append(template);
     $("#AddedIngredients_"+ingredientCount).focus();
     ingredientCount++;
@@ -181,6 +181,12 @@ function addIngredient(product) {
     product.productAllergies.forEach(updateAllergyInfo);
 }
 
+//Remove ingredient with trash icon
+function removeIngredient(element) {
+    $(element).closest('.row').remove();
+}
+
+//Adding allergy in CreateRecipe
 function updateAllergyInfo(productAllergie) {
     console.log(productAllergie);
     const allergy = productAllergie.allergy;
@@ -194,7 +200,7 @@ function updateAllergyInfo(productAllergie) {
     $("#allergies").append(template);
 }
 
-//Foto toevoegen aan Recept Maken:
+//Adding photo in CreateRecipe
 function handleFileSelect(input) {
     var files = input.files;
     var fileLabel = document.getElementById('fileLabel');
@@ -216,7 +222,7 @@ function handleFileSelect(input) {
         removeButton.style.display = 'none';
     }
 }
-//Foto verwijderen bij Recept Maken:
+//Remove photo in CreateRecipe
 function removeFile() {
     var input = document.getElementById('DishPhoto');
     var fileLabel = document.getElementById('fileLabel');
@@ -228,7 +234,11 @@ function removeFile() {
     img.style.display = 'none';
     removeButton.style.display = 'none';
 }
-//Foto profiel en preview
+
+//Remember numberOfPersons, KitchenType and Photo in invalid CreateRecipe
+
+
+//Preview ProfilePicture in Register en Manage
 function handleFileSelectProfilePicture(input) {
     var files = input.files;
     var fileLabel = document.getElementById('fileLabel');
@@ -251,7 +261,7 @@ function handleFileSelectProfilePicture(input) {
     }
 }
 
-//Foto verwijderen profiel
+//Remove ProfilePicture in Register en Manage
 function removeFileProfilePicture() {
     var input = document.getElementById('Input.ProfilePicture');
     var fileLabel = document.getElementById('fileLabel');
@@ -264,7 +274,7 @@ function removeFileProfilePicture() {
     removeButton.style.display = 'none';
 }
 
-//Tekstvak beschrijving minimaal 3 regels
+//Textarea description in CreateRecipe min 3 rows at the start
 console.log("Script geladen!");
 document.addEventListener("DOMContentLoaded", function() {
     var descriptionTextarea = document.getElementById("descriptionTextarea");
@@ -274,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-//Tekstvak meebewegen met tekst:
+//Growing textarea with content in CreateRecipe
 function autoSize(element) {
     element.style.height = "auto";
     element.style.height = (element.scrollHeight) + "px";
