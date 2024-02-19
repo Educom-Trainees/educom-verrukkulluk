@@ -135,7 +135,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
                     using (var dataStream = new MemoryStream())
                     {
                         await file.CopyToAsync(dataStream);
-                        user.ProfilePicture = dataStream.ToArray();
+                       // user.ImageObjId = dataStream.ToArray();
                     }
                     await _userManager.UpdateAsync(user);
                 }

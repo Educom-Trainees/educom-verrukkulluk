@@ -15,7 +15,7 @@ public class ProfilePictureModel : PageModel
         _userManager = userManager;
     }
 
-    public string ProfilePictureBase64 { get; set; }
+    public int ImageObjId { get; set; }
 
     [TempData]
     public string StatusMessage { get; set; }
@@ -38,16 +38,7 @@ public class ProfilePictureModel : PageModel
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
-
-        if (user.ProfilePicture != null)
-        {
-            ProfilePictureBase64 = Convert.ToBase64String(user.ProfilePicture);
-        }
-        else
-        {
-            ProfilePictureBase64 = null; // or an empty string, depending on your preference
-        }
-
+        ImageObjId = user.ImageObjId;
         return Page();
     }
 
@@ -71,7 +62,7 @@ public class ProfilePictureModel : PageModel
                 using (var memoryStream = new System.IO.MemoryStream())
                 {
                     await stream.CopyToAsync(memoryStream);
-                    user.ProfilePicture = memoryStream.ToArray();
+                   // user.ImageObjId = memoryStream.ToArray();
                 }
             }
         }

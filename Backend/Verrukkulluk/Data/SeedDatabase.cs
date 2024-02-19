@@ -44,18 +44,28 @@ namespace Verrukkulluk.Data
                         await roleManager.CreateAsync(new IdentityRole<int>(role));
                     }
                 }
-                
 
+                VerrukkullukContext dbContext = scope.ServiceProvider.GetRequiredService<VerrukkullukContext>();
+
+                ImageObj Jan = new ImageObj(ReadImageFile("jan.jpg"), "jpg");
+                dbContext.ImageObjs.Add(Jan);
+                ImageObj Bert = new ImageObj(ReadImageFile("bert.png"), "png");
+                dbContext.ImageObjs.Add(Bert);
+                ImageObj Els = new ImageObj(ReadImageFile("els.jpg"), "jpg");
+                dbContext.ImageObjs.Add(Els);
+                ImageObj Admin = new ImageObj(ReadImageFile("admin.png"), "png");
+                dbContext.ImageObjs.Add(Admin);
+                await dbContext.SaveChangesAsync();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
                 User[] users =
                 {
-                    new User("jan@jan.jan", "Jan", "Utrecht", ReadImageFile("jan.jpg")),
-                    new User("bert@bert.bert", "Bert", "Sesamstraat", ReadImageFile("bert.png")),
-                    new User("els@els.els", "Els", "Sittard", ReadImageFile("els.jpg")),
-                    new User("a@a.a", "Albert", "Soesterberg", ReadImageFile("bert.jpg"))
+                    new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id),
+                    new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id),
+                    new User("els@els.els", "Els", "Sittard", Els.Id),
+                    new User("a@a.a", "Albert", "Soesterberg", Admin.Id)
                 };
-                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", ReadImageFile("admin.png"));
+                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id);
 
                 string password = "Test890!";
 
@@ -75,8 +85,6 @@ namespace Verrukkulluk.Data
                     await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
 #pragma warning restore CS8604 // Possible null reference argument.
-
-                VerrukkullukContext dbContext = scope.ServiceProvider.GetRequiredService<VerrukkullukContext>();
 
                 if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.Recipes.Any())
                 {

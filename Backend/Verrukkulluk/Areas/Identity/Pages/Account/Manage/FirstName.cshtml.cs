@@ -16,7 +16,7 @@ public class FirstNameModel : PageModel
     }
 
     public string FirstName { get; set; }
-    public string ProfilePictureBase64 { get; set; }
+    public int ImageObjId { get; set; }
 
     [TempData]
     public string StatusMessage { get; set; }
@@ -41,14 +41,7 @@ public class FirstNameModel : PageModel
         }
 
         FirstName = user.FirstName;
-        if (user.ProfilePicture != null)
-        {
-            ProfilePictureBase64 = Convert.ToBase64String(user.ProfilePicture);
-        }
-        else
-        {
-            ProfilePictureBase64 = null; // or an empty string, depending on your preference
-        }
+        ImageObjId = user.ImageObjId;
 
         return Page();
     }

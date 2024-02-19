@@ -1,4 +1,6 @@
-﻿@model Verrukkulluk.Models.DetailsModel;
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Verrukkulluk.Models.DetailsModel;
 @{
     ViewData["Title"] = "Recept";
 }
@@ -177,6 +179,8 @@
                             {
                                 <li>
                                     <p>@step</p>
+                                        <p>@step</p>
+                                        <p>@step</p>
                                 </li>
                             }
                         </ol>
@@ -186,32 +190,76 @@
                     <span class="darker-green bi bi-chevron-down"></span>
                     </div>
             </div>
-@*             @foreach (Comment comment in Model.Recipe.Comments){
-            <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
-                <h3 class="darker-green">comment.Creator.Name</h3>
-                <p>comment.Content</p>
-            </div>
-            } *@
-            <div id="comments" class="container tab-pane tab-pane-recipe fade"><br>
+                <div id="comments" class="container tab-pane tab-pane-recipe fade">
+                    <br>
                     <div class="chevron-recipe">
-                     <span class="darker-green bi bi-chevron-up"></span>
+                        <span class="darker-green bi bi-chevron-up"></span>
                     </div>
                     <div class="scrolling-content">
-                    <div class="comments-item">
-                <div class="image-column">
-                @*<img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = Model.Recipe.ImageObjId })" alt="Profielfoto">*@
-                <img class="profile-picture" src="/Images/jan.jpg" alt="Profielfoto">
-                </div>
-                <div class="info-column">
-                <h3 class="darker-green">Jan (Volendam)</h3>
-                <p>Het was een heerlijk gerecht.</p>
-                </div>
-                </div>
+                        @if (Model.Recipe != null && Model.Recipe.Ratings != null && Model.Recipe.Ratings.Any())
+                        {
+                            @foreach (RecipeRating rating in Model.Recipe.Ratings)
+                            {
+                                <div class="comments-item">
+                                    <div class="image-column">
+                                        @{
+                                            if (rating.UserId.HasValue)
+                                            {
+                                                var user = await UserManager.FindByIdAsync(rating.UserId.ToString());
+                                                if (user != null)
+                                                {
+                                                    <img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = user.ImageObjId })" alt="Profielfoto">
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <img class="profile-picture" src="/Images/anoniem.png" alt="Profielfoto">
+                                            }
+                                        }
+                                    </div>
+                                    <div class="info-column">
+                                        <h3 class="darker-green">
+                                            @{
+                                                if (rating.UserId.HasValue)
+                                                {
+                                                    var user = await UserManager.FindByIdAsync(rating.UserId.ToString());
+                                                    if (user != null)
+                                                    {
+                                                        @(user.FirstName + " (" + user.CityOfResidence + ")")
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @:Anoniem
+                                                }
+                                            }
+                                        </h3>
+                                        <div class="d-inline-block card-recipe-stars">
+                                            @for (int i = 0; i < rating.RatingValue; i++)
+                                            {
+                                                <i class="bi bi-star-fill"></i>
+                                            }
+                                            @for (int i = rating.RatingValue; i < 5; i++)
+                                            {
+                                                <i class="bi bi-star"></i>
+                                            }
+                                        </div>
+                                        <p>
+                                            <br>@rating.Comment
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Er zijn nog geen opmerkingen geplaatst over dit recept.</p>
+                        }
                     </div>
                     <div class="chevron-recipe">
-                    <span class="darker-green bi bi-chevron-down"></span>
+                        <span class="darker-green bi bi-chevron-down"></span>
                     </div>
-            </div>
+                </div>
             <div id="rating" class="container tab-pane tab-pane-recipe fade">
                 <br>
                 <div class="chevron-recipe">

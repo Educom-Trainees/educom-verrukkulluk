@@ -11,8 +11,8 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    [Migration("20240216142416_AddedCommentToRecipeRatings")]
-    partial class AddedCommentToRecipeRatings
+    [Migration("20240219131712_ChangeProfilePictureToImageObjIdInUser")]
+    partial class ChangeProfilePictureToImageObjIdInUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -360,6 +360,9 @@ namespace Verrukkulluk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("ImageObjId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -382,9 +385,6 @@ namespace Verrukkulluk.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("longblob");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -627,7 +627,7 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Models.RecipeRating", b =>
                 {
                     b.HasOne("Verrukkulluk.Recipe", "Recipe")
-                        .WithMany("Ratings")
+                        .WithMany()
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -721,8 +721,6 @@ namespace Verrukkulluk.Migrations
                     b.Navigation("Ingredients");
 
                     b.Navigation("ProductAllergies");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

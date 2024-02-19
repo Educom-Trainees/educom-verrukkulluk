@@ -7,7 +7,7 @@ namespace Verrukkulluk.Models
         public string Price { get; set; }
         public int Calories { get; set; }
         public List<DishType> DishTypes { get; set; } = new List<DishType>();
-
+        public List<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
 
         public RecipeInfo() { }

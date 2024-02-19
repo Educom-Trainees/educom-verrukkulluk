@@ -9,17 +9,16 @@ namespace Verrukkulluk.Models
         public List<Ingredient> ShoppingList { get; set; }
         public List<Recipe> FavouritesList { get; set; }
         public string CityOfResidence { get; set; }
+        public int ImageObjId { get; set; }
 
         public User() { }
-
-        public byte[]? ProfilePicture { get; set; }
-        public User(string email, string firstName, string cityOfResidence, byte[]? newPicture)
+        public User(string email, string firstName, string cityOfResidence, int imageObjId)
         {
             Email = email;
             FirstName = firstName;
             UserName = firstName;
             CityOfResidence = cityOfResidence;
-            ProfilePicture = newPicture;
+            ImageObjId = imageObjId;
         }
         
     }

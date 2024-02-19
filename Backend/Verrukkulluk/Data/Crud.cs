@@ -96,18 +96,52 @@ namespace Verrukkulluk.Data
 
         public RecipeInfo ReadRecipeById(int Id)
         {
-            var Recipes = Context.Recipes
-                .Where(i => i.Id == Id)
+            var recipe = Context.Recipes
                 .Include(r => r.KitchenType)
-                .Include(r => r.Creator);
-            var Recipe = Recipes
-                .Include(r => r.Comments)
+                .Include(r => r.Creator)
                 .Include(r => r.Ingredients)
                     .ThenInclude(r => r.Product)
                         .ThenInclude(p => p.ProductAllergies)
-                                .ThenInclude(p => p.Allergy)
-                .First();
-            return new RecipeInfo(Recipe);
+                            .ThenInclude(p => p.Allergy)
+                .FirstOrDefault(i => i.Id == Id);
+
+            if (recipe != null)
+            {
+                var recipeInfo = new RecipeInfo(recipe);
+
+                var allRatings = Context.RecipeRatings
+                    .Where(r => r.RecipeId == recipe.Id)
+                    .ToList();
+
+                string? userFirstName = null;
+
+                foreach (var rating in allRatings)
+                {
+                    if (rating.UserId != null)
+                    {
+                        var user = Context.Users.FirstOrDefault(u => u.Id == rating.UserId);
+                        if (user != null)
+                        {
+                            userFirstName = user.FirstName;
+                        }
+                    }
+                    else
+                    {
+                        userFirstName = "Anonymous";
+                    }
+                    var recipeRating = new RecipeRating
+                    {
+                        Id = rating.Id,
+                        RecipeId = rating.RecipeId,
+                        UserId = rating.UserId,
+                        RatingValue = rating.RatingValue,
+                        Comment = rating.Comment,
+                    };
+                    recipeInfo.Ratings.Add(recipeRating);
+                }
+                return recipeInfo;
+            }
+            return null;
         }
 
         public ImageObj ReadImageById(int Id)
@@ -129,14 +163,7 @@ namespace Verrukkulluk.Data
         {
             try
             {
-                var existingRating = Context.RecipeRatings.FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
-
-                if (existingRating != null)
-                {
-                    existingRating.RatingValue = ratingValue;
-                    existingRating.Comment = comment;
-                }
-                else
+                if (userId == null)
                 {
                     Context.RecipeRatings.Add(new RecipeRating
                     {
@@ -145,6 +172,26 @@ namespace Verrukkulluk.Data
                         RatingValue = ratingValue,
                         Comment = comment
                     });
+                }
+                else
+                {
+                    var existingRating = Context.RecipeRatings.FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
+
+                    if (existingRating != null)
+                    {
+                        existingRating.RatingValue = ratingValue;
+                        existingRating.Comment = comment;
+                    }
+                    else
+                    {
+                        Context.RecipeRatings.Add(new RecipeRating
+                        {
+                            RecipeId = recipeId,
+                            UserId = userId,
+                            RatingValue = ratingValue,
+                            Comment = comment
+                        });
+                    }
                 }
                 Context.SaveChanges();
                 return true;

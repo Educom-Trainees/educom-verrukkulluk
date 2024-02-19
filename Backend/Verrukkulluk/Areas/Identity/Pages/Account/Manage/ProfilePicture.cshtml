@@ -11,10 +11,7 @@
     <div class="col-md-6">
         <div class="mb-3">
             <p>Huidige profielfoto: <br></p>
-            @if (!string.IsNullOrEmpty(Model.ProfilePictureBase64))
-            {
-                <img src="data:image/jpeg;base64,@Model.ProfilePictureBase64" alt="Profile Picture" class="profile-picture" />
-            }
+            <img src="data:image/jpeg;base64,@Model.ImageObjId" alt="Profile Picture" class="profile-picture" />
             <p><br>Wilt u een andere profielfoto hebben?</p>
             <p>Upload een nieuwe profielfoto:</p>
         </div>

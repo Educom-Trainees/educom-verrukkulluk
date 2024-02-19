@@ -17,5 +17,7 @@ namespace Verrukkulluk.Models
         public int RatingValue { get; set; }
 
         public string? Comment { get; set; }
+
+        public RecipeRating() { }
     }
 }

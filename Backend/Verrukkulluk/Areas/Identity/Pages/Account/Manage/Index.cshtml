@@ -10,10 +10,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            @if (!string.IsNullOrEmpty(Model.ProfilePictureBase64))
-            {
-                <img class = "profile-picture" src="data:image/jpeg;base64,@Model.ProfilePictureBase64" alt="Profile Picture" />
-            }
+            <img class="profile-picture" src="data:image/jpeg;base64,@Model.ImageObjId" alt="Profile Picture" />
             
             <p><br>Hallo <strong class="darker-green">@Model.FirstName</strong>!</p>
             <p>Op uw profielpagina kunt u al uw huidige gegevens inzien en aanpassen.</p>
