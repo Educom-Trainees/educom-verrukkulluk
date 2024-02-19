@@ -14,7 +14,7 @@ const images = {
 const ProductDetailsScreen = ({ route }) => {
     const { product } = route.params;
 
-    const renderAllergies = () => {
+    const renderAllergens = () => {
         if (Array.isArray(product.productAllergies) && product.productAllergies.length > 0) {
             return (
                 <View>
@@ -26,13 +26,13 @@ const ProductDetailsScreen = ({ route }) => {
                 </View>                
             );
         } else {
-            return <Text>Geen allergieën</Text>;
+            return <Text>Geen allergenen</Text>;
         }
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            {/*<Image source={images[product.picture]} style={styles.image} resizeMode="contain" />*/}
+            <Image source={{ uri: product.image }} style={styles.image} />
 
             <Text style={styles.heading}>Naam</Text>
             <Text style={styles.text}>{product.name}</Text>
@@ -55,8 +55,8 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.heading}>Prijs</Text>
             <Text style={styles.text}>€{product.price}</Text>
 
-            <Text style={styles.heading}>Allergieën</Text>
-            {renderAllergies()}
+            <Text style={styles.heading}>Allergenen</Text>
+            {renderAllergens()}
 
             {/*<TouchableOpacity style={styles.editButton} onPress={handleEdit}>
                 <Text style={styles.editButtonText}>Edit</Text>
@@ -82,6 +82,8 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         marginBottom: 16,
+        resizeMode: 'contain',
+        borderRadius: 8,
     },
     editButton: {
         alignSelf: 'center',

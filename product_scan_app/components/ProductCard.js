@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => {
         <View style={styles.card} key={product.id}>
             <View style={styles.cardContent}>
                 <Text style={styles.title}>{product.name}</Text>
-                {/*<Image source={images[product.picture]} style={styles.image} resizeMode="contain" />*/}
+                <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
             </View>
         </View>
     );
