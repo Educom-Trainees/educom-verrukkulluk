@@ -5,6 +5,7 @@ import productList from '../data.json';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ProductDetailsScreen from './ProductDetails';
+import { useEffect, useState } from 'react';
 
 const SearchProductScreen = () => {
     const Stack = createStackNavigator();
@@ -29,20 +30,44 @@ const SearchProductScreen = () => {
     );
 };
 
-const ProductList = ({ navigation }) => (
-    <SafeAreaView style={styles.container}>
-        <FlatList
-            style={styles.flatlist}
-            data={productList}
-            renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => navigation.navigate('ProductDetails', { product: item})}>
-                    <ProductCard product={item} />
-                </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.id}
-        />
-    </SafeAreaView>
-);
+const ProductList = ({ navigation }) => {
+    const [products, setProducts] = useState([]);
+
+    const getProducts = async () => {
+        try {
+            const response = await fetch('http://192.168.80.1:45458/api/Products');
+            console.log(response);
+            const data = await response.json();
+            console.log(data[0].productAllergies);
+            setProducts(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        getProducts();
+    }, []);
+    
+    return (
+        <SafeAreaView style={styles.container}>
+            {products.length !== 0 ? (
+                <FlatList
+                    style={styles.flatlist}
+                    data={products}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => navigation.navigate('ProductDetails', { product: item})}>
+                            <ProductCard product={item} />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.id}
+                />
+             ) : (
+                <Text style={styles.text}>Geen producten om weer te geven</Text>
+             )}
+        </SafeAreaView>
+    );
+};
 
 export default SearchProductScreen;
 

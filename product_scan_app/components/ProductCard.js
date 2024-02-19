@@ -11,8 +11,8 @@ const ProductCard = ({ product }) => {
     return (
         <View style={styles.card} key={product.id}>
             <View style={styles.cardContent}>
-                <Text style={styles.title}>{product.title}</Text>
-                <Image source={images[product.picture]} style={styles.image} resizeMode="contain" />
+                <Text style={styles.title}>{product.name}</Text>
+                {/*<Image source={images[product.picture]} style={styles.image} resizeMode="contain" />*/}
             </View>
         </View>
     );
@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: "white",
         flex: 1,
-        fontSize: 24,
-        fontWeight: 'bold',
         padding: 16,
         borderRadius: 8,
         borderWidth: 1,

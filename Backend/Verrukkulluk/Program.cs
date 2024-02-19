@@ -3,6 +3,7 @@ using Verrukkulluk.Data;
 using Verrukkulluk.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Verrukkulluk
 {
@@ -40,6 +41,11 @@ namespace Verrukkulluk
                 {opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
                 opts.SerializerSettings.PreserveReferencesHandling=Newtonsoft.Json.PreserveReferencesHandling.Objects;});
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyAllowSpecificOrigins", policy => { policy.WithOrigins("exp://192.168.80.1:45458", "192.168.80.1:45458").AllowAnyHeader().AllowAnyMethod(); });
+            });
+
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(360);
@@ -63,6 +69,7 @@ namespace Verrukkulluk
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors("MyAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
