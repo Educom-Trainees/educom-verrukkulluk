@@ -157,18 +157,18 @@ namespace Verrukkulluk.Data
 
                     Product[] products =
                     {
-                        new Product("Witte Bol", 1.59m, 759, 6, IngredientType.stuks, WitteBolImage.Id, "Verpakking van zes witte bollen"),
-                        new Product("Avocado", 1.39m, 335, 1, IngredientType.stuks, AvocadoImage.Id, "Verse losse avocado's"),
-                        new Product("Vegan Burgersaus", 7.29m, 906, 300, IngredientType.gram, VeganburgersausImage.Id, "Fles met vegan burgersaus (300 g)"),
-                        new Product("Hamburger", 3.39m, 655, 2, IngredientType.stuks, HamburgersImage.Id, "Verpakking van twee hamburgers"),
-                        new Product("Tomaten", 1.39m, 105, 6, IngredientType.stuks, TomatenImage.Id, "Plastic verpakking van zes verse tomaten"),
-                        new Product("Ijsbergsla", 1.09m, 25, 200, IngredientType.gram, IjsbergslaImage.Id, "Zakje ijsbergsla (200 g)"),
-                        new Product("Boter", 3.79m, 1674, 225, IngredientType.gram, BoterImage.Id, "Pakje boter (225 g)"),
-                        new Product("Spaghetti", 2.55m, 1835, 500, IngredientType.gram, SpaghettiVImage.Id, "Verpakking (500 g)"),
-                        new Product("Couscous", 1.79m, 724, 275, IngredientType.gram, CouscousVImage.Id, "Pakje boter (225 g)"),
-                        new Product("Komkommer", 1.05m, 16, 1, IngredientType.stuks, KomkommerImage.Id, "Verpakking van 1 komkommer"),
-                        new Product("Broccoli", 1.85m, 24, 500, IngredientType.gram, BroccoliImage.Id, "Stronk van 500 g"),
-                        new Product("Aardbeien", 3.99m, 100, 400, IngredientType.gram, AardbeienImage.Id, "Doosje aardbeien (400 g)")
+                        new Product("Witte Bol", 1.59m, 759, 6, PackagingType.Plasticzak,IngredientType.stuks, WitteBolImage.Id, "Verpakking van zes witte bollen"),
+                        new Product("Avocado", 1.39m, 335, 1, PackagingType.Los,IngredientType.stuks, AvocadoImage.Id, "Verse losse avocado's"),
+                        new Product("Vegan Burgersaus", 7.29m, 906, 300, PackagingType.Fles,IngredientType.gram, VeganburgersausImage.Id, "Fles met vegan burgersaus (300 g)"),
+                        new Product("Hamburger", 3.39m, 655, 2, PackagingType.Duopack, IngredientType.stuks, HamburgersImage.Id, "Verpakking van twee hamburgers"),
+                        new Product("Tomaten", 1.39m, 105, 6, PackagingType.Los, IngredientType.stuks, TomatenImage.Id, "Plastic verpakking van zes verse tomaten"),
+                        new Product("Ijsbergsla", 1.09m, 25, 200, PackagingType.Los, IngredientType.gram, IjsbergslaImage.Id, "Zakje ijsbergsla (200 g)"),
+                        new Product("Boter", 3.79m, 1674, 225, PackagingType.Kuipje, IngredientType.gram, BoterImage.Id, "Pakje boter (225 g)"),
+                        new Product("Spaghetti", 2.55m, 1835, 500, PackagingType.Plasticverpakking, IngredientType.gram, SpaghettiVImage.Id, "Verpakking (500 g)", 0.5),
+                        new Product("Couscous", 1.79m, 724, 275, PackagingType.Los, IngredientType.gram, CouscousVImage.Id, "Pakje boter (225 g)"),
+                        new Product("Komkommer", 1.05m, 16, 1, PackagingType.Los, IngredientType.stuks, KomkommerImage.Id, "Verpakking van 1 komkommer"),
+                        new Product("Broccoli", 1.85m, 24, 500, PackagingType.Los, IngredientType.gram, BroccoliImage.Id, "Stronk van 500 g"),
+                        new Product("Aardbeien", 3.99m, 100, 400, PackagingType.Net, IngredientType.gram, AardbeienImage.Id, "Doosje aardbeien (400 g)")
                     };
                     await dbContext.SaveChangesAsync();
 
