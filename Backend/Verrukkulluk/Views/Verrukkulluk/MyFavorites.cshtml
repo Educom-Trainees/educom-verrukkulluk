@@ -59,9 +59,7 @@
                                                 @if (!recipe.Allergies.Any())
                                                 {
                                                     <li class="d-inline allergy-list">
-                                                        <div class="allergy-item">
-                                                            Geen allergenen in dit gerecht
-                                                        </div>
+                                                            <img class="noAllergy" id="noAllergy" src ="/images/allergenen/geen.png" style="width:70px; height:auto"></img>
                                                     </li>
                                                 }
                                                 @foreach(Allergy Allergy in recipe.Allergies)

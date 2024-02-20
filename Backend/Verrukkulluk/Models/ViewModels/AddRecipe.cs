@@ -11,8 +11,17 @@ namespace Verrukkulluk.ViewModels
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]
         public byte[] DishPhoto { get; set; } 
-        public List<Allergy> Allergies { get{
-            return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy).Distinct().ToList() ?? new List<Allergy>();
+        public List<AllergyGroup> Allergygroups { get{
+            return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy)
+                               .GroupBy(a => a.Id, // Where do we group by
+                                        a => a, // What elements are in the group
+                                        (id, allergies) => // What do we return
+                                        new AllergyGroup { 
+                                            Id = id, 
+                                            Count = allergies.Count(), 
+                                            Allergy = allergies.First()
+                                            }
+                                        ).ToList() ?? new List<AllergyGroup>();
         }}   
         public AddRecipe() {}
 
