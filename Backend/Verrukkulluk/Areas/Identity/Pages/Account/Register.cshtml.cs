@@ -31,13 +31,15 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IServicer _servicer;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            IServicer servicer)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +47,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _servicer = servicer;
         }
 
         /// <summary>
@@ -76,28 +79,28 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Vul uw voornaam in")]
             [Display(Name = "Voornaam")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Vul uw woonplaats in")]
             [Display(Name = "Woonplaats")]
             public string CityOfResidence { get; set; }
-            
-            [Required]
+
+            [Required(ErrorMessage = "Vul uw e-mail in")]
             [EmailAddress]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
-            [Required]
-            [Display(Name = "Profile Picture")]
-            public byte[] ProfilePicture { get; set; }
+            [Required(ErrorMessage = "Selecteer uw profielfoto")]
+            [Display(Name = "Profielfoto")]
+            public IFormFile ProfilePicture { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Vul uw wachtwoord in")]
             [StringLength(100, ErrorMessage = "Het {0} moet minstens {2} en maximaal {1} tekens lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
@@ -127,23 +130,26 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                if (Input.ProfilePicture == null || Input.ProfilePicture.Length == 0)
+                {
+                    ModelState.AddModelError("Input.ProfilePicture", "Selecteer uw profielfoto");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
-                if (Request.Form.Files.Count > 0)
+                using (var memoryStream = new MemoryStream())
                 {
-                    IFormFile file = Request.Form.Files.FirstOrDefault();
-                    using (var dataStream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(dataStream);
-                       // user.ImageObjId = dataStream.ToArray();
-                    }
-                    await _userManager.UpdateAsync(user);
+                    await Input.ProfilePicture.CopyToAsync(memoryStream);
+                    var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(Input.ProfilePicture.FileName));
+                    _servicer.SaveImage(imageObj, user);
+                    user.ImageObjId = imageObj.Id;
                 }
 
                 user.CityOfResidence = Input.CityOfResidence;
                 user.FirstName = Input.FirstName;
 
-                await _userStore.SetUserNameAsync(user, Input.FirstName, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -170,12 +176,19 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return LocalRedirect("/Identity/Account/Manage");
                     }
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code == "DuplicateUserName")
+                    {
+                        ModelState.AddModelError(string.Empty, "Dit e-mailadres bestaat al. Kies een andere.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
             else
@@ -192,6 +205,10 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
                             _logger.LogError(exceptionMessage);
                         }
                     }
+                }
+                if (Input.ProfilePicture == null || Input.ProfilePicture.Length == 0)
+                {
+                    ModelState.AddModelError("Input.ProfilePicture", "Selecteer uw profielfoto");
                 }
             }
             return Page();

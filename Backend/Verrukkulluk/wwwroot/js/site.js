@@ -511,5 +511,15 @@ function updateAverageRating(recipeId) {
         }
     });
 }
-
+    function validateForm() {
+        var fileInput = document.getElementById('Input.ProfilePicture');
+        var errorMessage = document.getElementById('profilePictureError');
+        if (fileInput.files.length === 0) {
+            errorMessage.textContent = 'Selecteer uw profielfoto';
+            return false; // Prevent form submission
+        } else {
+            errorMessage.textContent = ''; // Clear error message if a file is selected
+        }
+        return true; // Allow form submission
+    }
 
