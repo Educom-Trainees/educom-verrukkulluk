@@ -302,6 +302,24 @@ namespace Verrukkulluk.Migrations
                     b.ToTable("ImageObjs");
                 });
 
+            modelBuilder.Entity("Verrukkulluk.Models.PackagingType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PackagingTypes");
+                });
+
             modelBuilder.Entity("Verrukkulluk.Models.RecipeRating", b =>
                 {
                     b.Property<int>("Id")
@@ -433,7 +451,7 @@ namespace Verrukkulluk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Packaging")
+                    b.Property<int>("PackagingId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -446,6 +464,8 @@ namespace Verrukkulluk.Migrations
 
                     b.HasIndex("ImageObjId")
                         .IsUnique();
+
+                    b.HasIndex("PackagingId");
 
                     b.ToTable("Products");
                 });
@@ -651,6 +671,14 @@ namespace Verrukkulluk.Migrations
                         .HasForeignKey("Verrukkulluk.Product", "ImageObjId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Verrukkulluk.Models.PackagingType", "Packaging")
+                        .WithMany()
+                        .HasForeignKey("PackagingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Packaging");
                 });
 
             modelBuilder.Entity("Verrukkulluk.ProductAllergy", b =>

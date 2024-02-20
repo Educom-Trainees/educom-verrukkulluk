@@ -11,6 +11,7 @@ namespace Verrukkulluk.Data
     {
         public DbSet<Recipe> Recipes { get; set; } 
         public DbSet<Product> Products { get; set; }
+        public DbSet<PackagingType> PackagingTypes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<KitchenType> KitchenTypes { get; set; }
