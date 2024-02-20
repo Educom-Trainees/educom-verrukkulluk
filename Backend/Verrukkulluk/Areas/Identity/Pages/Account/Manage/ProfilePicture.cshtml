@@ -11,7 +11,7 @@
     <div class="col-md-6">
         <div class="mb-3">
             <p>Huidige profielfoto: <br></p>
-            <img src="data:image/jpeg;base64,@Model.ImageObjId" alt="Profile Picture" class="profile-picture" />
+            <img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = Model.ProfilePicture.Id })" alt="Profielfoto">
             <p><br>Wilt u een andere profielfoto hebben?</p>
             <p>Upload een nieuwe profielfoto:</p>
         </div>

@@ -19,5 +19,7 @@ namespace Verrukkulluk.Data
         int? ReadUserRating(int recipeId, int userId);
         string? ReadUserComment(int recipeId, int userId);
         void UpdateAverageRating(int recipeId);
+        void CreateProfilePictureAndUpdateUser(ImageObj image, User user);
+
     }
 }

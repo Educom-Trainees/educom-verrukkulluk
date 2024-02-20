@@ -20,5 +20,6 @@ namespace Verrukkulluk.Models
         Event GetEventById(int Id);
         List<Event> GetAllEvents();
         void UpdateAverageRating(int recipeId);
+        void SaveImage(ImageObj image, User user);
     }
 }

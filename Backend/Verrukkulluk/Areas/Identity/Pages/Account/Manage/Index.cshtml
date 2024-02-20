@@ -1,5 +1,5 @@
 ﻿@page
-@model FirstNameModel
+@inject UserManager<User> UserManager
 @{
     ViewData["Title"] = "Profiel";
     ViewData["ActivePage"] = ManageNavPages.Index;
@@ -10,11 +10,22 @@
 <div class="row">
     <div class="col-md-6">
         <div class="mb-3">
-            <img class="profile-picture" src="data:image/jpeg;base64,@Model.ImageObjId" alt="Profile Picture" />
-            
-            <p><br>Hallo <strong class="darker-green">@Model.FirstName</strong>!</p>
-            <p>Op uw profielpagina kunt u al uw huidige gegevens inzien en aanpassen.</p>
-            <p>Mocht u uw account willen verwijderen, let er dan op dat dit niet teruggedraaid kan worden!</p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                var user = await UserManager.GetUserAsync(User);
+                var profilePictureId = user.ImageObjId;
+                var firstName = user.FirstName;
+
+                <img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = profilePictureId })" alt="Profielfoto">
+                <p><br>Hallo <strong class="darker-green">@firstName</strong>!</p>
+                <p>Op uw profielpagina kunt u al uw huidige gegevens inzien en aanpassen.</p>
+                <p>Mocht u uw account willen verwijderen, let er dan op dat dit niet teruggedraaid kan worden!</p>
+            }
+            else
+            {
+                <p>U bent niet ingelogd.</p>
+            }
         </div>
     </div>
 </div>
+

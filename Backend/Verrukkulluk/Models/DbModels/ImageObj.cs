@@ -9,7 +9,7 @@
         public ImageObj() { }
         public ImageObj(byte[] imageContent, string imageExtention) {
             ImageContent = imageContent;
-            ImageExtention = imageExtention;
+            ImageExtention = imageExtention.StartsWith(".") ? imageExtention.Substring(1) : imageExtention;
         }
     }
 }

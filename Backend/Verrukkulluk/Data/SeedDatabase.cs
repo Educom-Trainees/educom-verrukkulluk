@@ -47,47 +47,46 @@ namespace Verrukkulluk.Data
 
                 VerrukkullukContext dbContext = scope.ServiceProvider.GetRequiredService<VerrukkullukContext>();
 
-                ImageObj Jan = new ImageObj(ReadImageFile("jan.jpg"), "jpg");
-                dbContext.ImageObjs.Add(Jan);
-                ImageObj Bert = new ImageObj(ReadImageFile("bert.png"), "png");
-                dbContext.ImageObjs.Add(Bert);
-                ImageObj Els = new ImageObj(ReadImageFile("els.jpg"), "jpg");
-                dbContext.ImageObjs.Add(Els);
-                ImageObj Admin = new ImageObj(ReadImageFile("admin.png"), "png");
-                dbContext.ImageObjs.Add(Admin);
-                await dbContext.SaveChangesAsync();
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
-                User[] users =
-                {
-                    new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id),
-                    new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id),
-                    new User("els@els.els", "Els", "Sittard", Els.Id),
-                    new User("a@a.a", "Albert", "Soesterberg", Admin.Id)
-                };
-                User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id);
-
-                string password = "Test890!";
-
-                foreach (User user in users)
-                {
-#pragma warning disable CS8604 // Possible null reference argument.
-                    if (await userManager.FindByEmailAsync(user.Email) == null)
-                    {
-                        await userManager.CreateAsync(user, password);
-                        await userManager.AddToRoleAsync(user, "VerUser");
-                    }
-                }
-
-                if (await userManager.FindByEmailAsync(adminUser.Email) == null)
-                {
-                    await userManager.CreateAsync(adminUser, password);
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
-                }
-#pragma warning restore CS8604 // Possible null reference argument.
-
                 if (!dbContext.Products.Any() && !dbContext.Ingredients.Any() && !dbContext.KitchenTypes.Any() && !dbContext.Recipes.Any())
                 {
+                    ImageObj Jan = new ImageObj(ReadImageFile("jan.jpg"), "jpg");
+                    dbContext.ImageObjs.Add(Jan);
+                    ImageObj Bert = new ImageObj(ReadImageFile("bert.png"), "png");
+                    dbContext.ImageObjs.Add(Bert);
+                    ImageObj Els = new ImageObj(ReadImageFile("els.jpg"), "jpg");
+                    dbContext.ImageObjs.Add(Els);
+                    ImageObj Admin = new ImageObj(ReadImageFile("admin.png"), "png");
+                    dbContext.ImageObjs.Add(Admin);
+                    await dbContext.SaveChangesAsync();
+                    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+                    User[] users =
+                    {
+                        new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id),
+                        new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id),
+                        new User("els@els.els", "Els", "Sittard", Els.Id),
+                        new User("a@a.a", "Albert", "Soesterberg", Admin.Id)
+                    };
+                    User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id);
+
+                    string password = "Test890!";
+
+                    foreach (User user in users)
+                    {
+#pragma warning disable CS8604 // Possible null reference argument.
+                        if (await userManager.FindByEmailAsync(user.Email) == null)
+                        {
+                            await userManager.CreateAsync(user, password);
+                            await userManager.AddToRoleAsync(user, "VerUser");
+                        }
+                    }
+
+                    if (await userManager.FindByEmailAsync(adminUser.Email) == null)
+                    {
+                        await userManager.CreateAsync(adminUser, password);
+                        await userManager.AddToRoleAsync(adminUser, "Admin");
+                    }
+#pragma warning restore CS8604 // Possible null reference argument.
                     ImageObj WitteBolImage = new ImageObj(ReadImageFile("witte_bol.jpg"), "jpg");
                     dbContext.ImageObjs.Add(WitteBolImage);
                     await dbContext.SaveChangesAsync();
