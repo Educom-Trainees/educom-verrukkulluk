@@ -164,5 +164,10 @@ namespace Verrukkulluk.Models
         {
             Crud.UpdateAverageRating(recipeId);
         }
+        public void SaveImage(ImageObj image, User user)
+        {
+            Crud.CreateProfilePictureAndUpdateUser(image, user);
+
+        }
     }
 }

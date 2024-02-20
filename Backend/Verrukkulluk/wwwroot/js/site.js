@@ -347,6 +347,21 @@ function handleScrollChevronUp() {
     });
 }
 
+function handleChevronScroll(tabContent) {
+    if (tabContent.offsetHeight > 0) {
+        handleScrollChevronDown();
+        handleScrollChevronUp();
+    }
+}
+
+function tabShownHandler(event) {
+    var tabContentId = event.target.getAttribute('href');
+    var tabContent = document.querySelector(tabContentId);
+    if (tabContent) {
+        handleChevronScroll(tabContent);
+    }
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.bi-check').forEach(function (checkmark) {
@@ -364,8 +379,12 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollingContent.addEventListener('scroll', handleScrollChevronUp);
         handleScrollChevronUp();
     });
-});
 
+    // Attach event listeners to tab shown events
+    document.querySelectorAll('.nav-link-recipe').forEach(function (link) {
+        link.addEventListener('shown.bs.tab', tabShownHandler);
+    });
+});
 
 // Display success message
 function displaySuccessMessage(message) {

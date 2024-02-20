@@ -16,7 +16,6 @@ public class FirstNameModel : PageModel
     }
 
     public string FirstName { get; set; }
-    public int ImageObjId { get; set; }
 
     [TempData]
     public string StatusMessage { get; set; }
@@ -41,7 +40,6 @@ public class FirstNameModel : PageModel
         }
 
         FirstName = user.FirstName;
-        ImageObjId = user.ImageObjId;
 
         return Page();
     }

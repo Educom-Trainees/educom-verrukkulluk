@@ -9,13 +9,15 @@ using Verrukkulluk.Models;
 public class ProfilePictureModel : PageModel
 {
     private readonly UserManager<User> _userManager;
+    private readonly IServicer _servicer;
 
-    public ProfilePictureModel(UserManager<User> userManager)
+    public ProfilePictureModel(UserManager<User> userManager, IServicer servicer)
     {
         _userManager = userManager;
+        _servicer = servicer;
     }
 
-    public int ImageObjId { get; set; }
+    public ImageObj ProfilePicture { get; set; } // Updated property
 
     [TempData]
     public string StatusMessage { get; set; }
@@ -38,7 +40,8 @@ public class ProfilePictureModel : PageModel
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
-        ImageObjId = user.ImageObjId;
+        // Load the user's profile picture
+        ProfilePicture = _servicer.GetImage(user.ImageObjId);
         return Page();
     }
 
@@ -59,24 +62,28 @@ public class ProfilePictureModel : PageModel
         {
             using (var stream = Input.ProfilePicture.OpenReadStream())
             {
-                using (var memoryStream = new System.IO.MemoryStream())
+                using (var memoryStream = new MemoryStream())
                 {
                     await stream.CopyToAsync(memoryStream);
-                   // user.ImageObjId = memoryStream.ToArray();
+                    var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(Input.ProfilePicture.FileName));
+                    _servicer.SaveImage(imageObj, user);
+
+                    user.ImageObjId = imageObj.Id;
+
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        StatusMessage = "Uw profielfoto is bijgewerkt!";
+                    }
+                    else
+                    {
+                        StatusMessage = "Er ging iets fout tijdens het bijwerken.";
+                    }
                 }
             }
-        }
-
-        var result = await _userManager.UpdateAsync(user);
-
-        if (result.Succeeded)
-        {
-            StatusMessage = "Uw profielfoto is bijgewerkt!";
-        }
-        else
-        {
-            StatusMessage = "Er ging iets fout tijdens het bijwerken.";
         }
         return RedirectToPage();
     }
 }
+
