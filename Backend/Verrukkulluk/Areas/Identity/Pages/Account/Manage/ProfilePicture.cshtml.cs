@@ -66,7 +66,7 @@ public class ProfilePictureModel : PageModel
                 {
                     await stream.CopyToAsync(memoryStream);
                     var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(Input.ProfilePicture.FileName));
-                    _servicer.SaveImage(imageObj, user);
+                    _servicer.SaveProfilePicture(imageObj, user);
 
                     user.ImageObjId = imageObj.Id;
 

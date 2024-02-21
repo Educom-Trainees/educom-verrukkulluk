@@ -20,6 +20,7 @@ namespace Verrukkulluk.Data
         string? ReadUserComment(int recipeId, int userId);
         void UpdateAverageRating(int recipeId);
         void CreateProfilePictureAndUpdateUser(ImageObj image, User user);
+        string DeleteRecipe(int recipeId);
 
     }
 }

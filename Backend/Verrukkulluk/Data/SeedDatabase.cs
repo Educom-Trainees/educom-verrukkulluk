@@ -55,6 +55,8 @@ namespace Verrukkulluk.Data
                     dbContext.ImageObjs.Add(Bert);
                     ImageObj Els = new ImageObj(ReadImageFile("els.jpg"), "jpg");
                     dbContext.ImageObjs.Add(Els);
+                    ImageObj Anoniem = new ImageObj(ReadImageFile("anoniem.png"), "png");
+                    dbContext.ImageObjs.Add(Anoniem);
                     ImageObj Admin = new ImageObj(ReadImageFile("admin.png"), "png");
                     dbContext.ImageObjs.Add(Admin);
                     await dbContext.SaveChangesAsync();
@@ -65,7 +67,7 @@ namespace Verrukkulluk.Data
                         new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id),
                         new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id),
                         new User("els@els.els", "Els", "Sittard", Els.Id),
-                        new User("a@a.a", "Albert", "Soesterberg", Admin.Id)
+                        new User("a@a.a", "Albert", "Soesterberg", Anoniem.Id)
                     };
                     User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id);
 

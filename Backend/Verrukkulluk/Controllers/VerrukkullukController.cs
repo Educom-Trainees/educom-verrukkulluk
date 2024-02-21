@@ -52,14 +52,14 @@ namespace Verrukkulluk.Controllers
             return View("Recipe", DetailsModel);
         }
 
-        [Authorize(Roles = "VerUser")]
+        [Authorize(Roles = "VerUser, Admin")]
         public IActionResult MijnRecepten()
         {
             UserRecipesModel.Recipes = Servicer.GetUserRecipes();
             return View("MyRecipes", UserRecipesModel);
         }
 
-        [Authorize(Roles = "VerUser")]
+        [Authorize(Roles = "VerUser, Admin")]
         public IActionResult MijnFavorieten()
         {
             FavoritesModel.Recipes = Servicer.GetUserFavorites();

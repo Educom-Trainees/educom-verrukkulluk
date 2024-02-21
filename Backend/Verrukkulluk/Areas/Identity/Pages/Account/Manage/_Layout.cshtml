@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
@@ -8,21 +8,28 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
+
 <div class="text-center darker-green">
     <h1>Profielpagina</h1>
 </div>
-<div>
-   <div class="text-center">
-    <h3>Beheer uw accountgegevens</h3>
+<div class="row">
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="col-md-4 text-start">
+            <a class="btn btn-admin" asp-controller="Admin" asp-action="Index">Adminpagina</a>
+        </div>
+    }
+    <div class="col-md-4 text-center">
+        <h3>Beheer uw accountgegevens</h3>
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <partial name="_ManageNav" />
+    </div>
+    <div class="col-md-9">
+        @RenderBody()
     </div>
 </div>
 

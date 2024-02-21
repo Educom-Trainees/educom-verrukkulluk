@@ -950,3 +950,43 @@ p {
     font-family: var(--regular);
     color: var(--black);
 }
+
+.btn-admin {
+    padding: 0px 10px;
+    border-radius: 25px;
+    line-height: -3;
+    color: var(--white);
+    background-color: var(--lighter-red);
+    border-color: var(--lighter-red);
+    font-family: var(--heading);
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto;
+    flex: 1;
+}
+
+    .btn-admin:hover {
+        color: var(--lighter-red);
+        background-color: var(--white);
+        border-color: var(--lighter-red);
+    }
+
+    .btn-admin:disabled,
+    .btn-admin.disabled {
+        color: var(--white);
+        background-color: var(--darker-green);
+        border-color: var(--darker-green);
+        opacity: 1;
+    }
+
+    .btn-admin:active,
+    .btn-admin.active {
+        color: var(--white);
+        background-color: var(--lighter-red);
+        border-color: var(--lighter-red);
+    }
+
+    .admin-trash {
+        font-size: 20px;
+    }

@@ -69,15 +69,30 @@ namespace Verrukkulluk.Models
 
         public void DeleteUserRecipe(int recipeId)
         {
-            string tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int userId = int.Parse(tempUserId);
+            var user = UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User).Result;
 
-            //UserId is supplied so that only the recipe's creator can delete their recipe
-            string result = Crud.DeleteUserRecipe(userId, recipeId);
-
-            if (result != "Recept verwijderd.")
+            if (UserManager.IsInRoleAsync(user, "Admin").Result)
             {
-                throw new Exception(result);
+                // If the user is an admin, directly delete the recipe
+                string result = Crud.DeleteRecipe(recipeId);
+
+                if (result != "Recept verwijderd.")
+                {
+                    throw new Exception(result);
+                }
+            }
+            else
+            {
+                // If the user is not an admin, proceed with checking user ID and deleting user recipe
+                string tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
+                int userId = int.Parse(tempUserId);
+
+                string result = Crud.DeleteUserRecipe(userId, recipeId);
+
+                if (result != "Recept verwijderd.")
+                {
+                    throw new Exception(result);
+                }
             }
         }
 
@@ -164,7 +179,7 @@ namespace Verrukkulluk.Models
         {
             Crud.UpdateAverageRating(recipeId);
         }
-        public void SaveImage(ImageObj image, User user)
+        public void SaveProfilePicture(ImageObj image, User user)
         {
             Crud.CreateProfilePictureAndUpdateUser(image, user);
 
