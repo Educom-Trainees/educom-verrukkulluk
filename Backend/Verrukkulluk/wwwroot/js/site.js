@@ -181,23 +181,57 @@ function addIngredient(product) {
     product.productAllergies.forEach(updateAllergyInfo);
 }
 
-//Remove ingredient with trash icon
-function removeIngredient(element) {
-    $(element).closest('.row').remove();
-}
-
 //Adding allergy in CreateRecipe
-function updateAllergyInfo(productAllergie) {
-    console.log(productAllergie);
-    const allergy = productAllergie.allergy;
-    const excistingAllergy = $(".allergy[id="+allergy.id+"]")
+function updateAllergyInfo(productAllergy) {
+    removeNoAllergies();
+    console.log(productAllergy);
+    const allergy = productAllergy.allergy;
+    const existingAllergy = $(".allergy[id="+allergy.id+"]")
     console.log(allergy);
-    console.log(excistingAllergy);
-    if (excistingAllergy.length>0){
+    console.log(existingAllergy);
+    if (existingAllergy.length>0){
+        existingAllergy[0].dataset.count++; 
         return
     } 
-    const template = '<img class="allergy" id="'+allergy.id+'" src ="/Image/GetImage/'+allergy.imgObjId+'" alt="'+allergy.name+'" style="width:70px; height:auto">'
+    const template = '<img class="allergy" id="'+allergy.id+'" src ="/Image/GetImage/'+allergy.imgObjId+'" alt="'+allergy.name+'" data-count="1" style="width:70px; height:auto">'
     $("#allergies").append(template);
+}
+//Remove 'No allergies'
+function removeNoAllergies() {
+    $('.noAllergy').remove();
+}
+function showNoAllergies() {
+    const template = '<img class="noAllergy" id="noAllergy" src ="/images/allergenen/geen.png" style="width:70px; height:auto"></img>'
+    $("#allergies").append(template);
+}
+
+//Remove ingredient with trash icon
+function removeIngredient(element) {
+    const productId = element.parentElement.childNodes[3].value;
+    collectProduct(productId);
+    $(element).closest('.row').remove(); 
+}
+function collectProduct(productId) {
+    $.get("../api/products/" + productId, function(data, status){
+        if (status === "success") {
+            updateAllergies(data)
+        }
+    });
+}
+function updateAllergies(product){
+    product.productAllergies.forEach(decreaseAllergyCount);
+}
+function decreaseAllergyCount(productAllergy) {
+    const allergy = productAllergy.allergy;
+    const existingAllergy = $(".allergy[id="+allergy.id+"]")
+    existingAllergy[0].dataset.count--; 
+    if (existingAllergy[0].dataset.count == 0) {
+        existingAllergy.remove();
+        if($('.allergy').length == 0) {
+            showNoAllergies();
+        }
+    }
+    return
 }
 
 //Adding photo in CreateRecipe
@@ -238,6 +272,12 @@ function removeFile() {
 //Remember numberOfPersons, KitchenType and Photo in invalid CreateRecipe
 
 
+//Growing textarea with content in CreateRecipe
+function autoSize(element) {
+    element.style.height = "auto";
+    element.style.height = (element.scrollHeight) + "px";
+}
+
 //Preview ProfilePicture in Register en Manage
 function handleFileSelectProfilePicture(input) {
     var files = input.files;
@@ -274,21 +314,6 @@ function removeFileProfilePicture() {
     removeButton.style.display = 'none';
 }
 
-//Textarea description in CreateRecipe min 3 rows at the start
-console.log("Script geladen!");
-document.addEventListener("DOMContentLoaded", function() {
-    var descriptionTextarea = document.getElementById("descriptionTextarea");
-    descriptionTextarea.rows = 3;
-    descriptionTextarea.addEventListener("input", function() {
-        autoSize(descriptionTextarea);
-    });
-});
-
-//Growing textarea with content in CreateRecipe
-function autoSize(element) {
-    element.style.height = "auto";
-    element.style.height = (element.scrollHeight) + "px";
-}
 
 // Remove all shopping items from cart
 function removeAllItems() {
@@ -511,5 +536,15 @@ function updateAverageRating(recipeId) {
         }
     });
 }
-
+    function validateForm() {
+        var fileInput = document.getElementById('Input.ProfilePicture');
+        var errorMessage = document.getElementById('profilePictureError');
+        if (fileInput.files.length === 0) {
+            errorMessage.textContent = 'Selecteer uw profielfoto';
+            return false; // Prevent form submission
+        } else {
+            errorMessage.textContent = ''; // Clear error message if a file is selected
+        }
+        return true; // Allow form submission
+    }
 

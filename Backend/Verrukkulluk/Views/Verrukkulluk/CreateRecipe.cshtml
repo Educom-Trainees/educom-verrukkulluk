@@ -1,4 +1,5 @@
-﻿@model Verrukkulluk.ViewModels.AddRecipe
+﻿@using Verrukkulluk.ViewModels
+@model Verrukkulluk.ViewModels.AddRecipe
 @{
     ViewData["Title"] = "Recept Maken";
 }
@@ -123,8 +124,12 @@
                         <div class="mt-4">
                             Allergenen in de gerecht:
                             <div class="row mt-1" id="allergies">
-                                @foreach( Allergy allergy in Model.Allergies){
-                                    <img class="allergy" id="@allergy.Id" src ="@Url.Action("GetImage", "Image", new {id = allergy.ImgObjId})" alt="@allergy.Name" style="width:70px; height:auto">
+                                @if (!Model.Allergies.Any())
+                                 {
+                                     <img class="noAllergy" id="noAllergy" src ="~/images/allergenen/geen.png" style="width:70px; height:auto">
+                                 }
+                                @foreach(AllergyGroup allergyGroup in Model.Allergygroups){
+                                    <img class="allergy" id="@allergyGroup.Id" src ="@Url.Action("GetImage", "Image", new {id = allergyGroup.Allergy.ImgObjId})" alt="@allergyGroup.Allergy.Name" data-count="@allergyGroup.Count" style="width:70px; height:auto">
                                 }
                             </div>
                         </div>

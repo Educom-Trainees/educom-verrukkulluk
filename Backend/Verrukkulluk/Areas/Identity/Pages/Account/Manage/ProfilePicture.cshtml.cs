@@ -17,7 +17,7 @@ public class ProfilePictureModel : PageModel
         _servicer = servicer;
     }
 
-    public ImageObj ProfilePicture { get; set; } // Updated property
+    public ImageObj ProfilePicture { get; set; }
 
     [TempData]
     public string StatusMessage { get; set; }
@@ -40,7 +40,6 @@ public class ProfilePictureModel : PageModel
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
-        // Load the user's profile picture
         ProfilePicture = _servicer.GetImage(user.ImageObjId);
         return Page();
     }
@@ -55,6 +54,7 @@ public class ProfilePictureModel : PageModel
 
         if (!ModelState.IsValid)
         {
+            ProfilePicture = _servicer.GetImage(user.ImageObjId);
             return Page();
         }
 
@@ -82,8 +82,13 @@ public class ProfilePictureModel : PageModel
                     }
                 }
             }
+            return RedirectToPage();
         }
-        return RedirectToPage();
+        else
+        {
+            ProfilePicture = _servicer.GetImage(user.ImageObjId);
+            return Page();
+        }
     }
 }
 

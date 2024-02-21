@@ -106,13 +106,14 @@
                         }
                     </div>
                 </div>
-                @if (SignInManager.IsSignedIn(User))
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="d-inline ms-3">
-                        <div class="ms-auto lighter-red">
+                var user = await UserManager.GetUserAsync(User);
+                    <div class="d-inline">
+                        <div class="ms-5 ps-4 lighter-red">
                             <a class="shoplist-link" asp-area="Identity" asp-page="/Account/Manage/Index">
-                                <h2>Mijn Profiel</h2> 
-                                <h4>(@User.Identity?.Name)</h4>
+                                <h2>Mijn Profiel</h2>
+                                <h4>(@user.FirstName)</h4>
                             </a>
                         </div>
                     </div>
@@ -169,12 +170,13 @@
                         }
                     </div>
                 </div>
-                @if (SignInManager.IsSignedIn(User))
+                @if (User.Identity.IsAuthenticated)
                 {
+                var user = await UserManager.GetUserAsync(User);
                     <div class="d-inline">
                         <div class="ms-5 ps-4 lighter-red">
                             <a class="shoplist-link" asp-area="Identity" asp-page="/Account/Manage/Index">
-                                <h2>Mijn Profiel (@User.Identity?.Name)</h2>
+                                <h2>Mijn Profiel (@user.FirstName)</h2>
                             </a>
                         </div>
                     </div>
