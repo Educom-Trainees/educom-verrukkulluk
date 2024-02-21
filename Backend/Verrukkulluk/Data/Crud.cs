@@ -16,7 +16,11 @@ namespace Verrukkulluk.Data
 
         public List<Product> ReadAllProducts()
         {
-            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).ToList();
+            return Context.Products
+                .Include(p => p.Packaging)
+                .Include(p => p.ProductAllergies)
+                    .ThenInclude(pa => pa.Allergy)
+                .ToList();                
         }
         public Product? ReadProductById(int id)
         {

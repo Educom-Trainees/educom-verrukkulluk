@@ -39,7 +39,7 @@ namespace Verrukkulluk
             builder.Services.AddControllersWithViews()
             .AddNewtonsoftJson(opts => 
                 {opts.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-                opts.SerializerSettings.PreserveReferencesHandling=Newtonsoft.Json.PreserveReferencesHandling.Objects;});
+                    opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;});
 
             builder.Services.AddCors(options =>
             {
