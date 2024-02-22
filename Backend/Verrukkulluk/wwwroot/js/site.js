@@ -526,7 +526,6 @@ function updateAverageRating(recipeId) {
         success: function (response) {
             if (response.success) {
                 console.log('Average rating updated successfully.');
-                // Optionally, you can update the UI to reflect the new average rating
             } else {
                 console.error('Failed to update average rating.');
             }
@@ -536,15 +535,43 @@ function updateAverageRating(recipeId) {
         }
     });
 }
-    function validateForm() {
-        var fileInput = document.getElementById('Input.ProfilePicture');
-        var errorMessage = document.getElementById('profilePictureError');
-        if (fileInput.files.length === 0) {
-            errorMessage.textContent = 'Selecteer uw profielfoto';
-            return false; // Prevent form submission
-        } else {
-            errorMessage.textContent = ''; // Clear error message if a file is selected
-        }
-        return true; // Allow form submission
+
+function validateForm() {
+    var fileInput = document.getElementById('Input.ProfilePicture');
+    var errorMessage = document.getElementById('profilePictureError');
+    if (fileInput.files.length === 0) {
+        errorMessage.textContent = 'Selecteer uw profielfoto';
+        return false;
+    } else {
+        errorMessage.textContent = '';
     }
+    return true;
+}
+
+function showConfirmationRecipe(recipeId, recipeName) {
+    updateConfirmationMessage("Weet u zeker dat u het recept '" + recipeName + "' wilt verwijderen?");
+    
+    $('#confirmationScreen').modal('show');
+    
+    $('#confirmButton').on('click', function () {
+        $('#removeRecipeForm_' + recipeId).submit();
+    });
+}
+
+function showConfirmationUser(userId, firstName) {
+    updateConfirmationMessage("Weet u zeker dat u de gebruiker '" + firstName + "' wilt verwijderen?");
+
+    $('#confirmationScreen').modal('show');
+
+    $('#confirmButton').on('click', function () {
+        $('#removeUserForm_' + userId).submit();
+    });
+}
+
+function updateConfirmationMessage(message) {
+    var confirmationMessageElement = document.getElementById('confirmationMessage');
+    if (confirmationMessageElement) {
+        confirmationMessageElement.innerText = message;
+    }
+}
 

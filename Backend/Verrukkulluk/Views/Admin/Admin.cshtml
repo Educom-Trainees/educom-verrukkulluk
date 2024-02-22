@@ -46,7 +46,7 @@
                                             }
                                         else
                                             {
-                                            <span class="darker-red bi bi-trash admin-trash" onclick="document.getElementById('removeUserForm_@user.Id').submit();"></span>
+                                            <span class="darker-red bi bi-trash admin-trash" onclick="showConfirmationUser('@user.Id', '@user.FirstName')"></span>
                                             <form id="removeUserForm_@user.Id" asp-controller="Admin" asp-action="RemoveUser" method="post" style="display: none;">
                                                 <input type="hidden" name="userId" value="@user.Id" />
                                             </form>
@@ -87,7 +87,7 @@
                                 <td>@recipe.CreationDate.ToString("yyyy-MM-dd")</td>
                                 <td>@recipe.NumberOfPeople</td>
                                 <td class="text-center admin-trash">
-                                    <span class="darker-red bi bi-trash" onclick="document.getElementById('removeRecipeForm_@recipe.Id').submit();"></span>
+                                    <span class="darker-red bi bi-trash" onclick="showConfirmationRecipe('@recipe.Id', '@recipe.Title')"></span>
                                     <form id="removeRecipeForm_@recipe.Id" asp-controller="Admin" asp-action="RemoveRecipe" method="post" style="display: none;">
                                         <input type="hidden" name="recipeId" value="@recipe.Id" />
                                     </form>
@@ -96,6 +96,21 @@
                         }
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationScreen" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-center">
+                <p class="modal-title" id="confirmationMessage"</p>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary btn-darker-orange" id="cancelButton"><h3>Annuleren</h3></button>
+                <button type="button" class="btn btn-primary btn-darker-red" id="confirmButton"><h3>Verwijder</h3></button>
             </div>
         </div>
     </div>
