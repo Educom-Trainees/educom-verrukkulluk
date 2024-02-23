@@ -7,7 +7,6 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import ProductDetailsScreen from './ProductDetails';
 import { useEffect, useState } from 'react';
 import Constants from 'expo-constants';
-import { SearchBar } from 'react-native-elements';
 
 const SearchProductScreen = () => {
     const Stack = createStackNavigator();
@@ -35,7 +34,7 @@ const SearchProductScreen = () => {
 const ProductList = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const ip = 'http://10.0.101.63:45455';
+    const ip = 'http://192.168.80.1:45455';
 
     const getProducts = async () => {
         try {
@@ -81,23 +80,31 @@ const ProductList = ({ navigation }) => {
     const updateSearch = (search) => {
         setSearchText(search);
     }
+
+    const filteredProducts = products.filter((product) => {
+        return product.name.toLowerCase().includes(searchText.toLowerCase());
+    })
     
     return (
         <SafeAreaView style={styles.container}>
-            {/*<TextInput
+            <TextInput
                 style={styles.searchbar}
                 placeholder='Zoeken'
-            />*/}
-            {products.length !== 0 ? (                
+                onChangeText={updateSearch}
+                value={searchText}
+                clearButtonMode='always'
+            />
+            {filteredProducts.length !== 0 ? (                
                 <FlatList
                     style={styles.flatlist}
-                    data={products}
+                    data={filteredProducts}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate('ProductDetails', { product: item})}>
                             <ProductCard product={item} />
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.id}
+                    showsVerticalScrollIndicator={false}
                 />
              ) : (
                 <Text style={styles.text}>Geen producten om weer te geven</Text>
@@ -114,6 +121,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff0d6',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        paddingTop: 10,
     },
     flatlist: {
         flex: 1,
@@ -123,9 +131,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     searchbar: {
-        height: 100,
+        fontSize: 20,
+        textAlign: 'center',
+        textDecorationLine: 'none',
+        height: 50,
         width: '95%',
         backgroundColor: '#ffffff',
+        marginBottom: 10,
     },
     text: {
         fontSize: 24,
