@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native';
 import ProductCard from '../components/ProductCard';
 import productList from '../data.json';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import ProductDetailsScreen from './ProductDetails';
 import { useEffect, useState } from 'react';
+import Constants from 'expo-constants';
+import { SearchBar } from 'react-native-elements';
 
 const SearchProductScreen = () => {
     const Stack = createStackNavigator();
@@ -32,14 +34,19 @@ const SearchProductScreen = () => {
 
 const ProductList = ({ navigation }) => {
     const [products, setProducts] = useState([]);
-    const ip = 'http://192.168.80.1:45458';
+    const [searchText, setSearchText] = useState('');
+    const ip = 'http://10.0.101.63:45455';
 
     const getProducts = async () => {
         try {
             const response = await fetch(`${ip}/api/Products`);
             const data = await response.json();
-            setProducts(data);
-            getProductImages(data);
+            
+            const sortedProducts = data.sort((a, b) => a.name.localeCompare(b.name));
+
+            console.log(sortedProducts);
+            setProducts(sortedProducts);
+            getProductImages(sortedProducts);
         } catch (error) {
             console.error(error);
         }
@@ -70,10 +77,18 @@ const ProductList = ({ navigation }) => {
     useEffect(() => {
         getProducts();
     }, []);
+
+    const updateSearch = (search) => {
+        setSearchText(search);
+    }
     
     return (
         <SafeAreaView style={styles.container}>
-            {products.length !== 0 ? (
+            {/*<TextInput
+                style={styles.searchbar}
+                placeholder='Zoeken'
+            />*/}
+            {products.length !== 0 ? (                
                 <FlatList
                     style={styles.flatlist}
                     data={products}
@@ -98,15 +113,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff0d6',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     flatlist: {
         flex: 1,
         width: '95%',
-        marginTop: 10,
     },
     safecontainer: {
         flex: 1,
+    },
+    searchbar: {
+        height: 100,
+        width: '95%',
+        backgroundColor: '#ffffff',
     },
     text: {
         fontSize: 24,

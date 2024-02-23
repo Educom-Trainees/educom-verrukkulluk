@@ -20,13 +20,13 @@ const ProductDetailsScreen = ({ route }) => {
                 <View>
                     {product.productAllergies.map((productAllergy, index) => (
                         <View key={index}>
-                            <Text>{productAllergy.allergy.name}</Text>
+                            <Text style={styles.text}>{productAllergy.allergy.name}</Text>
                         </View>
                     ))}
                 </View>                
             );
         } else {
-            return <Text>Geen allergenen</Text>;
+            return <Text style={styles.text}>Geen allergenen aanwezig</Text>;
         }
     }
 
@@ -41,16 +41,16 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.text}>{product.description}</Text>
 
             <Text style={styles.heading}>Type</Text>
-            <Text style={styles.text}>{GetProductType(product.ingredientType)}</Text>
+            <Text style={styles.text}>{product.ingredientType}</Text>
 
             <Text style={styles.heading}>Kwantiteit</Text>
-            <Text style={styles.text}>{product.amount}</Text>
+            <Text style={styles.text}>{product.amount} {product.ingredientType}</Text>
 
             <Text style={styles.heading}>Minimum kwantiteit</Text>
-            {/*<Text style={styles.text}>{product.minimumQuantity}</Text>*/}
+            <Text style={styles.text}>{product.smallestAmount} {(product.smallestAmount !== 1 && product.ingredientType !== 'stuks') ? product.ingredientType : 'stuk'}</Text>
 
             <Text style={styles.heading}>Verpakking</Text>
-            {/*<Text style={styles.text}>{GetPackagingValue(product.packaging)}</Text>*/}
+            <Text style={styles.text}>{product.packaging.typeId}: {product.packaging.name}</Text>
 
             <Text style={styles.heading}>Prijs</Text>
             <Text style={styles.text}>€{product.price}</Text>
