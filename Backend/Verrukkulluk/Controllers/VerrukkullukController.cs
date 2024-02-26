@@ -9,6 +9,10 @@ using Verrukkulluk.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Verrukkulluk.Data;
 using Verrukkulluk.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Verrukkulluk;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Verrukkulluk.Controllers
 {
@@ -23,7 +27,9 @@ namespace Verrukkulluk.Controllers
         private IShopListModel ShopListModel;
         private IServicer Servicer;
         private ISessionManager SessionManager;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager)
+
+        private readonly VerrukkullukContext _context;
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager, VerrukkullukContext context)
         {
             VerModel = verModel;
             HomeModel = homeModel;
@@ -34,6 +40,7 @@ namespace Verrukkulluk.Controllers
             ShopListModel = shopListModel;
             Servicer = servicer;
             SessionManager = sessionManager;
+            _context = context;
         }
         public IActionResult Index()
         {
@@ -80,25 +87,37 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReceptMaken()
+        public async Task<IActionResult> ReceptMaken()
         {
             ViewData["Title"] = "Recept Maken";
-            AddRecipe model = new AddRecipe();
+            AddRecipeViewModel model = new AddRecipeViewModel();
             model.Instructions = new string[] { "" };
+            await FillKitchenTypeAsync(model);
             FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
         [HttpPost]
-        public IActionResult ReceptMaken(AddRecipe recipe)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReceptMaken(AddRecipeViewModel recipe)
         {
-                System.Console.WriteLine(recipe.Instructions.Length);
+            if (recipe.DishPhoto != null){
+                if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
+                    // Store the photo
+                    recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
+                }
+            }
+            else if (recipe.ImageObjId > 0)
+            {
+                // Uploaded in previous attempt
+                ModelState.Remove(nameof(AddRecipe.DishPhoto));
+            }
+
             if (ModelState.IsValid)
             {
-                //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
-                // recipe.DishPhoto apart opslaan en id toevoegen aan recipe
-                //!Nog aanpassen! Nu tijdelijk:
-                return RedirectToAction("Index");
+                recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
+                Servicer.SaveRecipe(recipe);
+                return RedirectToAction("Recept", new { Id = recipe.Id });
             }
             FillModel(recipe);
             return View("CreateRecipe", recipe);
@@ -229,6 +248,11 @@ namespace Verrukkulluk.Controllers
             {
                 return Json(new { success = false, message = "Recipe not found" });
             }
+        }
+
+        private async Task FillKitchenTypeAsync(AddRecipeViewModel model)
+        {
+            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem {Value = kt.Id.ToString(), Text = kt.Name}).ToListAsync());
         }
     }
 }

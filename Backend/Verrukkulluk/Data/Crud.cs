@@ -272,11 +272,15 @@ namespace Verrukkulluk.Data
                 Context.SaveChanges();
             }
         }
-        public void CreateProfilePictureAndUpdateUser(ImageObj image, User user)
+        public void CreatePicture(ImageObj image)
         {
             Context.ImageObjs.Add(image);
             Context.SaveChanges();
-            user.ImageObjId = image.Id;
+        }
+
+        public void CreateRecipe(Recipe newRecipe)
+        {
+            Context.Recipes.Add(newRecipe);
             Context.SaveChanges();
         }
     }

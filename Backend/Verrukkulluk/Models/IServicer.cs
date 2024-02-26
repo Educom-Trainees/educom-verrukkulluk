@@ -20,6 +20,7 @@ namespace Verrukkulluk.Models
         Event GetEventById(int Id);
         List<Event> GetAllEvents();
         void UpdateAverageRating(int recipeId);
-        void SaveProfilePicture(ImageObj image, User user);
+        Task<int> SavePictureAsync(IFormFile picture);
+        void SaveRecipe(Recipe recipe);
     }
 }

@@ -179,10 +179,20 @@ namespace Verrukkulluk.Models
         {
             Crud.UpdateAverageRating(recipeId);
         }
-        public void SaveProfilePicture(ImageObj image, User user)
+        public async Task<int> SavePictureAsync(IFormFile picture)
         {
-            Crud.CreateProfilePictureAndUpdateUser(image, user);
+            using (var memoryStream = new MemoryStream())
+            {
+                await picture.CopyToAsync(memoryStream);
+                var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(picture.FileName));
+                Crud.CreatePicture(imageObj);
+                return imageObj.Id;
+            }
+        }
 
+        public void SaveRecipe(Recipe recipe)
+        {
+            Crud.CreateRecipe(recipe);
         }
     }
 }

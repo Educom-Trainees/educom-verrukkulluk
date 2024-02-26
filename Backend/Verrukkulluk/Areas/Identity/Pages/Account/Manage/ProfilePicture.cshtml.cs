@@ -60,27 +60,20 @@ public class ProfilePictureModel : PageModel
 
         if (Input.ProfilePicture != null)
         {
-            using (var stream = Input.ProfilePicture.OpenReadStream())
+            if (user.ImageObjId != 0) {
+               // TODO _servicer.DeletePicture(user.ImageObjId);
+            }
+            user.ImageObjId = await _servicer.SavePictureAsync(Input.ProfilePicture);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await stream.CopyToAsync(memoryStream);
-                    var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(Input.ProfilePicture.FileName));
-                    _servicer.SaveProfilePicture(imageObj, user);
-
-                    user.ImageObjId = imageObj.Id;
-
-                    var result = await _userManager.UpdateAsync(user);
-
-                    if (result.Succeeded)
-                    {
-                        StatusMessage = "Uw profielfoto is bijgewerkt!";
-                    }
-                    else
-                    {
-                        StatusMessage = "Er ging iets fout tijdens het bijwerken.";
-                    }
-                }
+                StatusMessage = "Uw profielfoto is bijgewerkt!";
+            }
+            else
+            {
+                StatusMessage = "Er ging iets fout tijdens het bijwerken.";
             }
             return RedirectToPage();
         }
