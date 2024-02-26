@@ -79,11 +79,11 @@ const ProductList = ({ navigation }) => {
 
     const updateSearch = (search) => {
         setSearchText(search);
-    }
+    };
 
     const filteredProducts = products.filter((product) => {
         return product.name.toLowerCase().includes(searchText.toLowerCase());
-    })
+    });
     
     return (
         <SafeAreaView style={styles.container}>

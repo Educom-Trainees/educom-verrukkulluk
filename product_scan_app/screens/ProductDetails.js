@@ -50,7 +50,7 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.text}>{product.smallestAmount} {(product.smallestAmount !== 1 && product.ingredientType !== 'stuks') ? product.ingredientType : 'stuk'}</Text>
 
             <Text style={styles.heading}>Verpakking</Text>
-            <Text style={styles.text}>{product.packaging.typeId}: {product.packaging.name}</Text>
+            <Text style={styles.text}>{product.packaging.name}</Text>
 
             <Text style={styles.heading}>Prijs</Text>
             <Text style={styles.text}>€{product.price}</Text>
