@@ -46,6 +46,7 @@ namespace Verrukkulluk.Controllers
         {
             HomeModel.Recipes = Servicer.GetAllRecipes();
             HomeModel.Events = Servicer.GetAllEvents();
+            System.Console.WriteLine(HomeModel.Recipes.Count);
             return View(HomeModel);
         }
         public IActionResult Recept(int Id = 1)
@@ -90,7 +91,7 @@ namespace Verrukkulluk.Controllers
         public async Task<IActionResult> ReceptMaken()
         {
             ViewData["Title"] = "Recept Maken";
-            AddRecipeViewModel model = new AddRecipeViewModel();
+            AddRecipe model = new AddRecipe();
             model.Instructions = new string[] { "" };
             await FillKitchenTypeAsync(model);
             FillModel(model);
@@ -99,7 +100,7 @@ namespace Verrukkulluk.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReceptMaken(AddRecipeViewModel recipe)
+        public async Task<IActionResult> ReceptMaken([FromForm]AddRecipe recipe)
         {
             if (recipe.DishPhoto != null){
                 if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
@@ -250,7 +251,7 @@ namespace Verrukkulluk.Controllers
             }
         }
 
-        private async Task FillKitchenTypeAsync(AddRecipeViewModel model)
+        private async Task FillKitchenTypeAsync(AddRecipe model)
         {
             model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem {Value = kt.Id.ToString(), Text = kt.Name}).ToListAsync());
         }

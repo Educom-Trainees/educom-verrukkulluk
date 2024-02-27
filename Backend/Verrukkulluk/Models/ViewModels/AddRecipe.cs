@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client;
 using Verrukkulluk.Models;
 
@@ -12,6 +13,7 @@ namespace Verrukkulluk.ViewModels
         public List<Product>? Products { get; set; }
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]
+        [DataType(DataType.Upload)]
         public IFormFile DishPhoto { get; set; } 
         public List<AllergyGroup> Allergygroups { get{
             return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy)
@@ -25,6 +27,9 @@ namespace Verrukkulluk.ViewModels
                                             }
                                         ).ToList() ?? new List<AllergyGroup>();
         }}   
+        public List<SelectListItem> MyKitchenTypeOptions { get; set; } = new List<SelectListItem>() { 
+            new SelectListItem() { Text = "- Type keuken -", Value = "0", Selected = true, Disabled = true } 
+        };
         public AddRecipe() {
             NumberOfPeople = 4;
         }

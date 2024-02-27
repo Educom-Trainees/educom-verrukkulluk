@@ -1,5 +1,5 @@
 ﻿@using Verrukkulluk.ViewModels
-@model Verrukkulluk.ViewModels.AddRecipeViewModel
+@model Verrukkulluk.ViewModels.AddRecipe
 @{
     ViewData["Title"] = "Recept Maken";
 }
@@ -81,8 +81,8 @@
                         </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="control-label visually-hidden"></label>
-                            <select asp-for="KitchenType" asp-items="Model.MyKitchenTypeOptions"class="form-control form-control-smaller" size="1"></select>
-                            <span asp-validation-for="KitchenType" class="text-danger"></span>
+                            <select asp-for="KitchenType" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
+                            <span asp-validation-for="KitchenType" class="text-danger"></span>                     
                         </div>
                         <!--Add Picture-->
                        <div class="form mt-4">
