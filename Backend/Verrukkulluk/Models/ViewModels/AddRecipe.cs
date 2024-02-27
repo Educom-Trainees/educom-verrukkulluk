@@ -8,8 +8,8 @@ namespace Verrukkulluk.ViewModels
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class AddRecipe : Recipe 
     {      
-        [Range(1, 20, ErrorMessage = "Dit gerecht is alleen voor 1 tot 20 personen.")]
-        public int NumberOfPeople { get; set; }
+        public bool DeleteImage { get; set; }
+
         public List<Product>? Products { get; set; }
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]

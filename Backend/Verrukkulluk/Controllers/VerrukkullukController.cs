@@ -73,9 +73,10 @@ namespace Verrukkulluk.Controllers
             FavoritesModel.Recipes = Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
-        private void FillModel(AddRecipe model)
+        private async Task FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
+            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
 
             if (model.AddedIngredients != null) {
                 foreach(Ingredient ingredient in model.AddedIngredients) {
@@ -93,8 +94,7 @@ namespace Verrukkulluk.Controllers
             ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
             model.Instructions = new string[] { "" };
-            await FillKitchenTypeAsync(model);
-            FillModel(model);
+            await FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
@@ -102,7 +102,11 @@ namespace Verrukkulluk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReceptMaken([FromForm]AddRecipe recipe)
         {
-            if (recipe.DishPhoto != null){
+            if (recipe.ImageObjId > 0 && recipe.DeleteImage) {
+                // TODO Servicer.DeletePicture(recipe.ImageObjId);
+                recipe.ImageObjId = 0;
+            }
+            if (recipe.DishPhoto != null) {
                 if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
                     // Store the photo
                     recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
@@ -120,7 +124,7 @@ namespace Verrukkulluk.Controllers
                 Servicer.SaveRecipe(recipe);
                 return RedirectToAction("Recept", new { Id = recipe.Id });
             }
-            FillModel(recipe);
+            await FillModel(recipe);
             return View("CreateRecipe", recipe);
         }
 
@@ -249,11 +253,6 @@ namespace Verrukkulluk.Controllers
             {
                 return Json(new { success = false, message = "Recipe not found" });
             }
-        }
-
-        private async Task FillKitchenTypeAsync(AddRecipe model)
-        {
-            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem {Value = kt.Id.ToString(), Text = kt.Name}).ToListAsync());
         }
     }
 }

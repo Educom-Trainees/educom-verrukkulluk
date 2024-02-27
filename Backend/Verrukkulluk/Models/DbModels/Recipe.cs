@@ -24,7 +24,8 @@ namespace Verrukkulluk
         public int CreatorId { get; set; }
         public User Creator { get; set; }
         public int ImageObjId { get; set; }
-        public int NumberOfPeople { get; set; }
+        [Range(1, 20, ErrorMessage = "Dit gerecht is alleen voor 1 tot 20 personen.")]
+        public int NumberOfPeople { get; set; } = 4;
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
 

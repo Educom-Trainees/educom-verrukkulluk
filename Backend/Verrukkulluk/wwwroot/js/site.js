@@ -262,11 +262,13 @@ function removeFile() {
     var fileLabel = document.getElementById('fileLabel');
     var img = document.getElementById('preview');
     var removeButton = document.getElementById('removeButton');
+    var deleteExistingImage = document.getElementById('DeleteImage');
 
     input.value = '';
     fileLabel.innerHTML = 'Geen afbeelding geselecteerd...';
     img.style.display = 'none';
     removeButton.style.display = 'none';
+    deleteExistingImage.value = 'true';
 }
 
 //Remember numberOfPersons, KitchenType and Photo in invalid CreateRecipe
