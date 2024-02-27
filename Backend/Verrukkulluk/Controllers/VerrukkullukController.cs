@@ -118,9 +118,30 @@ namespace Verrukkulluk.Controllers
                 ModelState.Remove(nameof(AddRecipe.DishPhoto));
             }
 
+            // Modelstate verwijderen voor de objecten
+            ModelState.Remove(nameof(AddRecipe.Creator));
+            ModelState.Remove(nameof(AddRecipe.KitchenType));
+            for (int i = 0; i < recipe.AddedIngredients.Length; i++)
+            {
+                string key = $"AddedIngredients[{i}].";
+                ModelState.Remove(key + "Product");
+                ModelState.Remove(key + "Recipe");
+            }
+
+            recipe.Creator = await VerModel.GetLoggedInUserAsync(User);
+            recipe.CreationDate = DateOnly.FromDateTime(DateTime.Now);
+
+
             if (ModelState.IsValid)
             {
-                recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
+                // bijbehorende ingredienten invullen
+                for (int i = 0; i < recipe.AddedIngredients.Length; i++)
+                {
+                    Ingredient ingredient = recipe.AddedIngredients[i];
+                    ingredient.Recipe = recipe;
+                    recipe.Ingredients.Add(ingredient);
+
+                }
                 Servicer.SaveRecipe(recipe);
                 return RedirectToAction("Recept", new { Id = recipe.Id });
             }

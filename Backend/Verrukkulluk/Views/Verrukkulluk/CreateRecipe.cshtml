@@ -55,11 +55,12 @@
                             <script>var ingredientCount = @count</script>
                             <div id="ingredients" class="mb-3">
                                 @for(int i=0; i < count; i++) {
-                                    Ingredient ingredient = Model.Ingredients?.ElementAt(i); 
+                                    Ingredient ingredient = Model.Ingredients!.ElementAt(i); 
                                 <div class="row">
                                     <label class="col-2">@ingredient.Name</label>
                                     <input type="number" class="col-2 formField" name="AddedIngredients[@i].Amount" value="@ingredient.Amount">
                                     <input type="hidden" name="AddedIngredients[@i].Id" value="@ingredient.Id">
+                                    <input type="hidden" name="AddedIngredients[@i].Name" value="@ingredient.Name">
                                     <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
                                     <div class="col-2">@ingredient.Product.IngredientType</div>
                                     <div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>
@@ -81,8 +82,8 @@
                         </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="control-label visually-hidden"></label>
-                            <select asp-for="KitchenType" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
-                            <span asp-validation-for="KitchenType" class="text-danger"></span>                     
+                            <select asp-for="KitchenTypeId" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
+                            <span asp-validation-for="KitchenTypeId" class="text-danger"></span>                     
                         </div>
                         <!--Add Picture-->
                        <div class="form mt-4">

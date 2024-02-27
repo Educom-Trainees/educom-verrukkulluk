@@ -14,6 +14,8 @@ namespace Verrukkulluk
         public string Title { get; set; }  
         [MaxLength(500)]       
         public string Description { get; set; }
+        public int KitchenTypeId { get; set; }
+        [ForeignKey(nameof(KitchenTypeId))]
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]

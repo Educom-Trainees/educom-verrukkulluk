@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Bcpg;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Verrukkulluk.Data;
 
 namespace Verrukkulluk.Models
@@ -34,6 +35,16 @@ namespace Verrukkulluk.Models
                 return SignInResult.Failed;
             }
             return await SignInManager.PasswordSignInAsync(theUser, input.Password, input.RememberMe, lockoutOnFailure: false);
+        }
+
+        public async Task<User> GetLoggedInUserAsync(ClaimsPrincipal sessionUser)
+        {
+            User? user = await UserManager.GetUserAsync(sessionUser);
+            if (user == null)
+            {
+                throw new ArgumentException("Unknown User");
+            }
+            return user;
         }
     }
 }
