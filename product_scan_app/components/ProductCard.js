@@ -1,12 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const images = {
-    witte_bol: require('../assets/images/witte_bol.jpg'),
-    hamburgers: require('../assets/images/hamburgers.png'),
-    augurken: require('../assets/images/augurken.jpg'),
-}
-
 const ProductCard = ({ product }) => {
     return (
         <View style={styles.card} key={product.id}>
