@@ -18,6 +18,7 @@ namespace Verrukkulluk.Data
         bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
         int? ReadUserRating(int recipeId, int userId);
         string? ReadUserComment(int recipeId, int userId);
+        List<RecipeRating> ReadRatingsByUserId(int userId);
         void UpdateAverageRating(int recipeId);
         void CreatePicture(ImageObj image);
         void CreateRecipe(Recipe newRecipe);

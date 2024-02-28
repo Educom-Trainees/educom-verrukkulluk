@@ -249,6 +249,11 @@ namespace Verrukkulluk.Data
             return comment?.Comment;
         }
 
+        public List<RecipeRating> ReadRatingsByUserId(int userId) {
+            return Context.RecipeRatings.Where(c => c.UserId == userId).ToList();
+        }
+
+
         public double? GetAverageRating(int recipeId)
         {
             var ratings = Context.RecipeRatings.Where(r => r.RecipeId == recipeId).Select(r => r.RatingValue);
