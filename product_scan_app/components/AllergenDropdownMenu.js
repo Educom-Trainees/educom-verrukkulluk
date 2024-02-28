@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState } from "react";
 import { StyleSheet, View, Text, Modal, TouchableOpacity, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
-const AllergenDropdownMenu = () => {
+const AllergenDropdownMenu = ({ onSelect }) => {
     
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const options = [
         { label: 'geen', value: 'geen', image: require('../assets/images/allergens/geen.png') },
@@ -28,32 +29,66 @@ const AllergenDropdownMenu = () => {
     ];
 
     const handleOptionPress = (option) => {
-        setSelectedOption(option);
-        setModalVisible(false);
+        const isFirstOption = option. value === options[0].value;
+        const isSelected = selectedOptions.some((selectedOption) => selectedOption.value === option.value);
+
+        if (isSelected) {
+            const updatedOptions = selectedOptions.filter((selectedOption) => selectedOption.value !== option.value);
+            setSelectedOptions(updatedOptions);
+        } else {
+            let updatedOptions;
+
+            //If 'geen' is selected, all other options are deselected. If anything else is selected, 'geen' is deselected.
+            if (isFirstOption) {
+                updatedOptions = [option];
+            } else {
+                updatedOptions = selectedOptions.filter((selectedOption) => selectedOption.value !== options[0].value);
+                updatedOptions.push(option);
+            }
+            setSelectedOptions(updatedOptions);
+        }
     };
 
+    const handleSave = () => {
+        setModalVisible(false);
+        if (selectedOptions.length > 0) {
+            onSelect(selectedOptions);
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownButton}>
-                {selectedOption ? (
-                <Image source={selectedOption.image} style={styles.optionImage} />
-                ) : (
-                <Text>Selecteer een allergeen</Text>
-                )}
+            <Text style={styles.heading}>Aanwezige allergenen</Text>
+            <ScrollView
+                horizontal={true}
+                style={styles.selectedoptionsrow}
+                showsHorizontalScrollIndicator={false}>
+                    {selectedOptions.length > 0 && selectedOptions.map((option) => (
+                        <Image key={option.value} source={option.image} style={styles.optionimagesmall} />
+                    ))}
+            </ScrollView>
+            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.alterbutton}>
+                <Text style={[styles.buttontext]}>Voeg toe/Wijzigen</Text>
             </TouchableOpacity>
         
             <Modal transparent={true} visible={modalVisible} animationType="slide">
-                <View style={styles.modalContainer}>
-                    {options.map((option) => (
-                        <TouchableOpacity
-                        key={option.value}
-                        onPress={() => handleOptionPress(option)}
-                        style={styles.modalOption}
-                        >
-                        <Image source={option.image} style={styles.optionImage} />
-                        </TouchableOpacity>
-                    ))}
+                <View style={styles.modalcontainer}>
+                    <ScrollView contentContainerStyle={styles.scrollview} style={styles.scrollviewwide}>
+                        {options.map((option) => (
+                            <TouchableOpacity
+                            key={option.value}
+                            onPress={() => handleOptionPress(option)}
+                            style={[
+                                styles.modaloption, 
+                                selectedOptions.some((selectedOption) => selectedOption.value === option.value) && styles.selectedoption]}
+                            >
+                                <Image source={option.image} style={styles.optionimage} />
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                    <TouchableOpacity onPress={handleSave} style={styles.savebutton}>
+                        <Text style={styles.buttontext}>Opslaan</Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
         </View>
@@ -63,6 +98,30 @@ const AllergenDropdownMenu = () => {
 export default AllergenDropdownMenu;
 
 const styles = StyleSheet.create({
+    addallergenbutton: {
+        backgroundColor: '#ffffff',
+        fontSize: 20,
+        fontWeight: 'bold',
+        width: 30,
+        height: 30,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        borderRadius: 15,
+        backgroundColor: '#95b82d',
+    },
+    alterbutton: {
+        alignSelf: 'center',
+        backgroundColor: '#95b82d',
+        padding: 10,
+        borderRadius: 5,
+        width: '40%',
+    },
+    buttontext: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
     container: {
         flex: 1,
         alignItems: 'center',
@@ -73,21 +132,53 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
     },
-    modalContainer: {
+    heading: {
+        alignSelf: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    modalcontainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff0d6',
     },
-    modalOption: {
+    modaloption: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
         borderBottomWidth: 1,
-        borderColor: '#ddd',
+        borderColor: '#fff0d6',
+        opacity: 0.2,
     },
-    optionImage: {
+    optionimage: {
         width: 100,
         height: 100,
+    },
+    optionimagesmall: {
+        width: 75,
+        height: 75,
+    },
+    savebutton: {
+        alignSelf: 'center',
+        backgroundColor: '#95b82d',
+        padding: 10,
+        borderRadius: 5,
+        marginVertical: 20,
+        width: '80%',
+    },
+    scrollview: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    scrollviewwide: {
+        width: '100%',
+    },
+    selectedoption: {
+        opacity: 1,
+    },
+    selectedoptionsrow: {
+        flexDirection: 'row',
+        marginVertical: 10,
     },
 });

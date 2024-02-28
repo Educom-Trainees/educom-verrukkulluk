@@ -10,7 +10,7 @@ const images = {
 const ProductCard = ({ product }) => {
     return (
         <View style={styles.card} key={product.id}>
-            <View style={styles.cardContent}>
+            <View style={styles.cardcontent}>
                 <Text style={styles.title}>{product.name}</Text>
                 <Image source={{ uri: product.image }} style={styles.image} resizeMode="contain" />
             </View>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 10,
     },
-    cardContent: {
+    cardcontent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

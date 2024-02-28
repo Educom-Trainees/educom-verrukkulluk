@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { DrawerContentScrollView, createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import SearchProductScreen from './screens/SearchProduct';
 import AddProductScreen from './screens/AddProduct';
-import TestScreen from './screens/Test';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +25,6 @@ export default function App() {
       }}>
         <Drawer.Screen name="Overzicht producten" component={SearchProductScreen}/>          
         <Drawer.Screen name="Product toevoegen" component ={AddProductScreen}/>
-        <Drawer.Screen name="Test" component ={TestScreen}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );

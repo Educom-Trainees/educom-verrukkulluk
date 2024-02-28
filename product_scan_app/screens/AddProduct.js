@@ -9,6 +9,7 @@ const AddProductScreen = () => {
   const minQuantityRef = useRef(0);
   const [quantity, setQuantity] = useState(0);
   const [minQuantity, setMinQuantity] = useState(0);
+  const [selectedAllergens, setSelectedAllergens] = useState([]);
 
   const handleSave = () => {
     console.log('Product bewaard!');
@@ -34,23 +35,26 @@ const AddProductScreen = () => {
     };
   };
 
+  const handleAllergenSelect = (selectedOptions) => {
+    setSelectedAllergens(selectedOptions);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView} showVerticalScrollIndicator={false}>
-        <Text style={[styles.heading, styles.extraMarginTop]}>Titel</Text>
+      <ScrollView contentContainerStyle={styles.scrollview} showVerticalScrollIndicator={false}>
+        <Text style={[styles.heading, styles.extramargintop]}>Titel</Text>
         <TextInput style={styles.input} />
 
         <Text style={styles.heading}>Beschrijving</Text>
-        <TextInput style={[styles.input, styles.multilineText]} multiline/>
+        <TextInput style={[styles.input, styles.multilinetext]} multiline/>
 
         <Text style={styles.heading}>Type</Text>
         <TextInput style={styles.input} />
 
         <Text style={styles.heading}>Kwantiteit</Text>
-        <View style={styles.quantityContainer}>
+        <View style={styles.quantitycontainer}>
           <TouchableOpacity onPress={handleQuantityDecrement}>
-            <Text style={[styles.quantityButton, styles.redquantitybutton]}>-</Text>
+            <Text style={[styles.quantitybutton, styles.redquantitybutton]}>-</Text>
           </TouchableOpacity>
           <TextInput 
             style={[styles.input, styles.quantityinput]}
@@ -66,14 +70,14 @@ const AddProductScreen = () => {
             keyboardType='decimal-pad'
           />
           <TouchableOpacity onPress={handleQuantityIncrement}>
-            <Text style={[styles.quantityButton, styles.greenquantitybutton]}>+</Text>
+            <Text style={[styles.quantitybutton, styles.greenquantitybutton]}>+</Text>
           </TouchableOpacity>
         </View>
 
         <Text style={styles.heading}>Minimum kwantiteit</Text>
-        <View style={styles.quantityContainer}>
+        <View style={styles.quantitycontainer}>
           <TouchableOpacity onPress={handleMinQuantityDecrement}>
-            <Text style={[styles.quantityButton, styles.redquantitybutton]}>-</Text>
+            <Text style={[styles.quantitybutton, styles.redquantitybutton]}>-</Text>
           </TouchableOpacity>
           <TextInput 
             style={[styles.input, styles.quantityinput]}
@@ -89,7 +93,7 @@ const AddProductScreen = () => {
             keyboardType='decimal-pad'
           />
           <TouchableOpacity onPress={handleMinQuantityIncrement}>
-            <Text style={[styles.quantityButton, styles.greenquantitybutton]}>+</Text>
+            <Text style={[styles.quantitybutton, styles.greenquantitybutton]}>+</Text>
           </TouchableOpacity>
         </View>
 
@@ -102,11 +106,10 @@ const AddProductScreen = () => {
           keyboardType='numeric'
         />
 
-        <Text style={styles.heading}>Allergen</Text>
-        <AllergenDropdownMenu />
+        <AllergenDropdownMenu onSelect={handleAllergenSelect} />
 
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.saveButtonText}>Opslaan</Text>
+        <TouchableOpacity style={styles.savebutton} onPress={handleSave}>
+          <Text style={styles.savebuttontext}>Opslaan</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -121,12 +124,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff0d6',
       paddingTop: StatusBar.currentHeight,
     },
-    scrollView: {
+    scrollview: {
       backgroundColor: '#fff0d6',
       paddingTop: 15,
       paddingBottom: 60,
     },
-    extraMarginTop: {
+    extramargintop: {
       marginTop: 15,
     },
     heading: {
@@ -141,17 +144,17 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       backgroundColor: '#ffffff',
     },
-    multilineText: {
+    multilinetext: {
       minHeight: 80,
       textAlignVertical: "top",
     },
-    quantityContainer: {
+    quantitycontainer: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
       paddingHorizontal: 10,
     },
-    quantityButton: {
+    quantitybutton: {
       backgroundColor: '#ffffff',
       fontSize: 20,
       fontWeight: 'bold',
@@ -172,15 +175,15 @@ const styles = StyleSheet.create({
     greenquantitybutton: {
       backgroundColor: '#95b82d',
     },
-    saveButton: {
+    savebutton: {
       alignSelf: 'center',
       backgroundColor: '#95b82d',
       padding: 10,
       borderRadius: 5,
-      marginTop: 20,
+      marginTop: 25,
       width: '80%',
     },
-    saveButtonText: {
+    savebuttontext: {
       color: 'white',
       textAlign: 'center',
       fontSize: 16,

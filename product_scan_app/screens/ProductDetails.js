@@ -5,12 +5,6 @@ import { GetPackagingValue } from '../constants/PackagingDict';
 import { GetProductType } from '../constants/ProductTypeDict';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const images = {
-    witte_bol: require('../assets/images/witte_bol.jpg'),
-    hamburgers: require('../assets/images/hamburgers.png'),
-    augurken: require('../assets/images/augurken.jpg'),
-}
-
 const ProductDetailsScreen = ({ route }) => {
     const { product } = route.params;
 
@@ -58,8 +52,8 @@ const ProductDetailsScreen = ({ route }) => {
             <Text style={styles.heading}>Allergenen</Text>
             {renderAllergens()}
 
-            {/*<TouchableOpacity style={styles.editButton} onPress={handleEdit}>
-                <Text style={styles.editButtonText}>Edit</Text>
+            {/*<TouchableOpacity style={styles.editbutton} onPress={handleEdit}>
+                <Text style={styles.editbuttontext}>Edit</Text>
             </TouchableOpacity>*/}
         </SafeAreaView>
     );
@@ -85,7 +79,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         borderRadius: 8,
     },
-    editButton: {
+    editbutton: {
         alignSelf: 'center',
         backgroundColor: '#95b82d',
         padding: 10,
@@ -93,7 +87,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
         width: '80%',
     },
-    editButtonText: {
+    editbuttontext: {
         color: 'white',
         textAlign: 'center',
         fontSize: 16,
