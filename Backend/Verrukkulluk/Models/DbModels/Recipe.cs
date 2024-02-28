@@ -18,6 +18,7 @@ namespace Verrukkulluk
         public string Description { get; set; }
         public int KitchenTypeId { get; set; }
         [ForeignKey(nameof(KitchenTypeId))]
+        [Required(ErrorMessage ="Type keuken is verplicht.")]
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
