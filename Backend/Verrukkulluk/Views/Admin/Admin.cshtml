@@ -27,6 +27,7 @@
                             <th>Voornaam</th>
                             <th>Woonplaats</th>
                             <th>Email</th>
+                            <th>Gebruiker Details</th>
                             <th class="text-center">Verwijder gebruiker</th>
                         </tr>
                     </thead>
@@ -37,6 +38,7 @@
                                 <td>@user.FirstName</td>
                                 <td>@user.CityOfResidence</td>
                                 <td>@user.Email</td>
+                                <td><a class="black" asp-action="Details" asp-controller="Admin" asp-route-id="@user.Id">Details</a></td>
                                 <td class="text-center">
                                    @{
                                         var userRoles = await UserManager.GetRolesAsync(user);

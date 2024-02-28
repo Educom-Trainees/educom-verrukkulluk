@@ -1,0 +1,52 @@
+﻿@model Verrukkulluk.Models.ViewModels.UserDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container col-sm-24 col-md-12 col-xl-8">
+    <div class="m-3">
+        <div class="card shadow">
+            <div class="card-header text-center">
+                <h1 class="darker-green" font-family="heading">User Details</h1>
+            </div>
+            <a class="px-2 text-black" asp-action="Index" asp-controller="Admin">Back to Overview</a>
+
+            <div class="display-block">
+                <div class="container text-start">
+                    <div class="d-inline-flex">
+                        <div class="px-2">
+                            <h3 class="darker-green">Account Info</h3>
+                            <p>ID: @Model.User.Id</p>
+                            <p>Email: @Model.User.Email</p>
+                            <p>First Name: @Model.User.FirstName</p>
+                            <p>Phone: @Model.User.PhoneNumber</p>
+                            <p>City: @Model.User.CityOfResidence</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container text-start">
+                    <div class="d-inline-flex">
+                        <div class="px-2">
+                            <h3 class="darker-green">Recipes</h3>
+                            @foreach(var recipe in Model.Recipes) {
+                                <a class="text-black" asp-action="Recipe" asp-controller="?" asp-route-id="@recipe.Id">@recipe.Title</a><br />
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="container text-start">
+                    <div class="d-inline-flex">
+                        <div class="px-2">
+                            <h3 class="darker-green">Comments</h3>
+                            @foreach (var comment in Model.RecipeRatings) {
+                                <p>Comment from: <b>@comment.Recipe.Title</b></p>
+                                <p>@comment.Comment</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

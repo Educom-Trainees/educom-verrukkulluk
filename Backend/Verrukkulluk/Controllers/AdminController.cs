@@ -3,6 +3,7 @@ using Verrukkulluk.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.ViewModels;
+using Verrukkulluk.Models.ViewModels;
 
 namespace Verrukkulluk.Controllers
 {
@@ -27,6 +28,19 @@ namespace Verrukkulluk.Controllers
             };
 
             return View("Admin", model);
+        }
+
+        public IActionResult Details(int id) {
+            User user = _userManager.Users.First(u => u.Id == id);
+            var recipes = _servicer.GetRecipesByUserId(id);
+            var comments = _servicer.GetRatingsByUserId(id);
+            //favorites to be implemented
+            var detailModel = new UserDetailsModel() {
+                User = user,
+                Recipes = recipes,
+                RecipeRatings = comments
+            };
+            return View(detailModel);
         }
 
         [HttpPost]
