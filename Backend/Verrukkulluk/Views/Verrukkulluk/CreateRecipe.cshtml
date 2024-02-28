@@ -100,10 +100,12 @@
                                     <button type="button" class="btn btn-outline-secondary btn-browse" onclick="document.getElementById('DishPhoto').click();">Bladeren</button>
                                 </div>
                                 <div class="custom-file">
-                                    <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.ImageObjId > 0 ? "Saved Image" : "Geen afbeelding geselecteerd...")</span>                                    
+                                    <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.ImageObjId > 0 ? "Opgeslagen afbeelding" : "Geen afbeelding geselecteerd...")</span>    
+                                </div>
+                                <div class="input-group-append">                                
                                     <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.ImageObjId > 0 ? "display: inline" : "display: none");" onclick="removeFile();">Verwijderen</button>
                                 </div>
-                                <div class="input-group-append">
+                                <div>
                                     <input name="ImageObjId" id="ImageObjId" type="hidden" value="@Model.ImageObjId" />
                                     <input name="DeleteImage" id="DeleteImage" type="hidden" value="false" />
                                     <img id="preview" src="@(Model.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.ImageObjId }) : "#")" 

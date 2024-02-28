@@ -14,6 +14,7 @@ namespace Verrukkulluk.ViewModels
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]
         [DataType(DataType.Upload)]
+        [Required(ErrorMessage ="Afbeelding is verplicht.")]
         public IFormFile DishPhoto { get; set; } 
         public List<AllergyGroup> Allergygroups { get{
             return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy)
@@ -31,7 +32,6 @@ namespace Verrukkulluk.ViewModels
             new SelectListItem() { Text = "- Type keuken -", Value = "0", Selected = true, Disabled = true } 
         };
         public AddRecipe() {
-            NumberOfPeople = 4;
         }
 
         public AddRecipe(string title, string description, string[] addedInstructionSteps, Ingredient[] addedIngredients, int numberOfPeople, KitchenType kitchenType, IFormFile dishPhoto, User creator)  
