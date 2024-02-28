@@ -46,6 +46,10 @@ namespace Verrukkulluk.Models
             }
         }
 
+        public List<RecipeInfo> GetRecipesByUserId(int userId) {
+                return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
+        }
+
         public List<RecipeInfo> GetUserFavorites()
         {
             if (HttpContextAccessor?.HttpContext?.User == null)
@@ -60,6 +64,10 @@ namespace Verrukkulluk.Models
             }
             return null;
         }
+
+        //public List<RecipeInfo> GetFavoritesByUserId(int userId) {
+            //return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
+        //}
 
         public List<Product> GetAllProducts()
         {
@@ -161,6 +169,10 @@ namespace Verrukkulluk.Models
                 }
             }
             return Crud.ReadUserRating(recipeId, parsedUserId);
+        }
+
+        public List<RecipeRating> GetRatingsByUserId(int userId) {
+            return Crud.ReadRatingsByUserId(userId);
         }
 
         public string? GetUserComment(int recipeId)
