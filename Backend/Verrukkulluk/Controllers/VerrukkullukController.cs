@@ -143,6 +143,8 @@ namespace Verrukkulluk.Controllers
                     recipe.Ingredients.Add(ingredient);
 
                 }
+                //remove last (empty instruction step)
+                recipe.Instructions = recipe.Instructions.Where(i => i != null).ToArray();
                 Servicer.SaveRecipe(recipe);
                 return RedirectToAction("Recept", new { Id = recipe.Id });
             }

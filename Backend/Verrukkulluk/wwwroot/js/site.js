@@ -272,9 +272,6 @@ function removeFile() {
     deleteExistingImage.value = 'true';
 }
 
-//Remember numberOfPersons, KitchenType and Photo in invalid CreateRecipe
-
-
 //Growing textarea with content in CreateRecipe
 function autoSize(element) {
     element.style.height = "auto";
@@ -472,14 +469,14 @@ function scrollToEvent(event, eventNumber) {
     agendaContainer.scrollTop = scrollToY;
 }
 
-
+//Instructions in Create Recipe
 function addInstructionStep(inputElement) {
     if (inputElement.getAttribute('added-textarea') !== 'true' && inputElement.value.trim() !== '') {
         const nextInstructionStepDiv = document.createElement('div');
         nextInstructionStepDiv.className = 'form-group form-floating instruction';
 
         const nextInstructionStep = document.createElement('textarea');
-        nextInstructionStep.className = 'form-control';
+        nextInstructionStep.className = 'form-control instructionSteps';
         nextInstructionStep.name = `Instructions[${document.getElementsByClassName('instruction').length}]`;
         nextInstructionStep.oninput = function () {
             autoSize(this);

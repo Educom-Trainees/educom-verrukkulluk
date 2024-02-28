@@ -42,7 +42,7 @@
                             @{int countSteps = Model.Instructions?.Count() ?? 0; }
                             @for (int step = 0; step < countSteps; step++) {
                             string instruction = Model.Instructions?.ElementAtOrDefault(step) ?? "";
-                            <div class="form-group form-floating mb-4 instructionStep">
+                            <div class="form-group form-floating instructionStep">
                                 <textarea class="form-control instruction" name="Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
                                 <label class="control-label">Stap @(step+1)</label>
                             </div>
