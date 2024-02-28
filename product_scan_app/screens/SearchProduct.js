@@ -34,7 +34,7 @@ const SearchProductScreen = () => {
 const ProductList = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const ip = 'http://192.168.80.1:45455';
+    const ip = 'http://10.0.101.66:45455';
 
     const getProducts = async () => {
         try {
@@ -93,6 +93,7 @@ const ProductList = ({ navigation }) => {
                 onChangeText={updateSearch}
                 value={searchText}
                 clearButtonMode='always'
+                multiline={true}
             />
             {filteredProducts.length !== 0 ? (                
                 <FlatList
