@@ -17,7 +17,7 @@
                         <h2>Voeg hier uw heerlijke recept toe</h2>
                         <hr />
                     </div>
-                    @using (Html.BeginForm("ReceptMaken", "Verrukkulluk", FormMethod.Post))
+                    @using (Html.BeginForm("ReceptMaken", "Verrukkulluk", FormMethod.Post, new { enctype="multipart/form-data"}))
                     {
                         @Html.AntiForgeryToken()
 
@@ -28,7 +28,7 @@
                         </div>
                         <div class="form-group mb-4 d-flex">
                             <label asp-for="NumberOfPeople">Dit gerecht is voor</label>
-                            <input type="number" class="form-control ms-2" name="NumberOfPersons" value="4" min="1" max="20" style="width: 60px;"/>
+                            <input type="number" class="form-control ms-2" asp-for="NumberOfPeople" min="1" max="20" style="width: 60px;" />
                             <label class="ms-2">personen.</label>
                             <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
                         </div>
@@ -55,11 +55,12 @@
                             <script>var ingredientCount = @count</script>
                             <div id="ingredients" class="mb-3">
                                 @for(int i=0; i < count; i++) {
-                                    Ingredient ingredient = Model.Ingredients?.ElementAt(i); 
+                                    Ingredient ingredient = Model.Ingredients!.ElementAt(i); 
                                 <div class="row">
                                     <label class="col-2">@ingredient.Name</label>
                                     <input type="number" class="col-2 formField" name="AddedIngredients[@i].Amount" value="@ingredient.Amount">
                                     <input type="hidden" name="AddedIngredients[@i].Id" value="@ingredient.Id">
+                                    <input type="hidden" name="AddedIngredients[@i].Name" value="@ingredient.Name">
                                     <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
                                     <div class="col-2">@ingredient.Product.IngredientType</div>
                                     <div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>
@@ -70,7 +71,7 @@
                                 <div class="d-flex">
                                     <input type="text" list="productsList" class="form-control form-control-smaller" id="newProduct">
                                     <button class="btn btn-addProduct" id="addProduct">Voeg toe</button>
-                                    <span id="newProductErr" class="text-danger"></span>
+                                    <span id="newProductErr" class="text-danger ms-3"></span>
                                     <datalist id="productsList">
                                         @foreach(Product product in Model.Products ?? new List<Product>()) {
                                             <option value="@product.Name" data-product-id="@product.Id"></option>
@@ -80,23 +81,9 @@
                             </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label asp-for="KitchenType" class="visually-hidden"></label>
-                            <select asp-for="KitchenType" class="form-control form-control-smaller" size="1">
-                                <option value="">Type keuken</option>
-                                <option value="Aziatisch">Aziatisch</option>
-                                <option value="Amerikaans">Amerikaans</option>
-                                <option value="Turks">Turks</option>
-                                <option value="Frans">Frans</option>
-                                <option value="Grieks">Grieks</option>
-                                <option value="Hollands">Hollands</option>
-                                <option value="Italiaans">Italiaans</option>
-                                <option value="Mexicaans">Mexicaans</option>
-                                <option value="Indisch">Indisch</option>
-                                <option value="Spaans">Spaans</option>
-                                <option value="Marokkaans">Marokkaans</option>
-                                <option value="Overig">Overig</option>
-                            </select>
-                            <span asp-validation-for="KitchenType" class="text-danger"></span>
+                            <label asp-for="KitchenType" class="control-label visually-hidden"></label>
+                            <select asp-for="KitchenTypeId" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
+                            <span asp-validation-for="KitchenTypeId" class="text-danger"></span>                     
                         </div>
                         <!--Add Picture-->
                        <div class="form mt-4">
@@ -113,13 +100,18 @@
                                     <button type="button" class="btn btn-outline-secondary btn-browse" onclick="document.getElementById('DishPhoto').click();">Bladeren</button>
                                 </div>
                                 <div class="custom-file">
-                                    <span class="custom-file-label form-control file-label" id="fileLabel">Geen afbeelding geselecteerd...</span>
+                                    <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.ImageObjId > 0 ? "Opgeslagen afbeelding" : "Geen afbeelding geselecteerd...")</span>    
                                 </div>
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="display: none;" onclick="removeFile();">Verwijderen</button>
+                                <div class="input-group-append">                                
+                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.ImageObjId > 0 ? "display: inline" : "display: none");" onclick="removeFile();">Verwijderen</button>
+                                </div>
+                                <div>
+                                    <input name="ImageObjId" id="ImageObjId" type="hidden" value="@Model.ImageObjId" />
+                                    <input name="DeleteImage" id="DeleteImage" type="hidden" value="false" />
+                                    <img id="preview" src="@(Model.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.ImageObjId }) : "#")" 
+                                            alt="Voorbeeldafbeelding" style="@(Model.ImageObjId > 0 ? "display: block" : "display: none"); max-width: 100%; margin-top: 10px;" />
                                 </div>
                             </div>
-                            <img id="preview" src="#" alt="Voorbeeldafbeelding" style="display: none; max-width: 100%; margin-top: 10px;" />
                         </div>
                         <div class="mt-4">
                             Allergenen in de gerecht:

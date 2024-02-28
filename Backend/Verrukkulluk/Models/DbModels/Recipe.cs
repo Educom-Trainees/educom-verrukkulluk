@@ -11,12 +11,18 @@ namespace Verrukkulluk
     {
         public int Id { get; set; }
         [MaxLength(50)]
+        [Required(ErrorMessage ="Titel is verplicht.")]
         public string Title { get; set; }  
         [MaxLength(500)]       
+        [Required(ErrorMessage ="Beschrijving is verplicht.")]
         public string Description { get; set; }
+        public int KitchenTypeId { get; set; }
+        [ForeignKey(nameof(KitchenTypeId))]
+        [Required(ErrorMessage ="Type keuken is verplicht.")]
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
+        [Required(ErrorMessage ="Beschrijf tenminste stap 1.")]
         public string[] Instructions { get; set; }
         virtual public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
         public double AverageRating { get; set; }
@@ -24,7 +30,8 @@ namespace Verrukkulluk
         public int CreatorId { get; set; }
         public User Creator { get; set; }
         public int ImageObjId { get; set; }
-        public int NumberOfPeople { get; set; }
+        [Range(1, 20, ErrorMessage = "Kies een aantal van 1 tot 20 personen.")]
+        public int NumberOfPeople { get; set; } = 4;
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
 

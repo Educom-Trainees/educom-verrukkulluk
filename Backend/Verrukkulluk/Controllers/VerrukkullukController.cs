@@ -9,6 +9,10 @@ using Verrukkulluk.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Verrukkulluk.Data;
 using Verrukkulluk.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Verrukkulluk;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Verrukkulluk.Controllers
 {
@@ -23,7 +27,9 @@ namespace Verrukkulluk.Controllers
         private IShopListModel ShopListModel;
         private IServicer Servicer;
         private ISessionManager SessionManager;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager)
+
+        private readonly VerrukkullukContext _context;
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager, VerrukkullukContext context)
         {
             VerModel = verModel;
             HomeModel = homeModel;
@@ -34,11 +40,13 @@ namespace Verrukkulluk.Controllers
             ShopListModel = shopListModel;
             Servicer = servicer;
             SessionManager = sessionManager;
+            _context = context;
         }
         public IActionResult Index()
         {
             HomeModel.Recipes = Servicer.GetAllRecipes();
             HomeModel.Events = Servicer.GetAllEvents();
+            System.Console.WriteLine(HomeModel.Recipes.Count);
             return View(HomeModel);
         }
         public IActionResult Recept(int Id = 1)
@@ -65,9 +73,10 @@ namespace Verrukkulluk.Controllers
             FavoritesModel.Recipes = Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
-        private void FillModel(AddRecipe model)
+        private async Task FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
+            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
 
             if (model.AddedIngredients != null) {
                 foreach(Ingredient ingredient in model.AddedIngredients) {
@@ -80,27 +89,64 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReceptMaken()
+        public async Task<IActionResult> ReceptMaken()
         {
             ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
             model.Instructions = new string[] { "" };
-            FillModel(model);
+            await FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
         [HttpPost]
-        public IActionResult ReceptMaken(AddRecipe recipe)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReceptMaken([FromForm]AddRecipe recipe)
         {
-                System.Console.WriteLine(recipe.Instructions.Length);
+            if (recipe.ImageObjId > 0 && recipe.DeleteImage) {
+                // TODO Servicer.DeletePicture(recipe.ImageObjId);
+                recipe.ImageObjId = 0;
+            }
+            if (recipe.DishPhoto != null) {
+                if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
+                    // Store the photo
+                    recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
+                }
+            }
+            else if (recipe.ImageObjId > 0)
+            {
+                // Uploaded in previous attempt
+                ModelState.Remove(nameof(AddRecipe.DishPhoto));
+            }
+
+            // Modelstate verwijderen voor de objecten
+            ModelState.Remove(nameof(AddRecipe.Creator));
+            ModelState.Remove(nameof(AddRecipe.KitchenType));
+            if (recipe.AddedIngredients?.Length > 0 ) {
+                for (int i = 0; i < recipe.AddedIngredients.Length; i++)
+                {
+                    string key = $"AddedIngredients[{i}].";
+                    ModelState.Remove(key + "Product");
+                    ModelState.Remove(key + "Recipe");
+                }
+            }
+
+            recipe.Creator = await VerModel.GetLoggedInUserAsync(User);
+            recipe.CreationDate = DateOnly.FromDateTime(DateTime.Now);
+
             if (ModelState.IsValid)
             {
-                //Recept opslaan en weergeven van detailpagina met het toegevoegde recept
-                // recipe.DishPhoto apart opslaan en id toevoegen aan recipe
-                //!Nog aanpassen! Nu tijdelijk:
-                return RedirectToAction("Index");
+                // bijbehorende ingredienten invullen
+                for (int i = 0; i < recipe.AddedIngredients.Length; i++)
+                {
+                    Ingredient ingredient = recipe.AddedIngredients[i];
+                    ingredient.Recipe = recipe;
+                    recipe.Ingredients.Add(ingredient);
+
+                }
+                Servicer.SaveRecipe(recipe);
+                return RedirectToAction("Recept", new { Id = recipe.Id });
             }
-            FillModel(recipe);
+            await FillModel(recipe);
             return View("CreateRecipe", recipe);
         }
 

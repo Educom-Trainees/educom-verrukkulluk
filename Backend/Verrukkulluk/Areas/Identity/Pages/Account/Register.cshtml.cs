@@ -138,13 +138,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
 
                 var user = CreateUser();
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    await Input.ProfilePicture.CopyToAsync(memoryStream);
-                    var imageObj = new ImageObj(memoryStream.ToArray(), Path.GetExtension(Input.ProfilePicture.FileName));
-                    _servicer.SaveProfilePicture(imageObj, user);
-                    user.ImageObjId = imageObj.Id;
-                }
+                user.ImageObjId = await _servicer.SavePictureAsync(Input.ProfilePicture);
 
                 user.CityOfResidence = Input.CityOfResidence;
                 user.FirstName = Input.FirstName;
@@ -213,6 +207,7 @@ namespace Verrukkulluk.Areas.Identity.Pages.Account
             }
             return Page();
         }
+
 
         private User CreateUser()
         {

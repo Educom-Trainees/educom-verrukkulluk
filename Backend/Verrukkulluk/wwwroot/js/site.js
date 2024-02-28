@@ -169,6 +169,7 @@ function addIngredient(product) {
         '<label class="col-4">'+product.name+'</label>'+
         '<input type="number" class="col-2 formField" name="AddedIngredients['+ingredientCount+'].Amount" id="AddedIngredients_'+ingredientCount+'" value="">'+
         '<input type="hidden" name="AddedIngredients['+ingredientCount+'].Id" value="0">'+
+        '<input type="hidden" name="AddedIngredients['+ingredientCount+'].Name" value="' + product.name + '">' +
         '<input type="hidden" name="AddedIngredients['+ingredientCount+'].ProductId" value="'+product.id+'">'+
         '<div class="col-1">'+product.ingredientType+'</div>'+
         '<div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>'+
@@ -262,11 +263,13 @@ function removeFile() {
     var fileLabel = document.getElementById('fileLabel');
     var img = document.getElementById('preview');
     var removeButton = document.getElementById('removeButton');
+    var deleteExistingImage = document.getElementById('DeleteImage');
 
     input.value = '';
     fileLabel.innerHTML = 'Geen afbeelding geselecteerd...';
     img.style.display = 'none';
     removeButton.style.display = 'none';
+    deleteExistingImage.value = 'true';
 }
 
 //Remember numberOfPersons, KitchenType and Photo in invalid CreateRecipe
