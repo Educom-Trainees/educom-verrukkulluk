@@ -32,15 +32,46 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult Details(int id) {
             User user = _userManager.Users.First(u => u.Id == id);
-            var recipes = _servicer.GetRecipesByUserId(id);
-            var comments = _servicer.GetRatingsByUserId(id);
             //favorites to be implemented
             var detailModel = new UserDetailsModel() {
                 User = user,
-                Recipes = recipes,
-                RecipeRatings = comments
             };
+            FillUserDetails(id, detailModel);
             return View(detailModel);
+        }
+
+        private void FillUserDetails(int id, UserDetailsModel detailModel) {
+            detailModel.Recipes = _servicer.GetRecipesByUserId(id).ToArray();
+            detailModel.RecipeRatings = _servicer.GetRatingsByUserId(id).ToArray();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateUser(int id, UserDetailsModel model) {
+            User? user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null) {
+                return NotFound();
+            }
+            user.FirstName = model.User.FirstName;
+            user.PhoneNumber = model.User.PhoneNumber;
+            user.CityOfResidence = model.User.CityOfResidence;
+            user.Email = model.User.Email;
+            //user.PasswordHash = model.User.PasswordHash;
+            User? other = await _userManager.FindByEmailAsync(user?.Email ?? "");
+            if (other?.Id != id)
+            {
+                ModelState.AddModelError("User.Email", "Email already bound to other account");
+            }
+            ModelState.Remove(nameof(UserDetailsModel.Recipes));
+            ModelState.Remove(nameof(UserDetailsModel.RecipeRatings));
+            ModelState.Remove(nameof(UserDetailsModel.User) + "." + nameof(UserDetailsModel.User.FavouritesList));
+            ModelState.Remove(nameof(UserDetailsModel.User) + "." + nameof(UserDetailsModel.User.ShoppingList));
+            if (ModelState.IsValid) {
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Details", new { id = id });
+            }
+            FillUserDetails(id, model);
+            return View("Details", model);
         }
 
         [HttpPost]
@@ -52,6 +83,14 @@ namespace Verrukkulluk.Controllers
                 var result = _userManager.DeleteAsync(user).Result;
             }
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Recipe(int id) {
+            RecipeInfo r = _servicer.GetRecipeById(id);
+            if (r == null) {
+                return NotFound();
+            }
+            return View(r);
         }
 
         [HttpPost]

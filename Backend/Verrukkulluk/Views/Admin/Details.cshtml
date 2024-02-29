@@ -17,6 +17,32 @@
                     <div class="d-inline-flex">
                         <div class="px-2">
                             <h3 class="darker-green">Account Info</h3>
+                            <form asp-action="UpdateUser" asp-controller="Admin" asp-route-id="@Model.User.Id">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="User.Email" class="control-label"></label>
+                                    <input asp-for="User.Email" class="form-control" />
+                                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.FirstName" class="control-label"></label>
+                                    <input asp-for="User.FirstName" class="form-control" />
+                                    <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.PhoneNumber" class="control-label"></label>
+                                    <input asp-for="User.PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="User.CityOfResidence" class="control-label"></label>
+                                    <input asp-for="User.CityOfResidence" class="form-control" />
+                                    <span asp-validation-for="User.CityOfResidence" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Edit" class="btn btn-primary" />
+                                </div>
+                            </form>
                             <p>ID: @Model.User.Id</p>
                             <p>Email: @Model.User.Email</p>
                             <p>First Name: @Model.User.FirstName</p>
@@ -29,8 +55,10 @@
                     <div class="d-inline-flex">
                         <div class="px-2">
                             <h3 class="darker-green">Recipes</h3>
-                            @foreach(var recipe in Model.Recipes) {
-                                <a class="text-black" asp-action="Recipe" asp-controller="?" asp-route-id="@recipe.Id">@recipe.Title</a><br />
+                            @for(int i =0; i < Model.Recipes.Length; i++) {
+                                Recipe recipe = Model.Recipes[i];
+                                <a class="text-black" asp-action="Recipe" asp-controller="Admin" asp-route-id="@recipe.Id">@recipe.Title</a><br />
+                                <input type="text" name="Recipes[@i].Title" value="@recipe.Title" />
                             }
                         </div>
                     </div>
