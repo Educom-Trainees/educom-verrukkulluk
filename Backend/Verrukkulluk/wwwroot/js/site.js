@@ -208,7 +208,7 @@ function showNoAllergies() {
 
 //Remove ingredient with trash icon
 function removeIngredient(element) {
-    const productId = element.parentElement.childNodes[3].value;
+    const productId = element.parentElement.childNodes[4].value;
     collectProduct(productId);
     $(element).closest('.row').remove(); 
 }
@@ -504,9 +504,10 @@ function rateRecipe(ratingValue, comment) {
         type: 'POST',
         url: '/Verrukkulluk/RateRecipe',
         data: { recipeId: $('#recipeId').val(), ratingValue: ratingValue, comment: comment },
-        success: function (response) {
-            if (response.success) {
+        success: function (rating) {
+            if (rating !== null) {
                 updateAverageRating($('#recipeId').val());
+                addOrUpdateCommentView(rating);
                 $('#ratingMessage').text('Bedankt voor uw feedback!');
             } else {
                 $('#ratingMessage').text('Er ging iets mis, probeer opnieuw.');
@@ -516,6 +517,18 @@ function rateRecipe(ratingValue, comment) {
             $('#ratingMessage').text('An error occurred while submitting rating.');
         }
     });
+}
+function addOrUpdateCommentView(rating) {
+    var ratingId = rating.id;
+    var existingRating = document.querySelector('[data-rating-id="' + ratingId + '"]');
+    if (existingRating)
+    {
+        console.log("Div is gevonden")
+        //updaten van de rating
+    } else {
+        console.log("Div is niet gevonden")
+        //toevoegen van de rating
+    }
 }
 
 function updateAverageRating(recipeId) {
