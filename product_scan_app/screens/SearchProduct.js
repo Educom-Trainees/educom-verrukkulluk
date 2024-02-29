@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import ProductDetailsScreen from './ProductDetails';
 import { useEffect, useState } from 'react';
+import { API_BASE_URL } from '@env';
 import Constants from 'expo-constants';
 
 const SearchProductScreen = () => {
@@ -34,7 +35,7 @@ const SearchProductScreen = () => {
 const ProductList = ({ navigation }) => {
     const [products, setProducts] = useState([]);
     const [searchText, setSearchText] = useState('');
-    const ip = 'http://192.168.80.1:45455';
+    const ip = API_BASE_URL.replace(/[';]/g, '');
 
     const getProducts = async () => {
         try {
