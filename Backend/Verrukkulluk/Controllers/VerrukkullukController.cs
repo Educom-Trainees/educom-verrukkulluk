@@ -77,12 +77,13 @@ namespace Verrukkulluk.Controllers
         {
             model.Products = Servicer.GetAllProducts();
             model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
+            model.Instructions = (model?.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null) {
                 foreach(Ingredient ingredient in model.AddedIngredients) {
                     Product? product = Servicer.GetProductById(ingredient.ProductId);
                     if (product != null) {
-                        model.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product));
+                        model.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product) { Id = ingredient.Id });
                     }
                 }
             }
@@ -93,7 +94,6 @@ namespace Verrukkulluk.Controllers
         {
             ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
-            model.Instructions = new string[] { "" };
             await FillModel(model);
             return base.View("CreateRecipe", model);
         }
@@ -118,16 +118,11 @@ namespace Verrukkulluk.Controllers
                 ModelState.Remove(nameof(AddRecipe.DishPhoto));
             }
 
-            // Modelstate verwijderen voor de objecten
-            ModelState.Remove(nameof(AddRecipe.Creator));
-            ModelState.Remove(nameof(AddRecipe.KitchenType));
-            if (recipe.AddedIngredients?.Length > 0 ) {
-                for (int i = 0; i < recipe.AddedIngredients.Length; i++)
-                {
-                    string key = $"AddedIngredients[{i}].";
-                    ModelState.Remove(key + "Product");
-                    ModelState.Remove(key + "Recipe");
-                }
+            //remove empty instruction steps
+            recipe.Instructions = recipe.Instructions.Where(i => i != null).ToArray();
+            if (recipe.Instructions.Length == 0)
+            {
+                ModelState.AddModelError(nameof(AddRecipe.Instructions), "Voeg tenminste 1 instructie stap toe");
             }
 
             recipe.Creator = await VerModel.GetLoggedInUserAsync(User);
@@ -135,7 +130,7 @@ namespace Verrukkulluk.Controllers
 
             if (ModelState.IsValid)
             {
-                // bijbehorende ingredienten invullen
+                // returned ingredienten overzetten naar Ingredients property
                 for (int i = 0; i < recipe.AddedIngredients.Length; i++)
                 {
                     Ingredient ingredient = recipe.AddedIngredients[i];
@@ -143,8 +138,6 @@ namespace Verrukkulluk.Controllers
                     recipe.Ingredients.Add(ingredient);
 
                 }
-                //remove last (empty instruction step)
-                recipe.Instructions = recipe.Instructions.Where(i => i != null).ToArray();
                 Servicer.SaveRecipe(recipe);
                 return RedirectToAction("Recept", new { Id = recipe.Id });
             }

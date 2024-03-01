@@ -51,6 +51,12 @@ namespace Verrukkulluk
                 options.IdleTimeout = TimeSpan.FromMinutes(360);
             });
 
+            builder.Services.AddRazorPages().AddMvcOptions(options =>
+            {
+                options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+                    _ => "Vul het veld in");
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,7 +1,7 @@
 ﻿@using Verrukkulluk.ViewModels
 @model Verrukkulluk.ViewModels.AddRecipe
 @{
-    ViewData["Title"] = "Recept Maken";
+    ViewData["Title"] = Model.Id == 0 ? "Recept Maken" : "Recept Bewerken";
 }
 
 <div class="container mt-3">
@@ -43,8 +43,9 @@
                             @for (int step = 0; step < countSteps; step++) {
                             string instruction = Model.Instructions?.ElementAtOrDefault(step) ?? "";
                             <div class="form-group form-floating instructionStep">
-                                <textarea class="form-control instruction" name="Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
+                                <textarea class="form-control instruction" @(step < countSteps-1 ? "added-textarea=true" : "") name="Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
                                 <label class="control-label">Stap @(step+1)</label>
+                                <span asp-validation-for="Instructions[step]" class="text-danger"></span>
                             </div>
                             }   
                             <span asp-validation-for="Instructions" class="text-danger"></span>
@@ -64,6 +65,7 @@
                                     <input type="hidden" name="AddedIngredients[@i].ProductId" value="@ingredient.ProductId">
                                     <div class="col-2">@ingredient.Product.IngredientType</div>
                                     <div class="darker-red bi bi-trash product-trash col-1" onclick="removeIngredient(this)"></div>
+                                    <span asp-validation-for="AddedIngredients[i].Amount" class="text-danger"></span>
                                 </div>
                                 }
                             </div>
@@ -79,6 +81,7 @@
                                     </datalist>
                                 </div
                             </div>
+                            <span asp-validation-for="AddedIngredients" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-4">
                             <label asp-for="KitchenType" class="control-label visually-hidden"></label>
@@ -111,6 +114,7 @@
                                     <img id="preview" src="@(Model.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.ImageObjId }) : "#")" 
                                             alt="Voorbeeldafbeelding" style="@(Model.ImageObjId > 0 ? "display: block" : "display: none"); max-width: 100%; margin-top: 10px;" />
                                 </div>
+                                <span asp-validation-for="DishPhoto" class="text-danger"></span>  
                             </div>
                         </div>
                         <div class="mt-4">

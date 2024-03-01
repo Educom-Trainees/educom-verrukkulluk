@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk
@@ -16,9 +17,11 @@ namespace Verrukkulluk
         [MaxLength(500)]       
         [Required(ErrorMessage ="Beschrijving is verplicht.")]
         public string Description { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Type keuken is verplicht.")]
         public int KitchenTypeId { get; set; }
         [ForeignKey(nameof(KitchenTypeId))]
-        [Required(ErrorMessage ="Type keuken is verplicht.")]
+        [ValidateNever]
         public KitchenType KitchenType { get; set; }
         public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
@@ -28,6 +31,7 @@ namespace Verrukkulluk
         public double AverageRating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
+        [ValidateNever]
         public User Creator { get; set; }
         public int ImageObjId { get; set; }
         [Range(1, 20, ErrorMessage = "Kies een aantal van 1 tot 20 personen.")]

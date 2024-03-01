@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Identity.Client;
 using Verrukkulluk.Models;
@@ -7,10 +8,11 @@ namespace Verrukkulluk.ViewModels
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class AddRecipe : Recipe 
-    {      
+    {
         public bool DeleteImage { get; set; }
-
+        [ValidateNever]
         public List<Product>? Products { get; set; }
+        [Required(ErrorMessage = "Tenminste 1 ingredient moet worden ingevuld")]
         public Ingredient[] AddedIngredients { get; set; }
         [Display(Name = "Afbeelding")]
         [DataType(DataType.Upload)]
@@ -28,7 +30,7 @@ namespace Verrukkulluk.ViewModels
                                             }
                                         ).ToList() ?? new List<AllergyGroup>();
         }}   
-        public List<SelectListItem> MyKitchenTypeOptions { get; set; } = new List<SelectListItem>() { 
+        public List<SelectListItem> MyKitchenTypeOptions { get; } = new List<SelectListItem>() { 
             new SelectListItem() { Text = "- Type keuken -", Value = "0", Selected = true, Disabled = true } 
         };
         public AddRecipe() {
