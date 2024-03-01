@@ -9,11 +9,12 @@ import { API_BASE_URL } from '@env';
 const AddProductScreen = () => {
   const [name, setName] = useState();
   const [description, setDescription] = useState();
-  const [quantity, setQuantity] = useState('');
-  const [minQuantity, setMinQuantity] = useState('');
+  const [calories, setCalories] = useState('0');
+  const [quantity, setQuantity] = useState('0');
+  const [minQuantity, setMinQuantity] = useState('0');
   const [selectedType, setSelectedType] = useState(1);
   const [selectedPackaging, setSelectedPackaging] = useState(0);
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState('');
   const [selectedAllergens, setSelectedAllergens] = useState([]);
   const ip = API_BASE_URL.replace(/[';]/g, '');
 
@@ -43,6 +44,7 @@ const AddProductScreen = () => {
   const handleSave = async () => {
     console.log('Naam: ' + name);
     console.log('Description: ' + description);
+    console.log('Calorieën: ' + calories);
     console.log('Hoeveelheid: ' + quantity);
     console.log('Minimum hoeveelheid: ' + minQuantity);
     console.log('Type: ' + selectedType);
@@ -53,7 +55,7 @@ const AddProductScreen = () => {
       const data = {
         Name: name,
         Price: price,
-        Calories: 100,
+        Calories: calories,
         Amount: quantity,
         SmallestAmount: minQuantity,
         Packaging: selectedPackaging,
@@ -64,7 +66,7 @@ const AddProductScreen = () => {
 
       const response = await fetch(`${ip}/api/Products`, {
         method: 'POST',
-        header: {
+        headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -82,36 +84,75 @@ const AddProductScreen = () => {
     console.log('Product bewaard!');
   };
 
-  const handleInputNumber = (inputValue) => {
+  const handleNumberInput = (inputValue, variable) => {
+    inputValue = inputValue.replace(/[^0-9.]/g, '');
+    
+    //If a number is entered with a leading 0, which is not a decimal number, the 0 is removed
+    if (inputValue !== '0' && inputValue[0] === '0' && inputValue[1] !== '.') {
+      inputValue = inputValue.substring(1);
+    }
+
     const parsedValue = parseFloat(inputValue);
 
     if (!isNaN(parsedValue) || inputValue === '') {
-      setQuantity(inputValue);
+      switch(variable) {
+        case 'calories':
+          setCalories(inputValue);
+          break;
+        case 'quantity':
+          setQuantity(inputValue);
+          break;
+        case 'minQuantity':
+          setMinQuantity(inputValue);
+          break;
+        case 'price':
+          setPrice(inputValue);
+          break;
+      }
     }
   }
 
-  const handleQuantityIncrement = () => {
-    let tempValue = parseFloat(quantity);
+  const incrementValue = (initialValue) => {
+    let tempValue = parseFloat(initialValue);
     tempValue += 1;
-    setQuantity(tempValue);
+    let value = tempValue.toString();
+    return value;
+  }
+
+  const decrementValue = (initialValue) => {
+    let tempValue = parseFloat(initialValue);
+    tempValue -= 1;
+
+    if (tempValue >= 0) {
+      let value = tempValue.toString();
+      return value;
+    }
+
+    return initialValue;
+  }
+
+  const handleCaloriesIncrement = () => {
+    setCalories(incrementValue(calories));
+  };
+
+  const handleCaloriesDecrement = () => {
+    setCalories(decrementValue(calories));
+  };
+
+  const handleQuantityIncrement = () => {
+    setQuantity(incrementValue(quantity));
   };
 
   const handleQuantityDecrement = () => {
-    let tempValue = parseFloat(quantity);
-    tempValue -= 1;
-    if (tempValue > 0) {
-      setQuantity(quantity);
-    };
+    setQuantity(decrementValue(quantity));
   };
 
   const handleMinQuantityIncrement = () => {
-    setMinQuantity(minQuantity + 1);
+    setMinQuantity(incrementValue(minQuantity));
   };
 
   const handleMinQuantityDecrement = () => {
-    if (minQuantity > 0) {
-      setMinQuantity(minQuantity - 1);
-    };
+      setMinQuantity(decrementValue(minQuantity));
   };
 
   const handleAllergenSelect = (selectedOptions) => {
@@ -136,6 +177,24 @@ const AddProductScreen = () => {
           onChangeText={(text) => setDescription(text)}
         />
 
+        <Text style={styles.heading}>Calorieën</Text>
+        <View style={styles.horizontalcontainer}>
+          <View style={styles.quantitycontainer}>
+            <TouchableOpacity onPress={handleCaloriesDecrement}>
+              <Text style={[styles.quantitybutton, styles.redquantitybutton]}>-</Text>
+            </TouchableOpacity>
+            <TextInput 
+              style={[styles.input, styles.quantityinput]}
+              value={calories}
+              onChangeText={(text) => handleNumberInput(text, 'calories')}
+              keyboardType='decimal-pad'
+            />
+            <TouchableOpacity onPress={handleCaloriesIncrement}>
+              <Text style={[styles.quantitybutton, styles.greenquantitybutton]}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <Text style={styles.heading}>Kwantiteit</Text>
         <View style={styles.horizontalcontainer}>
           <View style={styles.quantitycontainer}>
@@ -145,7 +204,7 @@ const AddProductScreen = () => {
             <TextInput 
               style={[styles.input, styles.quantityinput]}
               value={quantity}
-              onChangeText={handleInputNumber}
+              onChangeText={(text) => handleNumberInput(text, 'quantity')}
               keyboardType='decimal-pad'
             />
             <TouchableOpacity onPress={handleQuantityIncrement}>
@@ -155,7 +214,7 @@ const AddProductScreen = () => {
           <Text style={styles.heading}>{ProductTypeDict[selectedType]}</Text>
         </View>
 
-        {/* <Text style={styles.heading}>Minimum kwantiteit</Text>
+        <Text style={styles.heading}>Minimum kwantiteit</Text>
         <View style={styles.horizontalcontainer}>
           <View style={styles.quantitycontainer}>
             <TouchableOpacity onPress={handleMinQuantityDecrement}>
@@ -164,14 +223,7 @@ const AddProductScreen = () => {
             <TextInput 
               style={[styles.input, styles.quantityinput]}
               value={minQuantity}
-              onChangeText={(text) => {
-                const tempValue = text.replace(/[^0-9.]/g, '');
-                if (tempValue === '') {
-                  setMinQuantity(0);
-                } else {
-                  setMinQuantity(tempValue);
-                }
-              }}
+              onChangeText={(text) => handleNumberInput(text, 'minQuantity')}
               keyboardType='decimal-pad'
             />
             <TouchableOpacity onPress={handleMinQuantityIncrement}>
@@ -179,7 +231,7 @@ const AddProductScreen = () => {
             </TouchableOpacity>
           </View>
           <Text style={styles.heading}>{ProductTypeDict[selectedType]}</Text>
-        </View> */}
+        </View>
 
         <Text style={styles.heading}>Type</Text>
         <Picker
@@ -206,8 +258,9 @@ const AddProductScreen = () => {
           <Text style={styles.eurosign}>€</Text>
           <TextInput
             style={styles.priceinput}
+            value={price}
             keyboardType='numeric'
-            onChangeText={(text) => setPrice(text)}
+            onChangeText={(text) => handleNumberInput(text, 'price')}
           />
         </View>
 
