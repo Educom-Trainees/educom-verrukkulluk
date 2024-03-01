@@ -4,13 +4,18 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { useState, useRef } from 'react';
 import AllergenDropdownMenu from '../components/AllergenDropdownMenu';
 import { Picker } from '@react-native-picker/picker';
+import { API_BASE_URL } from '@env';
 
 const AddProductScreen = () => {
-  const [quantity, setQuantity] = useState(0);
-  const [minQuantity, setMinQuantity] = useState(0);
-  const [selectedAllergens, setSelectedAllergens] = useState([]);
+  const [name, setName] = useState();
+  const [description, setDescription] = useState();
+  const [quantity, setQuantity] = useState('');
+  const [minQuantity, setMinQuantity] = useState('');
+  const [selectedType, setSelectedType] = useState(1);
   const [selectedPackaging, setSelectedPackaging] = useState(0);
-  const [selectedType, setSelectedType] = useState(0);
+  const [price, setPrice] = useState();
+  const [selectedAllergens, setSelectedAllergens] = useState([]);
+  const ip = API_BASE_URL.replace(/[';]/g, '');
 
   const PackagingDict = {
     0: 'Los',
@@ -35,17 +40,67 @@ const AddProductScreen = () => {
     3: 'Stuks',
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    console.log('Naam: ' + name);
+    console.log('Description: ' + description);
+    console.log('Hoeveelheid: ' + quantity);
+    console.log('Minimum hoeveelheid: ' + minQuantity);
+    console.log('Type: ' + selectedType);
+    console.log('Geselecteerde allergenen: ' + selectedAllergens);
+    console.log('Verpakking: ' + selectedPackaging);
+
+    try {
+      const data = {
+        Name: name,
+        Price: price,
+        Calories: 100,
+        Amount: quantity,
+        SmallestAmount: minQuantity,
+        Packaging: selectedPackaging,
+        IngredientType: selectedType,
+        ImageObjId: 1,
+        Description: description,
+      };
+
+      const response = await fetch(`${ip}/api/Products`, {
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log('Product saved succesfully');
+      } else {
+        console.error('Failed to save product:', response.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred while saving the product:', error.message);
+    }
+
     console.log('Product bewaard!');
   };
 
+  const handleInputNumber = (inputValue) => {
+    const parsedValue = parseFloat(inputValue);
+
+    if (!isNaN(parsedValue) || inputValue === '') {
+      setQuantity(inputValue);
+    }
+  }
+
   const handleQuantityIncrement = () => {
-    setQuantity(quantity + 1);
+    let tempValue = parseFloat(quantity);
+    tempValue += 1;
+    setQuantity(tempValue);
   };
 
   const handleQuantityDecrement = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1);
+    let tempValue = parseFloat(quantity);
+    tempValue -= 1;
+    if (tempValue > 0) {
+      setQuantity(quantity);
     };
   };
 
@@ -67,10 +122,19 @@ const AddProductScreen = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollview} showVerticalScrollIndicator={false}>
         <Text style={[styles.heading, styles.extramargintop]}>Naam</Text>
-        <TextInput style={styles.textinput} />
+        <TextInput 
+          style={[styles.textinput, styles.textinputname]}
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
 
         <Text style={styles.heading}>Beschrijving</Text>
-        <TextInput style={[styles.textinput, styles.multilinetext]} multiline/>
+        <TextInput 
+          style={[styles.textinput, styles.multilinetext]} 
+          multiline
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
 
         <Text style={styles.heading}>Kwantiteit</Text>
         <View style={styles.horizontalcontainer}>
@@ -80,15 +144,8 @@ const AddProductScreen = () => {
             </TouchableOpacity>
             <TextInput 
               style={[styles.input, styles.quantityinput]}
-              value={quantity.toString()}
-              onChangeText={(text) => {
-                const tempValue = text.replace(/[^0-9.]/g, '');
-                if (tempValue === '') {
-                  setQuantity(0);
-                } else {
-                  setQuantity(tempValue);
-                }
-              }}
+              value={quantity}
+              onChangeText={handleInputNumber}
               keyboardType='decimal-pad'
             />
             <TouchableOpacity onPress={handleQuantityIncrement}>
@@ -98,7 +155,7 @@ const AddProductScreen = () => {
           <Text style={styles.heading}>{ProductTypeDict[selectedType]}</Text>
         </View>
 
-        <Text style={styles.heading}>Minimum kwantiteit</Text>
+        {/* <Text style={styles.heading}>Minimum kwantiteit</Text>
         <View style={styles.horizontalcontainer}>
           <View style={styles.quantitycontainer}>
             <TouchableOpacity onPress={handleMinQuantityDecrement}>
@@ -106,13 +163,13 @@ const AddProductScreen = () => {
             </TouchableOpacity>
             <TextInput 
               style={[styles.input, styles.quantityinput]}
-              value={minQuantity.toString()}
+              value={minQuantity}
               onChangeText={(text) => {
                 const tempValue = text.replace(/[^0-9.]/g, '');
-                if (!isNaN(tempValue)) {
-                  setMinQuantity(tempValue);
-                } else {
+                if (tempValue === '') {
                   setMinQuantity(0);
+                } else {
+                  setMinQuantity(tempValue);
                 }
               }}
               keyboardType='decimal-pad'
@@ -122,7 +179,7 @@ const AddProductScreen = () => {
             </TouchableOpacity>
           </View>
           <Text style={styles.heading}>{ProductTypeDict[selectedType]}</Text>
-        </View>
+        </View> */}
 
         <Text style={styles.heading}>Type</Text>
         <Picker
@@ -150,6 +207,7 @@ const AddProductScreen = () => {
           <TextInput
             style={styles.priceinput}
             keyboardType='numeric'
+            onChangeText={(text) => setPrice(text)}
           />
         </View>
 
@@ -276,5 +334,9 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
       borderWidth: 1,
       backgroundColor: '#ffffff',
+      fontSize: 16,
     },
+    textinputname: {
+      textAlign: 'center',
+    }
 });

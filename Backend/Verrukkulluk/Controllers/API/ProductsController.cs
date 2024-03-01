@@ -42,6 +42,23 @@ namespace Verrukkulluk.Controllers.API
             return product;
         }
 
+        //POST: api/Products
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
+        {
+            Product createdProduct = _crud.CreateProduct(product);
+
+            if (createdProduct != null)
+            {
+                return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProduct);
+            } else
+            {
+                return BadRequest("Failed to create product.");
+            }
+        }
+
+
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         // [HttpPut("{id}")]
@@ -71,17 +88,6 @@ namespace Verrukkulluk.Controllers.API
         //     }
 
         //     return NoContent();
-        // }
-
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPost]
-        // public async Task<ActionResult<Product>> PostProduct(Product product)
-        // {
-        //     _context.Products.Add(product);
-        //     await _context.SaveChangesAsync();
-
-        //     return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         // }
 
         // // DELETE: api/Products/5

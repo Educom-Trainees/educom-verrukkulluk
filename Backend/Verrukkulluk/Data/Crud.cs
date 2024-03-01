@@ -283,6 +283,27 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
+        public Product CreateProduct(Product product)
+        {
+            try
+            {
+                if (product != null)
+                {
+                    Context.Products.Add(product);
+                    Context.SaveChanges();
+
+                    return product;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e.Message}");
+                return null;
+            }
+        }
+
         public void CreateRecipe(Recipe newRecipe)
         {
             Context.Recipes.Add(newRecipe);
