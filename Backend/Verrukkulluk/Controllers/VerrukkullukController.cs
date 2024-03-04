@@ -10,6 +10,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Verrukkulluk.Data;
 using Verrukkulluk.ViewModels;
 
+
 namespace Verrukkulluk.Controllers
 {
     public class VerrukkullukController : Controller
