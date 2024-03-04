@@ -990,3 +990,7 @@ p {
     .admin-trash {
         font-size: 20px;
     }
+
+    .event-participation-input{
+        padding: 20px;
+    }
