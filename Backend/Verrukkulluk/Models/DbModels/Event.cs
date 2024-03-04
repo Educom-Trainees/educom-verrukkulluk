@@ -12,3 +12,7 @@ namespace Verrukkulluk
         public decimal Price { get; set; }
     }
 }
+
+
+// public int MaxParticipants { get; set; }
+// public List<EventParticipant> Eventparticipants { get; set; }

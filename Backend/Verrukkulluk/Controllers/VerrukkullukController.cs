@@ -159,7 +159,16 @@ namespace Verrukkulluk.Controllers
             EventModel.Event = Servicer.GetEventById(id);
             return View(EventModel);
         }
-        
+
+        public IActionResult JoinEvent()
+        {
+            return View("EventParticipation");
+        }
+
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
