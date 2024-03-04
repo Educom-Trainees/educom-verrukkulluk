@@ -481,7 +481,7 @@ function addInstructionStep(inputElement) {
 
         const nextInstructionStep = document.createElement('textarea');
         nextInstructionStep.className = 'form-control instructionSteps';
-        nextInstructionStep.name = `Instructions[${document.getElementsByClassName('instruction').length}]`;
+        nextInstructionStep.name = `Recipe.Instructions[${document.getElementsByClassName('instruction').length}]`;
         nextInstructionStep.oninput = function () {
             autoSize(this);
         };

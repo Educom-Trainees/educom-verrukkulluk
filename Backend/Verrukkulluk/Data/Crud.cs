@@ -137,6 +137,8 @@ namespace Verrukkulluk.Data
 
             if (recipe != null)
             {
+                recipe.KitchenTypeId = recipe.KitchenType.Id; // For some reason this is not handled by the [ForeignKey] annotation
+
                 var recipeInfo = new RecipeInfo(recipe);
 
                 var allRatings = Context.RecipeRatings
@@ -312,6 +314,7 @@ namespace Verrukkulluk.Data
 
         public void UpdateRecipe(Recipe recipe) {
             Context.Recipes.Update(recipe);
+            Context.SaveChanges();
         }
     }
 }

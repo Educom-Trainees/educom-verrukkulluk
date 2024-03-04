@@ -1,14 +1,17 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using Microsoft.Identity.Client;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk.ViewModels
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public class AddRecipe : Recipe 
+    public class AddRecipe
     {
+        public Recipe Recipe { get; set; }
         public bool DeleteImage { get; set; }
         [ValidateNever]
         public List<Product>? Products { get; set; }
@@ -19,7 +22,7 @@ namespace Verrukkulluk.ViewModels
         [Required(ErrorMessage ="Afbeelding is verplicht.")]
         public IFormFile DishPhoto { get; set; } 
         public List<AllergyGroup> Allergygroups { get{
-            return Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy)
+            return Recipe.Ingredients?.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy)
                                .GroupBy(a => a.Id, // Where do we group by
                                         a => a, // What elements are in the group
                                         (id, allergies) => // What do we return
@@ -34,19 +37,12 @@ namespace Verrukkulluk.ViewModels
             new SelectListItem() { Text = "- Type keuken -", Value = "0", Selected = true, Disabled = true } 
         };
         public AddRecipe() {
+            Recipe = new Recipe();
         }
 
-        public AddRecipe(string title, string description, string[] addedInstructionSteps, Ingredient[] addedIngredients, int numberOfPeople, KitchenType kitchenType, IFormFile dishPhoto, User creator)  
+        public AddRecipe(Recipe recipe)  
         {
-            Title = title;
-            Description = description;
-            Instructions = addedInstructionSteps;
-            Ingredients = addedIngredients;
-            NumberOfPeople = numberOfPeople;
-            KitchenType = kitchenType;
-            DishPhoto = dishPhoto;
-            Creator = creator;
-            CreatorId = creator.Id;
+            Recipe = recipe;
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -78,13 +78,13 @@ namespace Verrukkulluk.Controllers
         {
             model.Products = Servicer.GetAllProducts();
             model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
-            model.Instructions = (model?.Instructions ?? new string[0]).Append("").ToArray();
+            model.Recipe.Instructions = (model?.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null) {
                 foreach(Ingredient ingredient in model.AddedIngredients) {
                     Product? product = Servicer.GetProductById(ingredient.ProductId);
                     if (product != null) {
-                        model.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product) { Id = ingredient.Id });
+                        model.Recipe.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product) { Id = ingredient.Id });
                     }
                 }
             }
@@ -100,73 +100,60 @@ namespace Verrukkulluk.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateOrUpdateRecipe([FromForm]AddRecipe recipe)
+        public async Task<IActionResult> CreateOrUpdateRecipe([FromForm]AddRecipe modifiedRecipe)
         {
-            if (recipe.ImageObjId > 0 && recipe.DeleteImage) {
-                // TODO Servicer.DeletePicture(recipe.ImageObjId);
-                recipe.ImageObjId = 0;
+            if (modifiedRecipe.Recipe.ImageObjId > 0 && modifiedRecipe.DeleteImage) {
+                // TODO Servicer.DeletePicture(modifiedRecipe.Recipe.ImageObjId);
+                modifiedRecipe.Recipe.ImageObjId = 0;
             }
-            if (recipe.DishPhoto != null) {
+            if (modifiedRecipe.DishPhoto != null) {
                 if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
                     // Store the photo
-                    recipe.ImageObjId = await Servicer.SavePictureAsync(recipe.DishPhoto);
+                    modifiedRecipe.Recipe.ImageObjId = await Servicer.SavePictureAsync(modifiedRecipe.DishPhoto);
                 }
             }
-            else if (recipe.ImageObjId > 0)
+            else if (modifiedRecipe.Recipe.ImageObjId > 0)
             {
                 // Uploaded in previous attempt
                 ModelState.Remove(nameof(AddRecipe.DishPhoto));
             }
 
             //remove empty instruction steps
-            recipe.Instructions = recipe.Instructions.Where(i => i != null).ToArray();
-            if (recipe.Instructions.Length == 0)
+            modifiedRecipe.Recipe.Instructions = modifiedRecipe.Recipe.Instructions.Where(i => i != null).ToArray();
+            if (modifiedRecipe.Recipe.Instructions.Length == 0)
             {
-                ModelState.AddModelError(nameof(AddRecipe.Instructions), "Voeg tenminste 1 instructie stap toe");
+                ModelState.AddModelError(nameof(AddRecipe.Recipe.Instructions), "Voeg tenminste 1 instructie stap toe");
             }
 
-            recipe.Creator = await VerModel.GetLoggedInUserAsync(User);
-            recipe.CreationDate = DateOnly.FromDateTime(DateTime.Now);
+            modifiedRecipe.Recipe.Creator = await VerModel.GetLoggedInUserAsync(User);
+            modifiedRecipe.Recipe.CreationDate = DateOnly.FromDateTime(DateTime.Now);
 
             if (ModelState.IsValid)
             {
                 // returned ingredienten overzetten naar Ingredients property
-                for (int i = 0; i < recipe.AddedIngredients.Length; i++)
+                for (int i = 0; i < modifiedRecipe.AddedIngredients.Length; i++)
                 {
-                    Ingredient ingredient = recipe.AddedIngredients[i];
-                    ingredient.Recipe = recipe;
-                    recipe.Ingredients.Add(ingredient);
+                    Ingredient ingredient = modifiedRecipe.AddedIngredients[i];
+                    ingredient.Recipe = modifiedRecipe.Recipe;
+                    modifiedRecipe.Recipe.Ingredients.Add(ingredient);
 
                 }
-                if (recipe.Id > 0) {
-                    Servicer.UpdateRecipe(recipe);
+                if (modifiedRecipe.Recipe.Id > 0) {
+                    Servicer.UpdateRecipe(modifiedRecipe.Recipe);
                 } else {
-                    Servicer.SaveRecipe(recipe);
+                    Servicer.SaveRecipe(modifiedRecipe.Recipe);
                 }
-                return RedirectToAction("Recept", new { Id = recipe.Id });
+                return RedirectToAction("Recept", new { Id = modifiedRecipe.Recipe.Id });
             }
-            await FillModel(recipe);
-            return View("CreateRecipe", recipe);
+            await FillModel(modifiedRecipe);
+            return View("CreateRecipe", modifiedRecipe);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditRecipe(int id) {
             Recipe r = Servicer.GetRecipeById(id);
-
-            AddRecipe model = new AddRecipe();
+            AddRecipe model = new AddRecipe(r);
             await FillModel(model);
-            model.Id = id;
-            model.Title = r.Title;
-            model.Description = r.Description;
-            model.Creator = r.Creator;
-            model.ImageObjId = r.ImageObjId;
-            model.Ingredients = r.Ingredients;
-            model.KitchenType = r.KitchenType;
-            model.KitchenTypeId = r.KitchenType.Id;
-            model.MyKitchenTypeOptions[0].Selected = false;
-            model.MyKitchenTypeOptions[model.KitchenTypeId].Selected = true;
-            model.ProductAllergies = r.ProductAllergies;
-            model.Allergies = r.Allergies;
             return base.View("CreateRecipe", model);
         }
 

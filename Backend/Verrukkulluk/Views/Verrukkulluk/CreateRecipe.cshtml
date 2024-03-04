@@ -1,7 +1,7 @@
 ﻿@using Verrukkulluk.ViewModels
 @model AddRecipe
 @{
-    ViewData["Title"] = Model.Id == 0 ? "Recept Maken" : "Recept Bewerken";
+    ViewData["Title"] = Model.Recipe.Id == 0 ? "Recept Maken" : "Recept Bewerken";
 }
 
 <div class="container mt-3">
@@ -20,43 +20,43 @@
                     @using (Html.BeginForm("CreateOrUpdateRecipe", "Verrukkulluk", FormMethod.Post, new { enctype="multipart/form-data"}))
                     {
                         @Html.AntiForgeryToken()
-                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.Recipe.Id)
                         <div class="form-group form-floating mb-4">
-                            <input asp-for="Title" class="form-control" placeholder="Titel van het recept"/>
-                            <label asp-for="Title" class="control-label">Titel van het recept</label>   
-                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <input asp-for="Recipe.Title" class="form-control" placeholder="Titel van het recept"/>
+                            <label asp-for="Recipe.Title" class="control-label">Titel van het recept</label>   
+                            <span asp-validation-for="Recipe.Title" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-4 d-flex">
-                            <label asp-for="NumberOfPeople">Dit gerecht is voor</label>
-                            <input type="number" class="form-control ms-2" asp-for="NumberOfPeople" min="1" max="20" style="width: 60px;" />
+                            <label asp-for="Recipe.NumberOfPeople">Dit gerecht is voor</label>
+                            <input type="number" class="form-control ms-2" asp-for="Recipe.NumberOfPeople" min="1" max="20" style="width: 60px;" />
                             <label class="ms-2">personen.</label>
-                            <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
+                            <span asp-validation-for="Recipe.NumberOfPeople" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mb-4">
-                            <textarea asp-for="Description" id="descriptionTextarea" class="form-control" placeholder="Beschrijving" oninput="autoSize(this)" rows="3" style="height:100%;"></textarea>
-                            <label asp-for="Description" class="control-label">Beschrijving</label>   
-                            <span asp-validation-for="Description" class="text-danger"></span>
+                            <textarea asp-for="Recipe.Description" id="descriptionTextarea" class="form-control" placeholder="Beschrijving" oninput="autoSize(this)" rows="3" style="height:100%;"></textarea>
+                            <label asp-for="Recipe.Description" class="control-label">Beschrijving</label>   
+                            <span asp-validation-for="Recipe.Description" class="text-danger"></span>
                         </div>
                             <p>Bereidingswijze:</p>
                         <div class="form-group form-floating instructionStep">
-                            @{int countSteps = Model.Instructions?.Count() ?? 0; }
+                            @{int countSteps = Model.Recipe.Instructions?.Count() ?? 0; }
                             @for (int step = 0; step < countSteps; step++) {
-                            string instruction = Model.Instructions?.ElementAtOrDefault(step) ?? "";
+                            string instruction = Model.Recipe.Instructions?.ElementAtOrDefault(step) ?? "";
                             <div class="form-group form-floating instructionStep">
-                                <textarea class="form-control instruction" @(step < countSteps-1 ? "added-textarea=true" : "") name="Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
+                                <textarea class="form-control instruction" @(step < countSteps-1 ? "added-textarea=true" : "") name="Recipe.Instructions[@step]" placeholder="Bereidingswijze" oninput="autoSize(this)" onkeydown="addInstructionStep(this)">@instruction</textarea>
                                 <label class="control-label">Stap @(step+1)</label>
-                                <span asp-validation-for="Instructions[step]" class="text-danger"></span>
+                                <span asp-validation-for="Recipe.Instructions[step]" class="text-danger"></span>
                             </div>
                             }   
-                            <span asp-validation-for="Instructions" class="text-danger"></span>
+                            <span asp-validation-for="Recipe.Instructions" class="text-danger"></span>
                         </div>
                         <div class="form-group form-floating mt-4 mb-4">
                             <p>Ingrediënten:</p>
-                            @{ int count = Model.Ingredients?.Count() ?? 0; }
+                            @{ int count = Model.Recipe.Ingredients?.Count() ?? 0; }
                             <script>var ingredientCount = @count</script>
                             <div id="ingredients" class="mb-3">
                                 @for(int i=0; i < count; i++) {
-                                    Ingredient ingredient = Model.Ingredients!.ElementAt(i); 
+                                    Ingredient ingredient = Model.Recipe.Ingredients!.ElementAt(i); 
                                 <div class="row">
                                     <label class="col-2">@ingredient.Name</label>
                                     <input type="number" class="col-2 formField" name="AddedIngredients[@i].Amount" value="@ingredient.Amount">
@@ -84,9 +84,9 @@
                             <span asp-validation-for="AddedIngredients" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-4">
-                            <label asp-for="KitchenType" class="control-label visually-hidden"></label>
-                            <select asp-for="KitchenTypeId" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
-                            <span asp-validation-for="KitchenTypeId" class="text-danger"></span>                     
+                            <label asp-for="Recipe.KitchenType" class="control-label visually-hidden"></label>
+                            <select asp-for="Recipe.KitchenTypeId" asp-items="Model.MyKitchenTypeOptions" class="form-control form-control-smaller" size="1"></select>
+                            <span asp-validation-for="Recipe.KitchenTypeId" class="text-danger"></span>                     
                         </div>
                         <!--Add Picture-->
                        <div class="form mt-4">
@@ -103,16 +103,16 @@
                                     <button type="button" class="btn btn-outline-secondary btn-browse" onclick="document.getElementById('DishPhoto').click();">Bladeren</button>
                                 </div>
                                 <div class="custom-file">
-                                    <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.ImageObjId > 0 ? "Opgeslagen afbeelding" : "Geen afbeelding geselecteerd...")</span>    
+                                    <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.Recipe.ImageObjId > 0 ? "Opgeslagen afbeelding" : "Geen afbeelding geselecteerd...")</span>    
                                 </div>
                                 <div class="input-group-append">                                
-                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.ImageObjId > 0 ? "display: inline" : "display: none");" onclick="removeFile();">Verwijderen</button>
+                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.Recipe.ImageObjId > 0 ? "display: inline" : "display: none");" onclick="removeFile();">Verwijderen</button>
                                 </div>
                                 <div>
-                                    <input name="ImageObjId" id="ImageObjId" type="hidden" value="@Model.ImageObjId" />
+                                    <input name="Recipe.ImageObjId" id="ImageObjId" type="hidden" value="@Model.Recipe.ImageObjId" />
                                     <input name="DeleteImage" id="DeleteImage" type="hidden" value="false" />
-                                    <img id="preview" src="@(Model.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.ImageObjId }) : "#")" 
-                                            alt="Voorbeeldafbeelding" style="@(Model.ImageObjId > 0 ? "display: block" : "display: none"); max-width: 100%; margin-top: 10px;" />
+                                    <img id="preview" src="@(Model.Recipe.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.Recipe.ImageObjId }) : "#")" 
+                                            alt="Voorbeeldafbeelding" style="@(Model.Recipe.ImageObjId > 0 ? "display: block" : "display: none"); max-width: 100%; margin-top: 10px;" />
                                 </div>
                                 <span asp-validation-for="DishPhoto" class="text-danger"></span>  
                             </div>
