@@ -23,6 +23,7 @@ namespace Verrukkulluk.Data
         void CreatePicture(ImageObj image);
         Product CreateProduct(Product product);
         void CreateRecipe(Recipe newRecipe);
+        void UpdateRecipe(Recipe recipe);
         string DeleteRecipe(int recipeId);
     }
 }

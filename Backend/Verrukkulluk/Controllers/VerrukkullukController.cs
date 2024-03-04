@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Verrukkulluk;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Reflection;
 
 namespace Verrukkulluk.Controllers
 {
@@ -92,7 +93,6 @@ namespace Verrukkulluk.Controllers
         [HttpGet]
         public async Task<IActionResult> ReceptMaken()
         {
-            ViewData["Title"] = "Recept Maken";
             AddRecipe model = new AddRecipe();
             await FillModel(model);
             return base.View("CreateRecipe", model);
@@ -100,7 +100,7 @@ namespace Verrukkulluk.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReceptMaken([FromForm]AddRecipe recipe)
+        public async Task<IActionResult> CreateOrUpdateRecipe([FromForm]AddRecipe recipe)
         {
             if (recipe.ImageObjId > 0 && recipe.DeleteImage) {
                 // TODO Servicer.DeletePicture(recipe.ImageObjId);
@@ -138,11 +138,36 @@ namespace Verrukkulluk.Controllers
                     recipe.Ingredients.Add(ingredient);
 
                 }
-                Servicer.SaveRecipe(recipe);
+                if (recipe.Id > 0) {
+                    Servicer.UpdateRecipe(recipe);
+                } else {
+                    Servicer.SaveRecipe(recipe);
+                }
                 return RedirectToAction("Recept", new { Id = recipe.Id });
             }
             await FillModel(recipe);
             return View("CreateRecipe", recipe);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRecipe(int id) {
+            Recipe r = Servicer.GetRecipeById(id);
+
+            AddRecipe model = new AddRecipe();
+            await FillModel(model);
+            model.Id = id;
+            model.Title = r.Title;
+            model.Description = r.Description;
+            model.Creator = r.Creator;
+            model.ImageObjId = r.ImageObjId;
+            model.Ingredients = r.Ingredients;
+            model.KitchenType = r.KitchenType;
+            model.KitchenTypeId = r.KitchenType.Id;
+            model.MyKitchenTypeOptions[0].Selected = false;
+            model.MyKitchenTypeOptions[model.KitchenTypeId].Selected = true;
+            model.ProductAllergies = r.ProductAllergies;
+            model.Allergies = r.Allergies;
+            return base.View("CreateRecipe", model);
         }
 
         public IActionResult ReceptVerwijderen(int id)

@@ -1,5 +1,5 @@
 ﻿@using Verrukkulluk.ViewModels
-@model Verrukkulluk.ViewModels.AddRecipe
+@model AddRecipe
 @{
     ViewData["Title"] = Model.Id == 0 ? "Recept Maken" : "Recept Bewerken";
 }
@@ -17,10 +17,10 @@
                         <h2>Voeg hier uw heerlijke recept toe</h2>
                         <hr />
                     </div>
-                    @using (Html.BeginForm("ReceptMaken", "Verrukkulluk", FormMethod.Post, new { enctype="multipart/form-data"}))
+                    @using (Html.BeginForm("CreateOrUpdateRecipe", "Verrukkulluk", FormMethod.Post, new { enctype="multipart/form-data"}))
                     {
                         @Html.AntiForgeryToken()
-
+                        @Html.HiddenFor(m => m.Id)
                         <div class="form-group form-floating mb-4">
                             <input asp-for="Title" class="form-control" placeholder="Titel van het recept"/>
                             <label asp-for="Title" class="control-label">Titel van het recept</label>   
@@ -120,7 +120,7 @@
                         <div class="mt-4">
                             Allergenen in de gerecht:
                             <div class="row mt-1" id="allergies">
-                                @if (!Model.Allergies.Any())
+                                @if (!Model.Allergygroups.Any())
                                  {
                                      <img class="noAllergy" id="noAllergy" src ="~/images/allergenen/geen.png" style="width:70px; height:auto">
                                  }

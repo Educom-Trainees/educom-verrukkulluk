@@ -309,5 +309,9 @@ namespace Verrukkulluk.Data
             Context.Recipes.Add(newRecipe);
             Context.SaveChanges();
         }
+
+        public void UpdateRecipe(Recipe recipe) {
+            Context.Recipes.Update(recipe);
+        }
     }
 }

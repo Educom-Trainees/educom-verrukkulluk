@@ -206,5 +206,9 @@ namespace Verrukkulluk.Models
         {
             Crud.CreateRecipe(recipe);
         }
+
+        public void UpdateRecipe(Recipe recipe) {
+            Crud.UpdateRecipe(recipe);
+        }
     }
 }

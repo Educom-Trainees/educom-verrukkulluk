@@ -148,7 +148,9 @@ function addProduct(e)
     error.text("");
     const productId = option.attributes["data-product-id"].value
 
-    $.get("../api/products/" + productId, function(data, status){
+    var url = new URL(window.location);
+
+    $.get(url.origin + "/api/products/" + productId, function(data, status){
         if (status === "success") {
             addIngredient(data)
         }
@@ -208,12 +210,14 @@ function showNoAllergies() {
 
 //Remove ingredient with trash icon
 function removeIngredient(element) {
-    const productId = element.parentElement.childNodes[4].value;
+    var productId = $(element).parent().children('input[name$="ProductId"]')[0].value;
+    //const productId = element.parentElement.childNodes[4].value;
     collectProduct(productId);
     $(element).closest('.row').remove(); 
 }
 function collectProduct(productId) {
-    $.get("../api/products/" + productId, function(data, status){
+    var url = new URL(window.location);
+    $.get(url.origin + "/api/products/" + productId, function(data, status){
         if (status === "success") {
             updateAllergies(data)
         }

@@ -24,5 +24,6 @@ namespace Verrukkulluk.Models
         void UpdateAverageRating(int recipeId);
         Task<int> SavePictureAsync(IFormFile picture);
         void SaveRecipe(Recipe recipe);
+        void UpdateRecipe(Recipe recipe);
     }
 }
