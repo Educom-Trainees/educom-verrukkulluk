@@ -21,6 +21,7 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(m => m.Recipe.Id)
+                        @Html.HiddenFor(m => m.OriginalImageObjId)
                         <div class="form-group form-floating mb-4">
                             <input asp-for="Recipe.Title" class="form-control" placeholder="Titel van het recept"/>
                             <label asp-for="Recipe.Title" class="control-label">Titel van het recept</label>   
@@ -106,7 +107,7 @@
                                     <span class="custom-file-label form-control file-label"  id="fileLabel">@(Model.Recipe.ImageObjId > 0 ? "Opgeslagen afbeelding" : "Geen afbeelding geselecteerd...")</span>    
                                 </div>
                                 <div class="input-group-append">                                
-                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.Recipe.ImageObjId > 0 ? "display: inline" : "display: none");" onclick="removeFile();">Verwijderen</button>
+                                    <button type="button" class="btn btn-outline-danger btn-delete-img" id="removeButton" style="@(Model.Recipe.ImageObjId != Model.OriginalImageObjId ? "display: inline" : "display: none")" onclick="removeFile();">@(Model.OriginalImageObjId > 0 ? "Return to Original" : "Verwijderen")</button>
                                 </div>
                                 <div>
                                     <input name="Recipe.ImageObjId" id="ImageObjId" type="hidden" value="@Model.Recipe.ImageObjId" />
@@ -114,11 +115,11 @@
                                     <img id="preview" src="@(Model.Recipe.ImageObjId > 0 ? @Url.Action("GetImage", "Image", new { id = Model.Recipe.ImageObjId }) : "#")" 
                                             alt="Voorbeeldafbeelding" style="@(Model.Recipe.ImageObjId > 0 ? "display: block" : "display: none"); max-width: 100%; margin-top: 10px;" />
                                 </div>
-                                <span asp-validation-for="DishPhoto" class="text-danger"></span>  
                             </div>
+                            <span asp-validation-for="DishPhoto" class="text-danger"></span>  
                         </div>
                         <div class="mt-4">
-                            Allergenen in de gerecht:
+                            Allergenen in het gerecht:
                             <div class="row mt-1" id="allergies">
                                 @if (!Model.Allergygroups.Any())
                                  {

@@ -245,7 +245,11 @@ function handleFileSelect(input) {
     var fileLabel = document.getElementById('fileLabel');
     var img = document.getElementById('preview');
     var removeButton = document.getElementById('removeButton');
+    var deleteExistingImage = document.getElementById('DeleteImage');
+
     if (files.length > 0) {
+        deleteExistingImage.value = 'true';
+
         fileLabel.innerHTML = files[0].name;
         removeButton.style.display = 'inline-block';
 
@@ -266,14 +270,21 @@ function removeFile() {
     var input = document.getElementById('DishPhoto');
     var fileLabel = document.getElementById('fileLabel');
     var img = document.getElementById('preview');
+    var originalImgId = document.getElementById('OriginalImageObjId');
     var removeButton = document.getElementById('removeButton');
     var deleteExistingImage = document.getElementById('DeleteImage');
 
     input.value = '';
-    fileLabel.innerHTML = 'Geen afbeelding geselecteerd...';
-    img.style.display = 'none';
     removeButton.style.display = 'none';
     deleteExistingImage.value = 'true';
+
+    if (originalImgId.value > 0) {
+        fileLabel.innerHTML = 'Opgeslagen afbeelding';
+        img.src = '/Image/GetImage/' + originalImgId.value;
+    } else {
+        fileLabel.innerHTML = 'Geen afbeelding geselecteerd...';
+        img.style.display = 'none';
+    }
 }
 
 //Growing textarea with content in CreateRecipe
