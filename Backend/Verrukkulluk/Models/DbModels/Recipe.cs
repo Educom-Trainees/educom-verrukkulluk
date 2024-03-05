@@ -44,6 +44,7 @@ namespace Verrukkulluk
         {
             Title = title;
             KitchenType = kitchenType;
+            KitchenTypeId = kitchenType.Id;
             Description = description;
             Instructions = instructions;
             AverageRating = rating;
