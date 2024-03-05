@@ -25,5 +25,6 @@ namespace Verrukkulluk.Models
         Task<int> SavePictureAsync(IFormFile picture);
         void SaveRecipe(Recipe recipe);
         void UpdateRecipe(Recipe recipe);
+        void DeletePicture(int imageObjId);
     }
 }

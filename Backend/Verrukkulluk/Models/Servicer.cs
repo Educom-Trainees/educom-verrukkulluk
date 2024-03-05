@@ -210,5 +210,9 @@ namespace Verrukkulluk.Models
         public void UpdateRecipe(Recipe recipe) {
             Crud.UpdateRecipe(recipe);
         }
+
+        public void DeletePicture(int id) {
+            Crud.DeletePicture(id);
+        }
     }
 }

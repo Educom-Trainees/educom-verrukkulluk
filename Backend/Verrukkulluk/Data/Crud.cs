@@ -316,5 +316,13 @@ namespace Verrukkulluk.Data
             Context.Recipes.Update(recipe);
             Context.SaveChanges();
         }
+
+        public void DeletePicture(int id) {
+            ImageObj img = ReadImageById(id);
+            if (img != null) {
+                Context.ImageObjs.Remove(img);
+            }
+            Context.SaveChanges();
+        }
     }
 }

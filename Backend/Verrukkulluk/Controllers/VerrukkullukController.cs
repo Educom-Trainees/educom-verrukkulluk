@@ -102,11 +102,16 @@ namespace Verrukkulluk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrUpdateRecipe([FromForm]AddRecipe modifiedRecipe)
         {
-            if (modifiedRecipe.Recipe.ImageObjId > 0 && modifiedRecipe.DeleteImage) {
-                // TODO Servicer.DeletePicture(modifiedRecipe.Recipe.ImageObjId);
-                modifiedRecipe.Recipe.ImageObjId = 0;
+            if (modifiedRecipe.DeleteImage && modifiedRecipe.Recipe.ImageObjId > 0) {
+                if (modifiedRecipe.Recipe.ImageObjId != modifiedRecipe.OriginalImageObjId) {
+                    Servicer.DeletePicture(modifiedRecipe.Recipe.ImageObjId);
+                }
+                modifiedRecipe.Recipe.ImageObjId = modifiedRecipe.OriginalImageObjId;
             }
             if (modifiedRecipe.DishPhoto != null) {
+                if (modifiedRecipe.DishPhoto.Length >= 32*1024*1024) {
+                    ModelState.AddModelError(nameof(AddRecipe.DishPhoto), "Plaatje is te groot");
+                }
                 if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
                     // Store the photo
                     modifiedRecipe.Recipe.ImageObjId = await Servicer.SavePictureAsync(modifiedRecipe.DishPhoto);
@@ -117,7 +122,6 @@ namespace Verrukkulluk.Controllers
                 // Uploaded in previous attempt
                 ModelState.Remove(nameof(AddRecipe.DishPhoto));
             }
-
             //remove empty instruction steps
             modifiedRecipe.Recipe.Instructions = modifiedRecipe.Recipe.Instructions.Where(i => i != null).ToArray();
             if (modifiedRecipe.Recipe.Instructions.Length == 0)
@@ -140,6 +144,9 @@ namespace Verrukkulluk.Controllers
                 }
                 if (modifiedRecipe.Recipe.Id > 0) {
                     Servicer.UpdateRecipe(modifiedRecipe.Recipe);
+                    if (modifiedRecipe.OriginalImageObjId != modifiedRecipe.Recipe.ImageObjId) {
+                        Servicer.DeletePicture(modifiedRecipe.OriginalImageObjId);
+                    }
                 } else {
                     Servicer.SaveRecipe(modifiedRecipe.Recipe);
                 }

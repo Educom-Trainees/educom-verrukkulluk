@@ -25,5 +25,6 @@ namespace Verrukkulluk.Data
         void CreateRecipe(Recipe newRecipe);
         void UpdateRecipe(Recipe recipe);
         string DeleteRecipe(int recipeId);
+        void DeletePicture(int id);
     }
 }
