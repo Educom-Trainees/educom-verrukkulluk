@@ -13,6 +13,7 @@ namespace Verrukkulluk.ViewModels
     {
         public Recipe Recipe { get; set; }
         public bool DeleteImage { get; set; }
+        public int OriginalImageObjId { get; set; }
         [ValidateNever]
         public List<Product>? Products { get; set; }
         [Required(ErrorMessage = "Tenminste 1 ingredient moet worden ingevuld")]
@@ -43,6 +44,7 @@ namespace Verrukkulluk.ViewModels
         public AddRecipe(Recipe recipe)  
         {
             Recipe = recipe;
+            OriginalImageObjId = recipe.ImageObjId;
         }
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
