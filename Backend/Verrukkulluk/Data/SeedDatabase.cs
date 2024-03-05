@@ -311,6 +311,7 @@ namespace Verrukkulluk.Data
                         new ProductAllergy(allergies[1], products[0]),
                         new ProductAllergy(allergies[4], products[2]),
                         new ProductAllergy(allergies[14], products[3]),
+                        new ProductAllergy(allergies[3], products[6]),
                         new ProductAllergy(allergies[1], products[7])
                     };
                     dbContext.ProductAllergies.AddRange(productAllergies);
