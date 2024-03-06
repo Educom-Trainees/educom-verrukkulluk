@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 using Verrukkulluk.Models;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Data
 {
@@ -181,7 +182,7 @@ namespace Verrukkulluk.Data
 
         public Event ReadEventById(int Id)
         {
-            return Context.Events.Where(e => e.Id == Id).First();
+            return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).First();
         }
 
         public List<Event> ReadAllEvents()
@@ -279,5 +280,43 @@ namespace Verrukkulluk.Data
             user.ImageObjId = image.Id;
             Context.SaveChanges();
         }
+
+
+        //public void AddParticipantToEvent(EventParticipant newParticipant, int id)
+        //{
+        //    //Add the participant to the event
+
+        //    var eventModel = Context.Events.Include(e => e.Participants).Where(e => e.Id == id).FirstOrDefault();
+
+        //    eventModel.Participants.Add(newParticipant);
+
+        //    Context.SaveChanges();
+        // }
+
+        public Event AddParticipantToEvent(string name, string email, int eventId)
+        {
+            Event eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);
+
+            if (eventModel != null)
+            {
+                EventParticipant newParticipant = new EventParticipant { Name = name, Email = email };
+
+                eventModel.Participants.Add(newParticipant);
+
+                Context.SaveChanges();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Event with ID {eventId} not found.");
+            }
+            return eventModel;
+
+
+        }
+
+
+
+
+
     }
 }

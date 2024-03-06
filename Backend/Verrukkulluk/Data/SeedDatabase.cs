@@ -328,7 +328,8 @@ namespace Verrukkulluk.Data
                             StartTime = new TimeOnly(14, 0),
                             EndTime = new TimeOnly(16, 0),
                             Place = "Jaarbeurs Utrecht",
-                            Price = 12.99m
+                            Price = 12.99m,
+                            MaxParticipants = 10
                         },
                         new Event
                         {
@@ -338,7 +339,8 @@ namespace Verrukkulluk.Data
                             StartTime = new TimeOnly(12, 0),
                             EndTime = new TimeOnly(17, 0),
                             Place = "De Kuip",
-                            Price = 10.49m
+                            Price = 10.49m,
+                            MaxParticipants = 500
                         },
                         new Event
                         {
@@ -348,7 +350,8 @@ namespace Verrukkulluk.Data
                             StartTime = new TimeOnly(09, 30),
                             EndTime = new TimeOnly(12, 30),
                             Place = "Johan Cruijff ArenA",
-                            Price = 15.99m
+                            Price = 15.99m,
+                            MaxParticipants = 20
                         },
                         new Event
                         {
@@ -358,7 +361,8 @@ namespace Verrukkulluk.Data
                             StartTime = new TimeOnly(10, 0),
                             EndTime = new TimeOnly(12, 30),
                             Place = "Philips Stadion",
-                            Price = 18.99m
+                            Price = 18.99m,
+                            MaxParticipants = 10
                         }
                     };
 

@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Verrukkulluk.Models;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Data
 {
@@ -21,6 +22,8 @@ namespace Verrukkulluk.Data
         void UpdateAverageRating(int recipeId);
         void CreateProfilePictureAndUpdateUser(ImageObj image, User user);
         string DeleteRecipe(int recipeId);
+
+        Event AddParticipantToEvent(string name, string email, int id);
 
     }
 }

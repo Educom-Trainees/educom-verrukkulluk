@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Models
 {
@@ -21,5 +22,6 @@ namespace Verrukkulluk.Models
         List<Event> GetAllEvents();
         void UpdateAverageRating(int recipeId);
         void SaveProfilePicture(ImageObj image, User user);
+        Event AddParticipantToEvent(string name, string email, int id);
     }
 }
