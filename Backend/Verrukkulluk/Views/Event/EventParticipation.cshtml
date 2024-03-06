@@ -1,0 +1,50 @@
+﻿@model Verrukkulluk.Models.EventModel;
+@using Verrukkulluk.Models.DbModels;
+
+@{
+    ViewData["Title"] = "EventParticipation";
+}
+<div class="parent-container d-flex flex-wrap">
+
+    <div class="container col-sm-24 col-md-12 col-xl-8">
+        <div class="m-3">
+            <div class="card shadow">
+                
+                @if(@Model.Event.MaxParticipants > @Model.Event.Participants.Count()){
+                <div class="card-header text-center">
+                    <h1 class="darker-green" font-family="heading">Schrijf je in voor het event:</h1>
+                </div>
+
+                <form action="/Event/EventSignUp" method="post">
+                    <input type="hidden" id="eventId" name="eventId" value="@Model.Event.Id" />
+                    <div class="text-center">
+                        <div class="event-participation-input">
+                            <label for="name">Naam:</label>
+                            <input id="name" name="name" type="text" required placeholder="naam" />
+                        </div>
+                        <div class="event-participation-input">
+                            <label for="email">Emailadres:</label>
+                            <input id="email" name="email" type="email" required placeholder="email" />
+                        </div>
+                        <button type="submit" class="btn-admin">Meld je aan</button>
+                    </div>
+                </form>
+                } else{
+                <div class="card-header text-center">
+                    <h1 class="darker-green" font-family="heading">Helaas ... :( </h1>
+                </div>
+                <div class="container text-start">
+                    <div class="d-inline-flex">
+                            <p>Dit event heeft zijn maximum aantal deelnemers bereikt. Je kunt je niet meer inschrijven.</p>
+                    </div>
+                </div>
+                }
+
+ 
+        </div>
+    </div>
+</div>
+
+
+
+

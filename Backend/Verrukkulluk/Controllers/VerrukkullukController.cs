@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Verrukkulluk;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Reflection;
+using Verrukkulluk.Models.DbModels;
+using Microsoft.Extensions.Logging;
+
 
 namespace Verrukkulluk.Controllers
 {
@@ -54,9 +57,9 @@ namespace Verrukkulluk.Controllers
         {
             DetailsModel.Recipe = Servicer.GetRecipeById(Id);
 
-            ViewData["Title"]= "Recept";
-            ViewData["HideCarousel"]= true;
-            ViewData["ShowBanner"]= true;
+            ViewData["Title"] = "Recept";
+            ViewData["HideCarousel"] = true;
+            ViewData["ShowBanner"] = true;
             ViewData["PictureLocation"] = "/images/pexels-ella-olsson.jpg";
             return View("Recipe", DetailsModel);
         }
@@ -80,10 +83,13 @@ namespace Verrukkulluk.Controllers
             model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
             model.Recipe.Instructions = (model?.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
-            if (model.AddedIngredients != null) {
-                foreach(Ingredient ingredient in model.AddedIngredients) {
+            if (model.AddedIngredients != null)
+            {
+                foreach (Ingredient ingredient in model.AddedIngredients)
+                {
                     Product? product = Servicer.GetProductById(ingredient.ProductId);
-                    if (product != null) {
+                    if (product != null)
+                    {
                         model.Recipe.Ingredients.Add(new Ingredient(product.Name, ingredient.Amount, product) { Id = ingredient.Id });
                     }
                 }
@@ -100,19 +106,24 @@ namespace Verrukkulluk.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateOrUpdateRecipe([FromForm]AddRecipe modifiedRecipe)
+        public async Task<IActionResult> CreateOrUpdateRecipe([FromForm] AddRecipe modifiedRecipe)
         {
-            if (modifiedRecipe.DeleteImage && modifiedRecipe.Recipe.ImageObjId > 0) {
-                if (modifiedRecipe.Recipe.ImageObjId != modifiedRecipe.OriginalImageObjId) {
+            if (modifiedRecipe.DeleteImage && modifiedRecipe.Recipe.ImageObjId > 0)
+            {
+                if (modifiedRecipe.Recipe.ImageObjId != modifiedRecipe.OriginalImageObjId)
+                {
                     Servicer.DeletePicture(modifiedRecipe.Recipe.ImageObjId);
                 }
                 modifiedRecipe.Recipe.ImageObjId = modifiedRecipe.OriginalImageObjId;
             }
-            if (modifiedRecipe.DishPhoto != null) {
-                if (modifiedRecipe.DishPhoto.Length >= 32*1024*1024) {
+            if (modifiedRecipe.DishPhoto != null)
+            {
+                if (modifiedRecipe.DishPhoto.Length >= 32 * 1024 * 1024)
+                {
                     ModelState.AddModelError(nameof(AddRecipe.DishPhoto), "Plaatje is te groot");
                 }
-                if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid) { 
+                if (ModelState[nameof(AddRecipe.DishPhoto)]?.ValidationState == ModelValidationState.Valid)
+                {
                     // Store the photo
                     modifiedRecipe.Recipe.ImageObjId = await Servicer.SavePictureAsync(modifiedRecipe.DishPhoto);
                 }
@@ -142,12 +153,16 @@ namespace Verrukkulluk.Controllers
                     modifiedRecipe.Recipe.Ingredients.Add(ingredient);
 
                 }
-                if (modifiedRecipe.Recipe.Id > 0) {
+                if (modifiedRecipe.Recipe.Id > 0)
+                {
                     Servicer.UpdateRecipe(modifiedRecipe.Recipe);
-                    if (modifiedRecipe.OriginalImageObjId != modifiedRecipe.Recipe.ImageObjId) {
+                    if (modifiedRecipe.OriginalImageObjId != modifiedRecipe.Recipe.ImageObjId)
+                    {
                         Servicer.DeletePicture(modifiedRecipe.OriginalImageObjId);
                     }
-                } else {
+                }
+                else
+                {
                     Servicer.SaveRecipe(modifiedRecipe.Recipe);
                 }
                 return RedirectToAction("Recept", new { Id = modifiedRecipe.Recipe.Id });
@@ -157,7 +172,8 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRecipe(int id) {
+        public async Task<IActionResult> EditRecipe(int id)
+        {
             Recipe r = Servicer.GetRecipeById(id);
             AddRecipe model = new AddRecipe(r);
             await FillModel(model);
@@ -172,7 +188,8 @@ namespace Verrukkulluk.Controllers
             if (VerModel.Error.IsNullOrEmpty())
             {
                 return View("MyRecipes", UserRecipesModel);
-            } else
+            }
+            else
             {
                 return View("MyRecipes", UserRecipesModel);
             }
@@ -213,12 +230,9 @@ namespace Verrukkulluk.Controllers
             }
         }
 
-        public IActionResult Event(int id)
-        {
-            EventModel.Event = Servicer.GetEventById(id);
-            return View(EventModel);
-        }
-        
+        //events 
+
+
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {
@@ -283,9 +297,11 @@ namespace Verrukkulluk.Controllers
         {
             Recipe Recipe = Servicer.GetRecipeById(recipeId);
             string result = SessionManager.AddRecipeToShoppingList(Recipe);
-            if (result == "success") { 
-                return Json(new { success = true, message = "Recipe added to shopping list successfully" }); 
-            } else
+            if (result == "success")
+            {
+                return Json(new { success = true, message = "Recipe added to shopping list successfully" });
+            }
+            else
             {
                 return Json(new { success = false, message = "Recipe not found" });
             }
