@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk.Models;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Data
 {
@@ -19,6 +20,7 @@ namespace Verrukkulluk.Data
         public DbSet<Allergy> Allergies { get; set; }
         public DbSet<ProductAllergy> ProductAllergies { get; set; }
         public DbSet<RecipeRating> RecipeRatings { get; set; }
+        public DbSet<EventParticipant> EventParticipants { get; set; }
         public VerrukkullukContext(DbContextOptions<VerrukkullukContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)

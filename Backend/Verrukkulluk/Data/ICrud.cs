@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Verrukkulluk.Models;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Data
 {
@@ -25,6 +26,12 @@ namespace Verrukkulluk.Data
         void CreateRecipe(Recipe newRecipe);
         void UpdateRecipe(Recipe recipe);
         string DeleteRecipe(int recipeId);
+<<<<<<< HEAD
         void DeletePicture(int id);
+=======
+
+        Event AddParticipantToEvent(string name, string email, int id);
+
+>>>>>>> 4f9c269 (signing up to event is now possible)
     }
 }

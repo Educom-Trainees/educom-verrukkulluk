@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models.DbModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Verrukkulluk.Models
@@ -214,5 +215,14 @@ namespace Verrukkulluk.Models
         public void DeletePicture(int id) {
             Crud.DeletePicture(id);
         }
+
+
+        public Event AddParticipantToEvent(string name, string email, int id)
+        {
+             return Crud.AddParticipantToEvent(name, email, id);
+        }
+
+
+
+        }
     }
-}

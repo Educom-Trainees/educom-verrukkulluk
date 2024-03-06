@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models.DbModels;
 
 namespace Verrukkulluk.Models
 {
@@ -22,9 +23,14 @@ namespace Verrukkulluk.Models
         Event GetEventById(int Id);
         List<Event> GetAllEvents();
         void UpdateAverageRating(int recipeId);
+<<<<<<< HEAD
         Task<int> SavePictureAsync(IFormFile picture);
         void SaveRecipe(Recipe recipe);
         void UpdateRecipe(Recipe recipe);
         void DeletePicture(int imageObjId);
+=======
+        void SaveProfilePicture(ImageObj image, User user);
+        Event AddParticipantToEvent(string name, string email, int id);
+>>>>>>> 4f9c269 (signing up to event is now possible)
     }
 }
