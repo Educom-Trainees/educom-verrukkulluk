@@ -21,7 +21,7 @@ namespace Verrukkulluk.Data
                 .Include(p => p.Packaging)
                 .Include(p => p.ProductAllergies)
                     .ThenInclude(pa => pa.Allergy)
-                .ToList();                
+                .ToList();
         }
         public Product? ReadProductById(int id)
         {
@@ -40,11 +40,13 @@ namespace Verrukkulluk.Data
                     Context.Recipes.Remove(selectedRecipe);
                     Context.SaveChanges();
                     return "Recept verwijderd.";
-                } else
+                }
+                else
                 {
                     return "Recept kon niet worden gevonden.";
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine($"Exception: {e.Message}");
                 return "Er ging iets mis. Probeer het later opnieuw";
@@ -79,7 +81,7 @@ namespace Verrukkulluk.Data
 
         public List<RecipeInfo>? ReadAllRecipes()
         {
-            try 
+            try
             {
                 var recipes = Context.Recipes
                     .Include(r => r.KitchenType)
@@ -252,7 +254,8 @@ namespace Verrukkulluk.Data
             return comment?.Comment;
         }
 
-        public List<RecipeRating> ReadRatingsByUserId(int userId) {
+        public List<RecipeRating> ReadRatingsByUserId(int userId)
+        {
             return Context.RecipeRatings.Where(c => c.UserId == userId).ToList();
         }
 
@@ -313,14 +316,17 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
-        public void UpdateRecipe(Recipe recipe) {
+        public void UpdateRecipe(Recipe recipe)
+        {
             Context.Recipes.Update(recipe);
             Context.SaveChanges();
         }
 
-        public void DeletePicture(int id) {
+        public void DeletePicture(int id)
+        {
             ImageObj img = ReadImageById(id);
-            if (img != null) {
+            if (img != null)
+            {
                 Context.ImageObjs.Remove(img);
             }
             Context.SaveChanges();

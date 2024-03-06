@@ -225,4 +225,14 @@ namespace Verrukkulluk.Models
 
 
         }
+
+
+        public Event AddParticipantToEvent(string name, string email, int id)
+        {
+             return Crud.AddParticipantToEvent(name, email, id);
+        }
+
+
+
+        }
     }
