@@ -19,7 +19,7 @@
                     <div>eventid: @Model.Event.Id</div>
                     <div>max people: @participant.Event.MaxParticipants</div>
                 }
-                <form action="/Verrukkulluk/EventSignUp" method="post">
+                <form action="/Event/EventSignUp" method="post">
                     <input type="hidden" id="eventId" name="eventId" value="@Model.Event.Id" />
                     <div class="text-center">
                         <div class="event-participation-input">
