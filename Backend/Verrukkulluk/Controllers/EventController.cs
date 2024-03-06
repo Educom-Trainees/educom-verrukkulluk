@@ -59,10 +59,6 @@ namespace Verrukkulluk.Controllers
 
                 EventModel.Event = Servicer.AddParticipantToEvent(name, email, EventId);
 
-                ViewBag.Name = name;
-                ViewBag.Email = email;
-                ViewBag.EventId = EventId;
-
                 return View("ThankYou", EventModel);
             }
             else
