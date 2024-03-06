@@ -26,7 +26,6 @@ namespace Verrukkulluk.Controllers
         private IServicer Servicer;
         private ISessionManager SessionManager;
 
-        
         public EventController(IVerModel verModel, IHomeModel homeModel, IEventModel eventModel, IServicer servicer, ISessionManager sessionManager)
         {
             VerModel = verModel;
@@ -35,7 +34,6 @@ namespace Verrukkulluk.Controllers
             Servicer = servicer;
             SessionManager = sessionManager;
         }
-
 
         public IActionResult Event(int id)
         {
@@ -49,7 +47,6 @@ namespace Verrukkulluk.Controllers
 
             return View("EventParticipation", EventModel);
         }
-
 
         [HttpPost]
         public IActionResult EventSignUp(string name, string email, int EventId)

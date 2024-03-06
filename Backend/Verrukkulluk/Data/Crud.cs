@@ -332,18 +332,6 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
-
-        //public void AddParticipantToEvent(EventParticipant newParticipant, int id)
-        //{
-        //    //Add the participant to the event
-
-        //    var eventModel = Context.Events.Include(e => e.Participants).Where(e => e.Id == id).FirstOrDefault();
-
-        //    eventModel.Participants.Add(newParticipant);
-
-        //    Context.SaveChanges();
-        // }
-
         public Event AddParticipantToEvent(string name, string email, int eventId)
         {
             Event eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);

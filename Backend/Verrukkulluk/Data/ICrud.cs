@@ -27,7 +27,6 @@ namespace Verrukkulluk.Data
                 void UpdateRecipe(Recipe recipe);
                 string DeleteRecipe(int recipeId);
                 void DeletePicture(int id);
-
                 Event AddParticipantToEvent(string name, string email, int id);
 
         }

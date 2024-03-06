@@ -230,9 +230,6 @@ namespace Verrukkulluk.Controllers
             }
         }
 
-        //events 
-
-
         [HttpPost]
         public async Task<IActionResult> Login(VerModel model)
         {

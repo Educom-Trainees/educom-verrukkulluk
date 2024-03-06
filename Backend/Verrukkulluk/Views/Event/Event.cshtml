@@ -5,12 +5,12 @@
 }
 <div class="parent-container d-flex flex-wrap">
     <!--Login block-->
-    @if(!Model.SignInManager.IsSignedIn(User))
-        {
-            <div class="container col-4 mt-2 d-none d-xl-block">
+    @if (!Model.SignInManager.IsSignedIn(User))
+    {
+                <div class="container col-4 mt-2 d-none d-xl-block">
             @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
-            </div>
-        }
+                </div>
+    }
     <!--Event-->
     <div class="container col-sm-24 col-md-12 col-xl-8">
         <div class="m-3">
