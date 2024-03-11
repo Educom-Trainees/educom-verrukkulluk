@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Controllers.API
 {
@@ -15,10 +17,12 @@ namespace Verrukkulluk.Controllers.API
     public class ProductsController : ControllerBase
     {
         private readonly ICrud _crud;
+        private IMapper _mapper;
 
-        public ProductsController(ICrud crud)
+        public ProductsController(ICrud crud, IMapper mapper)
         {
             _crud = crud;
+            _mapper = mapper;
         }
 
         // GET: api/Products
@@ -30,16 +34,19 @@ namespace Verrukkulluk.Controllers.API
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public ActionResult<Product> GetProduct(int id)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ProductDTO> GetProduct(int id)
         {
-            var product = _crud.ReadProductById(id);
+            ProductDTO productDTO = _mapper.Map<ProductDTO>(_crud.ReadProductById(id));
 
-            if (product == null)
+            if (productDTO == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return productDTO;
         }
 
         //POST: api/Products
