@@ -5,7 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Verrukkulluk.Models
 {
-    public class Servicer: IServicer
+    public class Servicer : IServicer
     {
         private readonly ICrud Crud;
         private readonly UserManager<User> UserManager;
@@ -47,8 +47,9 @@ namespace Verrukkulluk.Models
             }
         }
 
-        public List<RecipeInfo> GetRecipesByUserId(int userId) {
-                return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
+        public List<RecipeInfo> GetRecipesByUserId(int userId)
+        {
+            return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
         }
 
         public List<RecipeInfo> GetUserFavorites()
@@ -67,7 +68,7 @@ namespace Verrukkulluk.Models
         }
 
         //public List<RecipeInfo> GetFavoritesByUserId(int userId) {
-            //return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
+        //return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
         //}
 
         public List<Product> GetAllProducts()
@@ -139,7 +140,7 @@ namespace Verrukkulluk.Models
         public bool RateRecipe(int recipeId, int ratingValue, string comment)
         {
             var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int? parsedUserId =null;
+            int? parsedUserId = null;
             if (userId != null && int.TryParse(userId, out int userIdValue))
             {
                 parsedUserId = userIdValue;
@@ -172,7 +173,8 @@ namespace Verrukkulluk.Models
             return Crud.ReadUserRating(recipeId, parsedUserId);
         }
 
-        public List<RecipeRating> GetRatingsByUserId(int userId) {
+        public List<RecipeRating> GetRatingsByUserId(int userId)
+        {
             return Crud.ReadRatingsByUserId(userId);
         }
 
@@ -183,7 +185,7 @@ namespace Verrukkulluk.Models
             if (userId == null || !int.TryParse(userId, out parsedUserId))
             {
                 return null;
-                
+
             }
             return Crud.ReadUserComment(recipeId, parsedUserId);
         }
@@ -208,31 +210,20 @@ namespace Verrukkulluk.Models
             Crud.CreateRecipe(recipe);
         }
 
-        public void UpdateRecipe(Recipe recipe) {
+        public void UpdateRecipe(Recipe recipe)
+        {
             Crud.UpdateRecipe(recipe);
         }
 
-        public void DeletePicture(int id) {
+        public void DeletePicture(int id)
+        {
             Crud.DeletePicture(id);
         }
 
 
         public Event AddParticipantToEvent(string name, string email, int id)
         {
-             return Crud.AddParticipantToEvent(name, email, id);
-        }
-
-
-
-        }
-
-
-        public Event AddParticipantToEvent(string name, string email, int id)
-        {
-             return Crud.AddParticipantToEvent(name, email, id);
-        }
-
-
-
+            return Crud.AddParticipantToEvent(name, email, id);
         }
     }
+}

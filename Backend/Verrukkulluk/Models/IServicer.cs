@@ -27,7 +27,6 @@ namespace Verrukkulluk.Models
                 void SaveRecipe(Recipe recipe);
                 void UpdateRecipe(Recipe recipe);
                 void DeletePicture(int imageObjId);
-                void SaveProfilePicture(ImageObj image, User user);
                 Event AddParticipantToEvent(string name, string email, int id);
         }
 }
