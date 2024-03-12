@@ -13,7 +13,9 @@ namespace Verrukkulluk
             CreateMap<Recipe, RecipeDTO>();
 
             CreateMap<Product, ProductDTO>()
-               .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(p => p.Allergy.Name).ToList()));
+               .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(p => p.Allergy.Name).ToList()))
+               .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.Ingredients.Select(p => p.Product.Name).ToList()))
+               .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Math.Round(src.Price, 2)));
             CreateMap<ProductDTO, Product>();
         } 
         

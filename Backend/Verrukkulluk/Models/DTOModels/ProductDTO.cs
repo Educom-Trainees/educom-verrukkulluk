@@ -11,7 +11,7 @@
         public string PackagingTypeName { get; set; }
         public IngredientType IngredientType { get; set; }
         public string Description { get; set; }
-        public ICollection<Ingredient> Ingredients { get; set; }
+        public List<string> Ingredients { get; set; }
         public List<string> ProductAllergies { get; set; }
 
     }
