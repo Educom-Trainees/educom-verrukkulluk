@@ -27,9 +27,17 @@ namespace Verrukkulluk.Controllers.API
 
         // GET: api/Products
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductDTO> GetProducts()
         {
-            return _crud.ReadAllProducts();
+            IEnumerable<Product> products = _crud.ReadAllProducts();
+            IEnumerable<ProductDTO> productDTOs = _mapper.Map<IEnumerable<ProductDTO>>(products);
+
+            if (productDTOs == null)
+            {
+                return Enumerable.Empty<ProductDTO>();
+            }
+
+            return productDTOs;
         }
 
         // GET: api/Products/5
@@ -52,13 +60,23 @@ namespace Verrukkulluk.Controllers.API
         //POST: api/Products
         //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ProductDTO> PostProduct(ProductDTO productDTO)
         {
+            Product product = _mapper.Map<Product>(productDTO);
+
             Product createdProduct = _crud.CreateProduct(product);
 
             if (createdProduct != null)
             {
-                return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProduct);
+                // Map the created product back to a DTO
+                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(createdProduct);
+                // Return the DTO of the created product with the appropriate status code
+                return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProductDTO);
             } else
             {
                 return BadRequest("Failed to create product.");

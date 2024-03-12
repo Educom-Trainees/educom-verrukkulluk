@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk.Models;
 using Verrukkulluk.Models.DbModels;
+using Verrukkulluk;
 
 namespace Verrukkulluk.Data
 {
@@ -33,5 +34,6 @@ namespace Verrukkulluk.Data
             builder.Entity<Product>().HasOne<ImageObj>().WithOne();
             base.OnModelCreating(builder);
         }
+        public DbSet<Verrukkulluk.Comment> Comment { get; set; } = default!;
     }
 }

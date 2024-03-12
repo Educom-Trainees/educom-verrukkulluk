@@ -15,6 +15,10 @@ namespace Verrukkulluk.Data
             Context = context;
         }
 
+
+        
+
+
         public List<Product> ReadAllProducts()
         {
             return Context.Products
