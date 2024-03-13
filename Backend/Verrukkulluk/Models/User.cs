@@ -11,14 +11,17 @@ namespace Verrukkulluk.Models
         public string CityOfResidence { get; set; }
         public int ImageObjId { get; set; }
 
+        public string PhoneNumber { get; set; }
+
         public User() { }
-        public User(string email, string firstName, string cityOfResidence, int imageObjId)
+        public User(string email, string firstName, string cityOfResidence, int imageObjId, string phoneNumber)
         {
             Email = email;
             FirstName = firstName;
             UserName = email;
             CityOfResidence = cityOfResidence;
             ImageObjId = imageObjId;
+            PhoneNumber = phoneNumber;
         }
         
     }
