@@ -33,8 +33,10 @@ namespace Verrukkulluk
             CreateMap<UserDetailsModel, UserDetailsDTO>()
                 .ForMember(dest => dest.FavouriteRecipesTitles,
                  opt => opt.MapFrom(src => src.User.FavouritesList.Select(recipe => recipe.Title).ToList()))
-                            .ForMember(dest => dest.CommentedRecipe,
-                 opt => opt.MapFrom(src => src.RecipeRatings.Select(recipeRating => recipeRating.Recipe.Title).ToList()));
+                .ForMember(dest => dest.CommentedRecipe,
+                 opt => opt.MapFrom(src => src.RecipeRatings.Select(recipeRating => recipeRating.Recipe.Title).ToList()))
+                .ForMember(dest => dest.RecipeComment,
+                 opt => opt.MapFrom(src => src.RecipeRatings.Select(recipeRating => recipeRating.Comment).ToList()));
 
             CreateMap<UserDetailsDTO, UserDetailsModel>();
 

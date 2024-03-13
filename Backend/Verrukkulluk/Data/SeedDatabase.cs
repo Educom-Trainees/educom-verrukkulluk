@@ -64,12 +64,12 @@ namespace Verrukkulluk.Data
 
                     User[] users =
                     {
-                        new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id),
-                        new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id),
-                        new User("els@els.els", "Els", "Sittard", Els.Id),
-                        new User("a@a.a", "Albert", "Soesterberg", Anoniem.Id)
+                        new User("jan@jan.jan", "Jan", "Utrecht", Jan.Id, "0612345678"),
+                        new User("bert@bert.bert", "Bert", "Sesamstraat", Bert.Id, "0612345678"),
+                        new User("els@els.els", "Els", "Sittard", Els.Id, "0612345678"),
+                        new User("a@a.a", "Albert", "Soesterberg", Anoniem.Id, "0612345678")
                     };
-                    User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id);
+                    User adminUser = new User("admin@admin.admin", "Admin", "Admindam", Admin.Id, "0612345678");
 
                     string password = "Test890!";
 

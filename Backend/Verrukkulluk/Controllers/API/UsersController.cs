@@ -27,7 +27,7 @@ namespace Verrukkulluk.Controllers.API
         {
             _crud = crud;
             _mapper = mapper;
-            _userManager = userManager;
+            this._userManager = userManager;
             _servicer = servicer;
         }
 
@@ -51,7 +51,7 @@ namespace Verrukkulluk.Controllers.API
         public ActionResult<UserDetailsDTO> GetUserById(int id)
         {
 
-            User user = _userManager.Users.First(u => u.Id == id);
+            User user = _userManager.Users.FirstOrDefault(u => u.Id == id);
 
             if (user == null)
             {
@@ -65,7 +65,7 @@ namespace Verrukkulluk.Controllers.API
                 RecipeRatings = _servicer.GetRatingsByUserId(id).ToArray()
             };
 
-            IEnumerable<UserDetailsDTO> userDetailsDTO = _mapper.Map<IEnumerable<UserDetailsDTO>>(userDetails);
+            UserDetailsDTO userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
 
             return Ok(userDetailsDTO);
         }
