@@ -12,7 +12,14 @@ namespace Verrukkulluk
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Services.AddCors(options => {
+                options.AddDefaultPolicy(policy => {
+                    policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+            });
             // Add services to the container.
             var connectionString = Environment.GetEnvironmentVariable("VERRUKKULLUK_CONNECTION_STRING")
                                      ?? builder.Configuration.GetConnectionString("verrukkulluk") 
@@ -77,7 +84,7 @@ namespace Verrukkulluk
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors("MyAllowSpecificOrigins");
+            app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
