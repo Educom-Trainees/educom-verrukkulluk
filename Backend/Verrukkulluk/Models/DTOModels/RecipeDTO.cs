@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Verrukkulluk.Models.DtoModels;
+using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Models.DTOModels
 {

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Controllers.API
 {
@@ -24,26 +25,38 @@ namespace Verrukkulluk.Controllers.API
             _mapper = mapper;
         }
 
-        //// GET: api/Events
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Event>>> GetEvents()
-        //{
-        //    return await _context.Events.ToListAsync();
-        //}
+        // GET: api/Events
+        [HttpGet]
+        public IEnumerable<EventDTO> GetEvents()
+        {
+            IEnumerable<Event> events = _crud.ReadAllEvents();
+            IEnumerable<EventDTO> eventDTOs = _mapper.Map<IEnumerable<EventDTO>>(events);
 
-        //// GET: api/Events/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Event>> GetEvent(int id)
-        //{
-        //    var @event = await _context.Events.FindAsync(id);
+            if (eventDTOs == null)
+            {
+                return Enumerable.Empty<EventDTO>();
+            }
 
-        //    if (@event == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return eventDTOs;
+        }
 
-        //    return @event;
-        //}
+        // GET: api/Events/5
+        [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<EventDTO> GetEvent(int id)
+        {
+            EventDTO eventDTO = _mapper.Map<EventDTO>(_crud.ReadEventById(id));
+
+            if (eventDTO == null)
+            {
+                return NotFound();
+            }
+
+            return eventDTO;
+        }
+
 
         //// PUT: api/Events/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -76,15 +89,31 @@ namespace Verrukkulluk.Controllers.API
         //    return NoContent();
         //}
 
-        //// POST: api/Events
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/Events
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         //[HttpPost]
-        //public async Task<ActionResult<Event>> PostEvent(Event @event)
+        //[Consumes("application/json")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public ActionResult<EventDTO> PostEvent(EventDTO eventDTO)
         //{
-        //    _context.Events.Add(@event);
-        //    await _context.SaveChangesAsync();
+        //    Event event = _mapper.Map<Event>(eventDTO);
 
-        //    return CreatedAtAction("GetEvent", new { id = @event.Id }, @event);
+        //    Event createdEvent = _crud.CreateEvent(event);
+
+        //    if (createdEvent != null)
+        //    {
+        //        // Map the created event back to a DTO
+        //        EventDTO createdEventDTO = _mapper.Map<EventDTO>(createdEvent);
+        //        // Return the DTO of the created event with the appropriate status code
+        //        return CreatedAtAction("GetEvent", new { id = createdEvent.Id }, createdEventDTO);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Failed to create event.");
+        //    }
         //}
 
         //// DELETE: api/Events/5

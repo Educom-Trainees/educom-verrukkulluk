@@ -1,4 +1,4 @@
-﻿namespace Verrukkulluk.Models.DtoModels
+﻿namespace Verrukkulluk.Models.DTOModels
 {
     public class CommentDTO
     {
