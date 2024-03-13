@@ -71,42 +71,38 @@ namespace Verrukkulluk.Controllers.API
         }
 
 
-        //UserPut
+
+        //PUT: api/Users
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<UserDTO>> PutUser(int id, UserDTO userDTO)
+        {
+
+            if (id != userDTO.Id)
+            {
+                return BadRequest("Ids must match");
+            }
+
+            User user = _mapper.Map<User>(userDTO);
+
+            IdentityResult result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return UnprocessableEntity(result);
+            }
+
+            return Ok(result);
+
+        }
+
         ///DeleteById ()
-
-
-
-
-        //// PUT: api/Users/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(int id, User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
 
         //// POST: api/Users
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
