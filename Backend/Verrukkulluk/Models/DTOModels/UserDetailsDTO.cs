@@ -11,7 +11,7 @@
 
         public List<string> CommentedRecipe {  get; set; }
 
-        public List<string> RecipeRatComment { get; set; }
+        public List<string> RecipeComment { get; set; }
 
     }
 }
