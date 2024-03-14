@@ -27,6 +27,7 @@ namespace Verrukkulluk.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Product>().Property(e => e.IngredientType).HasConversion<string>().HasMaxLength(20);
+            builder.Entity<ProductAllergy>().HasKey(e => new { e.ProductId, e.AllergyId });
             builder.Entity<Event>().Property(e => e.Price).HasColumnType("decimal(18,2)");
             builder.Entity<Event>().Property(e => e.StartTime).HasColumnType("time");
             builder.Entity<Event>().Property(e => e.EndTime).HasColumnType("time");

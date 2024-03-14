@@ -23,7 +23,6 @@ namespace Verrukkulluk
         [ForeignKey(nameof(KitchenTypeId))]
         [ValidateNever]
         public KitchenType KitchenType { get; set; }
-        public List<Allergy> Allergies { get; set; } = new List<Allergy>();
         [MaxLength(1000)]
         [Required(ErrorMessage ="Beschrijf tenminste stap 1.")]
         public string[] Instructions { get; set; }
@@ -37,8 +36,6 @@ namespace Verrukkulluk
         [Range(1, 20, ErrorMessage = "Kies een aantal van 1 tot 20 personen.")]
         public int NumberOfPeople { get; set; } = 4;
         public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
-        public ICollection<ProductAllergy> ProductAllergies { get; set; } = new List<ProductAllergy>();
-
         public Recipe() { }
         public Recipe(string title, KitchenType kitchenType, string description, string[] instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
