@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using Verrukkulluk.Data;
 using Verrukkulluk.Models;
 using Verrukkulluk.Models.DTOModels;
@@ -48,96 +49,94 @@ namespace Verrukkulluk.Controllers.API
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<UserDetailsDTO> GetUserById(int id)
+        public async Task<IActionResult> GetUserById(int id)
         {
-
-            User user = _userManager.Users.FirstOrDefault(u => u.Id == id);
-
+            var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
                 return NotFound();
             }
 
-            UserDetailsModel userDetails = new UserDetailsModel()
+            var userDetails = new UserDetailsModel()
             {
                 User = user,
                 Recipes = _servicer.GetRecipesByUserId(id).ToArray(),
                 RecipeRatings = _servicer.GetRatingsByUserId(id).ToArray()
             };
 
-            UserDetailsDTO userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+            var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
 
             return Ok(userDetailsDTO);
         }
 
 
-        //UserPut
-        ///DeleteById ()
+
+        //PUT: api/Users
+        //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<ActionResult<UserDTO>> PutUser(int id, UserDTO userDTO)
+        {
+            if (id != userDTO.Id)
+            {
+                return BadRequest("Ids must match");
+            }
+
+            // Validation?
+
+            //find the user by Id and put data into user object
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            //update user with modified properties from DTO
+            user.FirstName = userDTO.FirstName;
+            user.CityOfResidence = userDTO.CityOfResidence;
+            user.Email = userDTO.Email;
+            user.PhoneNumber = userDTO.PhoneNumber;
+
+            //update database with modified user object and store result
+            IdentityResult result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return UnprocessableEntity(result);
+            }
+
+            // If succeeded, map the updated user back to a DTO and return
+            UserDTO updatedUserDTO = _mapper.Map<UserDTO>(user);
+            return Ok(updatedUserDTO);
+        }
+
+
+        // DELETE: api/Users/5
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
+            IdentityResult result = await _userManager.DeleteAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return UnprocessableEntity(result);
+            }
+            return NoContent();
+        }
 
 
 
-
-        //// PUT: api/Users/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(int id, User user)
-        //{
-        //    if (id != user.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(user).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Users
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<User>> PostUser(User user)
-        //{
-        //    _context.Users.Add(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        //}
-
-        //// DELETE: api/Users/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return NoContent();
-        //}
-
-        //private bool UserExists(int id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
-        //}
     }
 }
