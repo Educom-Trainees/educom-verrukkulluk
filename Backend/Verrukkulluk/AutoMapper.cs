@@ -13,12 +13,13 @@ namespace Verrukkulluk
     {
         public AutoMapper() {
 
+            CreateMap<Allergy, AllergyDTO>();
             CreateMap<Product, ProductDTO>()
-               .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(p => p.Allergy.Name).ToList()))
+               .ForMember(dest => dest.Allergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(p => p.Allergy).ToList()))
                .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.Ingredients.Select(p => p.Product.Name).ToList()))
                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Math.Round(src.Price, 2)));
             CreateMap<ProductDTO, Product>()
-                .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(name => new ProductAllergy { Allergy = new Allergy { Name = name } }).ToList()))
+                .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.Allergies.Select(allergy => new ProductAllergy { ProductId = src.Id, AllergyId = allergy.Id }).ToList()))
                 .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.Ingredients.Select(name => new Ingredient { Product = new Product { Name = name } }).ToList()));
 
 

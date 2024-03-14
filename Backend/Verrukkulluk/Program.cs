@@ -27,6 +27,7 @@ namespace Verrukkulluk
             builder.Services.AddDbContext<VerrukkullukContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+            builder.Services.AddLogging(Console.WriteLine);
 
             builder.Services.TryAddScoped<ICrud, Crud>();
             builder.Services.TryAddScoped<IVerModel, VerModel>();
