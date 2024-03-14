@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Verrukkulluk.Data;
 
@@ -10,9 +11,11 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    partial class VerrukkullukContextModelSnapshot : ModelSnapshot
+    [Migration("20240314120805_SeveralFixes")]
+    partial class SeveralFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,7 +165,12 @@ namespace Verrukkulluk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("Allergies");
                 });
@@ -495,15 +503,26 @@ namespace Verrukkulluk.Migrations
 
             modelBuilder.Entity("Verrukkulluk.ProductAllergy", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int>("AllergyId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "AllergyId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AllergyId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("ProductAllergies");
                 });
@@ -610,6 +629,13 @@ namespace Verrukkulluk.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Verrukkulluk.Allergy", b =>
+                {
+                    b.HasOne("Verrukkulluk.Recipe", null)
+                        .WithMany("Allergies")
+                        .HasForeignKey("RecipeId");
+                });
+
             modelBuilder.Entity("Verrukkulluk.Comment", b =>
                 {
                     b.HasOne("Verrukkulluk.Models.User", "Creator")
@@ -711,6 +737,10 @@ namespace Verrukkulluk.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Verrukkulluk.Recipe", null)
+                        .WithMany("ProductAllergies")
+                        .HasForeignKey("RecipeId");
+
                     b.Navigation("Allergy");
 
                     b.Navigation("Product");
@@ -762,9 +792,13 @@ namespace Verrukkulluk.Migrations
 
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>
                 {
+                    b.Navigation("Allergies");
+
                     b.Navigation("Comments");
 
                     b.Navigation("Ingredients");
+
+                    b.Navigation("ProductAllergies");
                 });
 #pragma warning restore 612, 618
         }

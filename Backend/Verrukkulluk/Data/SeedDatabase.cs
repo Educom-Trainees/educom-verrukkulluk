@@ -309,6 +309,7 @@ namespace Verrukkulluk.Data
                     ProductAllergy[] productAllergies =
                     {
                         new ProductAllergy(allergies[1], products[0]),
+                        new ProductAllergy(allergies[10], products[0]),
                         new ProductAllergy(allergies[4], products[2]),
                         new ProductAllergy(allergies[14], products[3]),
                         new ProductAllergy(allergies[3], products[6]),

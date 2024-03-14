@@ -7,12 +7,13 @@
         public decimal Price { get; set; }
         public double Calories { get; set; }
         public double Amount { get; set; }
+        public int ImageObjId { get; set; }
         public double SmallestAmount { get; set; }
-        public string PackagingTypeName { get; set; }
+        public string PackagingName { get; set; }
         public IngredientType IngredientType { get; set; }
         public string Description { get; set; }
         public List<string> Ingredients { get; set; }
-        public List<string> ProductAllergies { get; set; }
+        public List<AllergyDTO> Allergies { get; set; } = new List<AllergyDTO>();
 
     }
 }
