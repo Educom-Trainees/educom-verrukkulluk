@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
@@ -17,12 +18,14 @@ namespace Verrukkulluk.Controllers.API
     public class ProductsController : ControllerBase
     {
         private readonly ICrud _crud;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(ICrud crud, IMapper mapper)
+        public ProductsController(ICrud crud, IMapper mapper, ILogger<ProductsController> logger)
         {
             _crud = crud;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/Products
@@ -86,34 +89,46 @@ namespace Verrukkulluk.Controllers.API
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> PutProduct(int id, Product product)
-        // {
-        //     if (id != product.Id)
-        //     {
-        //         return BadRequest();
-        //     }
+        [HttpPut("{id}")]
+        public ActionResult PutProduct(int id, ProductDTO productDto)
+        {
+            if (id != productDto.Id)
+            {
+                return BadRequest("Id does not match");
+            }
 
-        //     _context.Entry(product).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!ProductExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
+            Product? product = null;
+            if (ModelState.IsValid(nameof(ProductDTO.Name)))
+            {
+                product = _crud.ReadProductByName(productDto.Name);
+                if (product != null && product.Id != id)
+                {
+                    ModelState.AddModelError(nameof(ProductDTO.Name), "Een ander product heeft deze naam al");
+                }
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // if we haven't found the product by name yet, search by id
+            product ??= _crud.ReadProductById(id);
+            if (product == null)
+            {
+               return NotFound();
+            }
+            _logger.LogError("Update product {ProductDto.Name} failed", productDto.Name);
+            try
+            {
+                _mapper.Map(productDto, product);
+                _crud.UpdateProduct(product);
+                return NoContent();                
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Update product {ProductDto.Name} failed", productDto.Name);
+                return Problem(statusCode: 500);
+            }
+        }
 
         // // DELETE: api/Products/5
         // [HttpDelete("{id}")]

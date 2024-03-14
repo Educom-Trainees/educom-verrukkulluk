@@ -181,14 +181,12 @@ function addIngredient(product) {
     ingredientCount++;
     $("#newProduct")[0].value = "";
 
-    product.productAllergies.forEach(updateAllergyInfo);
+    product.allergies.forEach(updateAllergyInfo);
 }
 
 //Adding allergy in CreateRecipe
-function updateAllergyInfo(productAllergy) {
+function updateAllergyInfo(allergy) {
     removeNoAllergies();
-    console.log(productAllergy);
-    const allergy = productAllergy.allergy;
     const existingAllergy = $(".allergy[id="+allergy.id+"]")
     console.log(allergy);
     console.log(existingAllergy);
@@ -224,10 +222,9 @@ function collectProduct(productId) {
     });
 }
 function updateAllergies(product){
-    product.productAllergies.forEach(decreaseAllergyCount);
+    product.allergies.forEach(decreaseAllergyCount);
 }
-function decreaseAllergyCount(productAllergy) {
-    const allergy = productAllergy.allergy;
+function decreaseAllergyCount(allergy) {
     const existingAllergy = $(".allergy[id="+allergy.id+"]")
     existingAllergy[0].dataset.count--; 
     if (existingAllergy[0].dataset.count == 0) {

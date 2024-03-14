@@ -12,6 +12,7 @@ namespace Verrukkulluk.Data
                 List<RecipeInfo>? ReadAllRecipes();
                 List<RecipeInfo>? ReadAllRecipesByUserId(int userId);
                 Product? ReadProductById(int id);
+                Product? ReadProductByName(string name);
                 public RecipeInfo ReadRecipeById(int Id);
                 public ImageObj ReadImageById(int Id);
                 public Event ReadEventById(int Id);
@@ -23,6 +24,7 @@ namespace Verrukkulluk.Data
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
                 Product CreateProduct(Product product);
+                void UpdateProduct(Product product);
                 void CreateRecipe(Recipe newRecipe);
                 void UpdateRecipe(Recipe recipe);
                 string DeleteRecipe(int recipeId);

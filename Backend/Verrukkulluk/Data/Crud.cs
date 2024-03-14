@@ -15,10 +15,6 @@ namespace Verrukkulluk.Data
             Context = context;
         }
 
-
-        
-
-
         public List<Product> ReadAllProducts()
         {
             return Context.Products
@@ -31,6 +27,12 @@ namespace Verrukkulluk.Data
         {
             return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
         }
+
+        public Product? ReadProductByName(string name)
+        {
+            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
+        }
+
         public string DeleteUserRecipe(int userId, int recipeId)
         {
             try
@@ -312,6 +314,12 @@ namespace Verrukkulluk.Data
                 Console.WriteLine($"Exception: {e.Message}");
                 return null;
             }
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            Context.Products.Update(product);
+            Context.SaveChanges();
         }
 
         public void CreateRecipe(Recipe newRecipe)
