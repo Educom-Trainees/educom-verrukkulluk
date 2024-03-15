@@ -8,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Microsoft.DotNet.Scaffolding.Shared;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Any;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Verrukkulluk
 {
@@ -44,6 +46,8 @@ namespace Verrukkulluk
                 // using System.Reflection;
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                options.EnableAnnotations();
+                options.SchemaFilter<EnumSchemaFilter>();
             });
 
             builder.Services.TryAddScoped<ICrud, Crud>();
@@ -121,6 +125,19 @@ namespace Verrukkulluk
             await SeedDatabase.InitializeDatabase(app);
 
             app.Run();
+        }
+    }
+    public class EnumSchemaFilter : ISchemaFilter
+    {
+        public void Apply(OpenApiSchema model, SchemaFilterContext context)
+        {
+            if (context.Type.IsEnum)
+            {
+                model.Enum.Clear();
+                Enum.GetNames(context.Type)
+                    .ToList()
+                    .ForEach(name => model.Enum.Add(new OpenApiString(name)));
+            }
         }
     }
 }
