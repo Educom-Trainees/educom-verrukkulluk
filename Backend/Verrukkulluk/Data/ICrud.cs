@@ -14,7 +14,7 @@ namespace Verrukkulluk.Data
                 Product? ReadProductById(int id);
                 Product? ReadProductByName(string name);
                 public RecipeInfo ReadRecipeById(int Id);
-                public ImageObj ReadImageById(int Id);
+                public ImageObj? ReadImageById(int Id);
                 public Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
@@ -24,6 +24,8 @@ namespace Verrukkulluk.Data
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
                 List<ImageObjInfo> ReadAllIPictureIds();
+                bool DoesPictureExist(int imageObjId);
+                bool IsPictureAvailiable(int imageObjId, EImageObjType type, int targetId);
                 void UpdatePicture(ImageObj image);
                 void DeletePicture(int id);
                 Product CreateProduct(Product product);
@@ -33,6 +35,15 @@ namespace Verrukkulluk.Data
                 string DeleteRecipe(int recipeId);
                 Event AddParticipantToEvent(string name, string email, int id);
                 List<Allergy> ReadAllAllergies();
+                Allergy? ReadAllergyById(int id);
+                void CreateAllergy(Allergy allergy);
+                bool DoesAllergyNameAlreadyExist(string name, int id);
+                bool DoAllergiesExist(int[] ids);
+                void UpdateAllergy(Allergy allergy);
                 List<PackagingType> ReadAllPackagingTypes();
+                bool DoesPackagingTypeExist(int id);
+                void CreatePackagingType(PackagingType packagingType);
+                void UpdatePackagingType(PackagingType packagingType);
+                bool DoesPackagingTypeNameAlreadyExist(string name, int id);
     }
 }

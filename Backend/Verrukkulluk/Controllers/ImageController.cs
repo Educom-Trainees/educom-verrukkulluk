@@ -14,9 +14,13 @@ namespace Verrukkulluk.Controllers
             Servicer = servicer;
         }
 
+        [HttpGet]
         public IActionResult GetImage(int id)
         {
             var imageObj = Servicer.GetImage(id);
+            if (imageObj == null) { 
+                return NotFound(); 
+            }
             byte[] image = imageObj.ImageContent;
             string extension = imageObj.ImageExtention;
 
