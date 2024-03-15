@@ -158,20 +158,20 @@ namespace Verrukkulluk.Data
 
                     PackagingType[] packagingTypes =
                     {
-                        new PackagingType(0, "Los"),
-                        new PackagingType(1, "Pak"),
-                        new PackagingType(2, "Duo-pack"),
-                        new PackagingType(3, "Doos"),
-                        new PackagingType(4, "Four-pack"),
-                        new PackagingType(5, "Fles"),
-                        new PackagingType(6, "Six-pack"),
-                        new PackagingType(7, "Blik"),
-                        new PackagingType(8, "Kuipje"),
-                        new PackagingType(9, "Zak"),
-                        new PackagingType(10, "Net"),
-                        new PackagingType(11, "Pot"),
-                        new PackagingType(12, "Plastic zak"),
-                        new PackagingType(13, "Plastic verpakking")
+                        new PackagingType("Los"),
+                        new PackagingType("Pak"),
+                        new PackagingType("Duo-pack"),
+                        new PackagingType("Doos"),
+                        new PackagingType("Four-pack"),
+                        new PackagingType("Fles"),
+                        new PackagingType("Six-pack"),
+                        new PackagingType("Blik"),
+                        new PackagingType("Kuipje"),
+                        new PackagingType("Zak"),
+                        new PackagingType("Net"),
+                        new PackagingType("Pot"),
+                        new PackagingType("Plastic zak"),
+                        new PackagingType("Plastic verpakking")
                     };
                     dbContext.PackagingTypes.AddRange(packagingTypes);
                     await dbContext.SaveChangesAsync();
