@@ -23,13 +23,16 @@ namespace Verrukkulluk.Data
                 List<RecipeRating> ReadRatingsByUserId(int userId);
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
+                List<ImageObjInfo> ReadAllIPictureIds();
+                void UpdatePicture(ImageObj image);
+                void DeletePicture(int id);
                 Product CreateProduct(Product product);
                 void UpdateProduct(Product product);
                 void CreateRecipe(Recipe newRecipe);
                 void UpdateRecipe(Recipe recipe);
                 string DeleteRecipe(int recipeId);
-                void DeletePicture(int id);
                 Event AddParticipantToEvent(string name, string email, int id);
-
-        }
+                List<Allergy> ReadAllAllergies();
+                List<PackagingType> ReadAllPackagingTypes();
+    }
 }

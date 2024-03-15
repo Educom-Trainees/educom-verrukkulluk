@@ -25,12 +25,12 @@ namespace Verrukkulluk.Data
         }
         public Product? ReadProductById(int id)
         {
-            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
+            return Context.Products.Include(p => p.Packaging).Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
         }
 
         public Product? ReadProductByName(string name)
         {
-            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
+            return Context.Products.Include(p => p.Packaging).Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
         }
 
         public string DeleteUserRecipe(int userId, int recipeId)
@@ -189,6 +189,25 @@ namespace Verrukkulluk.Data
         {
             return Context.ImageObjs.Where(i => i.Id == Id).First();
         }
+        public List<ImageObjInfo> ReadAllIPictureIds()
+        {
+            var ids = Context.ImageObjs.Select(i => i.Id);
+            var allergyImageIds = Context.Allergies.Select(a => a.ImgObjId);
+            var productImageIds = Context.Products.Select(p => p.ImageObjId);
+            var receiptImageIds = Context.Recipes.Select(r => r.ImageObjId);
+            var userImageIds = Context.Users.Select(u => u.ImageObjId);
+            return ids.Select(id => new ImageObjInfo
+            {
+                Id = id,
+                UsedBy =
+                allergyImageIds.Contains(id) ? EImageObjType.Allergy :
+                receiptImageIds.Contains(id) ? EImageObjType.Recipe :
+                productImageIds.Contains(id) ? EImageObjType.Product :
+                userImageIds.Contains(id) ?    EImageObjType.User : 
+                                               EImageObjType.None
+            }).ToList();
+
+        }
 
         public Event ReadEventById(int Id)
         {
@@ -334,6 +353,11 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
+        public void UpdatePicture(ImageObj image)
+        {
+            Context.ImageObjs.Update(image);
+            Context.SaveChanges();
+        }
         public void DeletePicture(int id)
         {
             ImageObj img = ReadImageById(id);
@@ -365,9 +389,14 @@ namespace Verrukkulluk.Data
 
         }
 
+        public List<Allergy> ReadAllAllergies()
+        {
+            return Context.Allergies.ToList();
+        }
 
-
-
-
+        public List<PackagingType> ReadAllPackagingTypes()
+        {
+            return Context.PackagingTypes.ToList();
+        }
     }
 }

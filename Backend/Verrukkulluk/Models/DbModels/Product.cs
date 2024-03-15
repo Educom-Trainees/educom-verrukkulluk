@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk
@@ -10,6 +11,8 @@ namespace Verrukkulluk
         public double Calories { get; set; }
         public double Amount { get; set; }
         public double SmallestAmount { get; set; }
+        public int PackagingId { get; set; }
+        [ForeignKey(nameof(PackagingId))]
         public PackagingType Packaging { get; set; }
         public IngredientType IngredientType { get; set; }
         public int ImageObjId { get; set; }

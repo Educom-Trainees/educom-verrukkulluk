@@ -70,14 +70,29 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<ProductDTO> PostProduct(ProductDTO productDTO)
         {
+            if (productDTO.Id != 0)
+            {
+                ModelState.AddModelError(nameof(ProductDTO.Id), "Id must be 0");
+            }
+            if (ModelState.IsValid(nameof(ProductDTO.Name)))
+            {
+                var OtherProduct = _crud.ReadProductByName(productDTO.Name);
+                if (OtherProduct != null)
+                {
+                    ModelState.AddModelError(nameof(ProductDTO.Name), "Een ander product heeft deze naam al");
+                }
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             Product product = _mapper.Map<Product>(productDTO);
-
             Product createdProduct = _crud.CreateProduct(product);
 
             if (createdProduct != null)
             {
                 // Map the created product back to a DTO
-                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(createdProduct);
+                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(_crud.ReadProductById(createdProduct.Id));
                 // Return the DTO of the created product with the appropriate status code
                 return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProductDTO);
             } else
@@ -116,7 +131,6 @@ namespace Verrukkulluk.Controllers.API
             {
                return NotFound();
             }
-            _logger.LogError("Update product {ProductDto.Name} failed", productDto.Name);
             try
             {
                 _mapper.Map(productDto, product);
