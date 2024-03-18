@@ -322,12 +322,16 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpPost]
-        public IActionResult EventSignUp(string name, string email, int EventId)
+        public IActionResult EventSignUp(string name, string email, int eventId)
         {
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(email))
             {
-
-                EventModel.Event = Servicer.AddParticipantToEvent(name, email, EventId);
+                var theEvent = Servicer.AddParticipantToEvent(name, email, eventId);
+                if (theEvent == null)
+                {
+                    return NotFound();
+                }
+                EventModel.Event = theEvent;
 
                 return View("ThankYou", EventModel);
             }

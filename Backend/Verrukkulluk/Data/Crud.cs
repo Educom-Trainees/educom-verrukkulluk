@@ -25,12 +25,12 @@ namespace Verrukkulluk.Data
         }
         public Product? ReadProductById(int id)
         {
-            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
+            return Context.Products.Include(p => p.Packaging).Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Id == id);
         }
 
         public Product? ReadProductByName(string name)
         {
-            return Context.Products.Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
+            return Context.Products.Include(p => p.Packaging).Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
         }
 
         public string DeleteUserRecipe(int userId, int recipeId)
@@ -185,9 +185,52 @@ namespace Verrukkulluk.Data
             return null;
         }
 
-        public ImageObj ReadImageById(int Id)
+        public ImageObj? ReadImageById(int Id)
         {
-            return Context.ImageObjs.Where(i => i.Id == Id).First();
+            return Context.ImageObjs.Where(i => i.Id == Id).FirstOrDefault();
+        }
+        public List<ImageObjInfo> ReadAllIPictureIds()
+        {
+            var ids = Context.ImageObjs.Select(i => i.Id);
+            var allergyImageIds = Context.Allergies.Select(a => a.ImgObjId);
+            var productImageIds = Context.Products.Select(p => p.ImageObjId);
+            var receiptImageIds = Context.Recipes.Select(r => r.ImageObjId);
+            var userImageIds = Context.Users.Select(u => u.ImageObjId);
+            return ids.Select(id => new ImageObjInfo
+            {
+                Id = id,
+                UsedBy =
+                allergyImageIds.Contains(id) ? EImageObjType.Allergy :
+                receiptImageIds.Contains(id) ? EImageObjType.Recipe :
+                productImageIds.Contains(id) ? EImageObjType.Product :
+                userImageIds.Contains(id) ?    EImageObjType.User : 
+                                               EImageObjType.None
+            }).ToList();
+
+        }
+        public bool DoesPictureExist(int id)
+        {
+            return Context.ImageObjs.Any(i => i.Id == id);
+        }
+
+        public bool IsPictureAvailiable(int imageObjId, EImageObjType type, int targetId)
+        {
+            if (targetId == 0) { type = EImageObjType.None; }
+
+            var allergyImageId = Context.Allergies.Where(a => a.ImgObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
+            var productImageId = Context.Products.Where(p => p.ImageObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
+            var receiptImageId = Context.Recipes.Where(r => r.ImageObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
+            var userImageId = Context.Users.Where(u => u.ImageObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
+
+            switch (type)
+            {
+                case EImageObjType.Allergy: return (allergyImageId == 0 || allergyImageId == targetId) && productImageId == 0 && receiptImageId == 0 && userImageId == 0;
+                case EImageObjType.Product: return allergyImageId == 0 && (productImageId == 0 || productImageId == targetId) && receiptImageId == 0 && userImageId == 0;
+                case EImageObjType.Recipe: return allergyImageId == 0 && productImageId == 0 && (receiptImageId == 0 || receiptImageId == targetId) && userImageId == 0;
+                case EImageObjType.User: return allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && (userImageId == 0 || userImageId == targetId);
+                default: return allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && userImageId == 0;
+            }
+
         }
 
         public Event ReadEventById(int Id)
@@ -344,9 +387,14 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
+        public void UpdatePicture(ImageObj image)
+        {
+            Context.ImageObjs.Update(image);
+            Context.SaveChanges();
+        }
         public void DeletePicture(int id)
         {
-            ImageObj img = ReadImageById(id);
+            ImageObj? img = ReadImageById(id);
             if (img != null)
             {
                 Context.ImageObjs.Remove(img);
@@ -356,7 +404,7 @@ namespace Verrukkulluk.Data
 
         public Event AddParticipantToEvent(string name, string email, int eventId)
         {
-            Event eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);
+            Event? eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);
 
             if (eventModel != null)
             {
@@ -375,9 +423,66 @@ namespace Verrukkulluk.Data
 
         }
 
+        public List<Allergy> ReadAllAllergies()
+        {
+            return Context.Allergies.ToList();
+        }
+
+        public Allergy? ReadAllergyById(int id)
+        {
+            return Context.Allergies.Find(id);
+        }
+
+        public void CreateAllergy(Allergy allergy)
+        {
+            Context.Allergies.Add(allergy);
+            Context.SaveChanges();
+        }
+
+        public void UpdateAllergy(Allergy allergy)
+        {
+            Context.Allergies.Update(allergy);
+            Context.SaveChanges();
+        }
 
 
+        public List<PackagingType> ReadAllPackagingTypes()
+        {
+            return Context.PackagingTypes.ToList();
+        }
 
+        public bool DoAllergiesExist(int[] ids)
+        {
+            return Context.Allergies.Where(a => ids.Contains(a.Id)).Count() == ids.Length;
+        }
 
+        public bool DoesPackagingTypeExist(int id)
+        {
+            return Context.PackagingTypes.Any(i => i.Id == id);
+        }
+
+        public bool DoesAllergyNameAlreadyExist(string name, int id)
+        {
+            return Context.Allergies.Any(a => a.Name == name && a.Id != id);
+        }
+
+        public void CreatePackagingType(PackagingType packagingType)
+        {
+            Context.PackagingTypes.Add(packagingType);
+            Context.SaveChanges();
+        }
+
+        public void UpdatePackagingType(PackagingType packagingType)
+        {
+            Context.PackagingTypes.Update(packagingType);
+            Context.SaveChanges();
+        }
+
+        public bool DoesPackagingTypeNameAlreadyExist(string name, int id)
+        {
+            return Context.PackagingTypes.Any(a => a.Name == name && a.Id != id);
+        }
+
+        
     }
 }

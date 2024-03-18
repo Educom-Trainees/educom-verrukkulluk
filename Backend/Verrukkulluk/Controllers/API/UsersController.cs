@@ -19,16 +19,14 @@ namespace Verrukkulluk.Controllers.API
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ICrud _crud;
         private IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IServicer _servicer;
 
-        public UsersController(ICrud crud, IMapper mapper, UserManager<User> userManager, IServicer servicer)
+        public UsersController(IMapper mapper, UserManager<User> userManager, IServicer servicer)
         {
-            _crud = crud;
             _mapper = mapper;
-            this._userManager = userManager;
+            _userManager = userManager;
             _servicer = servicer;
         }
 
@@ -93,7 +91,7 @@ namespace Verrukkulluk.Controllers.API
             // Validation?
 
             //find the user by Id and put data into user object
-            User user = await _userManager.FindByIdAsync(id.ToString());
+            User? user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
                 return NotFound("User not found");

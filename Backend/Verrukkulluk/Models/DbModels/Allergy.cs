@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk
@@ -5,6 +6,7 @@ namespace Verrukkulluk
     public class Allergy
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
 
         public int ImgObjId { get; set; }

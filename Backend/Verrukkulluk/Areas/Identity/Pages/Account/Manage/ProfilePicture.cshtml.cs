@@ -40,7 +40,7 @@ public class ProfilePictureModel : PageModel
         {
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
-        ProfilePicture = _servicer.GetImage(user.ImageObjId);
+        FillModel(user);
         return Page();
     }
 
@@ -54,18 +54,20 @@ public class ProfilePictureModel : PageModel
 
         if (!ModelState.IsValid)
         {
-            ProfilePicture = _servicer.GetImage(user.ImageObjId);
+            FillModel(user);
             return Page();
         }
 
         if (Input.ProfilePicture != null)
         {
-            if (user.ImageObjId != 0) {
-               // TODO _servicer.DeletePicture(user.ImageObjId);
-            }
+            var orgImageObjId = user.ImageObjId; 
             user.ImageObjId = await _servicer.SavePictureAsync(Input.ProfilePicture);
 
             var result = await _userManager.UpdateAsync(user);
+            
+            if (orgImageObjId != 0) {
+               _servicer.DeletePicture(orgImageObjId);
+            }
 
             if (result.Succeeded)
             {
@@ -75,13 +77,18 @@ public class ProfilePictureModel : PageModel
             {
                 StatusMessage = "Er ging iets fout tijdens het bijwerken.";
             }
+            FillModel(user);
             return RedirectToPage();
         }
         else
         {
-            ProfilePicture = _servicer.GetImage(user.ImageObjId);
+            FillModel(user);
             return Page();
         }
+    }
+    private void FillModel(User user)
+    {
+        ProfilePicture = _servicer.GetImage(user.ImageObjId) ?? new ImageObj();
     }
 }
 
