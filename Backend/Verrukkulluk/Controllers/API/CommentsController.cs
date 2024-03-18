@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
+using Verrukkulluk.Migrations;
 using Verrukkulluk.Models;
 using Verrukkulluk.Models.DTOModels;
 
@@ -27,7 +29,7 @@ namespace Verrukkulluk.Controllers.API
         }
 
 
-        //GET: api/Comments
+       //GET: api/Comments
        [HttpGet]
        [Produces("application/json")]
        [ProducesResponseType(StatusCodes.Status200OK)]
@@ -46,15 +48,14 @@ namespace Verrukkulluk.Controllers.API
         }
 
 
-        //GET: api/Comments/users/5
-        [HttpGet("users/{id}")]
+        //GET: api/Comments/users/{userId}
+        [HttpGet("users/{userId}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetCommentsByUserId(int userId)
         {
-        
-            CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadRatingsByUserId(userId));
+             IEnumerable<CommentDTO> commentDTO = _mapper.Map<IEnumerable<CommentDTO>>(_crud.ReadRatingsByUserId(userId));
 
             if (commentDTO == null)
             {
@@ -66,15 +67,15 @@ namespace Verrukkulluk.Controllers.API
         }
 
 
-        //GET: api/Comments/recipes/5
-        [HttpGet("recipes/{id}")]
+        //GET: api/Comments/recipes/{recipeId}
+        [HttpGet("recipes/{recipeId}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetCommentByRecipeId(int recipeId)
         {
 
-            CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadRatingsByRecipeId(recipeId));
+            IEnumerable<CommentDTO> commentDTO = _mapper.Map<IEnumerable<CommentDTO>>(_crud.ReadRatingsByRecipeId(recipeId));
 
             if (commentDTO == null)
             {
@@ -86,41 +87,50 @@ namespace Verrukkulluk.Controllers.API
         }
 
 
+        // PUT: api/Comments/users/{userId}
+        [HttpPut("users/{userId}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> PutComment(int userId, CommentDTO commentDTO)
+        {
+            if (userId != commentDTO.UserId)
+            {
+                return BadRequest("Ids must match");
+            }
 
-        //// PUT: api/Comments/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutComment(int id, Comment comment)
-        //{
-        //    if (id != comment.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+            //find the comment by recipeId and by userId. and put data into RecipeRating object
+            RecipeRating? recipeRating =  _crud.ReadRatingByUserIdAndRecipeId(commentDTO.RecipeId, userId);
+            if (recipeRating == null)
+            {
+                return NotFound("Comment not found");
+            }
 
-        //    _context.Entry(comment).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CommentExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+            //update RecipeRating object with modified comment & ratingvalue (from CommentDTO)
+            recipeRating.Comment = commentDTO.Comment;
+            recipeRating.RatingValue = commentDTO.RatingValue;
 
 
+            //update database with modified comment object and store result
+            bool success = _crud.AddOrUpdateRecipeRating(recipeRating.RecipeId, recipeRating.UserId, recipeRating.RatingValue, recipeRating.Comment);
 
-        //// DELETE: api/Comments/5
+            if(!success)
+            {
+                return UnprocessableEntity("Could not update comment");
+            }
+
+            // Map the updated RecipeRating object back to a CommentDTO
+            CommentDTO updatedCommentDTO = _mapper.Map<CommentDTO>(recipeRating);
+
+            return Ok(updatedCommentDTO);
+        }
+
+
+
+        // DELETE: api/Comments/5
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteComment(int id)
         //{

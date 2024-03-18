@@ -287,22 +287,6 @@ namespace Verrukkulluk.Data
             }
         }
 
-        public int? ReadUserRating(int recipeId, int userId)
-        {
-            var rating = Context.RecipeRatings
-                .FirstOrDefault(r => r.RecipeId == recipeId && r.UserId == userId);
-
-            return rating?.RatingValue;
-        }
-
-        public string? ReadUserComment(int recipeId, int userId)
-        {
-            var comment = Context.RecipeRatings
-                .FirstOrDefault(c => c.RecipeId == recipeId && c.UserId == userId);
-
-            return comment?.Comment;
-        }
-
         public List<RecipeRating> ReadRatingsByRecipeId(int recipeId)
         {
             return Context.RecipeRatings.Where(c => c.RecipeId == recipeId).ToList();
@@ -312,6 +296,23 @@ namespace Verrukkulluk.Data
         {
             return Context.RecipeRatings.Where(c => c.UserId == userId).ToList();
         }
+
+      
+        public RecipeRating ReadRatingByUserIdAndRecipeId(int recipeId, int userId)
+        {
+
+            var recipeRating = Context.RecipeRatings
+                          .FirstOrDefault(c => c.RecipeId == recipeId && c.UserId == userId);
+
+            if(recipeRating == null)
+            {
+                return null;
+            }
+
+            return recipeRating;
+   
+        }
+
 
         public List<RecipeRating> ReadAllRatings()
         {

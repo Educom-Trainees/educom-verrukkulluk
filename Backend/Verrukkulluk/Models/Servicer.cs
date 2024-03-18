@@ -170,7 +170,7 @@ namespace Verrukkulluk.Models
                     return null;
                 }
             }
-            return Crud.ReadUserRating(recipeId, parsedUserId);
+            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, parsedUserId)?.RatingValue;
         }
 
         public List<RecipeRating> GetRatingsByUserId(int userId)
@@ -187,7 +187,7 @@ namespace Verrukkulluk.Models
                 return null;
 
             }
-            return Crud.ReadUserComment(recipeId, parsedUserId);
+            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, parsedUserId)?.Comment;
         }
 
         public void UpdateAverageRating(int recipeId)
