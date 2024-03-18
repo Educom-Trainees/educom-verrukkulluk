@@ -6,7 +6,7 @@ namespace Verrukkulluk.Controllers
     {
         public static bool IsValid(this ModelStateDictionary modelState, string key)
         {
-            return modelState[key]?.ValidationState == ModelValidationState.Valid;
+            return modelState[key]?.ValidationState != ModelValidationState.Invalid;
         }
     }
 }

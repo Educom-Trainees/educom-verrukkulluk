@@ -122,7 +122,7 @@ namespace Verrukkulluk.Models
             //base64RecipePicture = Convert.ToBase64String(Recipe.DishPhoto);
         }
 
-        public ImageObj GetImage(int Id)
+        public ImageObj? GetImage(int Id)
         {
             return Crud.ReadImageById(Id);
         }

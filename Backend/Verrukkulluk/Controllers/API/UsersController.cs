@@ -19,22 +19,23 @@ namespace Verrukkulluk.Controllers.API
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ICrud _crud;
         private IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IServicer _servicer;
 
-        public UsersController(ICrud crud, IMapper mapper, UserManager<User> userManager, IServicer servicer)
+        public UsersController(IMapper mapper, UserManager<User> userManager, IServicer servicer)
         {
-            _crud = crud;
             _mapper = mapper;
-            this._userManager = userManager;
+            _userManager = userManager;
             _servicer = servicer;
         }
 
         //// GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             IEnumerable<User> users = await _userManager.GetUsersInRoleAsync("VerUser");
             users = users.Concat(await _userManager.GetUsersInRoleAsync("Admin"));
@@ -90,7 +91,7 @@ namespace Verrukkulluk.Controllers.API
             // Validation?
 
             //find the user by Id and put data into user object
-            User user = await _userManager.FindByIdAsync(id.ToString());
+            User? user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
                 return NotFound("User not found");

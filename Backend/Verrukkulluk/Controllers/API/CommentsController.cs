@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models;
+using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Controllers.API
 {
@@ -24,25 +26,56 @@ namespace Verrukkulluk.Controllers.API
             _mapper = mapper;
         }
 
-        //// GET: api/Comments
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Comment>>> GetComment()
-        //{
-        //    return await _context.Comment.ToListAsync();
-        //}
+        //getComments (alle comments ophalen)
+        //GetUserComments (alle comments per user ophalen)
+        //PutComment (comment van een gebruiker aanpassen)
+        //DeleteComment (comment van gebruiker verwijderen)
 
-        //// GET: api/Comments/5
+
+        //GetAllRatings/getAllComments: alle comments/ratings ophalen: ReadAllRatings
+        //GetByUserId: comments per user ophalen:  ReadRatingsByUserId (crud)
+        //GetByRecipeId: comments per recept (alle comments van verschillende users): ReadRatingsByRecipeId (deze functie zelf net gemaakt)
+
+        //GET: api/Comments
+       [HttpGet]
+       [Produces("application/json")]
+       [ProducesResponseType(StatusCodes.Status200OK)]
+       [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IEnumerable<CommentDTO> GetAllComments()
+        {
+            IEnumerable<RecipeRating> recipeRatings = _crud.ReadAllRatings();
+            IEnumerable<CommentDTO> commentDTO = _mapper.Map<IEnumerable<CommentDTO>>(recipeRatings);
+
+            if (commentDTO == null)
+            {
+                return Enumerable.Empty<CommentDTO>();
+            }
+
+            return commentDTO;
+        }
+
+        //api/Comments/users/id
+
+
+        //GET: api/Comments/5
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<Comment>> GetComment(int id)
+        //[Produces("application/json")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> GetComment(int id)
         //{
-        //    var comment = await _context.Comment.FindAsync(id);
+        //    //waar haal ik recipeId vandaan? Nu maar even hardcoded.
+        //    var recipeId = 2;
 
-        //    if (comment == null)
+        //    CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadUserComment(recipeId, id));
+
+        //    if (commentDTO == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return comment;
+        //    return Ok(commentDTO);
+
         //}
 
         //// PUT: api/Comments/5
@@ -76,16 +109,7 @@ namespace Verrukkulluk.Controllers.API
         //    return NoContent();
         //}
 
-        //// POST: api/Comments
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Comment>> PostComment(Comment comment)
-        //{
-        //    _context.Comment.Add(comment);
-        //    await _context.SaveChangesAsync();
 
-        //    return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
-        //}
 
         //// DELETE: api/Comments/5
         //[HttpDelete("{id}")]

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Verrukkulluk;
 using Verrukkulluk.Data;
+using Verrukkulluk.Models;
 using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Controllers.API
@@ -67,22 +68,26 @@ namespace Verrukkulluk.Controllers.API
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ProductDTO> PostProduct(ProductDTO productDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<ProductDTO> PostProduct([FromBody]ProductDTO productDto)
         {
-            Product product = _mapper.Map<Product>(productDTO);
-
+            ValidateProductDto(productDto);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            Product product = _mapper.Map<Product>(productDto);
             Product createdProduct = _crud.CreateProduct(product);
 
             if (createdProduct != null)
             {
                 // Map the created product back to a DTO
-                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(createdProduct);
+                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(_crud.ReadProductById(createdProduct.Id));
                 // Return the DTO of the created product with the appropriate status code
                 return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProductDTO);
             } else
             {
-                return BadRequest("Failed to create product.");
+                return Problem("Failed to create product.", statusCode: 500);
             }
         }
 
@@ -90,22 +95,15 @@ namespace Verrukkulluk.Controllers.API
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult PutProduct(int id, ProductDTO productDto)
         {
-            if (id != productDto.Id)
-            {
-                return BadRequest("Id does not match");
-            }
+            Product? product = ValidateProductDto(productDto, id);
 
-            Product? product = null;
-            if (ModelState.IsValid(nameof(ProductDTO.Name)))
-            {
-                product = _crud.ReadProductByName(productDto.Name);
-                if (product != null && product.Id != id)
-                {
-                    ModelState.AddModelError(nameof(ProductDTO.Name), "Een ander product heeft deze naam al");
-                }
-            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -114,20 +112,59 @@ namespace Verrukkulluk.Controllers.API
             product ??= _crud.ReadProductById(id);
             if (product == null)
             {
-               return NotFound();
+                return NotFound();
             }
-            _logger.LogError("Update product {ProductDto.Name} failed", productDto.Name);
             try
             {
+                int previousImageObjId = product.ImageObjId;
                 _mapper.Map(productDto, product);
                 _crud.UpdateProduct(product);
-                return NoContent();                
+                if (previousImageObjId != product.ImageObjId)
+                {
+                    _crud.DeletePicture(previousImageObjId);
+                }
+                return NoContent();
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Update product {ProductDto.Name} failed", productDto.Name);
                 return Problem(statusCode: 500);
             }
+        }
+
+        private Product? ValidateProductDto(ProductDTO productDto, int id = 0)
+        {
+            if (id != productDto.Id)
+            {
+                ModelState.AddModelError(nameof(ProductDTO.Id), $"The id should be {id}");
+            }
+
+            Product? product = null;
+            product = _crud.ReadProductByName(productDto.Name);
+            if (product != null && product.Id != id)
+            {
+                ModelState.AddModelError(nameof(ProductDTO.Name), "There is another product with this name");
+            }
+
+            if (!_crud.DoesPictureExist(productDto.ImageObjId))
+            {
+                ModelState.AddModelError(nameof(ProductDTO.ImageObjId), "The image is not (yet) stored");
+            } else if (!_crud.IsPictureAvailiable(productDto.ImageObjId, EImageObjType.Product, productDto.Id))
+            {
+                ModelState.AddModelError(nameof(ProductDTO.ImageObjId), "The image is already linked to another object");
+            }
+
+            if (!_crud.DoesPackagingTypeExist(productDto.PackagingId))
+            {
+                ModelState.AddModelError(nameof(ProductDTO.PackagingId), "Unknown packaging id");
+            }
+
+            if (!_crud.DoAllergiesExist(productDto.Allergies.Select(a => a.Id).ToArray()))
+            {
+                ModelState.AddModelError(nameof(ProductDTO.Allergies), "One of the allergy id's is unknown");
+            }
+
+            return product;
         }
 
         // // DELETE: api/Products/5
