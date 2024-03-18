@@ -23,6 +23,8 @@ namespace Verrukkulluk.Data
                 int? ReadUserRating(int recipeId, int userId);
                 string? ReadUserComment(int recipeId, int userId);
                 List<RecipeRating> ReadRatingsByUserId(int userId);
+
+                List<RecipeRating> ReadRatingsByRecipeId(int recipeId);
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
                 List<ImageObjInfo> ReadAllIPictureIds();

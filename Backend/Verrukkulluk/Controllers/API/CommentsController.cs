@@ -26,15 +26,6 @@ namespace Verrukkulluk.Controllers.API
             _mapper = mapper;
         }
 
-        //getComments (alle comments ophalen)
-        //GetUserComments (alle comments per user ophalen)
-        //PutComment (comment van een gebruiker aanpassen)
-        //DeleteComment (comment van gebruiker verwijderen)
-
-
-        //GetAllRatings/getAllComments: alle comments/ratings ophalen: ReadAllRatings
-        //GetByUserId: comments per user ophalen:  ReadRatingsByUserId (crud)
-        //GetByRecipeId: comments per recept (alle comments van verschillende users): ReadRatingsByRecipeId (deze functie zelf net gemaakt)
 
         //GET: api/Comments
        [HttpGet]
@@ -54,29 +45,47 @@ namespace Verrukkulluk.Controllers.API
             return commentDTO;
         }
 
-        //api/Comments/users/id
+
+        //GET: api/Comments/users/5
+        [HttpGet("users/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetCommentsByUserId(int userId)
+        {
+        
+            CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadRatingsByUserId(userId));
+
+            if (commentDTO == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(commentDTO);
+
+        }
 
 
-        //GET: api/Comments/5
-        //[HttpGet("{id}")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<IActionResult> GetComment(int id)
-        //{
-        //    //waar haal ik recipeId vandaan? Nu maar even hardcoded.
-        //    var recipeId = 2;
+        //GET: api/Comments/recipes/5
+        [HttpGet("recipes/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetCommentByRecipeId(int recipeId)
+        {
 
-        //    CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadUserComment(recipeId, id));
+            CommentDTO commentDTO = _mapper.Map<CommentDTO>(_crud.ReadRatingsByRecipeId(recipeId));
 
-        //    if (commentDTO == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (commentDTO == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(commentDTO);
+            return Ok(commentDTO);
 
-        //}
+        }
+
+
 
         //// PUT: api/Comments/5
         //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
