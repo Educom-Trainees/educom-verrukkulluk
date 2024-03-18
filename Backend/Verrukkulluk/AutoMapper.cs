@@ -42,8 +42,8 @@ namespace Verrukkulluk
             CreateMap<UserDetailsDTO, UserDetailsModel>();
 
 
-            CreateMap<Comment, CommentDTO>();
-            CreateMap<CommentDTO, Comment>();
+            CreateMap<RecipeRating, CommentDTO>();
+            CreateMap<CommentDTO, RecipeRating>();
 
 
             CreateMap<RecipeDTO, Recipe>();

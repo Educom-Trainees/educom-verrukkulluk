@@ -34,7 +34,10 @@ namespace Verrukkulluk.Controllers.API
 
         //// GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             IEnumerable<User> users = await _userManager.GetUsersInRoleAsync("VerUser");
             users = users.Concat(await _userManager.GetUsersInRoleAsync("Admin"));

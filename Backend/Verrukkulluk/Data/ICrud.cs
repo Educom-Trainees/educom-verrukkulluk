@@ -18,6 +18,8 @@ namespace Verrukkulluk.Data
                 public Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
+
+                List<RecipeRating> ReadAllRatings();
                 int? ReadUserRating(int recipeId, int userId);
                 string? ReadUserComment(int recipeId, int userId);
                 List<RecipeRating> ReadRatingsByUserId(int userId);

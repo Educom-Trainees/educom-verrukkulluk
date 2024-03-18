@@ -260,9 +260,19 @@ namespace Verrukkulluk.Data
             return comment?.Comment;
         }
 
+        public List<RecipeRating> ReadRatingsByRecipeId(int recipeId)
+        {
+            return Context.RecipeRatings.Where(c => c.RecipeId == recipeId).ToList();
+        }
+
         public List<RecipeRating> ReadRatingsByUserId(int userId)
         {
             return Context.RecipeRatings.Where(c => c.UserId == userId).ToList();
+        }
+
+        public List<RecipeRating> ReadAllRatings()
+        {
+            return Context.RecipeRatings.Select(c => c).ToList();
         }
 
 
