@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using Verrukkulluk;
 using Verrukkulluk.Data;
 using Verrukkulluk.Migrations;
@@ -130,25 +131,28 @@ namespace Verrukkulluk.Controllers.API
 
 
 
-        // DELETE: api/Comments/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteComment(int id)
-        //{
-        //    var comment = await _context.Comment.FindAsync(id);
-        //    if (comment == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //DELETE: api/Comments/users/{userId}
+        [HttpDelete("users/{userId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> DeleteRecipeRating(int userId, int recipeId)
+        {
+            if (userId == 0 || recipeId == 0)
+            {
+                return NotFound("UserId and RecipeId cannot be zero");
+            }
 
-        //    _context.Comment.Remove(comment);
-        //    await _context.SaveChangesAsync();
+            var deletionSuccessful = _crud.DeleteRecipeRating(recipeId, userId);
 
-        //    return NoContent();
-        //}
 
-        //private bool CommentExists(int id)
-        //{
-        //    return _context.Comment.Any(e => e.Id == id);
-        //}
+            if (!deletionSuccessful)
+            {
+                return UnprocessableEntity();
+            }
+            return NoContent();
+
+        }
+
     }
 }
