@@ -4,6 +4,12 @@ using Verrukkulluk.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using Microsoft.DotNet.Scaffolding.Shared;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Any;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Verrukkulluk
 {
@@ -28,6 +34,21 @@ namespace Verrukkulluk
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             builder.Services.AddLogging(Console.WriteLine);
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Verrukkulluk API",
+                    Description = "Managing the Admin API"                    
+                });
+
+                // using System.Reflection;
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+                options.EnableAnnotations();
+                options.SchemaFilter<EnumSchemaFilter>();
+            });
 
             builder.Services.TryAddScoped<ICrud, Crud>();
             builder.Services.TryAddScoped<IVerModel, VerModel>();
@@ -72,6 +93,12 @@ namespace Verrukkulluk
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                    options.RoutePrefix = "api";
+                });
                 app.UseMigrationsEndPoint();
             }
             else
@@ -98,6 +125,19 @@ namespace Verrukkulluk
             await SeedDatabase.InitializeDatabase(app);
 
             app.Run();
+        }
+    }
+    public class EnumSchemaFilter : ISchemaFilter
+    {
+        public void Apply(OpenApiSchema model, SchemaFilterContext context)
+        {
+            if (context.Type.IsEnum)
+            {
+                model.Enum.Clear();
+                Enum.GetNames(context.Type)
+                    .ToList()
+                    .ForEach(name => model.Enum.Add(new OpenApiString(name)));
+            }
         }
     }
 }
