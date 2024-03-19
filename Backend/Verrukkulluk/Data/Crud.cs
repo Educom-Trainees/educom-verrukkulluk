@@ -233,6 +233,8 @@ namespace Verrukkulluk.Data
 
         }
 
+        //Events
+
         public Event ReadEventById(int Id)
         {
             return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).First();
@@ -241,6 +243,12 @@ namespace Verrukkulluk.Data
         public List<Event> ReadAllEvents()
         {
             return Context.Events.ToList();
+        }
+
+        //Recipe Ratings
+        public List<RecipeRating> ReadAllRatings()
+        {
+            return Context.RecipeRatings.Select(c => c).ToList();
         }
 
         public bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment)
@@ -314,10 +322,31 @@ namespace Verrukkulluk.Data
         }
 
 
-        public List<RecipeRating> ReadAllRatings()
+  
+        public bool DeleteRecipeRating(int recipeId, int userId)
         {
-            return Context.RecipeRatings.Select(c => c).ToList();
+            try
+            {
+                var recipeRating = Context.RecipeRatings
+                    .FirstOrDefault(c => c.RecipeId == recipeId && c.UserId == userId);
+                if (recipeRating != null)
+                {
+                    Context.RecipeRatings.Remove(recipeRating);
+                    Context.SaveChanges();
+                    return true; 
+                }
+                else
+                {
+                    return false; 
+                }
+            }
+            catch (Exception e)
+            {
+                return false; 
+            }
         }
+
+
 
 
         public double? GetAverageRating(int recipeId)

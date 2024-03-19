@@ -25,6 +25,8 @@ namespace Verrukkulluk.Data
                 List<RecipeRating> ReadRatingsByUserId(int userId);
 
                 List<RecipeRating> ReadRatingsByRecipeId(int recipeId);
+
+                bool DeleteRecipeRating(int recipeId, int userId);
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
                 List<ImageObjInfo> ReadAllIPictureIds();
