@@ -513,6 +513,9 @@ namespace Verrukkulluk.Data
             return Context.PackagingTypes.Any(a => a.Name == name && a.Id != id);
         }
 
-        
+        public bool DoesRecipeTitleAlreadyExist(string title, int id)
+        {
+            return Context.Recipes.Any(r => r.Title == title && r.Id != id);
+        }
     }
 }

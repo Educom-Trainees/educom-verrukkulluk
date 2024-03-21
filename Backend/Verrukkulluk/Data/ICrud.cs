@@ -37,6 +37,7 @@ namespace Verrukkulluk.Data
                 Product CreateProduct(Product product);
                 void UpdateProduct(Product product);
                 void CreateRecipe(Recipe newRecipe);
+                bool DoesRecipeTitleAlreadyExist(string title, int id);
                 void UpdateRecipe(Recipe recipe);
                 string DeleteRecipe(int recipeId);
                 Event AddParticipantToEvent(string name, string email, int id);
