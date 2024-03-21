@@ -44,6 +44,13 @@ namespace Verrukkulluk.Controllers.API
             return productDTOs;
         }
 
+        [HttpGet("IngredientTypes")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<IngredientType>> GetIngredientTypes()
+        {
+            return Ok(Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>());
+        }
         // GET: api/Products/5
         [HttpGet("{id}")]
         [Produces("application/json")]
@@ -60,6 +67,7 @@ namespace Verrukkulluk.Controllers.API
 
             return productDTO;
         }
+        
 
         //POST: api/Products
         //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
