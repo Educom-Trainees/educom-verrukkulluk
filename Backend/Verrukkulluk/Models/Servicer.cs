@@ -225,5 +225,10 @@ namespace Verrukkulluk.Models
         {
             return Crud.AddParticipantToEvent(name, email, id);
         }
+
+        public IEnumerable<KitchenType> GetAllKitchenTypes()
+        {
+            return Crud.ReadAllKitchenTypes();
+        }
     }
 }

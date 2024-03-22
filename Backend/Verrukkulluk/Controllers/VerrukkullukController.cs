@@ -77,10 +77,10 @@ namespace Verrukkulluk.Controllers
             FavoritesModel.Recipes = Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
-        private async Task FillModel(AddRecipe model)
+        private void FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
-            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
+            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
             model.Recipe.Instructions = (model?.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null)
@@ -100,7 +100,7 @@ namespace Verrukkulluk.Controllers
         public async Task<IActionResult> ReceptMaken()
         {
             AddRecipe model = new AddRecipe();
-            await FillModel(model);
+            FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
@@ -167,7 +167,7 @@ namespace Verrukkulluk.Controllers
                 }
                 return RedirectToAction("Recept", new { Id = modifiedRecipe.Recipe.Id });
             }
-            await FillModel(modifiedRecipe);
+            FillModel(modifiedRecipe);
             return View("CreateRecipe", modifiedRecipe);
         }
 
@@ -176,7 +176,7 @@ namespace Verrukkulluk.Controllers
         {
             Recipe r = Servicer.GetRecipeById(id);
             AddRecipe model = new AddRecipe(r);
-            await FillModel(model);
+            FillModel(model);
             return base.View("CreateRecipe", model);
         }
 

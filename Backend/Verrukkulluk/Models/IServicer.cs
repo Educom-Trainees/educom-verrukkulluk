@@ -28,5 +28,6 @@ namespace Verrukkulluk.Models
                 void UpdateRecipe(Recipe recipe);
                 void DeletePicture(int imageObjId);
                 Event AddParticipantToEvent(string name, string email, int id);
-        }
+                IEnumerable<KitchenType> GetAllKitchenTypes();
+    }
 }

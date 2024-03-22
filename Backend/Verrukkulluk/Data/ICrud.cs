@@ -52,5 +52,16 @@ namespace Verrukkulluk.Data
                 void CreatePackagingType(PackagingType packagingType);
                 void UpdatePackagingType(PackagingType packagingType);
                 bool DoesPackagingTypeNameAlreadyExist(string name, int id);
+        bool DoesProductNameAlreadyExist(string name, int id);
+        int ReadImageObjIdForProductId(int id);
+        int ReadImageObjIdForAllergyId(int id);
+        int ReadImageObjIdForRecipeId(int id);
+        KitchenType? ReadKitchenTypeById(int kitchenTypeId);
+        IEnumerable<KitchenType> ReadAllKitchenTypes();
+        void CreateKitchenType(KitchenType kickenType);
+        void UpdateKitchenType(KitchenType kickenType);
+        bool DoesKitchenTypeExist(int id);
+        bool DoesKitchenTypeNameAlreadyExist(string name, int id);
+        bool DoesProductIdExists(int productId);
     }
 }
