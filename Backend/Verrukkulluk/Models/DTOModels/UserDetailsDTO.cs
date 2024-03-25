@@ -7,11 +7,19 @@
         public string UserCityOfResidence { get; set; }
         public string UserPhoneNumber { get; set; }
 
-        public List<string> FavouriteRecipesTitles { get; set; }
+        /// <summary>
+        /// Recipes Written by this user
+        /// </summary>
+        public List<RecipeBaseDTO> Recipes { get; set; }
 
-        public List<string> CommentedRecipe {  get; set; }
+        /// <summary>
+        /// Favourite recipes of this user
+        /// </summary>
+        public List<RecipeBaseDTO> FavouriteRecipes { get; set; }
 
-        public List<string> RecipeComment { get; set; }
-
+        /// <summary>
+        /// Recipes this user has commented on
+        /// </summary>
+        public List<RecipeBaseDTO> CommentedRecipe {  get; set; }
     }
 }

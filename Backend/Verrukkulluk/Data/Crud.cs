@@ -120,6 +120,7 @@ namespace Verrukkulluk.Data
                         .ThenInclude(i => i.Product)
                             .ThenInclude(p => p.ProductAllergies)
                                 .ThenInclude(p => p.Allergy)
+                    .Include(r => r.Comments)
                     .Where(recipe => recipe.CreatorId == userId)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -133,7 +134,11 @@ namespace Verrukkulluk.Data
             return null;
         }
 
-        public RecipeInfo ReadRecipeById(int Id)
+        public Recipe? ReadRecipeById(int id)
+        {
+            return Context.Recipes.Find(id);
+        }
+        public RecipeInfo? ReadRecipeInfoById(int Id)
         {
             var recipe = Context.Recipes
                 .Include(r => r.KitchenType)

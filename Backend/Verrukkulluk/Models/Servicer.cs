@@ -52,25 +52,13 @@ namespace Verrukkulluk.Models
             return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
         }
 
-        public List<RecipeInfo> GetUserFavorites()
+        public async Task<List<RecipeInfo>> GetUserFavorites()
         {
-            if (HttpContextAccessor?.HttpContext?.User == null)
-            {
-                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
-            }
-            var tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            if (int.TryParse(tempUserId, out int userId))
-            {
-                //Hoe de favorieten uit de crud gehaald moeten worden. !Nog aanpassen! Nu zijn het de recepten die iemand zelf gemaakt heeft
-                return Crud.ReadAllRecipesByUserId(userId);
-            }
-            return null;
+            User? user = await GetCurrentUser();
+            return user.FavouritesList?.Select(r => new RecipeInfo(r)).ToList() ?? new List<RecipeInfo>();
         }
 
-        //public List<RecipeInfo> GetFavoritesByUserId(int userId) {
-        //return Crud.ReadAllRecipesByUserId(userId) ?? new List<RecipeInfo>();
-        //}
-
+                
         public List<Product> GetAllProducts()
         {
             return Crud.ReadAllProducts();
@@ -116,9 +104,9 @@ namespace Verrukkulluk.Models
             return Crud.ReadProductById(productId);
         }
 
-        public RecipeInfo GetRecipeById(int Id)
+        public RecipeInfo? GetRecipeInfoById(int Id)
         {
-            return Crud.ReadRecipeById(Id);
+            return Crud.ReadRecipeInfoById(Id);
             //base64RecipePicture = Convert.ToBase64String(Recipe.DishPhoto);
         }
 
@@ -229,6 +217,19 @@ namespace Verrukkulluk.Models
         public IEnumerable<KitchenType> GetAllKitchenTypes()
         {
             return Crud.ReadAllKitchenTypes();
+        }
+        private async Task<User> GetCurrentUser()
+        {
+            if (HttpContextAccessor.HttpContext?.User == null)
+            {
+                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
+            }
+            User? user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User!);
+            if (user == null)
+            {
+                throw new ArgumentNullException("User unknown");
+            }
+            return user;
         }
     }
 }

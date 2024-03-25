@@ -13,9 +13,10 @@ namespace Verrukkulluk.Data
                 List<RecipeInfo>? ReadAllRecipesByUserId(int userId);
                 Product? ReadProductById(int id);
                 Product? ReadProductByName(string name);
-                public RecipeInfo ReadRecipeById(int Id);
-                public ImageObj? ReadImageById(int Id);
-                public Event ReadEventById(int Id);
+                Recipe? ReadRecipeById(int id);
+                RecipeInfo? ReadRecipeInfoById(int Id);
+                ImageObj? ReadImageById(int Id);
+                Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
 
@@ -52,16 +53,16 @@ namespace Verrukkulluk.Data
                 void CreatePackagingType(PackagingType packagingType);
                 void UpdatePackagingType(PackagingType packagingType);
                 bool DoesPackagingTypeNameAlreadyExist(string name, int id);
-        bool DoesProductNameAlreadyExist(string name, int id);
-        int ReadImageObjIdForProductId(int id);
-        int ReadImageObjIdForAllergyId(int id);
-        int ReadImageObjIdForRecipeId(int id);
-        KitchenType? ReadKitchenTypeById(int kitchenTypeId);
-        IEnumerable<KitchenType> ReadAllKitchenTypes();
-        void CreateKitchenType(KitchenType kickenType);
-        void UpdateKitchenType(KitchenType kickenType);
-        bool DoesKitchenTypeExist(int id);
-        bool DoesKitchenTypeNameAlreadyExist(string name, int id);
-        bool DoesProductIdExists(int productId);
+                bool DoesProductNameAlreadyExist(string name, int id);
+                int ReadImageObjIdForProductId(int id);
+                int ReadImageObjIdForAllergyId(int id);
+                int ReadImageObjIdForRecipeId(int id);
+                KitchenType? ReadKitchenTypeById(int kitchenTypeId);
+                IEnumerable<KitchenType> ReadAllKitchenTypes();
+                void CreateKitchenType(KitchenType kickenType);
+                void UpdateKitchenType(KitchenType kickenType);
+                bool DoesKitchenTypeExist(int id);
+                bool DoesKitchenTypeNameAlreadyExist(string name, int id);
+                bool DoesProductIdExists(int productId);
     }
 }

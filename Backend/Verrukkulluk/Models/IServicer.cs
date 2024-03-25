@@ -12,8 +12,8 @@ namespace Verrukkulluk.Models
                 List<RecipeInfo> GetAllRecipes();
                 List<RecipeInfo> GetUserRecipes();
                 List<RecipeInfo> GetRecipesByUserId(int userId);
-                List<RecipeInfo> GetUserFavorites();
-                RecipeInfo GetRecipeById(int Id);
+                Task<List<RecipeInfo>> GetUserFavorites();
+                RecipeInfo? GetRecipeInfoById(int Id);
                 Task<SignInResult> Login(InputModel input);
                 ImageObj? GetImage(int Id);
                 bool RateRecipe(int recipeId, int ratingValue, string comment);

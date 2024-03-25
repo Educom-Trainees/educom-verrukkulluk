@@ -55,7 +55,12 @@ namespace Verrukkulluk.Controllers
         }
         public IActionResult Recept(int Id = 1)
         {
-            DetailsModel.Recipe = Servicer.GetRecipeById(Id);
+            var recipe = Servicer.GetRecipeInfoById(Id);
+            if (recipe == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            DetailsModel.Recipe = recipe;
 
             ViewData["Title"] = "Recept";
             ViewData["HideCarousel"] = true;
@@ -72,9 +77,9 @@ namespace Verrukkulluk.Controllers
         }
 
         [Authorize(Roles = "VerUser, Admin")]
-        public IActionResult MijnFavorieten()
+        public async Task<IActionResult> MijnFavorieten()
         {
-            FavoritesModel.Recipes = Servicer.GetUserFavorites();
+            FavoritesModel.Recipes = await Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
         private void FillModel(AddRecipe model)
@@ -174,7 +179,7 @@ namespace Verrukkulluk.Controllers
         [HttpGet]
         public async Task<IActionResult> EditRecipe(int id)
         {
-            Recipe r = Servicer.GetRecipeById(id);
+            Recipe r = Servicer.GetRecipeInfoById(id);
             AddRecipe model = new AddRecipe(r);
             FillModel(model);
             return base.View("CreateRecipe", model);
@@ -292,7 +297,7 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult AddRecipeToShoppingList(int recipeId)
         {
-            Recipe Recipe = Servicer.GetRecipeById(recipeId);
+            Recipe Recipe = Servicer.GetRecipeInfoById(recipeId);
             string result = SessionManager.AddRecipeToShoppingList(Recipe);
             if (result == "success")
             {
@@ -341,8 +346,5 @@ namespace Verrukkulluk.Controllers
                 return View("EventParticipation");
             }
         }
-
-
-
     }
 }

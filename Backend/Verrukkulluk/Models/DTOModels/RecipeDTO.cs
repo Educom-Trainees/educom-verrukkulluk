@@ -4,13 +4,8 @@ using Verrukkulluk.Models.DTOModels;
 
 namespace Verrukkulluk.Models.DTOModels
 {
-    public class RecipeDTO
+    public class RecipeDTO : RecipeBaseDTO
     {
-
-        public int Id { get; set; }
-        [MaxLength(50)]
-        [Required(ErrorMessage = "Titel is verplicht.")]
-        public string Title { get; set; }
         [MaxLength(500)]
         [Required(ErrorMessage = "Beschrijving is verplicht.")]
         public string Description { get; set; }
@@ -19,8 +14,6 @@ namespace Verrukkulluk.Models.DTOModels
         public int KitchenTypeId { get; set; }
      
         public string? KitchenTypeName { get; set; }
-
-        public List<CommentDTO>? Comments { get; set; }
 
         [MaxLength(1000)]
         [Required(ErrorMessage = "Beschrijf tenminste stap 1.")]

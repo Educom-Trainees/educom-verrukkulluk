@@ -57,7 +57,7 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<RecipeDTO> GetRecipe(int id)
         {
-            var recipe = _crud.ReadRecipeById(id);
+            var recipe = _crud.ReadRecipeInfoById(id);
 
             if (recipe == null)
             {
@@ -131,7 +131,7 @@ namespace Verrukkulluk.Controllers.API
             }
             catch (Exception e)
             {
-                if (e is DbUpdateConcurrencyException && _crud.ReadRecipeById(id) == null)
+                if (e is DbUpdateConcurrencyException && _crud.ReadRecipeInfoById(id) == null)
                 {
                     return NotFound();
                 }
