@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Verrukkulluk.Models;
 
 namespace Verrukkulluk
@@ -10,6 +11,11 @@ namespace Verrukkulluk
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class Recipe
     {
+        private ILazyLoader _lazyLoader; // implement lazy loading for the favourites
+        private KitchenType kitchenType;
+        private ICollection<Comment>? comments = new List<Comment>();
+        private ICollection<Ingredient> ingredients = new List<Ingredient>();
+
         public int Id { get; set; }
         [MaxLength(50)]
         [Required(ErrorMessage ="Titel is verplicht.")]
@@ -22,11 +28,11 @@ namespace Verrukkulluk
         public int KitchenTypeId { get; set; }
         [ForeignKey(nameof(KitchenTypeId))]
         [ValidateNever]
-        public KitchenType KitchenType { get; set; }
+        public KitchenType KitchenType { get => _lazyLoader.Load(this, ref kitchenType); set => kitchenType = value; }
         [MaxLength(1000)]
         [Required(ErrorMessage ="Beschrijf tenminste stap 1.")]
         public string[] Instructions { get; set; }
-        virtual public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+        virtual public ICollection<Comment>? Comments { get => _lazyLoader.Load(this, ref comments); set => comments = value; }
         public double AverageRating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
@@ -35,8 +41,13 @@ namespace Verrukkulluk
         public int ImageObjId { get; set; }
         [Range(1, 20, ErrorMessage = "Kies een aantal van 1 tot 20 personen.")]
         public int NumberOfPeople { get; set; } = 4;
-        public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+        public ICollection<Ingredient> Ingredients { get => _lazyLoader.Load(this, ref ingredients); set => ingredients = value; }
         public Recipe() { }
+
+        public Recipe(ILazyLoader lazyLoader)
+        {
+            _lazyLoader = lazyLoader;
+        }
         public Recipe(string title, KitchenType kitchenType, string description, string[] instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
             Title = title;

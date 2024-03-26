@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations.Schema;
 using Verrukkulluk.Models;
 
@@ -5,6 +6,10 @@ namespace Verrukkulluk
 {
     public class Product
     {
+        private readonly ILazyLoader _lazyLoader;
+        private ICollection<ProductAllergy> productAllergies;
+        private PackagingType packaging;
+
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
@@ -13,14 +18,18 @@ namespace Verrukkulluk
         public double SmallestAmount { get; set; }
         public int PackagingId { get; set; }
         [ForeignKey(nameof(PackagingId))]
-        public PackagingType Packaging { get; set; }
+        public PackagingType Packaging { get => _lazyLoader.Load(this, ref packaging); set => packaging = value; }
         public IngredientType IngredientType { get; set; }
         public int ImageObjId { get; set; }
         public string Description { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
-        public ICollection<ProductAllergy> ProductAllergies { get; set; }
+        public ICollection<ProductAllergy> ProductAllergies { get => _lazyLoader.Load(this, ref productAllergies); set => productAllergies = value; }
 
         public Product() { }
+        public Product(ILazyLoader lazyLoader)
+        {
+            _lazyLoader = lazyLoader;
+        }
         public Product(string name, decimal price, double calories, double amount, PackagingType packaging, IngredientType ingredientType, int imageObjId, string description, double smallestAmount = 1)
         {
             Name = name;

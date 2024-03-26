@@ -55,7 +55,12 @@ namespace Verrukkulluk.Controllers
         }
         public IActionResult Recept(int Id = 1)
         {
-            DetailsModel.Recipe = Servicer.GetRecipeById(Id);
+            var recipe = Servicer.GetRecipeInfoById(Id);
+            if (recipe == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            DetailsModel.Recipe = recipe;
 
             ViewData["Title"] = "Recept";
             ViewData["HideCarousel"] = true;
@@ -72,15 +77,15 @@ namespace Verrukkulluk.Controllers
         }
 
         [Authorize(Roles = "VerUser, Admin")]
-        public IActionResult MijnFavorieten()
+        public async Task<IActionResult> MijnFavorieten()
         {
-            FavoritesModel.Recipes = Servicer.GetUserFavorites();
+            FavoritesModel.Recipes = await Servicer.GetUserFavorites();
             return View("MyFavorites", FavoritesModel);
         }
-        private async Task FillModel(AddRecipe model)
+        private void FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
-            model.MyKitchenTypeOptions.AddRange(await _context.KitchenTypes.Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToListAsync());
+            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
             model.Recipe.Instructions = (model?.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null)
@@ -100,7 +105,7 @@ namespace Verrukkulluk.Controllers
         public async Task<IActionResult> ReceptMaken()
         {
             AddRecipe model = new AddRecipe();
-            await FillModel(model);
+            FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
@@ -167,16 +172,16 @@ namespace Verrukkulluk.Controllers
                 }
                 return RedirectToAction("Recept", new { Id = modifiedRecipe.Recipe.Id });
             }
-            await FillModel(modifiedRecipe);
+            FillModel(modifiedRecipe);
             return View("CreateRecipe", modifiedRecipe);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditRecipe(int id)
         {
-            Recipe r = Servicer.GetRecipeById(id);
+            Recipe r = Servicer.GetRecipeInfoById(id);
             AddRecipe model = new AddRecipe(r);
-            await FillModel(model);
+            FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
@@ -292,7 +297,7 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult AddRecipeToShoppingList(int recipeId)
         {
-            Recipe Recipe = Servicer.GetRecipeById(recipeId);
+            Recipe Recipe = Servicer.GetRecipeInfoById(recipeId);
             string result = SessionManager.AddRecipeToShoppingList(Recipe);
             if (result == "success")
             {
@@ -341,8 +346,5 @@ namespace Verrukkulluk.Controllers
                 return View("EventParticipation");
             }
         }
-
-
-
     }
 }

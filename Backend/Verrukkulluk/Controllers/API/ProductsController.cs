@@ -44,6 +44,13 @@ namespace Verrukkulluk.Controllers.API
             return productDTOs;
         }
 
+        [HttpGet("IngredientTypes")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<IngredientType>> GetIngredientTypes()
+        {
+            return Ok(Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>());
+        }
         // GET: api/Products/5
         [HttpGet("{id}")]
         [Produces("application/json")]
@@ -60,6 +67,7 @@ namespace Verrukkulluk.Controllers.API
 
             return productDTO;
         }
+        
 
         //POST: api/Products
         //To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -102,22 +110,16 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult PutProduct(int id, ProductDTO productDto)
         {
-            Product? product = ValidateProductDto(productDto, id);
+            ValidateProductDto(productDto, id);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            // if we haven't found the product by name yet, search by id
-            product ??= _crud.ReadProductById(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
             try
             {
-                int previousImageObjId = product.ImageObjId;
-                _mapper.Map(productDto, product);
+                int previousImageObjId = _crud.ReadImageObjIdForProductId(productDto.Id);
+                var product = _mapper.Map<Product>(productDto);
                 _crud.UpdateProduct(product);
                 if (previousImageObjId != product.ImageObjId)
                 {
@@ -127,21 +129,23 @@ namespace Verrukkulluk.Controllers.API
             }
             catch (Exception e)
             {
+                if (e is DbUpdateConcurrencyException && _crud.ReadProductById(id) == null)
+                {
+                    return NotFound();
+                }
                 _logger.LogError(e, "Update product {ProductDto.Name} failed", productDto.Name);
                 return Problem(statusCode: 500);
             }
         }
 
-        private Product? ValidateProductDto(ProductDTO productDto, int id = 0)
+        private void ValidateProductDto(ProductDTO productDto, int id = 0)
         {
             if (id != productDto.Id)
             {
                 ModelState.AddModelError(nameof(ProductDTO.Id), $"The id should be {id}");
             }
 
-            Product? product = null;
-            product = _crud.ReadProductByName(productDto.Name);
-            if (product != null && product.Id != id)
+            if (!_crud.DoesProductNameAlreadyExist(productDto.Name, productDto.Id)) 
             {
                 ModelState.AddModelError(nameof(ProductDTO.Name), "There is another product with this name");
             }
@@ -164,7 +168,6 @@ namespace Verrukkulluk.Controllers.API
                 ModelState.AddModelError(nameof(ProductDTO.Allergies), "One of the allergy id's is unknown");
             }
 
-            return product;
         }
 
         // // DELETE: api/Products/5

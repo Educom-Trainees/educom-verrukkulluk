@@ -121,7 +121,12 @@ namespace Verrukkulluk.Controllers.API
             }
             try
             {
+                int previousImageObjId = _crud.ReadImageObjIdForAllergyId(allergy.Id);
                 _crud.UpdateAllergy(allergy);
+                if (allergy.ImgObjId != previousImageObjId)
+                {
+                    _crud.DeletePicture(previousImageObjId);
+                }
                 return NoContent();
             }
             catch (Exception e)

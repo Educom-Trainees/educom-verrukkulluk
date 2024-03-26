@@ -32,7 +32,9 @@ namespace Verrukkulluk.Data
             builder.Entity<Event>().Property(e => e.StartTime).HasColumnType("time");
             builder.Entity<Event>().Property(e => e.EndTime).HasColumnType("time");
             builder.Entity<Recipe>().HasOne<ImageObj>().WithOne();
+            builder.Entity<Recipe>().HasOne(r => r.Creator).WithMany();
             builder.Entity<Product>().HasOne<ImageObj>().WithOne();
+            builder.Entity<User>().HasMany(u => u.FavouritesList).WithMany().UsingEntity("FavoriteRecipes");
             base.OnModelCreating(builder);
         }
         public DbSet<Verrukkulluk.Comment> Comment { get; set; } = default!;
