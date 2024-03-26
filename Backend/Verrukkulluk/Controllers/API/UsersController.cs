@@ -19,7 +19,7 @@ namespace Verrukkulluk.Controllers.API
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IServicer _servicer;
 
@@ -66,6 +66,24 @@ namespace Verrukkulluk.Controllers.API
             };
 
             var userDetailsDTO = _mapper.Map<UserDetailsDTO>(userDetails);
+            
+            userDetailsDTO.CommentedRecipe = userDetails.RecipeRatings.GroupBy(ur => ur.Recipe)
+                                                        .Select(gr => new RecipeBaseDTO { 
+                                                            Id = gr.Key.Id, 
+                                                            Title = gr.Key.Title,
+                                                            Comments = gr.Select(c => _mapper.Map<CommentDTO>(c)).ToList() 
+                                                        }).ToList();
+
+            // Add the own comments to the own recipes
+            foreach (RecipeBaseDTO recipe in userDetailsDTO.Recipes)
+            {
+                recipe.Comments = userDetails.RecipeRatings.Where(r => r.RecipeId == recipe.Id).Select(r => _mapper.Map<CommentDTO>(r)).ToList();
+            }
+            // Add the own comments to the favourite recipes
+            foreach (RecipeBaseDTO recipe in userDetailsDTO.FavouriteRecipes)
+            {
+                recipe.Comments = userDetails.RecipeRatings.Where(r => r.RecipeId == recipe.Id).Select(r => _mapper.Map<CommentDTO>(r)).ToList();
+            }
 
             return Ok(userDetailsDTO);
         }

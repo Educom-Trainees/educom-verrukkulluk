@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Verrukkulluk.Data;
 
@@ -10,29 +11,16 @@ using Verrukkulluk.Data;
 namespace Verrukkulluk.Migrations
 {
     [DbContext(typeof(VerrukkullukContext))]
-    partial class VerrukkullukContextModelSnapshot : ModelSnapshot
+    [Migration("20240322173841_RemovedUserFromIngredients")]
+    partial class RemovedUserFromIngredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("FavoriteRecipes", b =>
-                {
-                    b.Property<int>("FavouritesListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FavouritesListId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("FavoriteRecipes");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
                 {
@@ -566,21 +554,6 @@ namespace Verrukkulluk.Migrations
                     b.ToTable("Recipes");
                 });
 
-            modelBuilder.Entity("FavoriteRecipes", b =>
-                {
-                    b.HasOne("Verrukkulluk.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("FavouritesListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Verrukkulluk.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
@@ -737,7 +710,7 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>
                 {
                     b.HasOne("Verrukkulluk.Models.User", "Creator")
-                        .WithMany()
+                        .WithMany("FavouritesList")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -762,6 +735,11 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Event", b =>
                 {
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("Verrukkulluk.Models.User", b =>
+                {
+                    b.Navigation("FavouritesList");
                 });
 
             modelBuilder.Entity("Verrukkulluk.Product", b =>

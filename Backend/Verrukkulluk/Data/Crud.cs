@@ -120,6 +120,7 @@ namespace Verrukkulluk.Data
                         .ThenInclude(i => i.Product)
                             .ThenInclude(p => p.ProductAllergies)
                                 .ThenInclude(p => p.Allergy)
+                    .Include(r => r.Comments)
                     .Where(recipe => recipe.CreatorId == userId)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -133,7 +134,11 @@ namespace Verrukkulluk.Data
             return null;
         }
 
-        public RecipeInfo ReadRecipeById(int Id)
+        public Recipe? ReadRecipeById(int id)
+        {
+            return Context.Recipes.Find(id);
+        }
+        public RecipeInfo? ReadRecipeInfoById(int Id)
         {
             var recipe = Context.Recipes
                 .Include(r => r.KitchenType)
@@ -510,9 +515,69 @@ namespace Verrukkulluk.Data
 
         public bool DoesPackagingTypeNameAlreadyExist(string name, int id)
         {
-            return Context.PackagingTypes.Any(a => a.Name == name && a.Id != id);
+            return Context.PackagingTypes.Any(pt => pt.Name == name && pt.Id != id);
         }
 
-        
+        public bool DoesRecipeTitleAlreadyExist(string title, int id)
+        {
+            return Context.Recipes.Any(r => r.Title == title && r.Id != id);
+        }
+
+        public bool DoesProductNameAlreadyExist(string name, int id)
+        {
+            return Context.Products.Any(p => p.Name == name && p.Id != id);
+        }
+
+        public int ReadImageObjIdForProductId(int id)
+        {
+            return Context.Products.Where(a => a.Id == id).Select(a => a.ImageObjId).First();
+        }
+
+        public int ReadImageObjIdForAllergyId(int id)
+        {
+            return Context.Allergies.Where(a => a.Id == id).Select(a => a.ImgObjId).First();
+        }
+
+        public int ReadImageObjIdForRecipeId(int id)
+        {
+            return Context.Recipes.Where(a => a.Id == id).Select(a => a.ImageObjId).First();
+        }
+
+        public void CreateKitchenType(KitchenType kitchenType)
+        {
+            Context.KitchenTypes.Add(kitchenType);
+            Context.SaveChanges();
+        }
+
+        public IEnumerable<KitchenType> ReadAllKitchenTypes()
+        {
+            // Make sure Overige is always last
+            return Context.KitchenTypes.OrderBy(kt => kt.Name == "Overig" ? "ZZZZ": kt.Name);
+        }
+        public KitchenType? ReadKitchenTypeById(int id)
+        {
+            return Context.KitchenTypes.Find(id);
+        }
+
+        public bool DoesKitchenTypeExist(int id)
+        {
+            return Context.KitchenTypes.Any(kt => kt.Id == id);
+        }
+
+        public bool DoesKitchenTypeNameAlreadyExist(string name, int id)
+        {
+            return Context.KitchenTypes.Any(kt => kt.Name == name && kt.Id != id);
+        }
+
+        public void UpdateKitchenType(KitchenType kitchenType)
+        {
+            Context.KitchenTypes.Update(kitchenType);
+            Context.SaveChanges();
+        }
+
+        public bool DoesProductIdExists(int id)
+        {
+            return Context.Products.Any(p => p.Id == id);
+        }
     }
 }

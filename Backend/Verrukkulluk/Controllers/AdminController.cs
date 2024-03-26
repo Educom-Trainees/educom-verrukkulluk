@@ -52,20 +52,16 @@ namespace Verrukkulluk.Controllers
             if (user == null) {
                 return NotFound();
             }
-            user.FirstName = model.User.FirstName;
-            user.PhoneNumber = model.User.PhoneNumber;
-            user.CityOfResidence = model.User.CityOfResidence;
-            user.Email = model.User.Email;
-            //user.PasswordHash = model.User.PasswordHash;
             User? other = await _userManager.FindByEmailAsync(user?.Email ?? "");
             if (other?.Id != id)
             {
                 ModelState.AddModelError("User.Email", "Email already bound to other account");
             }
-            ModelState.Remove(nameof(UserDetailsModel.Recipes));
-            ModelState.Remove(nameof(UserDetailsModel.RecipeRatings));
-            ModelState.Remove(nameof(UserDetailsModel.User) + "." + nameof(UserDetailsModel.User.FavouritesList));
-            ModelState.Remove(nameof(UserDetailsModel.User) + "." + nameof(UserDetailsModel.User.ShoppingList));
+            user.FirstName = model.User.FirstName;
+            user.PhoneNumber = model.User.PhoneNumber;
+            user.CityOfResidence = model.User.CityOfResidence;
+            user.Email = model.User.Email;
+            //user.PasswordHash = model.User.PasswordHash;
             if (ModelState.IsValid) {
                 await _userManager.UpdateAsync(user);
                 return RedirectToAction("Details", new { id = id });
@@ -86,7 +82,7 @@ namespace Verrukkulluk.Controllers
         }
 
         public IActionResult Recipe(int id) {
-            RecipeInfo r = _servicer.GetRecipeById(id);
+            RecipeInfo r = _servicer.GetRecipeInfoById(id);
             if (r == null) {
                 return NotFound();
             }
@@ -96,7 +92,7 @@ namespace Verrukkulluk.Controllers
         [HttpPost]
         public IActionResult RemoveRecipe(int recipeId)
         {
-            var recipe = _servicer.GetRecipeById(recipeId);
+            var recipe = _servicer.GetRecipeInfoById(recipeId);
             if (recipe != null)
             {
                 _servicer.DeleteUserRecipe(recipeId);
