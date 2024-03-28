@@ -46,10 +46,14 @@ namespace Verrukkulluk
 
             CreateMap<UserDetailsDTO, UserDetailsModel>();
 
-            CreateMap<RecipeDTO, Recipe>();
+            CreateMap<RecipeDTO, Recipe>()
+                .ForMember(dest => dest.Ratings,
+                           opt => opt.MapFrom(src => src.Comments));
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(dest => dest.CreatorName,
-                           opt => opt.MapFrom(src => src.Creator.FirstName));
+                           opt => opt.MapFrom(src => src.Creator.FirstName))
+                .ForMember(dest => dest.Comments,
+                           opt => opt.MapFrom(src => src.Ratings));
 
             CreateMap<Recipe, RecipeBaseDTO>();
             CreateMap<RecipeRating, RecipeBaseDTO>()

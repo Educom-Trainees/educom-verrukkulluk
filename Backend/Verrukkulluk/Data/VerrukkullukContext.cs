@@ -37,6 +37,5 @@ namespace Verrukkulluk.Data
             builder.Entity<User>().HasMany(u => u.FavouritesList).WithMany().UsingEntity("FavoriteRecipes");
             base.OnModelCreating(builder);
         }
-        public DbSet<Verrukkulluk.Comment> Comment { get; set; } = default!;
     }
 }
