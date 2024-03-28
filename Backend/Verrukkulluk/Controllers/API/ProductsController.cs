@@ -145,7 +145,7 @@ namespace Verrukkulluk.Controllers.API
                 ModelState.AddModelError(nameof(ProductDTO.Id), $"The id should be {id}");
             }
 
-            if (!_crud.DoesProductNameAlreadyExist(productDto.Name, productDto.Id)) 
+            if (_crud.DoesProductNameAlreadyExist(productDto.Name, productDto.Id)) 
             {
                 ModelState.AddModelError(nameof(ProductDTO.Name), "There is another product with this name");
             }

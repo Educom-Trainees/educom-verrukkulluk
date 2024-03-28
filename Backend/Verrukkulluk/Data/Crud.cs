@@ -406,7 +406,31 @@ namespace Verrukkulluk.Data
 
         public void UpdateProduct(Product product)
         {
-            Context.Products.Update(product);
+            Product? existingProduct = Context.Products.Include(p => p.ProductAllergies).FirstOrDefault(p => p.Id == product.Id);
+            if (existingProduct == null)
+            {
+                return;
+            }
+            List<ProductAllergy> existingAllergies = existingProduct.ProductAllergies.ToList();
+            List<ProductAllergy> newAllergies = product.ProductAllergies.ToList();
+            Context.Entry(existingProduct).CurrentValues.SetValues(product);
+            foreach (var item in existingAllergies)
+            {
+                if (!newAllergies.Any(pa => pa.AllergyId == item.AllergyId))
+                {
+                    // Remove deleted allergies
+                    Context.ProductAllergies.Remove(item);
+                }
+            }
+            foreach (var item in newAllergies)
+            {
+                if (!existingAllergies.Any(pa => pa.AllergyId == item.AllergyId))
+                {
+                    // Add new allergies
+                    Context.ProductAllergies.Add(item);
+                }
+            }
+            
             Context.SaveChanges();
         }
 
