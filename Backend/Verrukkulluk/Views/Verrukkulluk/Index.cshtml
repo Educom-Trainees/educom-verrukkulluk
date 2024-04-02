@@ -14,29 +14,35 @@
                         <div class="display-block">
                             <div class="container text-start agenda-scroll" id="agendaScroll">
                                 <!-- Events -->
-                                @foreach (Event Event in Model.Events)
+                                @if (Model.Events != null)
                                 {
-                                    <div id="event@(Event.Id)" class="agenda-event">
-                                        <div class="d-inline-flex">
-                                            <div class="px-2">
-                                                <h3><i class="bi bi-calendar-date-fill white"></i></h3>
-                                            </div>
-                                            <div class="px-2">
-                                                <div>
-                                                    <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-id="@Event.Id"><h3>@Event.Title</h3></a>
+                                    @foreach (Event Event in Model.Events)
+                                    {
+                                        <div id="event@(Event.Id)" class="agenda-event">
+                                            <div class="d-inline-flex">
+                                                <div class="px-2">
+                                                    <h3><i class="bi bi-calendar-date-fill white"></i></h3>
                                                 </div>
-                                                <p>@Event.Description</p>
+                                                <div class="px-2">
+                                                    <div>
+                                                        <a class="event-link" asp-controller="Verrukkulluk" asp-action="Event" asp-route-id="@Event.Id"><h3>@Event.Title</h3></a>
+                                                    </div>
+                                                    <p>@Event.Description</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
                             </div>
                             <div class="small-agenda">
                                 <!-- Event navigation buttons -->
                                 <ul class="pagination justify-content-center">
-                                    @foreach (Event Event in Model.Events)
+                                    @if (Model.Events != null)
                                     {
-                                        <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, @(Event.Id))">@Event.Id</a></li>
+                                        @foreach (Event Event in Model.Events)
+                                        {
+                                            <li class="page-item"><a class="page-link" href="#" onclick="scrollToEvent(event, @(Event.Id))">@Event.Id</a></li>
+                                        }
                                     }
                                 </ul>
                             </div>
@@ -57,18 +63,30 @@
     <div class="container col-sm-12 col-md-6 col-xl-4">
         <div class="row">
             <div class="col-12">
-                @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[0])
-                <div class="col-12">
-                    @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[1])
-                </div>
+                @{
+                    int recipeCount = Model.Recipes?.Count ?? 0;
+                }
+                @if (recipeCount > 0) {
+                    @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes![0])
+                    @if (recipeCount > 1) {
+                        <div class="col-12">
+                            @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes![1])
+                        </div>
+                    }
+                }
             </div>
             <div class="container col-12 col-xl-4">
                 <div class="row">
                     <div class="col-12 col-md-6 col-xl-12">
-                        @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[2])
-                        <div class="col-12 col-md-6 col-xl-12">
-                            @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes[3])
-                        </div>
+                        @if (recipeCount > 2) {
+                            @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes![2])
+                            <div class="col-12 col-md-6 col-xl-12">
+                                @if (recipeCount > 3)
+                                {
+                                    @await Html.PartialAsync("../Shared/RecipeCardPartial.cshtml", Model.Recipes![3])
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

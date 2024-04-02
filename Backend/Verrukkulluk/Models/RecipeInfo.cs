@@ -4,7 +4,7 @@ namespace Verrukkulluk.Models
 {
     public class RecipeInfo : Recipe
     {
-        public string Price { get; set; }
+        public string Price { get; set; } = "0.00";
         public int Calories { get; set; }
         public List<DishType> DishTypes { get; set; } = new List<DishType>();
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();

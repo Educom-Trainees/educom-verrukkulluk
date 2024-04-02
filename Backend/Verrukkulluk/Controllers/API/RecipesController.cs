@@ -245,7 +245,7 @@ namespace Verrukkulluk.Controllers.API
             {
                 ModelState.AddModelError(nameof(RecipeDTO.ImageObjId), "The image is not (yet) stored");
             }
-            else if (!_crud.IsPictureAvailiable(recipe.ImageObjId, EImageObjType.Recipe, recipe.Id))
+            else if (!_crud.IsPictureAvailable(recipe.ImageObjId, EImageObjType.Recipe, recipe.Id))
             {
                 ModelState.AddModelError(nameof(RecipeDTO.ImageObjId), "The image is used by another object");
             }

@@ -153,7 +153,7 @@ namespace Verrukkulluk.Controllers.API
             if (!_crud.DoesPictureExist(allergy.ImgObjId))
             {
                 ModelState.AddModelError(nameof(Allergy.ImgObjId), "The image is not (yet) stored");
-            } else if (!_crud.IsPictureAvailiable(allergy.ImgObjId, EImageObjType.Allergy, allergy.Id))
+            } else if (!_crud.IsPictureAvailable(allergy.ImgObjId, EImageObjType.Allergy, allergy.Id))
             {
                 ModelState.AddModelError(nameof(Allergy.ImgObjId), "The image is used by another object");
             }

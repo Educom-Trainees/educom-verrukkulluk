@@ -8,7 +8,7 @@ namespace Verrukkulluk.Data
 {
     public class Crud : ICrud
     {
-        VerrukkullukContext Context;
+        private readonly VerrukkullukContext Context;
 
         public Crud(VerrukkullukContext context)
         {
@@ -33,7 +33,7 @@ namespace Verrukkulluk.Data
             return Context.Products.Include(p => p.Packaging).Include(p => p.ProductAllergies).ThenInclude(pa => pa.Allergy).FirstOrDefault(p => p.Name == name);
         }
 
-        public string DeleteUserRecipe(int userId, int recipeId)
+        public bool DeleteUserRecipe(int userId, int recipeId)
         {
             try
             {
@@ -45,21 +45,21 @@ namespace Verrukkulluk.Data
                 {
                     Context.Recipes.Remove(selectedRecipe);
                     Context.SaveChanges();
-                    return "Recept verwijderd.";
+                    return true;
                 }
                 else
                 {
-                    return "Recept kon niet worden gevonden.";
+                    return false;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Exception: {e.Message}");
-                return "Er ging iets mis. Probeer het later opnieuw";
+                return false;
             }
         }
 
-        public string DeleteRecipe(int recipeId)
+        public bool DeleteRecipe(int recipeId)
         {
             try
             {
@@ -70,26 +70,23 @@ namespace Verrukkulluk.Data
                 {
                     Context.Recipes.Remove(selectedRecipe);
                     Context.SaveChanges();
-                    return "Recept verwijderd.";
+                    return true;
                 }
                 else
                 {
-                    return "Recept kon niet worden gevonden.";
+                    return false;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Exception: {e.Message}");
-                return "Er ging iets mis. Probeer het later opnieuw";
+                return false;
             }
         }
 
-
-        public List<RecipeInfo>? ReadAllRecipes()
+        public List<RecipeInfo> ReadAllRecipes()
         {
-            try
-            {
-                var recipes = Context.Recipes
+             var recipes = Context.Recipes
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
@@ -101,20 +98,11 @@ namespace Verrukkulluk.Data
                     .Select(r => new RecipeInfo(r))
                     .ToList();
                 return recipes;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Exception: {e.Message}");
-            }
-
-            return null;
         }
 
-        public List<RecipeInfo>? ReadAllRecipesByUserId(int userId)
+        public List<RecipeInfo> ReadAllRecipesByUserId(int userId)
         {
-            try
-            {
-                var recipes = Context.Recipes
+            var recipes = Context.Recipes
                     .Include(r => r.KitchenType)
                     .Include(r => r.Creator)
                     .Include(r => r.Ingredients)
@@ -126,13 +114,6 @@ namespace Verrukkulluk.Data
                     .Select(r => new RecipeInfo(r))
                     .ToList();
                 return recipes;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Exception: {e.Message}");
-            }
-
-            return null;
         }
 
         public Recipe? ReadRecipeById(int id)
@@ -153,7 +134,7 @@ namespace Verrukkulluk.Data
 
             if (recipe != null)
             {
-                recipe.KitchenTypeId = recipe.KitchenType.Id; // For some reason this is not handled by the [ForeignKey] annotation
+                recipe.KitchenTypeId = recipe.KitchenType?.Id ?? 0; // For some reason this is not handled by the [ForeignKey] annotation
 
                 var recipeInfo = new RecipeInfo(recipe);
                 return recipeInfo;
@@ -189,7 +170,7 @@ namespace Verrukkulluk.Data
             return Context.ImageObjs.Any(i => i.Id == id);
         }
 
-        public bool IsPictureAvailiable(int imageObjId, EImageObjType type, int targetId)
+        public bool IsPictureAvailable(int imageObjId, EImageObjType type, int targetId)
         {
             if (targetId == 0) { type = EImageObjType.None; }
 
@@ -198,15 +179,14 @@ namespace Verrukkulluk.Data
             var receiptImageId = Context.Recipes.Where(r => r.ImageObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
             var userImageId = Context.Users.Where(u => u.ImageObjId == imageObjId).Select(a => a.Id).FirstOrDefault();
 
-            switch (type)
+            return type switch
             {
-                case EImageObjType.Allergy: return (allergyImageId == 0 || allergyImageId == targetId) && productImageId == 0 && receiptImageId == 0 && userImageId == 0;
-                case EImageObjType.Product: return allergyImageId == 0 && (productImageId == 0 || productImageId == targetId) && receiptImageId == 0 && userImageId == 0;
-                case EImageObjType.Recipe: return allergyImageId == 0 && productImageId == 0 && (receiptImageId == 0 || receiptImageId == targetId) && userImageId == 0;
-                case EImageObjType.User: return allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && (userImageId == 0 || userImageId == targetId);
-                default: return allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && userImageId == 0;
-            }
-
+                EImageObjType.Allergy => (allergyImageId == 0 || allergyImageId == targetId) && productImageId == 0 && receiptImageId == 0 && userImageId == 0,
+                EImageObjType.Product => allergyImageId == 0 && (productImageId == 0 || productImageId == targetId) && receiptImageId == 0 && userImageId == 0,
+                EImageObjType.Recipe => allergyImageId == 0 && productImageId == 0 && (receiptImageId == 0 || receiptImageId == targetId) && userImageId == 0,
+                EImageObjType.User => allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && (userImageId == 0 || userImageId == targetId),
+                _ => allergyImageId == 0 && productImageId == 0 && receiptImageId == 0 && userImageId == 0,
+            };
         }
 
         //Events
@@ -282,16 +262,11 @@ namespace Verrukkulluk.Data
         }
 
       
-        public RecipeRating ReadRatingByUserIdAndRecipeId(int recipeId, int userId)
+        public RecipeRating? ReadRatingByUserIdAndRecipeId(int recipeId, int userId)
         {
 
             var recipeRating = Context.RecipeRatings
                           .FirstOrDefault(c => c.RecipeId == recipeId && c.UserId == userId);
-
-            if(recipeRating == null)
-            {
-                return null;
-            }
 
             return recipeRating;
    
@@ -316,7 +291,7 @@ namespace Verrukkulluk.Data
                     return false; 
                 }
             }
-            catch (Exception e)
+            catch
             {
                 return false; 
             }
@@ -344,8 +319,11 @@ namespace Verrukkulluk.Data
             if (averageRating != null)
             {
                 var recipe = Context.Recipes.Find(recipeId);
-                recipe.AverageRating = (double)averageRating;
-                Context.SaveChanges();
+                if (recipe != null)
+                {
+                    recipe.AverageRating = (double)averageRating;
+                    Context.SaveChanges();
+                }
             }
         }
         public void CreatePicture(ImageObj image)
@@ -354,25 +332,10 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
-        public Product CreateProduct(Product product)
+        public void CreateProduct(Product product)
         {
-            try
-            {
-                if (product != null)
-                {
-                    Context.Products.Add(product);
-                    Context.SaveChanges();
-
-                    return product;
-                }
-
-                return null;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Exception: {e.Message}");
-                return null;
-            }
+             Context.Products.Add(product);
+             Context.SaveChanges();
         }
 
         public void UpdateProduct(Product product)

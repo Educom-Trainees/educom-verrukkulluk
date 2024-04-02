@@ -57,7 +57,7 @@ namespace Verrukkulluk.Controllers
             {
                 ModelState.AddModelError("User.Email", "Email already bound to other account");
             }
-            user.FirstName = model.User.FirstName;
+            user!.FirstName = model.User.FirstName;
             user.PhoneNumber = model.User.PhoneNumber;
             user.CityOfResidence = model.User.CityOfResidence;
             user.Email = model.User.Email;
@@ -82,7 +82,7 @@ namespace Verrukkulluk.Controllers
         }
 
         public IActionResult Recipe(int id) {
-            RecipeInfo r = _servicer.GetRecipeInfoById(id);
+            RecipeInfo? r = _servicer.GetRecipeInfoById(id);
             if (r == null) {
                 return NotFound();
             }
@@ -90,12 +90,12 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveRecipe(int recipeId)
+        public async Task<IActionResult> RemoveRecipe(int recipeId)
         {
             var recipe = _servicer.GetRecipeInfoById(recipeId);
             if (recipe != null)
             {
-                _servicer.DeleteUserRecipe(recipeId);
+                await _servicer.DeleteUserRecipeAsync(recipeId);
             }
             return RedirectToAction("Index");
         }
