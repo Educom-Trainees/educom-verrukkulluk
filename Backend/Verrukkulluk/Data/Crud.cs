@@ -96,6 +96,7 @@ namespace Verrukkulluk.Data
                         .ThenInclude(i => i.Product)
                             .ThenInclude(p => p.ProductAllergies)
                                 .ThenInclude(p => p.Allergy)
+                    .Include(r => r.Ratings)
                     .OrderBy(recipe => recipe.CreationDate)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -120,7 +121,7 @@ namespace Verrukkulluk.Data
                         .ThenInclude(i => i.Product)
                             .ThenInclude(p => p.ProductAllergies)
                                 .ThenInclude(p => p.Allergy)
-                    .Include(r => r.Comments)
+                    .Include(r => r.Ratings)
                     .Where(recipe => recipe.CreatorId == userId)
                     .Select(r => new RecipeInfo(r))
                     .ToList();
@@ -147,6 +148,7 @@ namespace Verrukkulluk.Data
                     .ThenInclude(r => r.Product)
                         .ThenInclude(p => p.ProductAllergies)
                             .ThenInclude(p => p.Allergy)
+                .Include(r => r.Ratings)
                 .FirstOrDefault(i => i.Id == Id);
 
             if (recipe != null)
@@ -154,37 +156,6 @@ namespace Verrukkulluk.Data
                 recipe.KitchenTypeId = recipe.KitchenType.Id; // For some reason this is not handled by the [ForeignKey] annotation
 
                 var recipeInfo = new RecipeInfo(recipe);
-
-                var allRatings = Context.RecipeRatings
-                    .Where(r => r.RecipeId == recipe.Id)
-                    .ToList();
-
-                string? userFirstName = null;
-
-                foreach (var rating in allRatings)
-                {
-                    if (rating.UserId != null)
-                    {
-                        var user = Context.Users.FirstOrDefault(u => u.Id == rating.UserId);
-                        if (user != null)
-                        {
-                            userFirstName = user.FirstName;
-                        }
-                    }
-                    else
-                    {
-                        userFirstName = "Anonymous";
-                    }
-                    var recipeRating = new RecipeRating
-                    {
-                        Id = rating.Id,
-                        RecipeId = rating.RecipeId,
-                        UserId = rating.UserId,
-                        RatingValue = rating.RatingValue,
-                        Comment = rating.Comment,
-                    };
-                    recipeInfo.Ratings.Add(recipeRating);
-                }
                 return recipeInfo;
             }
             return null;
@@ -253,7 +224,7 @@ namespace Verrukkulluk.Data
         //Recipe Ratings
         public List<RecipeRating> ReadAllRatings()
         {
-            return Context.RecipeRatings.Select(c => c).ToList();
+            return Context.RecipeRatings.ToList();
         }
 
         public bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment)
@@ -406,7 +377,31 @@ namespace Verrukkulluk.Data
 
         public void UpdateProduct(Product product)
         {
-            Context.Products.Update(product);
+            Product? existingProduct = Context.Products.Include(p => p.ProductAllergies).FirstOrDefault(p => p.Id == product.Id);
+            if (existingProduct == null)
+            {
+                return;
+            }
+            List<ProductAllergy> existingAllergies = existingProduct.ProductAllergies.ToList();
+            List<ProductAllergy> newAllergies = product.ProductAllergies.ToList();
+            Context.Entry(existingProduct).CurrentValues.SetValues(product);
+            foreach (var item in existingAllergies)
+            {
+                if (!newAllergies.Any(pa => pa.AllergyId == item.AllergyId))
+                {
+                    // Remove deleted allergies
+                    Context.ProductAllergies.Remove(item);
+                }
+            }
+            foreach (var item in newAllergies)
+            {
+                if (!existingAllergies.Any(pa => pa.AllergyId == item.AllergyId))
+                {
+                    // Add new allergies
+                    Context.ProductAllergies.Add(item);
+                }
+            }
+            
             Context.SaveChanges();
         }
 

@@ -13,7 +13,7 @@ namespace Verrukkulluk
     {
         private ILazyLoader _lazyLoader; // implement lazy loading for the favourites
         private KitchenType kitchenType;
-        private ICollection<Comment>? comments = new List<Comment>();
+        private ICollection<RecipeRating>? ratings = new List<RecipeRating>();
         private ICollection<Ingredient> ingredients = new List<Ingredient>();
 
         public int Id { get; set; }
@@ -32,7 +32,7 @@ namespace Verrukkulluk
         [MaxLength(1000)]
         [Required(ErrorMessage ="Beschrijf tenminste stap 1.")]
         public string[] Instructions { get; set; }
-        virtual public ICollection<Comment>? Comments { get => _lazyLoader.Load(this, ref comments); set => comments = value; }
+        virtual public ICollection<RecipeRating>? Ratings { get => _lazyLoader.Load(this, ref ratings); set => ratings = value; }
         public double AverageRating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
