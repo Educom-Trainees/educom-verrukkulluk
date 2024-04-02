@@ -12,7 +12,7 @@ namespace Verrukkulluk
     public class Recipe
     {
         private ILazyLoader _lazyLoader; // implement lazy loading for the favourites
-        private KitchenType kitchenType;
+        private KitchenType? kitchenType;
         private ICollection<RecipeRating>? ratings = new List<RecipeRating>();
         private ICollection<Ingredient> ingredients = new List<Ingredient>();
 
@@ -28,11 +28,11 @@ namespace Verrukkulluk
         public int KitchenTypeId { get; set; }
         [ForeignKey(nameof(KitchenTypeId))]
         [ValidateNever]
-        public KitchenType KitchenType { get => _lazyLoader.Load(this, ref kitchenType); set => kitchenType = value; }
+        public KitchenType? KitchenType { get => _lazyLoader?.Load(this, ref kitchenType) ?? kitchenType; set => kitchenType = value; }
         [MaxLength(1000)]
         [Required(ErrorMessage ="Beschrijf tenminste stap 1.")]
         public string[] Instructions { get; set; }
-        virtual public ICollection<RecipeRating>? Ratings { get => _lazyLoader.Load(this, ref ratings); set => ratings = value; }
+        virtual public ICollection<RecipeRating>? Ratings { get => _lazyLoader?.Load(this, ref ratings) ?? ratings; set => ratings = value; }
         public double AverageRating { get; set; }
         public DateOnly CreationDate { get; set; }
         public int CreatorId { get; set; }
@@ -41,18 +41,18 @@ namespace Verrukkulluk
         public int ImageObjId { get; set; }
         [Range(1, 20, ErrorMessage = "Kies een aantal van 1 tot 20 personen.")]
         public int NumberOfPeople { get; set; } = 4;
-        public ICollection<Ingredient> Ingredients { get => _lazyLoader.Load(this, ref ingredients); set => ingredients = value; }
+        public ICollection<Ingredient> Ingredients { get => _lazyLoader?.Load(this, ref ingredients) ?? ingredients; set => ingredients = value; }
         public Recipe() { }
 
         public Recipe(ILazyLoader lazyLoader)
         {
             _lazyLoader = lazyLoader;
         }
-        public Recipe(string title, KitchenType kitchenType, string description, string[] instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
+        public Recipe(string title, KitchenType? kitchenType, string description, string[] instructions, double rating, User creator, int imageObjId, List<Ingredient> ingredients, int numberOfPeople)
         {
             Title = title;
             KitchenType = kitchenType;
-            KitchenTypeId = kitchenType.Id;
+            KitchenTypeId = kitchenType?.Id ?? 0;
             Description = description;
             Instructions = instructions;
             AverageRating = rating;

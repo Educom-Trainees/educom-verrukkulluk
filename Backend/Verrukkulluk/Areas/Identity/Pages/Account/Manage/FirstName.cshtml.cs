@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using static CityOfResidenceModel;
 
-public class FirstNameModel : PageModel
+public partial class FirstNameModel : PageModel
 {
     private readonly UserManager<User> _userManager;
 
@@ -28,7 +28,7 @@ public class FirstNameModel : PageModel
         [Required(ErrorMessage = "Vul uw correcte voornaam in")]
         [CustomCityNameValidation(ErrorMessage = "Uw voornaam mag alleen letters bevatten, probeer opnieuw")]
         [Display(Name = "Voornaam")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = "";
     }
 
     public async Task<IActionResult> OnGetAsync()
@@ -71,19 +71,24 @@ public class FirstNameModel : PageModel
         }
         return RedirectToPage();
     }
-    public class CustomFirstNameValidationAttribute : ValidationAttribute
+    public partial class CustomFirstNameValidationAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        [GeneratedRegex("^[a-zA-Z\\s]+$")]
+        private static partial Regex FirstNameRegex();
+
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value != null)
+            if (value == null)
             {
-                string nameValue = value.ToString();
-                if (!Regex.IsMatch(nameValue, "^[a-zA-Z\\s]+$"))
-                {
-                    return new ValidationResult(ErrorMessage);
-                }
+                return new ValidationResult("First name is missing");
+            }
+            string nameValue = value.ToString() ?? "";
+            if (!FirstNameRegex().IsMatch(nameValue))
+            {
+                return new ValidationResult(ErrorMessage);
             }
             return ValidationResult.Success;
         }
+
     }
 }

@@ -7,12 +7,12 @@ namespace Verrukkulluk.Models
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class User : IdentityUser<int>
     {
-        private ILazyLoader _lazyLoader; // implement lazy loading for the favourites
-        private List<Recipe> favouritesList;
+        private readonly ILazyLoader _lazyLoader; // implement lazy loading for the favourites
+        private List<Recipe>? favouritesList = null;
 
         public string FirstName { get; set; }
         [ValidateNever]
-        public List<Recipe> FavouritesList { 
+        public List<Recipe>? FavouritesList { 
                   get => _lazyLoader.Load(this, ref favouritesList); 
                   set => favouritesList = value; }
         public string CityOfResidence { get; set; }

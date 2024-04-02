@@ -75,7 +75,7 @@
                                                 @if (!Model.Recipe.Allergies.Any())
                                                 {
                                                     <li class="d-inline allergy-list">
-                                                            <img class="noAllergy" id="noAllergy" src ="/images/allergenen/geen.png" style="width:70px; height:auto"></img>
+                                                            <img class="noAllergy" id="noAllergy" src ="/images/allergenen/geen.png" style="width:70px; height:auto"/>
                                                     </li>
                                                 }
                                                 @foreach(Allergy Allergy in Model.Recipe.Allergies){
@@ -88,7 +88,7 @@
                                 <div class="col-6">
                                     <div class="d-flex justify-content-end">
                                         <h4 class="darker-green px-2">Keuken</h4>
-                                        <p class="pl-2">@Model.Recipe.KitchenType.Name </p>
+                                        <p class="pl-2">@Model.Recipe.KitchenType?.Name </p>
                                     </div>
                                 </div>
                             </div>
@@ -201,7 +201,7 @@
                                         @{
                                             if (rating.UserId.HasValue)
                                             {
-                                                var user = await UserManager.FindByIdAsync(rating.UserId.ToString());
+                                                var user = await UserManager.FindByIdAsync(rating.UserId.Value.ToString());
                                                 if (user != null)
                                                 {
                                                     <img class="profile-picture" src="@Url.Action("GetImage", "Image", new { id = user.ImageObjId })" alt="Profielfoto">
@@ -218,7 +218,7 @@
                                             @{
                                                 if (rating.UserId.HasValue)
                                                 {
-                                                    var user = await UserManager.FindByIdAsync(rating.UserId.ToString());
+                                                    var user = await UserManager.FindByIdAsync(rating.UserId.Value.ToString());
                                                     if (user != null)
                                                     {
                                                         @(user.FirstName + " (" + user.CityOfResidence + ")")
@@ -264,7 +264,7 @@
                 <div class="scrolling-content">
                         <div class="rating-container">
                             <h2 class="darker-green">Wat vond u van dit gerecht?</h2>
-                            <input type="hidden" id="recipeId" value="@Model.Recipe.Id">
+                            <input type="hidden" id="recipeId" value="@Model.Recipe!.Id">
                             <div class= "regular-text" id="userRating"></div>
                             <div class="d-inline-block rating-recipe-stars" id="recipeRating">
                                 @for (int i = 1; i <= 5; i++)
@@ -272,7 +272,7 @@
                                     <i class="bi bi-star large-star" data-value="@i"></i>
                                 }
                             </div>
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity?.IsAuthenticated == true)
                             {
                                 <textarea id="comment" class="form-control" placeholder="Voeg een opmerking toe (optioneel)" rows="4" style="width: 60%;"></textarea>
                             }
@@ -293,4 +293,5 @@
             @await Html.PartialAsync("../Shared/LoginBlock.cshtml", Model)
         }
     </div>
+</div>
 </div>

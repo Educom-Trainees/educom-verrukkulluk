@@ -11,17 +11,15 @@ namespace Verrukkulluk.Models
         private readonly UserManager<User> UserManager;
         private readonly IHttpContextAccessor HttpContextAccessor;
         public readonly SignInManager<User> SignInManager;
-        public Servicer()
-        {
+        private readonly ISessionManager sessionManager;
 
-        }
-
-        public Servicer(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager)
+        public Servicer(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager, ISessionManager sessionManager)
         {
             Crud = crud;
             UserManager = userManager;
             HttpContextAccessor = httpContextAccessor;
             SignInManager = signInManager;
+            this.sessionManager = sessionManager;
         }
 
         public List<RecipeInfo> GetAllRecipes()
@@ -43,7 +41,7 @@ namespace Verrukkulluk.Models
             }
             else
             {
-                return null;
+                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User.Id");
             }
         }
 
@@ -58,39 +56,26 @@ namespace Verrukkulluk.Models
             return user.FavouritesList?.Select(r => new RecipeInfo(r)).ToList() ?? new List<RecipeInfo>();
         }
 
-                
+
         public List<Product> GetAllProducts()
         {
             return Crud.ReadAllProducts();
         }
 
 
-        public void DeleteUserRecipe(int recipeId)
+        public async Task<bool> DeleteUserRecipeAsync(int recipeId)
         {
-            var user = UserManager.GetUserAsync(HttpContextAccessor.HttpContext.User).Result;
+            var user = await GetCurrentUser();
 
-            if (UserManager.IsInRoleAsync(user, "Admin").Result)
+            if (await UserManager.IsInRoleAsync(user, "Admin"))
             {
                 // If the user is an admin, directly delete the recipe
-                string result = Crud.DeleteRecipe(recipeId);
-
-                if (result != "Recept verwijderd.")
-                {
-                    throw new Exception(result);
-                }
+                return Crud.DeleteRecipe(recipeId);
             }
             else
             {
                 // If the user is not an admin, proceed with checking user ID and deleting user recipe
-                string tempUserId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-                int userId = int.Parse(tempUserId);
-
-                string result = Crud.DeleteUserRecipe(userId, recipeId);
-
-                if (result != "Recept verwijderd.")
-                {
-                    throw new Exception(result);
-                }
+                return Crud.DeleteUserRecipe(user.Id, recipeId);
             }
         }
 
@@ -104,20 +89,24 @@ namespace Verrukkulluk.Models
             return Crud.ReadProductById(productId);
         }
 
-        public RecipeInfo? GetRecipeInfoById(int Id)
+        public Recipe? GetRecipeById(int id)
         {
-            return Crud.ReadRecipeInfoById(Id);
+            return Crud.ReadRecipeById(id);
+        }
+        public RecipeInfo? GetRecipeInfoById(int id)
+        {
+            return Crud.ReadRecipeInfoById(id);
             //base64RecipePicture = Convert.ToBase64String(Recipe.DishPhoto);
         }
 
-        public ImageObj? GetImage(int Id)
+        public ImageObj? GetImage(int id)
         {
-            return Crud.ReadImageById(Id);
+            return Crud.ReadImageById(id);
         }
 
-        public Event GetEventById(int Id)
+        public Event GetEventById(int id)
         {
-            return Crud.ReadEventById(Id);
+            return Crud.ReadEventById(id);
         }
 
         public List<Event> GetAllEvents()
@@ -127,38 +116,23 @@ namespace Verrukkulluk.Models
 
         public bool RateRecipe(int recipeId, int ratingValue, string comment)
         {
-            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int? parsedUserId = null;
-            if (userId != null && int.TryParse(userId, out int userIdValue))
+            var parsedUserId = GetCurrentUserId();
+            if (parsedUserId == null)
             {
-                parsedUserId = userIdValue;
-            }
-            else
-            {
-                var sessionRatings = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int, int>>("SessionRatings") ?? new Dictionary<int, int>();
-                sessionRatings[recipeId] = ratingValue;
-                HttpContextAccessor.HttpContext.Session.Set("SessionRatings", sessionRatings);
+                sessionManager.AddRecipeRating(recipeId, ratingValue);
             }
             return Crud.AddOrUpdateRecipeRating(recipeId, parsedUserId, ratingValue, comment);
         }
 
         public int? GetUserRating(int recipeId)
         {
-            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int parsedUserId;
-            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            int? parsedUserId = GetCurrentUserId();
+            if (parsedUserId == null)
             {
-                var sessionRatings = HttpContextAccessor.HttpContext.Session.Get<Dictionary<int, int>>("SessionRatings");
-                if (sessionRatings != null && sessionRatings.ContainsKey(recipeId))
-                {
-                    return -sessionRatings[recipeId];
-                }
-                else
-                {
-                    return null;
-                }
+                int? sessionResult = sessionManager.GetRecipeRating(recipeId);
+                return sessionResult.HasValue ? -sessionResult.Value : null;
             }
-            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, parsedUserId)?.RatingValue;
+            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, parsedUserId.Value)?.RatingValue;
         }
 
         public List<RecipeRating> GetRatingsByUserId(int userId)
@@ -168,14 +142,13 @@ namespace Verrukkulluk.Models
 
         public string? GetUserComment(int recipeId)
         {
-            var userId = UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
-            int parsedUserId;
-            if (userId == null || !int.TryParse(userId, out parsedUserId))
+            var userId = GetCurrentUserId();
+            if (userId == null)
             {
                 return null;
 
             }
-            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, parsedUserId)?.Comment;
+            return Crud.ReadRatingByUserIdAndRecipeId(recipeId, userId.Value)?.Comment;
         }
 
         public void UpdateAverageRating(int recipeId)
@@ -184,6 +157,7 @@ namespace Verrukkulluk.Models
         }
         public async Task<int> SavePictureAsync(IFormFile picture)
         {
+#pragma warning disable IDE0063 // Use simple 'using' statement
             using (var memoryStream = new MemoryStream())
             {
                 await picture.CopyToAsync(memoryStream);
@@ -191,6 +165,7 @@ namespace Verrukkulluk.Models
                 Crud.CreatePicture(imageObj);
                 return imageObj.Id;
             }
+#pragma warning restore IDE0063 // Use simple 'using' statement
         }
 
         public void SaveRecipe(Recipe recipe)
@@ -225,11 +200,26 @@ namespace Verrukkulluk.Models
                 throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
             }
             User? user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User!);
+#pragma warning disable IDE0270 // Use coalesce expression
             if (user == null)
             {
                 throw new ArgumentNullException("User unknown");
             }
+#pragma warning restore IDE0270 // Use coalesce expression
             return user;
+        }
+
+        private int? GetCurrentUserId()
+        {
+            if (HttpContextAccessor.HttpContext?.User == null)
+            {
+                throw new ArgumentNullException("HttpContextAccessor.HttpContext.User");
+            }
+            if (!int.TryParse(UserManager.GetUserId(HttpContextAccessor.HttpContext?.User!), out int userId))
+            {
+                return null;
+            }
+            return userId;
         }
     }
 }

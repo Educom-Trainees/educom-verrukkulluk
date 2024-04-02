@@ -86,7 +86,7 @@ namespace Verrukkulluk.Controllers
         {
             model.Products = Servicer.GetAllProducts();
             model.MyKitchenTypeOptions.AddRange(Servicer.GetAllKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
-            model.Recipe.Instructions = (model?.Recipe.Instructions ?? new string[0]).Append("").ToArray();
+            model.Recipe.Instructions = (model.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null)
             {
@@ -102,7 +102,7 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReceptMaken()
+        public IActionResult ReceptMaken()
         {
             AddRecipe model = new AddRecipe();
             FillModel(model);
@@ -177,17 +177,21 @@ namespace Verrukkulluk.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditRecipe(int id)
+        public IActionResult EditRecipe(int id)
         {
-            Recipe r = Servicer.GetRecipeInfoById(id);
+            RecipeInfo? r = Servicer.GetRecipeInfoById(id);
+            if (r == null)
+            {
+                return NotFound();
+            }
             AddRecipe model = new AddRecipe(r);
             FillModel(model);
             return base.View("CreateRecipe", model);
         }
 
-        public IActionResult ReceptVerwijderen(int id)
+        public async Task<IActionResult> ReceptVerwijderen(int id)
         {
-            Servicer.DeleteUserRecipe(id);
+            await Servicer.DeleteUserRecipeAsync(id);
             UserRecipesModel.Recipes = Servicer.GetUserRecipes();
 
             if (VerModel.Error.IsNullOrEmpty())
@@ -297,15 +301,19 @@ namespace Verrukkulluk.Controllers
 
         public IActionResult AddRecipeToShoppingList(int recipeId)
         {
-            Recipe Recipe = Servicer.GetRecipeInfoById(recipeId);
-            string result = SessionManager.AddRecipeToShoppingList(Recipe);
+            Recipe? recipe = Servicer.GetRecipeById(recipeId);
+            if (recipe == null)
+            {
+                return Json(new { success = false, message = "Recipe not found" });
+            }
+            string result = SessionManager.AddRecipeToShoppingList(recipe);
             if (result == "success")
             {
                 return Json(new { success = true, message = "Recipe added to shopping list successfully" });
             }
             else
             {
-                return Json(new { success = false, message = "Recipe not found" });
+                return Json(new { success = false, message = "Failed to add recipe" });
             }
         }
 
