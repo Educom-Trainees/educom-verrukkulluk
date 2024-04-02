@@ -4,16 +4,8 @@
 
 @{
     ViewData["Title"] = "EventParticipation";
-}
-
-
-@{
-
     var userEmail = Context.User.Identity.Name;
-    string currentUserEmail = await Model.GetCurrentUserEmail();
 }
-
-
 }
 
 
@@ -34,7 +26,7 @@
                         <div class="text-center">
                             <div class="event-participation-input">
                                 <label for="name">Naam:</label>
-                                <input id="name" name="name" type="text" required placeholder="naam" value="@currentUserEmail">
+                                <input id="name" name="name" type="text" required placeholder="naam">
                             </div>
                             <div class="event-participation-input">
                                 <label for="email">Emailadres:</label>
