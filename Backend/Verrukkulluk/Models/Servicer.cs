@@ -218,7 +218,7 @@ namespace Verrukkulluk.Models
         {
             return Crud.ReadAllKitchenTypes();
         }
-        private async Task<User> GetCurrentUser()
+        public async Task<User> GetCurrentUser()
         {
             if (HttpContextAccessor.HttpContext?.User == null)
             {

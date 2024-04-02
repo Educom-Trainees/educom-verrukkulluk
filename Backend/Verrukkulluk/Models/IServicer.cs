@@ -29,5 +29,6 @@ namespace Verrukkulluk.Models
                 void DeletePicture(int imageObjId);
                 Event AddParticipantToEvent(string name, string email, int id);
                 IEnumerable<KitchenType> GetAllKitchenTypes();
+                Task<User> GetCurrentUser();
     }
 }

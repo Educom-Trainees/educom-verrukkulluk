@@ -1,9 +1,22 @@
 ﻿@model Verrukkulluk.Models.EventModel;
 @using Verrukkulluk.Models.DbModels;
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "EventParticipation";
 }
+
+
+@{
+
+    var userEmail = Context.User.Identity.Name;
+    string currentUserEmail = await Model.GetCurrentUserEmail();
+}
+
+
+}
+
+
 <div class="parent-container d-flex flex-wrap">
     <div class="container col-sm-24 col-md-12 col-xl-8">
         <div class="m-3">
@@ -13,7 +26,7 @@
                 {
                     <div class="card-header text-center">
                         <h1 class="darker-green" font-family="heading">Schrijf je in voor @Model.Event.Title:</h1>
-                        <p class="darker-green"> Dit event zal plaatsvinden op: @Model.Event.Date</p>
+                        <p class="darker-green"> Dit event zal plaatsvinden op: @Model.Event.Date</p>   
                     </div>
 
                     <form action="/Verrukkulluk/EventSignUp" method="post">
@@ -21,11 +34,11 @@
                         <div class="text-center">
                             <div class="event-participation-input">
                                 <label for="name">Naam:</label>
-                                <input id="name" name="name" type="text" required placeholder="naam" />
+                                <input id="name" name="name" type="text" required placeholder="naam" value="@currentUserEmail">
                             </div>
                             <div class="event-participation-input">
                                 <label for="email">Emailadres:</label>
-                                <input id="email" name="email" type="email" required placeholder="email" />
+                                <input id="email" name="email" type="email" required placeholder="email" value="@userEmail" />
                             </div>
                             <button type="submit" class="btn-admin">Meld je aan</button>
                         </div>
