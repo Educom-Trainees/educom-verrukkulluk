@@ -28,12 +28,13 @@ namespace Verrukkulluk.Controllers
         private IFavoritesModel FavoritesModel;
         private IDetailsModel DetailsModel;
         private IEventModel EventModel;
+        private IUserEventsModel UserEventsModel;
         private IShopListModel ShopListModel;
         private IServicer Servicer;
         private ISessionManager SessionManager;
 
         private readonly VerrukkullukContext _context;
-        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager, VerrukkullukContext context)
+        public VerrukkullukController(IVerModel verModel, IHomeModel homeModel, IUserRecipesModel userRecipesModel, IFavoritesModel favoritesModel, IDetailsModel detailsModel, IEventModel eventModel, IUserEventsModel userEventsModel, IShopListModel shopListModel, IServicer servicer, ISessionManager sessionManager, VerrukkullukContext context)
         {
             VerModel = verModel;
             HomeModel = homeModel;
@@ -41,6 +42,7 @@ namespace Verrukkulluk.Controllers
             FavoritesModel = favoritesModel;
             DetailsModel = detailsModel;
             EventModel = eventModel;
+            UserEventsModel = userEventsModel;
             ShopListModel = shopListModel;
             Servicer = servicer;
             SessionManager = sessionManager;
@@ -333,6 +335,21 @@ namespace Verrukkulluk.Controllers
 
             return View("EventParticipation", EventModel);
         }
+
+        //
+
+
+        public IActionResult UserEvents(string userEmail)
+        {
+
+            UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+
+            return View("UserEvents", UserEventsModel);
+        }
+
+        //
+
+
 
         [HttpPost]
         public IActionResult EventSignUp(string name, string email, int eventId)

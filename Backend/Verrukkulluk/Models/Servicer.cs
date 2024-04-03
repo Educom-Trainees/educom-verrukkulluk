@@ -104,6 +104,8 @@ namespace Verrukkulluk.Models
             return Crud.ReadImageById(id);
         }
 
+
+        //events
         public Event GetEventById(int id)
         {
             return Crud.ReadEventById(id);
@@ -113,6 +115,25 @@ namespace Verrukkulluk.Models
         {
             return Crud.ReadAllEvents();
         }
+
+        public List<Event> GetUserEvents(string userEmail)
+        {
+            List<int> userEvents = Crud.ReadEventsByUserEmail(userEmail);
+
+
+            List<Event> listOfUserEvents = new List<Event>();
+
+            foreach (int eventId in userEvents) {
+
+                listOfUserEvents.Add(Crud.ReadEventById(eventId));
+            }
+
+            return listOfUserEvents;
+        }
+
+
+
+
 
         public bool RateRecipe(int recipeId, int ratingValue, string comment)
         {

@@ -201,6 +201,18 @@ namespace Verrukkulluk.Data
             return Context.Events.ToList();
         }
 
+
+        public List<int> ReadEventsByUserEmail(string userEmail)
+        {
+
+            return Context.EventParticipants
+                                    .Where(ep => ep.Email == userEmail)
+                                    .Select(ep => ep.EventId)
+                                    .ToList();
+        }
+
+
+
         //Recipe Ratings
         public List<RecipeRating> ReadAllRatings()
         {

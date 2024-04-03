@@ -11,7 +11,6 @@ namespace Verrukkulluk.Models
         public EventModel() { }
         public EventModel(ICrud crud, UserManager<User> userManager, IHttpContextAccessor httpContextAccessor, SignInManager<User> signInManager) : base(crud, userManager, httpContextAccessor, signInManager)
         {
-
         }
 
     }

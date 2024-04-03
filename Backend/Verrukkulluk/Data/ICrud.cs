@@ -18,6 +18,7 @@ namespace Verrukkulluk.Data
                 ImageObj? ReadImageById(int Id);
                 Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
+                List<int> ReadEventsByUserEmail(string userEmail);
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
 
                 List<RecipeRating> ReadAllRatings();

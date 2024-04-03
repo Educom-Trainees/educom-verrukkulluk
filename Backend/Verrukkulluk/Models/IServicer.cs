@@ -23,6 +23,7 @@ namespace Verrukkulluk.Models
                 string? GetUserComment(int recipeId);
                 Event GetEventById(int id);
                 List<Event> GetAllEvents();
+                List<Event> GetUserEvents(string userEmail);
                 void UpdateAverageRating(int recipeId);
                 Task<int> SavePictureAsync(IFormFile picture);
                 void SaveRecipe(Recipe recipe);
