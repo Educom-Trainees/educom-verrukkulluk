@@ -41,12 +41,20 @@ namespace Verrukkulluk.Controllers
             return View(EventModel);
         }
 
-        public IActionResult JoinEvent(int id)
+        public async Task<IActionResult> JoinEvent(int id)
         {
+
+            User loggedInUser = await Servicer.GetCurrentUser();
+
             EventModel.Event = Servicer.GetEventById(id);
+
+            ViewBag.User = loggedInUser;
 
             return View("EventParticipation", EventModel);
         }
+
+
+
 
         [HttpPost]
         public IActionResult EventSignUp(string name, string email, int EventId)

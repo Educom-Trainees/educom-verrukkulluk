@@ -1,0 +1,19 @@
+﻿@model Verrukkulluk.Models.UserEventsModel;
+
+
+@{
+    ViewData["Title"] = "UserEvents";
+}
+
+<h1>UserEvents</h1>
+
+<ul>
+    @foreach (Event SignedUpEvent in Model.SignedUpEvents)
+    {
+        <li>@SignedUpEvent.Title</li>
+    }
+</ul>
+
+
+
+

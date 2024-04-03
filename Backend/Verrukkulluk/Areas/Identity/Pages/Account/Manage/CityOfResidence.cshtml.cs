@@ -5,7 +5,7 @@ using Verrukkulluk.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-public class CityOfResidenceModel : PageModel
+public partial class CityOfResidenceModel : PageModel
 {
     private readonly UserManager<User> _userManager;
 
@@ -71,14 +71,17 @@ public class CityOfResidenceModel : PageModel
         return RedirectToPage();
     }
 
-    public class CustomCityNameValidationAttribute : ValidationAttribute
+    public partial class CustomCityNameValidationAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        [GeneratedRegex("^[a-zA-Z\\s]+$")]
+        private static partial Regex CityRegEx();
+
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (value != null)
             {
-                string cityValue = value.ToString();
-                if (!Regex.IsMatch(cityValue, "^[a-zA-Z\\s]+$"))
+                string cityValue = value.ToString() ?? "";
+                if (!CityRegEx().IsMatch(cityValue))
                 {
                     return new ValidationResult(ErrorMessage);
                 }

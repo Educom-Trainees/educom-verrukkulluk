@@ -84,17 +84,19 @@ namespace Verrukkulluk.Controllers.API
             {
                 return BadRequest(ModelState);
             }
-            Product product = _mapper.Map<Product>(productDto);
-            Product createdProduct = _crud.CreateProduct(product);
+            try
+            {
+                Product product = _mapper.Map<Product>(productDto);
+                _crud.CreateProduct(product);
 
-            if (createdProduct != null)
-            {
                 // Map the created product back to a DTO
-                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(_crud.ReadProductById(createdProduct.Id));
+                ProductDTO createdProductDTO = _mapper.Map<ProductDTO>(_crud.ReadProductById(product.Id));
                 // Return the DTO of the created product with the appropriate status code
-                return CreatedAtAction("GetProduct", new { id = createdProduct.Id }, createdProductDTO);
-            } else
+                return CreatedAtAction("GetProduct", new { id = createdProductDTO.Id }, createdProductDTO);
+            } 
+            catch (Exception e)
             {
+                _logger.LogError(e, "Create product {ProductDto.Name} failed", productDto.Name);
                 return Problem("Failed to create product.", statusCode: 500);
             }
         }
@@ -105,7 +107,7 @@ namespace Verrukkulluk.Controllers.API
         [HttpPut("{id}")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult PutProduct(int id, ProductDTO productDto)
@@ -145,7 +147,7 @@ namespace Verrukkulluk.Controllers.API
                 ModelState.AddModelError(nameof(ProductDTO.Id), $"The id should be {id}");
             }
 
-            if (!_crud.DoesProductNameAlreadyExist(productDto.Name, productDto.Id)) 
+            if (_crud.DoesProductNameAlreadyExist(productDto.Name, productDto.Id)) 
             {
                 ModelState.AddModelError(nameof(ProductDTO.Name), "There is another product with this name");
             }
@@ -153,7 +155,7 @@ namespace Verrukkulluk.Controllers.API
             if (!_crud.DoesPictureExist(productDto.ImageObjId))
             {
                 ModelState.AddModelError(nameof(ProductDTO.ImageObjId), "The image is not (yet) stored");
-            } else if (!_crud.IsPictureAvailiable(productDto.ImageObjId, EImageObjType.Product, productDto.Id))
+            } else if (!_crud.IsPictureAvailable(productDto.ImageObjId, EImageObjType.Product, productDto.Id))
             {
                 ModelState.AddModelError(nameof(ProductDTO.ImageObjId), "The image is already linked to another object");
             }

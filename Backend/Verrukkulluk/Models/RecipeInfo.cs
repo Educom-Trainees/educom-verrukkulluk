@@ -4,10 +4,9 @@ namespace Verrukkulluk.Models
 {
     public class RecipeInfo : Recipe
     {
-        public string Price { get; set; }
+        public string Price { get; set; } = "0.00";
         public int Calories { get; set; }
         public List<DishType> DishTypes { get; set; } = new List<DishType>();
-        public List<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
         public ICollection<Allergy> Allergies { get; set; } = new List<Allergy>();
 
         public RecipeInfo() { }
@@ -15,6 +14,7 @@ namespace Verrukkulluk.Models
         public RecipeInfo(Recipe recipe) : base(recipe.Title, recipe.KitchenType, recipe.Description, recipe.Instructions, recipe.AverageRating, recipe.Creator, recipe.ImageObjId, recipe.Ingredients.ToList(), recipe.NumberOfPeople)
         {
             Id = recipe.Id;
+            Ratings = recipe.Ratings;
             Price = recipe.Ingredients.Select(i => i.Product.Price * (decimal)Math.Ceiling(i.Amount / i.Product.Amount)).Sum().ToString("F2");
             Calories = (int)recipe.Ingredients.Select(i => i.Product.Calories * i.Amount / i.Product.Amount).Sum()/NumberOfPeople;
             Allergies = Ingredients.Select(i => i.Product).SelectMany(p => p.ProductAllergies).Select(p => p.Allergy).Distinct().ToList();

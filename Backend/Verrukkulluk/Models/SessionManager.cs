@@ -6,24 +6,20 @@ namespace Verrukkulluk.Models
 {
     public class SessionManager: ISessionManager
     {
-        private readonly IHttpContextAccessor HttpContextAccessor;
-        public SessionManager()
-        {
-
-        }
-
+        private readonly ISession? session;
+        
         public SessionManager(IHttpContextAccessor httpContextAccessor)
         {
-            HttpContextAccessor = httpContextAccessor;
+            session = httpContextAccessor.HttpContext?.Session;
         }
         public List<CartItem> GetShoppingList()
         {
-            var shoppingList = HttpContextAccessor.HttpContext.Session.Get<List<CartItem>>("ShoppingList") ?? new List<CartItem>();
+            var shoppingList = session?.Get<List<CartItem>>("ShoppingList") ?? new List<CartItem>();
             return shoppingList;
         }
         public void SaveShoppingList(List<CartItem> shoppingList)
         {
-            HttpContextAccessor.HttpContext.Session.Set("ShoppingList", shoppingList);
+            session?.Set("ShoppingList", shoppingList);
         }
 
         public string AddRecipeToShoppingList(Recipe Recipe)
@@ -33,8 +29,7 @@ namespace Verrukkulluk.Models
                 return "fail";
             }
 
-            var existingShoppingList = HttpContextAccessor.HttpContext.Session.Get<List<CartItem>>("ShoppingList");
-            var shoppingList = existingShoppingList ?? new List<CartItem>();
+            var shoppingList = (session?.Get<List<CartItem>>("ShoppingList")) ?? new List<CartItem>();
 
             foreach (var ingredient in Recipe.Ingredients)
             {
@@ -49,8 +44,38 @@ namespace Verrukkulluk.Models
                 };
                 shoppingList.Add(newItem);
             }
-            HttpContextAccessor.HttpContext.Session.Set("ShoppingList", shoppingList);
+            session?.Set("ShoppingList", shoppingList);
             return "success";
+        }
+
+        /// <summary>
+        /// Add a rating for a recipe for the current anonymous user
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <param name="ratingValue">The rating</param>
+        public void AddRecipeRating(int recipeId, int ratingValue)
+        {
+            var sessionRatings = session?.Get<Dictionary<int, int>>("SessionRatings") ?? new Dictionary<int, int>();
+            sessionRatings[recipeId] = ratingValue;
+            session?.Set("SessionRatings", sessionRatings);
+        }
+
+        /// <summary>
+        /// Return the current rating for this recipe for this anonymous user or <code>null</code> when not rated
+        /// </summary>
+        /// <param name="recipeId">The id of the recipe</param>
+        /// <returns>The recipe rating or <code>null</code> if not found</returns>
+        public int? GetRecipeRating(int recipeId)
+        {
+            var sessionRatings = session?.Get<Dictionary<int, int>>("SessionRatings");
+            if (sessionRatings != null && sessionRatings.TryGetValue(recipeId, out int value))
+            {
+                return value;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

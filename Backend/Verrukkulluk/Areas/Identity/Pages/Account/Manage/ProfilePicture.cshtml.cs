@@ -6,89 +6,95 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Verrukkulluk.Models;
 
-public class ProfilePictureModel : PageModel
+namespace Verrukkulluk.Areas.Identity.Pages.Account.Manage
 {
-    private readonly UserManager<User> _userManager;
-    private readonly IServicer _servicer;
-
-    public ProfilePictureModel(UserManager<User> userManager, IServicer servicer)
+    public class ProfilePictureModel : PageModel
     {
-        _userManager = userManager;
-        _servicer = servicer;
-    }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public ImageObj ProfilePicture { get; set; }
+        private readonly UserManager<User> _userManager;
+        private readonly IServicer _servicer;
 
-    [TempData]
-    public string StatusMessage { get; set; }
-
-    [BindProperty]
-    public InputModel Input { get; set; }
-
-    public class InputModel
-    {
-        [Required(ErrorMessage = "Kies een nieuwe profielfoto uit uw bestanden")]
-        [Display(Name = "Profielfoto")]
-        [DataType(DataType.Upload)]
-        public IFormFile ProfilePicture { get; set; }
-    }
-
-    public async Task<IActionResult> OnGetAsync()
-    {
-        var user = await _userManager.GetUserAsync(User);
-        if (user == null)
+        public ProfilePictureModel(UserManager<User> userManager, IServicer servicer)
         {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        }
-        FillModel(user);
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostChangeProfilePictureAsync()
-    {
-        var user = await _userManager.GetUserAsync(User);
-        if (user == null)
-        {
-            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            _userManager = userManager;
+            _servicer = servicer;
         }
 
-        if (!ModelState.IsValid)
+        public ImageObj ProfilePicture { get; set; }
+
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public class InputModel
         {
+            [Required(ErrorMessage = "Kies een nieuwe profielfoto uit uw bestanden")]
+            [Display(Name = "Profielfoto")]
+            [DataType(DataType.Upload)]
+            public IFormFile ProfilePicture { get; set; }
+        }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
             FillModel(user);
             return Page();
         }
 
-        if (Input.ProfilePicture != null)
+        public async Task<IActionResult> OnPostChangeProfilePictureAsync()
         {
-            var orgImageObjId = user.ImageObjId; 
-            user.ImageObjId = await _servicer.SavePictureAsync(Input.ProfilePicture);
-
-            var result = await _userManager.UpdateAsync(user);
-            
-            if (orgImageObjId != 0) {
-               _servicer.DeletePicture(orgImageObjId);
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (result.Succeeded)
+            if (!ModelState.IsValid)
             {
-                StatusMessage = "Uw profielfoto is bijgewerkt!";
+                FillModel(user);
+                return Page();
+            }
+
+            if (Input.ProfilePicture != null)
+            {
+                var orgImageObjId = user.ImageObjId;
+                user.ImageObjId = await _servicer.SavePictureAsync(Input.ProfilePicture);
+
+                var result = await _userManager.UpdateAsync(user);
+
+                if (orgImageObjId != 0)
+                {
+                    _servicer.DeletePicture(orgImageObjId);
+                }
+
+                if (result.Succeeded)
+                {
+                    StatusMessage = "Uw profielfoto is bijgewerkt!";
+                }
+                else
+                {
+                    StatusMessage = "Er ging iets fout tijdens het bijwerken.";
+                }
+                FillModel(user);
+                return RedirectToPage();
             }
             else
             {
-                StatusMessage = "Er ging iets fout tijdens het bijwerken.";
+                FillModel(user);
+                return Page();
             }
-            FillModel(user);
-            return RedirectToPage();
         }
-        else
+        private void FillModel(User user)
         {
-            FillModel(user);
-            return Page();
+            ProfilePicture = _servicer.GetImage(user.ImageObjId) ?? new ImageObj();
         }
-    }
-    private void FillModel(User user)
-    {
-        ProfilePicture = _servicer.GetImage(user.ImageObjId) ?? new ImageObj();
     }
 }
-

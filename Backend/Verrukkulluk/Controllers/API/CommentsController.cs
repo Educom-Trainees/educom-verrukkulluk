@@ -96,7 +96,7 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> PutComment(int userId, CommentDTO commentDTO)
+        public IActionResult PutComment(int userId, CommentDTO commentDTO)
         {
             if (userId != commentDTO.UserId)
             {
@@ -136,7 +136,7 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> DeleteRecipeRating(int userId, int recipeId)
+        public IActionResult DeleteRecipeRating(int userId, int recipeId)
         {
             if (userId == 0 || recipeId == 0)
             {

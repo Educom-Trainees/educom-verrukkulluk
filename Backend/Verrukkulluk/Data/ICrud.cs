@@ -8,9 +8,9 @@ namespace Verrukkulluk.Data
         public interface ICrud
         {
                 List<Product> ReadAllProducts();
-                string DeleteUserRecipe(int userId, int recipeId);
-                List<RecipeInfo>? ReadAllRecipes();
-                List<RecipeInfo>? ReadAllRecipesByUserId(int userId);
+                bool DeleteUserRecipe(int userId, int recipeId);
+                List<RecipeInfo> ReadAllRecipes();
+                List<RecipeInfo> ReadAllRecipesByUserId(int userId);
                 Product? ReadProductById(int id);
                 Product? ReadProductByName(string name);
                 Recipe? ReadRecipeById(int id);
@@ -18,11 +18,12 @@ namespace Verrukkulluk.Data
                 ImageObj? ReadImageById(int Id);
                 Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
+                List<int> ReadEventsByUserEmail(string userEmail);
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
 
                 List<RecipeRating> ReadAllRatings();
 
-                RecipeRating ReadRatingByUserIdAndRecipeId(int recipeId, int userId);
+                RecipeRating? ReadRatingByUserIdAndRecipeId(int recipeId, int userId);
                 List<RecipeRating> ReadRatingsByUserId(int userId);
 
                 List<RecipeRating> ReadRatingsByRecipeId(int recipeId);
@@ -32,15 +33,15 @@ namespace Verrukkulluk.Data
                 void CreatePicture(ImageObj image);
                 List<ImageObjInfo> ReadAllIPictureIds();
                 bool DoesPictureExist(int imageObjId);
-                bool IsPictureAvailiable(int imageObjId, EImageObjType type, int targetId);
+                bool IsPictureAvailable(int imageObjId, EImageObjType type, int targetId);
                 void UpdatePicture(ImageObj image);
                 void DeletePicture(int id);
-                Product CreateProduct(Product product);
+                void CreateProduct(Product product);
                 void UpdateProduct(Product product);
                 void CreateRecipe(Recipe newRecipe);
                 bool DoesRecipeTitleAlreadyExist(string title, int id);
                 void UpdateRecipe(Recipe recipe);
-                string DeleteRecipe(int recipeId);
+                bool DeleteRecipe(int recipeId);
                 Event AddParticipantToEvent(string name, string email, int id);
                 List<Allergy> ReadAllAllergies();
                 Allergy? ReadAllergyById(int id);

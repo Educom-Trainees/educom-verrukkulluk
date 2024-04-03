@@ -182,31 +182,6 @@ namespace Verrukkulluk.Migrations
                     b.ToTable("Allergies");
                 });
 
-            modelBuilder.Entity("Verrukkulluk.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Comment");
-                });
-
             modelBuilder.Entity("Verrukkulluk.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -632,25 +607,6 @@ namespace Verrukkulluk.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Verrukkulluk.Comment", b =>
-                {
-                    b.HasOne("Verrukkulluk.Models.User", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Verrukkulluk.Recipe", "Recipe")
-                        .WithMany("Comments")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Recipe");
-                });
-
             modelBuilder.Entity("Verrukkulluk.Ingredient", b =>
                 {
                     b.HasOne("Verrukkulluk.Product", "Product")
@@ -684,7 +640,7 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Models.RecipeRating", b =>
                 {
                     b.HasOne("Verrukkulluk.Recipe", "Recipe")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

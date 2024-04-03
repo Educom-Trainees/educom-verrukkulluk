@@ -40,6 +40,7 @@ namespace Verrukkulluk.Controllers.API
             return eventDTOs;
         }
 
+
         // GET: api/Events/5
         [HttpGet("{id}")]
         [Produces("application/json")]

@@ -10,7 +10,6 @@ namespace Verrukkulluk.Models.DTOModels
         public DateOnly Date { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
-
         public List<string> EventParticipantName { get; set; }
         public string Place { get; set; }
         public decimal Price { get; set; }

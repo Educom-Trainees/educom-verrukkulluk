@@ -11,6 +11,14 @@
                 <div class="card-header text-center">
                     <h1 class="darker-green" font-family="heading">Dankjewel!</h1>
                     <h2>Je hebt je aangemeld voor het event.</h2>
+
+                    @foreach (var participant in @Model.Event.Participants)
+                    {
+                        <p> Naam: @participant.Name, @participant.Event.Title</p>
+         
+                    }
+
+
                 </div>
             </div>
         </div>
