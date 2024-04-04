@@ -19,6 +19,7 @@ namespace Verrukkulluk.Data
                 Event ReadEventById(int Id);
                 List<Event> ReadAllEvents();
                 List<int> ReadEventsByUserEmail(string userEmail);
+                void DeleteUserFromEventParticipation(string userEmail, int eventId);
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
 
                 List<RecipeRating> ReadAllRatings();

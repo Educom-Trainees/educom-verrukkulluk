@@ -132,8 +132,20 @@ namespace Verrukkulluk.Models
         }
 
 
+        public Event AddParticipantToEvent(string name, string email, int id)
+        {
+            return Crud.AddParticipantToEvent(name, email, id);
+        }
+
+        public void RemoveParticipantFromEvent(string userEmail, int eventId)
+        {
+            Crud.DeleteUserFromEventParticipation(userEmail, eventId);
+        }
 
 
+
+
+        //
 
         public bool RateRecipe(int recipeId, int ratingValue, string comment)
         {
@@ -205,10 +217,6 @@ namespace Verrukkulluk.Models
         }
 
 
-        public Event AddParticipantToEvent(string name, string email, int id)
-        {
-            return Crud.AddParticipantToEvent(name, email, id);
-        }
 
         public IEnumerable<KitchenType> GetAllKitchenTypes()
         {

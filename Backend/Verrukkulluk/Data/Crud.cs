@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Drawing;
 using System.Numerics;
 using Verrukkulluk.Models;
@@ -210,6 +211,19 @@ namespace Verrukkulluk.Data
                                     .Select(ep => ep.EventId)
                                     .ToList();
         }
+
+
+        public void DeleteUserFromEventParticipation(string userEmail, int eventId)
+        {
+            var eventParticipant = Context.EventParticipants.FirstOrDefault(ep => ep.Email == userEmail && ep.EventId == eventId);
+
+            if (eventParticipant != null)
+            {
+                Context.EventParticipants.Remove(eventParticipant);
+                Context.SaveChanges();
+            }
+        }
+
 
 
 

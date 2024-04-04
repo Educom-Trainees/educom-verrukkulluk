@@ -1,6 +1,5 @@
 ﻿@model Verrukkulluk.Models.UserEventsModel;
 
-
 @{
     ViewData["Title"] = "UserEvents";
 }
@@ -10,9 +9,18 @@
 <ul>
     @foreach (Event SignedUpEvent in Model.SignedUpEvents)
     {
-        <li>@SignedUpEvent.Title</li>
+        <form action="/Verrukkulluk/EventSignOut" method="post">
+            <input type="hidden" id="eventId" name="eventId" value="@SignedUpEvent.Id" />
+            <input type="hidden" id="eventId" name="userEmail" value="@Model.userEmail" />
+            <div >              
+                     <li class="h5">@SignedUpEvent.Title</li>
+                     <button type="submit" class="btn-admin">Uitschrijven</button>           
+            </div>
+        </form>
     }
 </ul>
+
+
 
 
 

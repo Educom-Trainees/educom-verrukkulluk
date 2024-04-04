@@ -336,8 +336,6 @@ namespace Verrukkulluk.Controllers
             return View("EventParticipation", EventModel);
         }
 
-        //
-
 
         public IActionResult UserEvents(string userEmail)
         {
@@ -347,7 +345,6 @@ namespace Verrukkulluk.Controllers
             return View("UserEvents", UserEventsModel);
         }
 
-        //
 
 
 
@@ -371,5 +368,20 @@ namespace Verrukkulluk.Controllers
                 return View("EventParticipation");
             }
         }
+
+
+
+        [HttpPost]
+        public IActionResult EventSignOut(string userEmail, int eventId)
+        {
+            Servicer.RemoveParticipantFromEvent(userEmail, eventId);
+
+            UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+
+            return View("UserEvents", UserEventsModel);
+
+        }
+
+
     }
 }
