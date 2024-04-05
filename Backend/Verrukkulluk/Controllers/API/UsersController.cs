@@ -38,11 +38,13 @@ namespace Verrukkulluk.Controllers.API
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             IEnumerable<User> users = await _userManager.GetUsersInRoleAsync("VerUser");
-            users = users.Concat(await _userManager.GetUsersInRoleAsync("Admin"));
-
             IEnumerable<UserDTO> userDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
-
-            return Ok(userDTO);
+            IEnumerable<User> admins = await _userManager.GetUsersInRoleAsync("Admin");
+            IEnumerable<UserDTO> adminDTO = _mapper.Map<IEnumerable<UserDTO>>(admins);
+            foreach (UserDTO admin in adminDTO) { 
+                admin.isAdmin = true; 
+            };
+            return Ok(userDTO.Concat(adminDTO).OrderBy(u => u.FirstName));
         }
 
         // GET: api/Users/5
