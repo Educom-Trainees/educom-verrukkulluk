@@ -16,19 +16,19 @@ namespace Verrukkulluk.Data
                 Recipe? ReadRecipeById(int id);
                 RecipeInfo? ReadRecipeInfoById(int Id);
                 ImageObj? ReadImageById(int Id);
-                Event ReadEventById(int Id);
+                Event? ReadEventById(int Id);
                 List<Event> ReadAllEvents();
+                void CreateEvent(Event theEvent);
+                void UpdateEvent(Event theEvent);
+                void DeleteEvent(Event @event);
+                bool DoesEventTitleAlreadyExistThatDay(string title, DateOnly date, int id);
                 List<int> ReadEventsByUserEmail(string userEmail);
                 void DeleteUserFromEventParticipation(string userEmail, int eventId);
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
-
                 List<RecipeRating> ReadAllRatings();
-
                 RecipeRating? ReadRatingByUserIdAndRecipeId(int recipeId, int userId);
                 List<RecipeRating> ReadRatingsByUserId(int userId);
-
                 List<RecipeRating> ReadRatingsByRecipeId(int recipeId);
-
                 bool DeleteRecipeRating(int recipeId, int userId);
                 void UpdateAverageRating(int recipeId);
                 void CreatePicture(ImageObj image);
@@ -43,7 +43,8 @@ namespace Verrukkulluk.Data
                 bool DoesRecipeTitleAlreadyExist(string title, int id);
                 void UpdateRecipe(Recipe recipe);
                 bool DeleteRecipe(int recipeId);
-                Event AddParticipantToEvent(string name, string email, int id);
+                bool AddParticipantToEvent(string name, string email, int id);
+                bool RemoveParticipantFromEvent(string email, int id);
                 List<Allergy> ReadAllAllergies();
                 Allergy? ReadAllergyById(int id);
                 void CreateAllergy(Allergy allergy);

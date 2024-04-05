@@ -29,7 +29,7 @@ namespace Verrukkulluk.Models
                 void SaveRecipe(Recipe recipe);
                 void UpdateRecipe(Recipe recipe);
                 void DeletePicture(int imageObjId);
-                Event AddParticipantToEvent(string name, string email, int id);
+                bool AddParticipantToEvent(string name, string email, int id);
                 void RemoveParticipantFromEvent(string userEmail, int eventId);
                 IEnumerable<KitchenType> GetAllKitchenTypes();
                 Task<User> GetCurrentUser();

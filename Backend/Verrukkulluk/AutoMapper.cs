@@ -19,13 +19,13 @@ namespace Verrukkulluk
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Math.Round(src.Price, 2)));
             CreateMap<ProductDTO, Product>()
                 .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.Allergies.Select(allergy => new ProductAllergy { ProductId = src.Id, AllergyId = allergy.Id }).ToList()));
-                
 
 
-            CreateMap<Event, EventDTO>()
-                .ForMember(dest => dest.EventParticipantName,
-                          opt => opt.MapFrom(src => src.Participants.Select(p => p.Name).ToList()));
+
+            CreateMap<Event, EventDTO>();
             CreateMap<EventDTO, Event>();
+            CreateMap<EventParticipant, ParticipantDTO>();
+            CreateMap<ParticipantDTO, EventParticipant>();
 
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();

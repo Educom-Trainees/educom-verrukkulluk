@@ -192,14 +192,37 @@ namespace Verrukkulluk.Data
 
         //Events
 
-        public Event ReadEventById(int Id)
+        public Event? ReadEventById(int Id)
         {
-            return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).First();
+            return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).FirstOrDefault();
         }
 
         public List<Event> ReadAllEvents()
         {
-            return Context.Events.ToList();
+            return Context.Events.Include(e => e.Participants).ToList();
+        }
+
+        public void CreateEvent(Event theEvent)
+        {
+            Context.Events.Add(theEvent);
+            Context.SaveChanges();
+        }
+
+        public void UpdateEvent(Event theEvent)
+        {
+            Context.Events.Update(theEvent);
+            Context.SaveChanges();
+        }
+
+        public void DeleteEvent(Event @event)
+        {
+            Context.Events.Remove(@event);
+            Context.SaveChanges();
+        }
+        
+        public bool DoesEventTitleAlreadyExistThatDay(string title, DateOnly date, int id)
+        {
+            return Context.Events.Any(ev => ev.Title == title && ev.Date == date && ev.Id != id);
         }
 
 
@@ -421,25 +444,44 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
-        public Event AddParticipantToEvent(string name, string email, int eventId)
+        public bool AddParticipantToEvent(string name, string email, int eventId)
         {
-            Event? eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);
+            Event? eventModel = ReadEventById(eventId);
 
-            if (eventModel != null)
+            if (eventModel == null || eventModel.Participants.Count >= eventModel.MaxParticipants)
             {
-                EventParticipant newParticipant = new EventParticipant { Name = name, Email = email };
+                return false;
+            }
+            if (eventModel.Participants.Any(p => p.Email == email))
+            {
+                // Already signed up
+                return true;
+            }
 
-                eventModel.Participants.Add(newParticipant);
+            EventParticipant newParticipant = new EventParticipant { Name = name, Email = email };
 
+            eventModel.Participants.Add(newParticipant);
+
+            Context.SaveChanges();
+            return true;
+        }
+        public bool RemoveParticipantFromEvent(string email, int eventId)
+        {
+            Event? eventModel = ReadEventById(eventId);
+
+            if (eventModel == null)
+            {
+                return false;
+            }
+
+            EventParticipant? participant = eventModel.Participants.FirstOrDefault(p => p.Email == email);
+
+            if (participant != null)
+            {
+                eventModel.Participants.Remove(participant);
                 Context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidOperationException($"Event with ID {eventId} not found.");
-            }
-            return eventModel;
-
-
+            return true;
         }
 
         public List<Allergy> ReadAllAllergies()

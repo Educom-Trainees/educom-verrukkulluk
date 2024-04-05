@@ -61,10 +61,11 @@ namespace Verrukkulluk.Controllers
         {
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(email))
             {
-
-                EventModel.Event = Servicer.AddParticipantToEvent(name, email, EventId);
-
-                return View("ThankYou", EventModel);
+                if (Servicer.AddParticipantToEvent(name, email, EventId)) {
+                    EventModel.Event = Servicer.GetEventById(EventId);
+                    return View("ThankYou", EventModel);
+                }
+                return View("Error", "Event is full");
             }
             else
             {

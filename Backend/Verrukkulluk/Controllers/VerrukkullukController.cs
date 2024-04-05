@@ -353,12 +353,12 @@ namespace Verrukkulluk.Controllers
         {
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(email))
             {
-                var theEvent = Servicer.AddParticipantToEvent(name, email, eventId);
-                if (theEvent == null)
+                var succeed = Servicer.AddParticipantToEvent(name, email, eventId);
+                if (!succeed)
                 {
                     return NotFound();
                 }
-                EventModel.Event = theEvent;
+                EventModel.Event = Servicer.GetEventById(eventId);
 
                 return View("ThankYou", EventModel);
             }
