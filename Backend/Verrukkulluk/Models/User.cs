@@ -18,8 +18,6 @@ namespace Verrukkulluk.Models
         public string CityOfResidence { get; set; }
         public int ImageObjId { get; set; }
 
-        public string PhoneNumber { get; set; }
-
         public User() { }
 
         public User(ILazyLoader lazyLoader)
