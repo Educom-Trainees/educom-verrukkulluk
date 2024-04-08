@@ -335,16 +335,17 @@ namespace Verrukkulluk.Controllers
 
             return View("EventParticipation", EventModel);
         }
-
-
-        public IActionResult UserEvents(string userEmail)
+        public async Task<IActionResult> UserEvents(string? userEmail)
         {
-
-            UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+            if (userEmail == null)
+            {
+                UserEventsModel.SignedUpEvents = await Servicer.GetCurrentUserEvents();
+            } else { 
+                UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+            }
 
             return View("UserEvents", UserEventsModel);
         }
-
 
 
 

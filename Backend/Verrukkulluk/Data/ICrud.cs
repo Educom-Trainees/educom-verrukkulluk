@@ -22,8 +22,7 @@ namespace Verrukkulluk.Data
                 void UpdateEvent(Event theEvent);
                 void DeleteEvent(Event @event);
                 bool DoesEventTitleAlreadyExistThatDay(string title, DateOnly date, int id);
-                List<int> ReadEventsByUserEmail(string userEmail);
-                void DeleteUserFromEventParticipation(string userEmail, int eventId);
+                List<Event> ReadEventsByUserEmail(string userEmail);
                 bool AddOrUpdateRecipeRating(int recipeId, int? userId, int ratingValue, string? comment);
                 List<RecipeRating> ReadAllRatings();
                 RecipeRating? ReadRatingByUserIdAndRecipeId(int recipeId, int userId);

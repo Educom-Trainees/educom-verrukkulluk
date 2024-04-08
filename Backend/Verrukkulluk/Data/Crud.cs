@@ -226,29 +226,16 @@ namespace Verrukkulluk.Data
         }
 
 
-        public List<int> ReadEventsByUserEmail(string userEmail)
+        public List<Event> ReadEventsByUserEmail(string userEmail)
         {
 
             return Context.EventParticipants
-                                    .Where(ep => ep.Email == userEmail)
-                                    .Select(ep => ep.EventId)
+                                    .Include(ep => ep.Event)
+                                    .Where(ep => ep.Email == userEmail && ep.Event.Date > DateOnly.FromDateTime(DateTime.Now))
+                                    .Select(ep => ep.Event)
+                                    .OrderBy(e => e.Date).ThenBy(e => e.StartTime)
                                     .ToList();
         }
-
-
-        public void DeleteUserFromEventParticipation(string userEmail, int eventId)
-        {
-            var eventParticipant = Context.EventParticipants.FirstOrDefault(ep => ep.Email == userEmail && ep.EventId == eventId);
-
-            if (eventParticipant != null)
-            {
-                Context.EventParticipants.Remove(eventParticipant);
-                Context.SaveChanges();
-            }
-        }
-
-
-
 
         //Recipe Ratings
         public List<RecipeRating> ReadAllRatings()

@@ -24,13 +24,14 @@ namespace Verrukkulluk.Models
                 Event GetEventById(int id);
                 List<Event> GetAllEvents();
                 List<Event> GetUserEvents(string userEmail);
+                Task<List<Event>> GetCurrentUserEvents();
                 void UpdateAverageRating(int recipeId);
                 Task<int> SavePictureAsync(IFormFile picture);
                 void SaveRecipe(Recipe recipe);
                 void UpdateRecipe(Recipe recipe);
                 void DeletePicture(int imageObjId);
                 bool AddParticipantToEvent(string name, string email, int id);
-                void RemoveParticipantFromEvent(string userEmail, int eventId);
+                bool RemoveParticipantFromEvent(string userEmail, int eventId);
                 IEnumerable<KitchenType> GetAllKitchenTypes();
                 Task<User> GetCurrentUser();
     }
