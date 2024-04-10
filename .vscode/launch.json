@@ -1,0 +1,27 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "AdminModule",
+            "url": "https://localhost:5173",
+            "webRoot": "${workspaceFolder}/Frontend/AdminModule"
+        },
+        {
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "name": "Verrukkulluk",
+            "program": "${workspaceFolder}/Backend/Verrukkulluk/bin/Debug/net8.0/Verrukkulluk.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Backend/Verrukkulluk",
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Verrukkuluk-Admin",
+            "configurations": [ "Verrukkulluk", "AdminModule" ]
+        }
+    ]
+}

@@ -383,6 +383,10 @@ namespace Verrukkulluk.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {
+            return View();
+        }
     }
 }
