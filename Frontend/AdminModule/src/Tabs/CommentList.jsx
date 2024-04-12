@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import SelectedComment from "./SelectedComment";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getComments, postComment, putComment } from "../api/comments";
+import { deleteComment, getComments, postComment, putComment } from "../api/comments";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import ItemList from "../Components/ItemList";
 
@@ -29,6 +29,13 @@ const CommentList = ({activeComment, setActiveComment}) => {
         mutationFn: putComment,
         onSuccess: () => {
             queryClient.refetchQueries({queryKey: ['comments']})
+        },
+    })
+
+    const deleteCommentMutation = useMutation({
+        mutationFn: deleteComment,
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['comments'] })
         },
     })
 
@@ -73,24 +80,16 @@ const CommentList = ({activeComment, setActiveComment}) => {
 
     // function which sends a DELETE request to the server
     // cid   - id of the comment (in comments) to be sent
-    function removeComment(cid) {
-        console.log(comments.find(c => c.id == cid))
-        return;
+    async function removeComment(cid) {
         const comment = comments.find(c => c.id == cid); // find user
-        const commentJSON = JSON.stringify(comment); // make it JSON
-        console.log(commentJSON);
 
-        fetch('https://localhost:7027/api/comments/'+cid, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: commentJSON,
-        })
-        .then(entry => {
+        try {
+            const entry = await deleteCommentMutation.mutateAsync({ id: comment.userId, recipeId: comment.recipeId })
             console.log(entry)
-        })
-        .catch( err => {
+        }
+        catch (err) {
             console.log(err)
-        })
+        }
     }
 
     // reference to the cancel button used to close modal

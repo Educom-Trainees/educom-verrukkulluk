@@ -27,3 +27,11 @@ export function putComment ({id, commentJSON}) { // destructoring necessary as r
         body: commentJSON,
     });
 }
+
+// function to DELETE a comment
+export function deleteComment({ id, recipeId }) {
+    return fetch('../api/comments/users/' + id+'?recipeId='+recipeId, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    })
+}
