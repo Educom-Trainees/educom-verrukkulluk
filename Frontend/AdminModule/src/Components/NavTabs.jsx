@@ -6,16 +6,16 @@ const NavTabs = ({list, update, active}) => {
 
     return (
         <>
-            <ul className="nav nav-tabs">
+            <ul className="nav nav-tabs nav-tabs-recipe">
                 {list.map((item, idx) => {
                     let style = idx == active ? " selected" : "";
                     return (
                         <li 
                             key={item}
-                            className={"nav-item"+style}
+                            className={"nav-item nav-item-recipe"+style}
                             onClick={() => update(item)}
                         >
-                            <a className="nav-link" data-toggle="tab">{item}</a>
+                            <a className="nav-link nav-link-recipe" data-toggle="tab">{item}</a>
                         </li>
                     )
                 })}

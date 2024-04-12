@@ -42,18 +42,20 @@ const Navigation = () => {
 
     return (
         <>
-            <NavTabs list={tabs} update={handleTabChange} active={activeTab}/>
-            {
-                { //workaround for switch statement
-                    'Users': <UserList moveToComment={moveToComment} moveToRecipe={moveToRecipe} />,
-                    'Recipes': <RecipeList activeRecipe={activeRecipe} setActiveRecipe={setActiveRecipe} moveToComment={moveToComment} />,
-                    'Products': <ProductList />,
-                    'Comments': <CommentList activeComment={activeComment} setActiveComment={setActiveComment} />,
-                    'Events': <EventList />,
-                    'Kitchen Types': <KitchenTypes />,
-                    'Packaging Types': <PackagingTypes />
-                }[tabs[activeTab]]
-            }
+            <div className='mt-3 mb-3'>
+                <NavTabs list={tabs} update={handleTabChange} active={activeTab}/>
+                {
+                    { //workaround for switch statement
+                        'Users': <UserList moveToComment={moveToComment} moveToRecipe={moveToRecipe} />,
+                        'Recipes': <RecipeList activeRecipe={activeRecipe} setActiveRecipe={setActiveRecipe} moveToComment={moveToComment} />,
+                        'Products': <ProductList />,
+                        'Comments': <CommentList activeComment={activeComment} setActiveComment={setActiveComment} />,
+                        'Events': <EventList />,
+                        'Kitchen Types': <KitchenTypes />,
+                        'Packaging Types': <PackagingTypes />
+                    }[tabs[activeTab]]
+                }
+            </div>
         </>
     )
 }

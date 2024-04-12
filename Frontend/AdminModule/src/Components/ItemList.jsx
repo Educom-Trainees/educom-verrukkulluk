@@ -15,7 +15,7 @@ const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=f
                     <li key={item.id} className={"list-group-item p-0 d-flex justify-content-between align-items-center" + (styling ? " " + condition(s) : "")} onClick={() => {setActive(item.id)}}>
                         <div className="align-items-center">
                             <div className="ms-3">
-                                <span className="">{item[displayParam]}</span>
+                                <span>{item[displayParam]}</span>
                             </div>
                         </div>
                         <button
