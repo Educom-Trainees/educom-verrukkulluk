@@ -38,6 +38,8 @@ namespace Verrukkulluk.Data
                 void DeletePicture(int id);
                 void CreateProduct(Product product);
                 void UpdateProduct(Product product);
+                bool DeleteProduct(int id);
+                bool IsProductUsed(int id);
                 void CreateRecipe(Recipe newRecipe);
                 bool DoesRecipeTitleAlreadyExist(string title, int id);
                 void UpdateRecipe(Recipe recipe);

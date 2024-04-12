@@ -22,6 +22,7 @@ namespace Verrukkulluk.Data
                 .Include(p => p.Packaging)
                 .Include(p => p.ProductAllergies)
                     .ThenInclude(pa => pa.Allergy)
+                .Include(p => p.Ingredients)
                 .ToList();
         }
         public Product? ReadProductById(int id)
@@ -402,6 +403,23 @@ namespace Verrukkulluk.Data
             }
             
             Context.SaveChanges();
+        }
+
+        public bool DeleteProduct(int id)
+        {
+            Product? product = Context.Products.Find(id);
+            if (product == null)
+            {
+                return false;
+            }
+            Context.Products.Remove(product);
+            Context.SaveChanges();
+            return true;
+        }
+
+        public bool IsProductUsed(int id)
+        {
+            return Context.Ingredients.Any(i => i.ProductId == id);
         }
 
         public void CreateRecipe(Recipe newRecipe)

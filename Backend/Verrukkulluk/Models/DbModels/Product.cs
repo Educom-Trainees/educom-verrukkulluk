@@ -22,6 +22,7 @@ namespace Verrukkulluk
         public IngredientType IngredientType { get; set; }
         public int ImageObjId { get; set; }
         public string Description { get; set; }
+        public bool Active { get; set; } = true;
         public ICollection<Ingredient> Ingredients { get; set; }
         public ICollection<ProductAllergy> ProductAllergies { get => _lazyLoader.Load(this, ref productAllergies); set => productAllergies = value; }
 

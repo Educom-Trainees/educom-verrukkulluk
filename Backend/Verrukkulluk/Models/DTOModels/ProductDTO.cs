@@ -25,6 +25,8 @@ namespace Verrukkulluk.Models.DTOModels
         public IngredientType IngredientType { get; set; }
         [Required]
         public string Description { get; set; }
+        public bool Active { get; set; }
+        public bool? InUse { get; set; }
         public List<AllergyDTO> Allergies { get; set; } = new List<AllergyDTO>();
 
     }

@@ -145,6 +145,11 @@ function addProduct(e)
         error.text("product niet gevonden");
         return;
     }
+    if (option.disabled) {
+        // set error
+        error.text("product wordt niet meer verkocht");
+        return;
+    }
     error.text("");
     const productId = option.attributes["data-product-id"].value
 
