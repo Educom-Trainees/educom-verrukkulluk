@@ -207,26 +207,19 @@ namespace Verrukkulluk.Controllers.API
             }
         }
 
-        //// DELETE: api/Recipes/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteRecipe(int id)
-        //{
-        //    var recipe = await _context.Recipes.FindAsync(id);
-        //    if (recipe == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/Recipes/5
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRecipe(int id)
+        {
+            var recipeFound = _crud.DeleteRecipe(id); 
+            if (!recipeFound)
+            {
+                return NotFound();
+            }
 
-        //    _context.Recipes.Remove(recipe);
-        //    await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
-        //    return NoContent();
-        //}
-
-        //private bool RecipeExists(int id)
-        //{
-        //    return _context.Recipes.Any(e => e.Id == id);
-        //}
         private void ValidateRecipe(RecipeDTO recipe, int id = 0)
         {
             if (recipe.Id != id)
