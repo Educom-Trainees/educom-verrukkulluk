@@ -6,21 +6,21 @@
 // styling        - boolean for when additional styling is needed (e.g. color)
 // subject        - function which takes an item as input and returns the subject (i.e. input) of the condition function
 // condition      - function which takes the subject returns additional styling based on the subject
-const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=false, subject=(item)=>{}, condition=(subject)=>{}}) => {
+const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=false, subject=(item)=>{}, condition=(subject)=>{}, checkAdmin=false}) => {
     return (
         <ul className="list-group" id="list-tab" role="tablist">
             {items.map((item, index) => {
                 const s = subject(item); // subject function returns some value used in the condition function
                 return (
-                    <li key={item.id} className={"list-group-item p-0 d-flex justify-content-between align-items-center" + (styling ? " " + condition(s) : "")} onClick={() => {setActive(item.id)}}>
+                    <li key={item.id} className={"list-group-item p-0 d-flex justify-content-between align-items-center" + (styling ? " " + condition(s) : "")} onClick={() => { setActive(item.id) }}>
                         <div className="align-items-center">
                             <div className="ms-3">
                                 <span>{item[displayParam]}</span>
                             </div>
                         </div>
                         <button
-                            className={"btn btn-danger bi bi-trash product-trash rounded-start-0" + (index > 0 ? " rounded-top-0" : "") + (index < items.length-1 ? " rounded-bottom-0" : " rounded-bottom-left-0")}
-                            onClick={() => {
+                            className={"btn btn-danger bi bi-trash product-trash rounded-start-0" + (index > 0 ? " rounded-top-0" : "") + (index < items.length - 1 ? " rounded-bottom-0" : " rounded-bottom-left-0") + ((checkAdmin && item.isAdmin) ? " pe-none opacity-0" : "")}
+                            onClick={(checkAdmin && item.isAdmin) ? () => {} : () => { // if item is admin onclick function is empty, otherwise toggles delete modal
                                 setActive(item.id);
                                 document.getElementById(divInfoId).textContent = item[displayParam];
                             }}
