@@ -87,7 +87,7 @@ namespace Verrukkulluk.Controllers
         private void FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
-            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
+            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllActiveKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
             model.Recipe.Instructions = (model.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null)

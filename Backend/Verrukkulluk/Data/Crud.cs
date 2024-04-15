@@ -310,7 +310,7 @@ namespace Verrukkulluk.Data
         }
 
 
-  
+
         public bool DeleteRecipeRating(int recipeId, int userId)
         {
             try
@@ -583,8 +583,15 @@ namespace Verrukkulluk.Data
         public IEnumerable<KitchenType> ReadAllKitchenTypes()
         {
             // Make sure Overige is always last
-            return Context.KitchenTypes.OrderBy(kt => kt.Name == "Overig" ? "ZZZZ": kt.Name);
+            return Context.KitchenTypes.OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ": kt.Name);
         }
+
+        public IEnumerable<KitchenType> ReadAllActiveKitchenTypes()
+        {
+            // Make sure Overige is always last
+            return Context.KitchenTypes.Where(kt => kt.Active).OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ" : kt.Name);
+        }
+
         public KitchenType? ReadKitchenTypeById(int id)
         {
             return Context.KitchenTypes.Find(id);
@@ -603,6 +610,17 @@ namespace Verrukkulluk.Data
         public void UpdateKitchenType(KitchenType kitchenType)
         {
             Context.KitchenTypes.Update(kitchenType);
+            Context.SaveChanges();
+        }
+        
+        public bool IsKitchenTypeUsed(int id)
+        {
+            return Context.Recipes.Any(r => r.KitchenTypeId == id);
+        }
+
+        public void DeleteKitchenType(KitchenType kitchenType)
+        {
+            Context.KitchenTypes.Remove(kitchenType);
             Context.SaveChanges();
         }
 

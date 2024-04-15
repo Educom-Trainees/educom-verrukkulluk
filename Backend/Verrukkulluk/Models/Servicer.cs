@@ -211,9 +211,9 @@ namespace Verrukkulluk.Models
             Crud.DeletePicture(id);
         }
 
-        public IEnumerable<KitchenType> GetAllKitchenTypes()
+        public IEnumerable<KitchenType> GetAllActiveKitchenTypes()
         {
-            return Crud.ReadAllKitchenTypes();
+            return Crud.ReadAllActiveKitchenTypes();
         }
         public async Task<User> GetCurrentUser()
         {

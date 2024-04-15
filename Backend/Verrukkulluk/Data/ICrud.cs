@@ -62,11 +62,22 @@ namespace Verrukkulluk.Data
                 int ReadImageObjIdForAllergyId(int id);
                 int ReadImageObjIdForRecipeId(int id);
                 KitchenType? ReadKitchenTypeById(int kitchenTypeId);
+                /// <summary>
+                /// Retrieves all kitchen types from the database. Sorted by Name with 'Overig' as last
+                /// </summary>
+                /// <returns>An list of kitchen types.</returns>
                 IEnumerable<KitchenType> ReadAllKitchenTypes();
+                /// <summary>
+                /// Retrieves all active kitchen types from the database. Sorted by Name with 'Overig' as last
+                /// </summary>
+                /// <returns>An list of active kitchen types.</returns>
+                IEnumerable<KitchenType> ReadAllActiveKitchenTypes();
                 void CreateKitchenType(KitchenType kickenType);
                 void UpdateKitchenType(KitchenType kickenType);
                 bool DoesKitchenTypeExist(int id);
                 bool DoesKitchenTypeNameAlreadyExist(string name, int id);
+                bool IsKitchenTypeUsed(int id);
+                void DeleteKitchenType(KitchenType kitchenType);
                 bool DoesProductIdExists(int productId);
     }
 }

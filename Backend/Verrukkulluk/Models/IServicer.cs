@@ -32,7 +32,7 @@ namespace Verrukkulluk.Models
                 void DeletePicture(int imageObjId);
                 bool AddParticipantToEvent(string name, string email, int id);
                 bool RemoveParticipantFromEvent(string userEmail, int eventId);
-                IEnumerable<KitchenType> GetAllKitchenTypes();
+                IEnumerable<KitchenType> GetAllActiveKitchenTypes();
                 Task<User> GetCurrentUser();
     }
 }
