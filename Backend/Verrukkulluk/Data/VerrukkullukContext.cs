@@ -35,6 +35,11 @@ namespace Verrukkulluk.Data
             builder.Entity<Recipe>().HasOne(r => r.Creator).WithMany();
             builder.Entity<Product>().HasOne<ImageObj>().WithOne();
             builder.Entity<User>().HasMany(u => u.FavouritesList).WithMany().UsingEntity("FavoriteRecipes");
+            builder.Entity<KitchenType>().HasIndex(kt => kt.Name).IsUnique();
+            builder.Entity<Allergy>().HasIndex(a => a.Name).IsUnique();
+            builder.Entity<PackagingType>().HasIndex(pt => pt.Name).IsUnique();
+            builder.Entity<Product>().HasIndex(p => p.Name).IsUnique();
+            builder.Entity<Recipe>().HasIndex(r => r.Title).IsUnique();
             base.OnModelCreating(builder);
         }
     }
