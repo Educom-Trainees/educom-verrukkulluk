@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SelectedRecipe from "./SelectedRecipe";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getIngredientTypes, getProducts } from "../api/products";
-import { getRecipes, putRecipe } from "../api/recipes";
+import { deleteRecipe, getRecipes, putRecipe } from "../api/recipes";
 import ConfirmDeleteModal from "../Components/ConfirmDeleteModal";
 import ItemList from "../Components/ItemList";
 
@@ -32,6 +32,13 @@ const RecipeList = ({activeRecipe, setActiveRecipe, moveToComment}) => {
         mutationFn: putRecipe,
         onSuccess: () => {
             queryClient.refetchQueries({queryKey: ['recipes']})
+        },
+    })
+
+    const deleteRecipeMutation = useMutation({
+        mutationFn: deleteRecipe,
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['recipes'] })
         },
     })
 
@@ -92,8 +99,14 @@ const RecipeList = ({activeRecipe, setActiveRecipe, moveToComment}) => {
     }
 
     // function which sends DELETE request to remove a recipe from DB (not implemented)
-    function removeRecipe(id) {
-        console.log('fake deleting:', id)
+    async function removeRecipe(id) {
+        try {
+            const entry = await deleteRecipeMutation.mutateAsync(id)
+            console.log(entry)
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
     // reference to the cancel button used to close modal
@@ -109,8 +122,8 @@ const RecipeList = ({activeRecipe, setActiveRecipe, moveToComment}) => {
         cancelButton.current.click(); // close modal
     }
 
-    var isLoading = [recipeStatus, ingredientStatus].some(value => value == 'pending')
-    var LoadFailed = [recipeStatus, ingredientStatus].some(value => value == 'error')
+    var isLoading = [recipeStatus, ingredientStatus, productStatus].some(value => value == 'pending')
+    var LoadFailed = [recipeStatus, ingredientStatus, productStatus].some(value => value == 'error')
     return ( isLoading ? <div>Loading...</div> : (LoadFailed ? <div>Load Failed, Please try again.</div> :
         <>
             {/* Modal component, renders modal when delete button is pressed */}

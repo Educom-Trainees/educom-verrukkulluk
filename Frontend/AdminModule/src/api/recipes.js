@@ -13,3 +13,11 @@ export function putRecipe ({id, recipeJSON}) { // destructoring necessary as rea
         body: recipeJSON,
     });
 }
+
+// function to DELETE a recipe
+export function deleteRecipe(id) {
+    return fetch('../api/recipes/' + id, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    })
+}
