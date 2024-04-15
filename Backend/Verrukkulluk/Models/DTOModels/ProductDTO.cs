@@ -5,7 +5,8 @@ namespace Verrukkulluk.Models.DTOModels
     public class ProductDTO
     {
         public int Id { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
+        [MaxLength(255)]
         public string Name { get; set; }
         [Required]
         public decimal Price { get; set; }
