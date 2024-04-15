@@ -53,10 +53,13 @@ namespace Verrukkulluk.Data
                 bool DoAllergiesExist(int[] ids);
                 void UpdateAllergy(Allergy allergy);
                 List<PackagingType> ReadAllPackagingTypes();
+                PackagingType? ReadPackagingTypeById(int id);
                 bool DoesPackagingTypeExist(int id);
+                bool IsPackagingTypeUsed(int id);
                 void CreatePackagingType(PackagingType packagingType);
                 void UpdatePackagingType(PackagingType packagingType);
                 bool DoesPackagingTypeNameAlreadyExist(string name, int id);
+                void DeletePackagingType(PackagingType packagingType);
                 bool DoesProductNameAlreadyExist(string name, int id);
                 int ReadImageObjIdForProductId(int id);
                 int ReadImageObjIdForAllergyId(int id);

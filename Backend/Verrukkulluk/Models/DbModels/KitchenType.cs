@@ -10,6 +10,7 @@ namespace Verrukkulluk
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; } = true;
+        public virtual ICollection<Recipe> Recipes { get; set; }
 
         public KitchenType() { }
         public KitchenType(string name)

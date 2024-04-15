@@ -4,6 +4,7 @@ using Verrukkulluk.Models.DTOModels;
 using Verrukkulluk.Models;
 using Verrukkulluk.ViewModels;
 using Verrukkulluk.Models.ViewModels;
+using Verrukkulluk.Models.DTOmodels;
 
 
 namespace Verrukkulluk
@@ -65,6 +66,14 @@ namespace Verrukkulluk
 
             CreateMap<IngredientDTO, Ingredient>();
             CreateMap<Ingredient, IngredientDTO>();
+
+            CreateMap<KitchenTypeDTO, KitchenType>();
+            CreateMap<KitchenType, KitchenTypeDTO>()
+                .ForMember(dest => dest.InUse, opt => opt.MapFrom(src => src.Recipes.Any()));
+
+            CreateMap<PackagingTypeDTO, PackagingType>();
+            CreateMap<PackagingType, PackagingTypeDTO>()
+                .ForMember(dest => dest.InUse, opt => opt.MapFrom(src => src.Products.Any()));
         }
     }
 }

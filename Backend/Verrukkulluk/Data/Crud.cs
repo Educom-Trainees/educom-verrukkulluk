@@ -514,7 +514,10 @@ namespace Verrukkulluk.Data
 
         public List<PackagingType> ReadAllPackagingTypes()
         {
-            return Context.PackagingTypes.ToList();
+            return Context.PackagingTypes.Include(pt => pt.Products).ToList();
+        }
+        public PackagingType? ReadPackagingTypeById(int id) {
+            return Context.PackagingTypes.Include(pt => pt.Products).FirstOrDefault(pt => pt.Id == id);
         }
 
         public bool DoAllergiesExist(int[] ids)
@@ -525,6 +528,11 @@ namespace Verrukkulluk.Data
         public bool DoesPackagingTypeExist(int id)
         {
             return Context.PackagingTypes.Any(i => i.Id == id);
+        }
+
+        public bool IsPackagingTypeUsed(int id)
+        {
+            return Context.Products.Any(p => p.PackagingId == id);
         }
 
         public bool DoesAllergyNameAlreadyExist(string name, int id)
@@ -541,6 +549,11 @@ namespace Verrukkulluk.Data
         public void UpdatePackagingType(PackagingType packagingType)
         {
             Context.PackagingTypes.Update(packagingType);
+            Context.SaveChanges();
+        }
+
+        public void DeletePackagingType(PackagingType packagingType) {
+            Context.PackagingTypes.Remove(packagingType);
             Context.SaveChanges();
         }
 
@@ -583,7 +596,8 @@ namespace Verrukkulluk.Data
         public IEnumerable<KitchenType> ReadAllKitchenTypes()
         {
             // Make sure Overige is always last
-            return Context.KitchenTypes.OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ": kt.Name);
+            return Context.KitchenTypes.Include(kt => kt.Recipes)
+                                       .OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ": kt.Name);
         }
 
         public IEnumerable<KitchenType> ReadAllActiveKitchenTypes()
@@ -628,5 +642,7 @@ namespace Verrukkulluk.Data
         {
             return Context.Products.Any(p => p.Id == id);
         }
+
+        
     }
 }
