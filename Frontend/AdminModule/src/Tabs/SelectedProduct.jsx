@@ -27,12 +27,13 @@ import PriceInput from "../Components/Form/PriceInput";
 // setNewDescription      - function to change newDescription state
 // newSmallestAmount      - state of value in the SmallestAmount edit field
 // setNewSmallestAmount   - function to change newSmallestAmount state
+// activateProduct        - function to make an inactive product active
 // isNewProduct           - flag to tell if the function is called for a new product or not (adds image input if true)
 const SelectedProduct = ({
     editProduct, product, packagingInfo, allergyInfo, ingredientTypes, newName, setNewName, newPrice, setNewPrice,
     newAmount, setNewAmount, selectedType, setSelectedType, selectedPackaging, setSelectedPackaging,
     selectedAllergens, setSelectedAllergens, newCalories, setNewCalories, newDescription, setNewDescription,
-    newSmallestAmount, setNewSmallestAmount, newImage, setNewImage, isNewProduct=false}) => {
+    newSmallestAmount, setNewSmallestAmount, newImage, setNewImage, activateProduct=()=>{}, isNewProduct=false}) => {
     
     // references to track pressed buttons
     const submitButton = useRef(null);
@@ -102,7 +103,15 @@ const SelectedProduct = ({
         <div>
             {product != null && // only show form if product is not null
                 <div>
-                    {!isNewProduct && <h4>Info for "{product.name}"</h4>}
+                    {!isNewProduct &&
+                        <div className="row">
+                            <h4 className="col-10">Info for "{product.name}"</h4>
+                            {!product.active && <button className="btn btn-secondary col-2 ms-auto mb-2" onClick={() => {
+                                console.log(product.id)
+                                activateProduct(product.id)
+                            }}>Activate</button>}
+                        </div>
+                    }
                     <form className="form-inline" onSubmit={e => handleSubmit(e)} style={{"paddingRight": "5%"}}>
                         <input type="hidden" value={product.id} id="pid" />
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import SelectedProduct from "./SelectedProduct";
 import '../assets/modal.css'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {getProducts, postProduct, putProduct, getIngredientTypes} from '../api/products'
+import {getProducts, postProduct, putProduct, getIngredientTypes, deleteProduct, toggleActiveProduct} from '../api/products'
 import {getPackagingTypes} from '../api/packagingtypes'
 import { getAllergies } from "../api/allergies";
 import { postImage } from "../api/imageobjs";
@@ -53,8 +53,23 @@ const ProductList = () => {
         },
     })
 
+    const deleteProductMutation = useMutation({
+        mutationFn: deleteProduct,
+        onSuccess: () => {
+            queryClient.refetchQueries({queryKey: ['products']})
+        },
+    })
+
+    const toggleActiveProductMutation = useMutation({
+        mutationFn: toggleActiveProduct,
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['products'] })
+        },
+    })
+
     // state keeping track of the active product
     const [activeProduct, setActiveProduct] = useState(0);
+    const [showInactiveProducts, setShowInactiveProducts] = useState(false);
 
     // effect which stores product info in local storage whenever users state is changed
     useEffect(() => {
@@ -170,26 +185,6 @@ const ProductList = () => {
         return p;
     }
 
-    // function which sends a DELETE request to the server
-    // pid   - id of the product (in products) to be sent
-    function deleteProduct(pid) {
-        const product = products.find(p => p.id == pid); // find product
-        const productJSON = JSON.stringify(product); // make it JSON
-        console.log(productJSON);
-
-        fetch('https://localhost:7027/api/products/'+pid, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: productJSON,
-        })
-        .then(entry => {
-            console.log(entry)
-        })
-        .catch( err => {
-            console.log(err)
-        })
-    }
-
     // function which converts an image to the correct format and sends it to the DB
     // returns image id of created imageObj
     async function createImage() {
@@ -238,15 +233,47 @@ const ProductList = () => {
     const confirmDeleteCancelButton = useRef(null);
 
     // function which DELETES a product from DB (not implemented)
-    function removeProduct(id) {
-        console.log('fake deleting', id)
+    async function removeProduct(id) {
+        console.log('removing')
+        try {
+            const entry = await deleteProductMutation.mutateAsync(id)
+            const result = await entry.json();
+            return result;
+        }
+        catch (err) {
+            console.log(err)
+            // return -1; // potentially return error
+        }
+    }
+
+    async function toggleActiveProductFlag(id) {
+        console.log('toggling')
+        try {
+            const entry = await toggleActiveProductMutation.mutateAsync(id)
+            console.log(entry)
+        }
+        catch (err) {
+            console.log(err)
+            // return -1; // potentially return error
+        }
     }
 
     // function defining behavior for modal onclicking confirmation button
     // sent to the delete modal
     function onDeleteModalConfirm() {
-        const pid = products.find(p => p.id == activeProduct).id;
-        removeProduct(pid);
+        const product = products.find(p => p.id == activeProduct);
+        if (showInactiveProducts) {
+            // product inactive - we can delete if not in use
+            if (!product.inUse) {
+                removeProduct(product.id);
+            } else {
+                //show reason it cant be deleted (could just remove delete button from these products instead)
+            }
+        }
+        else {
+            // product active - set to be inactive
+            toggleActiveProductFlag(product.id);
+        }
         setActiveProduct(0);
 
         confirmDeleteCancelButton.current.click(); // close modal
@@ -335,13 +362,18 @@ const ProductList = () => {
                 data-toggle="modal"
                 data-target="#newProductModal"
             >New Product</button>
-
+            <button className={"btn" + (showInactiveProducts ? " btn-primary" : " btn-secondary")}
+                onClick={() => {
+                    setShowInactiveProducts(!showInactiveProducts);
+                    setActiveProduct(0);
+                }}>{(showInactiveProducts ? "Active Products" : "Inactive Products")}</button>
+            
             {/* actual list and detail */}
             <div className="container-fluid mb-5">
                 <div className="row">
                     <div className="col-4">
                         <ItemList
-                            items={products}
+                            items={products.filter(p => p.active != showInactiveProducts)}
                             displayParam={'name'}
                             setActive={setActiveProduct}
                             divInfoId={'toDeleteProductInfo'}
@@ -353,21 +385,22 @@ const ProductList = () => {
                             {(activeProduct == 0) ? // only show selectedProduct if there is an active product
                                 <></> :
                                 <SelectedProduct
-                                editProduct={editProduct}
-                                product={products.find(p => p.id == activeProduct)}
-                                packagingInfo={packagingInfo}
-                                allergyInfo={allergyInfo}
-                                ingredientTypes={ingredientTypes}
-                                newName={newName} setNewName={setNewName}
-                                newPrice={newPrice} setNewPrice={setNewPrice}
-                                newAmount={newAmount} setNewAmount={setNewAmount}
-                                selectedType={selectedType} setSelectedType={setSelectedType}
-                                selectedPackaging={selectedPackaging} setSelectedPackaging={setSelectedPackaging}
-                                selectedAllergens={selectedAllergens} setSelectedAllergens={setSelectedAllergens}
-                                newDescription={newDescription} setNewDescription={setNewDescription}
-                                newSmallestAmount={newSmallestAmount} setNewSmallestAmount={setNewSmallestAmount}
-                                newCalories={newCalories} setNewCalories={setNewCalories}
-                            />
+                                    editProduct={editProduct}
+                                    product={products.find(p => p.id == activeProduct)}
+                                    packagingInfo={packagingInfo}
+                                    allergyInfo={allergyInfo}
+                                    ingredientTypes={ingredientTypes}
+                                    newName={newName} setNewName={setNewName}
+                                    newPrice={newPrice} setNewPrice={setNewPrice}
+                                    newAmount={newAmount} setNewAmount={setNewAmount}
+                                    selectedType={selectedType} setSelectedType={setSelectedType}
+                                    selectedPackaging={selectedPackaging} setSelectedPackaging={setSelectedPackaging}
+                                    selectedAllergens={selectedAllergens} setSelectedAllergens={setSelectedAllergens}
+                                    newDescription={newDescription} setNewDescription={setNewDescription}
+                                    newSmallestAmount={newSmallestAmount} setNewSmallestAmount={setNewSmallestAmount}
+                                    newCalories={newCalories} setNewCalories={setNewCalories}
+                                    activateProduct={toggleActiveProductFlag}
+                                />
                             }
                         </div>
                     </div>

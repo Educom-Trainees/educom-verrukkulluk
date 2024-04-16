@@ -23,6 +23,22 @@ export function putProduct ({id, productJSON}) { // destructoring necessary as r
     });
 }
 
+// function to DELETE a product
+export function deleteProduct(id) {
+    return fetch('../api/products/' + id, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+    })
+}
+
+// function to toggle a product's active flag
+export function toggleActiveProduct(id) {
+    return fetch('../api/products/' + id + '/active', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+    })
+}
+
 // function to GET ingredient type info from DB
 export function getIngredientTypes () {
     return fetchData('../api/products/ingredienttypes');
