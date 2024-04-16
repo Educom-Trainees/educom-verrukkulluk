@@ -33,7 +33,7 @@ const SelectedProduct = ({
     editProduct, product, packagingInfo, allergyInfo, ingredientTypes, newName, setNewName, newPrice, setNewPrice,
     newAmount, setNewAmount, selectedType, setSelectedType, selectedPackaging, setSelectedPackaging,
     selectedAllergens, setSelectedAllergens, newCalories, setNewCalories, newDescription, setNewDescription,
-    newSmallestAmount, setNewSmallestAmount, newImage, setNewImage, activateProduct=()=>{}, isNewProduct=false}) => {
+    newSmallestAmount, setNewSmallestAmount, newImage, setNewImage, toggleActiveProduct=()=>{}, isNewProduct=false}) => {
     
     // references to track pressed buttons
     const submitButton = useRef(null);
@@ -106,10 +106,10 @@ const SelectedProduct = ({
                     {!isNewProduct &&
                         <div className="row">
                             <h4 className="col-10">Info for "{product.name}"</h4>
-                            {!product.active && <button className="btn btn-secondary col-2 ms-auto mb-2" onClick={() => {
+                            <button className={"btn col-2 ms-auto mb-2 " + (product.active ? 'btn-secondary' : 'btn-primary')} onClick={() => {
                                 console.log(product.id)
-                                activateProduct(product.id)
-                            }}>Activate</button>}
+                                toggleActiveProduct(product.id)
+                            }}>{product.active ? 'Deactivate' : 'Activate'}</button>
                         </div>
                     }
                     <form className="form-inline" onSubmit={e => handleSubmit(e)} style={{"paddingRight": "5%"}}>

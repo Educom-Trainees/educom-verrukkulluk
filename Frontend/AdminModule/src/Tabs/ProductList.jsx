@@ -256,23 +256,15 @@ const ProductList = () => {
             console.log(err)
             // return -1; // potentially return error
         }
+        setShowInactiveProducts(!showInactiveProducts)
     }
 
     // function defining behavior for modal onclicking confirmation button
     // sent to the delete modal
     function onDeleteModalConfirm() {
         const product = products.find(p => p.id == activeProduct);
-        if (showInactiveProducts) {
-            // product inactive - we can delete if not in use
-            if (!product.inUse) {
-                removeProduct(product.id);
-            } else {
-                //show reason it cant be deleted (could just remove delete button from these products instead)
-            }
-        }
-        else {
-            // product active - set to be inactive
-            toggleActiveProductFlag(product.id);
+        if (!product.inUse) { // should always be true, delete button should only be active for not inUse products
+            removeProduct(product.id);
         }
         setActiveProduct(0);
 
@@ -378,6 +370,8 @@ const ProductList = () => {
                             setActive={setActiveProduct}
                             divInfoId={'toDeleteProductInfo'}
                             modalId={'deleteProductModal'}
+                            checkDelete={true}
+                            deleteVar={'inUse'}
                         />
                     </div>
                     <div className="col-6">
@@ -399,7 +393,7 @@ const ProductList = () => {
                                     newDescription={newDescription} setNewDescription={setNewDescription}
                                     newSmallestAmount={newSmallestAmount} setNewSmallestAmount={setNewSmallestAmount}
                                     newCalories={newCalories} setNewCalories={setNewCalories}
-                                    activateProduct={toggleActiveProductFlag}
+                                    toggleActiveProduct={toggleActiveProductFlag}
                                 />
                             }
                         </div>

@@ -6,7 +6,7 @@
 // styling        - boolean for when additional styling is needed (e.g. color)
 // subject        - function which takes an item as input and returns the subject (i.e. input) of the condition function
 // condition      - function which takes the subject returns additional styling based on the subject
-const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=false, subject=(item)=>{}, condition=(subject)=>{}, checkAdmin=false}) => {
+const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=false, subject=(item)=>{}, condition=(subject)=>{}, checkDelete=false, deleteVar=''}) => {
     return (
         <ul className="list-group" id="list-tab" role="tablist">
             {items.map((item, index) => {
@@ -19,8 +19,8 @@ const ItemList = ({items, displayParam, setActive, divInfoId, modalId, styling=f
                             </div>
                         </div>
                         <button
-                            className={"btn btn-danger bi bi-trash product-trash rounded-start-0" + (index > 0 ? " rounded-top-0" : "") + (index < items.length - 1 ? " rounded-bottom-0" : " rounded-bottom-left-0") + ((checkAdmin && item.isAdmin) ? " pe-none opacity-0" : "")}
-                            onClick={(checkAdmin && item.isAdmin) ? () => {} : () => { // if item is admin onclick function is empty, otherwise toggles delete modal
+                            className={"btn btn-danger bi bi-trash product-trash rounded-start-0" + (index > 0 ? " rounded-top-0" : "") + (index < items.length - 1 ? " rounded-bottom-0" : " rounded-bottom-left-0") + ((checkDelete && item[deleteVar]) ? " pe-none opacity-0" : "")}
+                            onClick={(checkDelete && item[deleteVar]) ? () => {} : () => { // if item is admin onclick function is empty, otherwise toggles delete modal
                                 setActive(item.id);
                                 document.getElementById(divInfoId).textContent = item[displayParam];
                             }}
