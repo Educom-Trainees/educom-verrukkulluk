@@ -1,0 +1,52 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"group": {
+			  "kind": "test",
+			  "isDefault": true
+			},
+			"isBackground": true,   // This prevents the launch.json to wait for the completion of the task
+			"problemMatcher": {
+			   "owner": "custom",   // This is not needed but, required by the problemMatcher Object
+			   "pattern": {
+				 "regexp": "^$"     // This is not needed but, required by the problemMatcher Object
+			   },
+			   "background": {
+				 "activeOnStart": true,
+				 "beginsPattern": "> vite",  // Signals the begin of the Task
+				 "endsPattern": "VITE v\\d\\.\\d\\.\\d\\s+ready"      // Signals that now the initialization of the task is complete
+			   }
+			},
+			"options": { 
+ 			  "cwd": "${workspaceFolder}/Frontend/AdminModule" 
+			}
+		 },
+		 {
+			"label": "Sleepdelay",
+			"type": "shell",
+			"command": "sleep 16",
+			"windows": {
+				"command": "ping 127.0.0.1 -n 16 > ${null}"
+			},
+			"group": "none",
+			"presentation": {
+				"reveal": "silent",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "Delay & npm: dev",
+			"dependsOn" : ["Sleepdelay", "npm: dev"]
+		}
+	]
+}
