@@ -22,6 +22,7 @@ namespace Verrukkulluk.Data
                 .Include(p => p.Packaging)
                 .Include(p => p.ProductAllergies)
                     .ThenInclude(pa => pa.Allergy)
+                .Include(p => p.Ingredients)
                 .ToList();
         }
         public Product? ReadProductById(int id)
@@ -192,40 +193,50 @@ namespace Verrukkulluk.Data
 
         //Events
 
-        public Event ReadEventById(int Id)
+        public Event? ReadEventById(int Id)
         {
-            return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).First();
+            return Context.Events.Include(e => e.Participants).Where(e => e.Id == Id).FirstOrDefault();
         }
 
         public List<Event> ReadAllEvents()
         {
-            return Context.Events.ToList();
+            return Context.Events.Include(e => e.Participants).ToList();
+        }
+
+        public void CreateEvent(Event theEvent)
+        {
+            Context.Events.Add(theEvent);
+            Context.SaveChanges();
+        }
+
+        public void UpdateEvent(Event theEvent)
+        {
+            Context.Events.Update(theEvent);
+            Context.SaveChanges();
+        }
+
+        public void DeleteEvent(Event @event)
+        {
+            Context.Events.Remove(@event);
+            Context.SaveChanges();
+        }
+        
+        public bool DoesEventTitleAlreadyExistThatDay(string title, DateOnly date, int id)
+        {
+            return Context.Events.Any(ev => ev.Title == title && ev.Date == date && ev.Id != id);
         }
 
 
-        public List<int> ReadEventsByUserEmail(string userEmail)
+        public List<Event> ReadEventsByUserEmail(string userEmail)
         {
 
             return Context.EventParticipants
-                                    .Where(ep => ep.Email == userEmail)
-                                    .Select(ep => ep.EventId)
+                                    .Include(ep => ep.Event)
+                                    .Where(ep => ep.Email == userEmail && ep.Event.Date > DateOnly.FromDateTime(DateTime.Now))
+                                    .Select(ep => ep.Event)
+                                    .OrderBy(e => e.Date).ThenBy(e => e.StartTime)
                                     .ToList();
         }
-
-
-        public void DeleteUserFromEventParticipation(string userEmail, int eventId)
-        {
-            var eventParticipant = Context.EventParticipants.FirstOrDefault(ep => ep.Email == userEmail && ep.EventId == eventId);
-
-            if (eventParticipant != null)
-            {
-                Context.EventParticipants.Remove(eventParticipant);
-                Context.SaveChanges();
-            }
-        }
-
-
-
 
         //Recipe Ratings
         public List<RecipeRating> ReadAllRatings()
@@ -299,7 +310,7 @@ namespace Verrukkulluk.Data
         }
 
 
-  
+
         public bool DeleteRecipeRating(int recipeId, int userId)
         {
             try
@@ -394,6 +405,23 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
+        public bool DeleteProduct(int id)
+        {
+            Product? product = Context.Products.Find(id);
+            if (product == null)
+            {
+                return false;
+            }
+            Context.Products.Remove(product);
+            Context.SaveChanges();
+            return true;
+        }
+
+        public bool IsProductUsed(int id)
+        {
+            return Context.Ingredients.Any(i => i.ProductId == id);
+        }
+
         public void CreateRecipe(Recipe newRecipe)
         {
             Context.Recipes.Add(newRecipe);
@@ -421,25 +449,44 @@ namespace Verrukkulluk.Data
             Context.SaveChanges();
         }
 
-        public Event AddParticipantToEvent(string name, string email, int eventId)
+        public bool AddParticipantToEvent(string name, string email, int eventId)
         {
-            Event? eventModel = Context.Events.Include(e => e.Participants).FirstOrDefault(e => e.Id == eventId);
+            Event? eventModel = ReadEventById(eventId);
 
-            if (eventModel != null)
+            if (eventModel == null || eventModel.Participants.Count >= eventModel.MaxParticipants)
             {
-                EventParticipant newParticipant = new EventParticipant { Name = name, Email = email };
+                return false;
+            }
+            if (eventModel.Participants.Any(p => p.Email == email))
+            {
+                // Already signed up
+                return true;
+            }
 
-                eventModel.Participants.Add(newParticipant);
+            EventParticipant newParticipant = new EventParticipant { Name = name, Email = email };
 
+            eventModel.Participants.Add(newParticipant);
+
+            Context.SaveChanges();
+            return true;
+        }
+        public bool RemoveParticipantFromEvent(string email, int eventId)
+        {
+            Event? eventModel = ReadEventById(eventId);
+
+            if (eventModel == null)
+            {
+                return false;
+            }
+
+            EventParticipant? participant = eventModel.Participants.FirstOrDefault(p => p.Email == email);
+
+            if (participant != null)
+            {
+                eventModel.Participants.Remove(participant);
                 Context.SaveChanges();
             }
-            else
-            {
-                throw new InvalidOperationException($"Event with ID {eventId} not found.");
-            }
-            return eventModel;
-
-
+            return true;
         }
 
         public List<Allergy> ReadAllAllergies()
@@ -467,7 +514,10 @@ namespace Verrukkulluk.Data
 
         public List<PackagingType> ReadAllPackagingTypes()
         {
-            return Context.PackagingTypes.ToList();
+            return Context.PackagingTypes.Include(pt => pt.Products).ToList();
+        }
+        public PackagingType? ReadPackagingTypeById(int id) {
+            return Context.PackagingTypes.Include(pt => pt.Products).FirstOrDefault(pt => pt.Id == id);
         }
 
         public bool DoAllergiesExist(int[] ids)
@@ -478,6 +528,11 @@ namespace Verrukkulluk.Data
         public bool DoesPackagingTypeExist(int id)
         {
             return Context.PackagingTypes.Any(i => i.Id == id);
+        }
+
+        public bool IsPackagingTypeUsed(int id)
+        {
+            return Context.Products.Any(p => p.PackagingId == id);
         }
 
         public bool DoesAllergyNameAlreadyExist(string name, int id)
@@ -494,6 +549,11 @@ namespace Verrukkulluk.Data
         public void UpdatePackagingType(PackagingType packagingType)
         {
             Context.PackagingTypes.Update(packagingType);
+            Context.SaveChanges();
+        }
+
+        public void DeletePackagingType(PackagingType packagingType) {
+            Context.PackagingTypes.Remove(packagingType);
             Context.SaveChanges();
         }
 
@@ -536,8 +596,16 @@ namespace Verrukkulluk.Data
         public IEnumerable<KitchenType> ReadAllKitchenTypes()
         {
             // Make sure Overige is always last
-            return Context.KitchenTypes.OrderBy(kt => kt.Name == "Overig" ? "ZZZZ": kt.Name);
+            return Context.KitchenTypes.Include(kt => kt.Recipes)
+                                       .OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ": kt.Name);
         }
+
+        public IEnumerable<KitchenType> ReadAllActiveKitchenTypes()
+        {
+            // Make sure Overige is always last
+            return Context.KitchenTypes.Where(kt => kt.Active).OrderBy(kt => kt.Name == KitchenType.Other ? "ZZZZ" : kt.Name);
+        }
+
         public KitchenType? ReadKitchenTypeById(int id)
         {
             return Context.KitchenTypes.Find(id);
@@ -558,10 +626,23 @@ namespace Verrukkulluk.Data
             Context.KitchenTypes.Update(kitchenType);
             Context.SaveChanges();
         }
+        
+        public bool IsKitchenTypeUsed(int id)
+        {
+            return Context.Recipes.Any(r => r.KitchenTypeId == id);
+        }
+
+        public void DeleteKitchenType(KitchenType kitchenType)
+        {
+            Context.KitchenTypes.Remove(kitchenType);
+            Context.SaveChanges();
+        }
 
         public bool DoesProductIdExists(int id)
         {
             return Context.Products.Any(p => p.Id == id);
         }
+
+        
     }
 }

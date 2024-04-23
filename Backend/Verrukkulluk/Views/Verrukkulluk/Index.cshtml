@@ -32,6 +32,10 @@
                                             </div>
                                         </div>
                                     }
+                                    @if (Model.SignInManager.IsSignedIn(User))
+                                    {
+                                        <div class="text-center"><a class="event-link text-center" asp-controller="Verrukkulluk" asp-action="UserEvents">Mijn events</a></div>
+                                    }
                                 }
                             </div>
                             <div class="small-agenda">

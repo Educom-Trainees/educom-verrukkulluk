@@ -175,9 +175,12 @@ namespace Verrukkulluk.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Allergies");
                 });
@@ -257,11 +260,17 @@ namespace Verrukkulluk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("KitchenTypes");
                 });
@@ -315,11 +324,17 @@ namespace Verrukkulluk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("PackagingTypes");
                 });
@@ -400,7 +415,6 @@ namespace Verrukkulluk.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -434,6 +448,9 @@ namespace Verrukkulluk.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
@@ -454,7 +471,7 @@ namespace Verrukkulluk.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("PackagingId")
                         .HasColumnType("int");
@@ -468,6 +485,9 @@ namespace Verrukkulluk.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ImageObjId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.HasIndex("PackagingId");
@@ -537,6 +557,9 @@ namespace Verrukkulluk.Migrations
                         .IsUnique();
 
                     b.HasIndex("KitchenTypeId");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Recipes");
                 });
@@ -640,7 +663,7 @@ namespace Verrukkulluk.Migrations
             modelBuilder.Entity("Verrukkulluk.Models.RecipeRating", b =>
                 {
                     b.HasOne("Verrukkulluk.Recipe", "Recipe")
-                        .WithMany("Comments")
+                        .WithMany("Ratings")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -663,7 +686,7 @@ namespace Verrukkulluk.Migrations
                         .IsRequired();
 
                     b.HasOne("Verrukkulluk.Models.PackagingType", "Packaging")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("PackagingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -705,7 +728,7 @@ namespace Verrukkulluk.Migrations
                         .IsRequired();
 
                     b.HasOne("Verrukkulluk.KitchenType", "KitchenType")
-                        .WithMany()
+                        .WithMany("Recipes")
                         .HasForeignKey("KitchenTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -720,6 +743,16 @@ namespace Verrukkulluk.Migrations
                     b.Navigation("Participants");
                 });
 
+            modelBuilder.Entity("Verrukkulluk.KitchenType", b =>
+                {
+                    b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("Verrukkulluk.Models.PackagingType", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("Verrukkulluk.Product", b =>
                 {
                     b.Navigation("Ingredients");
@@ -729,9 +762,9 @@ namespace Verrukkulluk.Migrations
 
             modelBuilder.Entity("Verrukkulluk.Recipe", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Ingredients");
+
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

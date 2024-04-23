@@ -118,28 +118,23 @@ namespace Verrukkulluk.Models
 
         public List<Event> GetUserEvents(string userEmail)
         {
-            List<int> userEvents = Crud.ReadEventsByUserEmail(userEmail);
-
-
-            List<Event> listOfUserEvents = new List<Event>();
-
-            foreach (int eventId in userEvents) {
-
-                listOfUserEvents.Add(Crud.ReadEventById(eventId));
-            }
-
-            return listOfUserEvents;
+            return Crud.ReadEventsByUserEmail(userEmail);
         }
 
+        public async Task<List<Event>> GetCurrentUserEvents()
+        {
+            User user = await GetCurrentUser();
 
-        public Event AddParticipantToEvent(string name, string email, int id)
+            return GetUserEvents(user.Email);
+        }
+        public bool AddParticipantToEvent(string name, string email, int id)
         {
             return Crud.AddParticipantToEvent(name, email, id);
         }
 
-        public void RemoveParticipantFromEvent(string userEmail, int eventId)
+        public bool RemoveParticipantFromEvent(string userEmail, int eventId)
         {
-            Crud.DeleteUserFromEventParticipation(userEmail, eventId);
+            return Crud.RemoveParticipantFromEvent(userEmail, eventId);
         }
 
 
@@ -216,11 +211,9 @@ namespace Verrukkulluk.Models
             Crud.DeletePicture(id);
         }
 
-
-
-        public IEnumerable<KitchenType> GetAllKitchenTypes()
+        public IEnumerable<KitchenType> GetAllActiveKitchenTypes()
         {
-            return Crud.ReadAllKitchenTypes();
+            return Crud.ReadAllActiveKitchenTypes();
         }
         public async Task<User> GetCurrentUser()
         {

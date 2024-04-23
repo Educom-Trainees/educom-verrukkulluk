@@ -15,6 +15,7 @@ namespace Verrukkulluk.Models.DTOModels
         /// The name of the Allergy
         /// </summary>
         /// <remarks>May be empty on PUT/POST</remarks>
+        [MaxLength(255)]
         public string? Name { get; set; }
         /// <summary>
         /// To get the image go to "/Image/GetImage/{ImgObjId}"

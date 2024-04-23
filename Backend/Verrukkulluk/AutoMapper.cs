@@ -4,6 +4,7 @@ using Verrukkulluk.Models.DTOModels;
 using Verrukkulluk.Models;
 using Verrukkulluk.ViewModels;
 using Verrukkulluk.Models.ViewModels;
+using Verrukkulluk.Models.DTOmodels;
 
 
 namespace Verrukkulluk
@@ -16,16 +17,17 @@ namespace Verrukkulluk
             CreateMap<Allergy, AllergyDTO>();
             CreateMap<Product, ProductDTO>()
                 .ForMember(dest => dest.Allergies, opt => opt.MapFrom(src => src.ProductAllergies.Select(p => p.Allergy).ToList()))
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Math.Round(src.Price, 2)));
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => Math.Round(src.Price, 2)))
+                .ForMember(dest => dest.InUse, opt => opt.MapFrom(src => src.Ingredients.Any()));
             CreateMap<ProductDTO, Product>()
                 .ForMember(dest => dest.ProductAllergies, opt => opt.MapFrom(src => src.Allergies.Select(allergy => new ProductAllergy { ProductId = src.Id, AllergyId = allergy.Id }).ToList()));
-                
 
 
-            CreateMap<Event, EventDTO>()
-                .ForMember(dest => dest.EventParticipantName,
-                          opt => opt.MapFrom(src => src.Participants.Select(p => p.Name).ToList()));
+
+            CreateMap<Event, EventDTO>();
             CreateMap<EventDTO, Event>();
+            CreateMap<EventParticipant, ParticipantDTO>();
+            CreateMap<ParticipantDTO, EventParticipant>();
 
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();
@@ -64,6 +66,14 @@ namespace Verrukkulluk
 
             CreateMap<IngredientDTO, Ingredient>();
             CreateMap<Ingredient, IngredientDTO>();
+
+            CreateMap<KitchenTypeDTO, KitchenType>();
+            CreateMap<KitchenType, KitchenTypeDTO>()
+                .ForMember(dest => dest.InUse, opt => opt.MapFrom(src => src.Recipes.Any()));
+
+            CreateMap<PackagingTypeDTO, PackagingType>();
+            CreateMap<PackagingType, PackagingTypeDTO>()
+                .ForMember(dest => dest.InUse, opt => opt.MapFrom(src => src.Products.Any()));
         }
     }
 }

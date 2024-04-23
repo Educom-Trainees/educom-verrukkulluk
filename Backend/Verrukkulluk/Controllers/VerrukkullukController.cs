@@ -87,7 +87,7 @@ namespace Verrukkulluk.Controllers
         private void FillModel(AddRecipe model)
         {
             model.Products = Servicer.GetAllProducts();
-            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
+            model.MyKitchenTypeOptions.AddRange(Servicer.GetAllActiveKitchenTypes().Select(kt => new SelectListItem { Value = kt.Id.ToString(), Text = kt.Name }).ToList());
             model.Recipe.Instructions = (model.Recipe.Instructions ?? new string[0]).Append("").ToArray();
 
             if (model.AddedIngredients != null)
@@ -335,16 +335,17 @@ namespace Verrukkulluk.Controllers
 
             return View("EventParticipation", EventModel);
         }
-
-
-        public IActionResult UserEvents(string userEmail)
+        public async Task<IActionResult> UserEvents(string? userEmail)
         {
-
-            UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+            if (userEmail == null)
+            {
+                UserEventsModel.SignedUpEvents = await Servicer.GetCurrentUserEvents();
+            } else { 
+                UserEventsModel.SignedUpEvents = Servicer.GetUserEvents(userEmail);
+            }
 
             return View("UserEvents", UserEventsModel);
         }
-
 
 
 
@@ -353,12 +354,12 @@ namespace Verrukkulluk.Controllers
         {
             if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(email))
             {
-                var theEvent = Servicer.AddParticipantToEvent(name, email, eventId);
-                if (theEvent == null)
+                var succeed = Servicer.AddParticipantToEvent(name, email, eventId);
+                if (!succeed)
                 {
                     return NotFound();
                 }
-                EventModel.Event = theEvent;
+                EventModel.Event = Servicer.GetEventById(eventId);
 
                 return View("ThankYou", EventModel);
             }
@@ -382,6 +383,10 @@ namespace Verrukkulluk.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {
+            return View();
+        }
     }
 }

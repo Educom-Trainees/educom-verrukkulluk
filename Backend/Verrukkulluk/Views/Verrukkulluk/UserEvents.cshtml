@@ -1,10 +1,10 @@
 ﻿@model Verrukkulluk.Models.UserEventsModel;
 
 @{
-    ViewData["Title"] = "UserEvents";
+    ViewData["Title"] = "Ingeschreven events";
 }
 
-<h1>UserEvents</h1>
+<h1>Ingeschreven events</h1>
 
 <ul>
     @foreach (Event SignedUpEvent in Model.SignedUpEvents)
@@ -12,9 +12,12 @@
         <form action="/Verrukkulluk/EventSignOut" method="post">
             <input type="hidden" id="eventId" name="eventId" value="@SignedUpEvent.Id" />
             <input type="hidden" id="eventId" name="userEmail" value="@Model.userEmail" />
-            <div >              
-                     <li class="h5">@SignedUpEvent.Title</li>
-                     <button type="submit" class="btn-admin">Uitschrijven</button>           
+            <div>
+                <li class="h5">
+                    <a asp-action="Event" asp-route-id="@SignedUpEvent.Id" class="darker-green">@SignedUpEvent.Title</a> -
+                    @SignedUpEvent.Date van @SignedUpEvent.StartTime tot @SignedUpEvent.EndTime
+                    <button type="submit" class="btn-admin">Uitschrijven</button>
+                </li>
             </div>
         </form>
     }

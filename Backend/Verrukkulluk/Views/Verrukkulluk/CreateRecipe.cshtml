@@ -77,7 +77,7 @@
                                     <span id="newProductErr" class="text-danger ms-3"></span>
                                     <datalist id="productsList">
                                         @foreach(Product product in Model.Products ?? new List<Product>()) {
-                                            <option value="@product.Name" data-product-id="@product.Id"></option>
+                                            <option value="@product.Name" data-product-id="@product.Id" disabled="@(product.Active == false)"></option>
                                         }
                                     </datalist>
                                 </div
