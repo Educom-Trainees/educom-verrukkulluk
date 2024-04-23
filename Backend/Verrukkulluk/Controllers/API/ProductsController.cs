@@ -57,7 +57,7 @@ namespace Verrukkulluk.Controllers.API
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<IngredientType>> GetIngredientTypes()
         {
-            return Ok(Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>());
+            return Enum.GetValues<IngredientType>();
         }
         /// <summary>
         /// Get a specific product
